@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USH Unit 1+2 Study Trainer</title>
+<style>
+:root{
+  --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+  --ink:#e8eaf0; --dim:#9aa3b2; --accent:#5b8cff; --good:#3ecf8e; --warn:#ffb020; --bad:#ff5c5c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{padding:20px 24px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10}
+h1{margin:0 0 4px;font-size:19px;letter-spacing:-.2px}
+.sub{color:var(--dim);font-size:13px}
+nav{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+nav button{background:var(--panel);border:1px solid var(--line);color:var(--dim);padding:7px 14px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+main{max-width:860px;margin:0 auto;padding:22px 20px 80px}
+.view{display:none} .view.on{display:block}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+select,.btn{background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:7px;font-size:13px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.prog{height:4px;background:var(--panel);border-radius:3px;overflow:hidden;margin-bottom:18px}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:30px 26px;min-height:230px;display:flex;flex-direction:column;justify-content:center}
+.tag{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);margin-bottom:12px}
+.term{font-size:26px;font-weight:600;letter-spacing:-.3px}
+.defn{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);color:#cdd4e0;font-size:15px}
+.defn ul{margin:8px 0 0;padding-left:18px} .defn li{margin:3px 0}
+.hint{margin-top:14px;color:var(--warn);font-size:13px;font-style:italic}
+.hidden{display:none}
+.row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:12px}
+.q h3{margin:0 0 12px;font-size:15px;font-weight:600}
+.opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:10px 14px;border-radius:7px;margin-bottom:7px;cursor:pointer;font-size:14px}
+.opt:hover{border-color:var(--accent)}
+.opt.right{border-color:var(--good);background:rgba(62,207,142,.12)}
+.opt.wrong{border-color:var(--bad);background:rgba(255,92,92,.12)}
+.opt:disabled{cursor:default}
+.why{margin-top:10px;font-size:13px;color:var(--dim);border-left:2px solid var(--accent);padding-left:12px}
+.score{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:16px;font-size:14px}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.tl{border-left:2px solid var(--line);margin-left:10px;padding-left:20px}
+.tl div{position:relative;padding:9px 0}
+.tl div:before{content:"";position:absolute;left:-26px;top:15px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.tl b{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:8px}
+.big{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.big h3{margin:0 0 10px;font-size:15px}
+.big p{margin:0 0 10px;color:#cdd4e0;font-size:14px}
+details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:500;padding:4px 0}
+.stat{display:inline-block;margin-right:16px;font-size:13px;color:var(--dim)}
+.stat b{color:var(--ink);font-size:16px}
+</style>
+</head>
+<body>
+<header>
+  <h1>US History &mdash; Unit 1 + 2 Study Trainer</h1>
+  <div class="sub">Built from Mrs. Wolf's Unit 1 &amp; Unit 2 decks &middot; Exam Monday 12:40 PM</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="tl">Timeline</button>
+    <button data-v="cmp">Compare Charts</button>
+    <button data-v="essay">Big Questions</button>
+  </nav>
+</header>
+<main>
+
+<section class="view on" id="fc">
+  <div class="bar">
+    <select id="fcSec">
+      <option value="all">All sections (40 terms)</option>
+      <option value="1">1 &middot; The Colonial Era</option>
+      <option value="2">2 &middot; Declaring Independence</option>
+      <option value="3">3 &middot; The New Republic</option>
+    </select>
+    <button class="btn" id="fcShuffle">Shuffle</button>
+    <button class="btn" id="fcReset">Reset</button>
+    <span class="stat">Known <b id="fcKnown">0</b></span>
+    <span class="stat">Left <b id="fcLeft">0</b></span>
+  </div>
+  <div class="prog"><i id="fcBar"></i></div>
+  <div class="card">
+    <div class="tag" id="fcTag"></div>
+    <div class="term" id="fcTerm"></div>
+    <div class="hint hidden" id="fcHint"></div>
+    <div class="defn hidden" id="fcDef"></div>
+  </div>
+  <div class="row">
+    <button class="btn" id="fcHintBtn">Hint</button>
+    <button class="btn primary" id="fcFlip">Reveal</button>
+    <button class="btn" id="fcAgain">Review again</button>
+    <button class="btn" id="fcGot">I knew it &rarr;</button>
+  </div>
+</section>
+
+<section class="view" id="qz">
+  <div class="bar">
+    <button class="btn primary" id="qzNew">New 20-question test</button>
+    <span class="stat">Score <b id="qzScore">0 / 0</b></span>
+  </div>
+  <div id="qzBody"></div>
+</section>
+
+<section class="view" id="tl"></section>
+<section class="view" id="cmp"></section>
+<section class="view" id="essay"></section>
+
+</main>
+<script>
+const TERMS=[
+{s:1,t:"Mercantilism",h:"Think about WHO benefits: the colony or the mother country?",d:"Economic system where colonies exist to enrich the mother country. Colonies ship raw materials to England, England sends back manufactured goods that colonists must buy. New England and the Middle Colonies both operated under it."},
+{s:1,t:"The Columbian Exchange",h:"It went BOTH directions, and one direction was far deadlier.",d:"The transfer of people, plants, animals, diseases, and ideas between the Old World and the New World after 1492.<ul><li><b>To the Americas:</b> smallpox, whooping cough, measles, chicken pox, horses, cattle, pigs, goats, metal tools, Christianity</li><li><b>To Europe:</b> corn, tomatoes, peppers, chocolate, pineapples, sweet potatoes, tobacco, gold/silver, medicines (quinine, anesthetics, muscle relaxants, aspirin)</li></ul>"},
+{s:1,t:"Roanoke",h:"Two carved words are the only evidence left.",d:"England's FIRST attempt at a colony, and it failed. Known as \"The Lost Colony\" because the settlers vanished. The only evidence left behind was \"CRO\" and \"CROATOAN\" carved near the settlement."},
+{s:1,t:"Jamestown",h:"A local tribe is the reason it survived.",d:"The first SUCCESSFUL English settlement, founded 1608 in present-day Virginia. The local Powhatan people helped it thrive."},
+{s:1,t:"New England Colonies",h:"Four colonies. Rocky soil, cold winters, and a church at the center.",d:"<b>MA, NH, RI, CT.</b><ul><li><b>Geography:</b> rocky hilly soil, narrow coastal plain, heavy forests, bays and harbors, Appalachians to the west</li><li><b>Climate:</b> long harsh winters, short growing season</li><li><b>Settlers:</b> Pilgrims (Mayflower 1620) and Puritans; the Great Migration</li><li><b>Religion:</b> mostly Puritan, NOT tolerant, central to everything</li><li><b>Gov't:</b> governor/legislature/courts + town meetings (direct democracy)</li><li><b>Economy:</b> fishing, whaling, shipbuilding, rum, sea trade, furs. Farming unproductive. City: Boston</li></ul>"},
+{s:1,t:"Middle Colonies",h:"Two nicknames: one about bread, one about a cooking pot.",d:"<b>NY, PA, NJ, DE.</b><ul><li><b>Geography:</b> Hudson and Delaware Rivers, rich fertile land, bays and harbors</li><li><b>Climate:</b> mild, long growing season</li><li><b>Settlers:</b> Scandinavians, Germans, Scots, Irish, African indentured servants, Puritans &mdash; the \"Melting Pot\"</li><li><b>Religion:</b> mostly TOLERATED &mdash; Quakers, Baptists, Anglicans, Lutherans, Mennonites, Jews</li><li><b>Economy:</b> the \"Breadbasket Colonies\" &mdash; wheat, barley, rye; iron manufacturing, watches, guns, glassware. Cities: Philadelphia, New York</li></ul>"},
+{s:1,t:"Southern Colonies",h:"Warm, flat, and built on one labor system.",d:"<b>MD, VA, NC, SC, GA.</b><ul><li><b>Geography:</b> flat low Tidewater plains, rich soil, backcountry small farms toward the Appalachians</li><li><b>Climate:</b> warm, hot humid summers, mild winters &mdash; no brutal winters, but the moist heat carried killer diseases</li><li><b>Economy:</b> large plantations, cash crops (tobacco, rice, indigo, cotton), SLAVERY. Little manufacturing</li><li><b>Gov't:</b> royal colonies, governor chosen by the King; House of Burgesses (elected assembly)</li><li><b>Religion:</b> mixed (Baptists, Anglicans), minor role &mdash; the focus was profit</li></ul>"},
+{s:1,t:"Puritans",h:"\"A city upon a hill.\"",d:"English Protestants/Separatists who settled New England seeking to purify the church. Religion was central to colonial life and they were NOT tolerant of other faiths. John Winthrop led the Massachusetts Bay Colony (11 ships, 1,000 people) and preached the \"city upon a hill\" sermon. Church and state cooperated closely."},
+{s:1,t:"Sugar Act",h:"1764. Also called the Plantation Act or Revenue Act.",d:"A strongly enforced tax on sugar, molasses, and other products imported into the American colonies from NON-British Caribbean sources. Also called the Plantation Act or the Revenue Act. Passed 1764 to help pay off French and Indian War debt."},
+{s:1,t:"Cash Crops",h:"Grown to sell, not to eat.",d:"Crops grown for sale and profit rather than for the farmer's own use.<ul><li><b>South:</b> tobacco, rice, indigo, cotton</li><li><b>Middle:</b> wheat, barley, rye (the grain that made them the Breadbasket)</li></ul>"},
+{s:1,t:"French and Indian War",h:"Britain won, and that's exactly what caused the problem.",d:"1754&ndash;1763, known in Europe as the Seven Years' War. France's expansion into the Ohio River Valley clashed with British colonial claims, leading Britain to declare war in 1756. <b>Britain won</b> and expelled France from North America &mdash; but came out buried in war debt. Paying that debt through colonial taxes, plus the Proclamation of 1763 blocking westward settlement, is what began pulling the colonies and England apart."},
+
+{s:2,t:"Boston Massacre",h:"March 5, 1770. Five dead. It started with a snowball fight.",d:"March 5, 1770. A protest against the Townshend Acts and the British troops stationed in Boston turned violent &mdash; what began as a snowball fight ended with British soldiers firing into the crowd, killing five colonists. Became powerful anti-British propaganda and pushed the colonies closer to revolution."},
+{s:2,t:"Common Sense",h:"January 10, 1776. A pamphlet, not a book.",d:"A pamphlet published January 10, 1776 by radical <b>Thomas Paine</b>. It called for a republic and made the case for outright independence from Britain in plain language ordinary colonists could read. Inspired the delegates at the Philadelphia Convention."},
+{s:2,t:"Crispus Attucks",h:"One of the five.",d:"One of the five colonists killed at the Boston Massacre on March 5, 1770. Of African and Native American descent, he is often remembered as the first casualty of the American Revolution."},
+{s:2,t:"Sons of Liberty",h:"Founded by a man named Adams (not John).",d:"An organization created by <b>Samuel Adams</b>. A group of revolutionaries who resisted British taxation and advocated for colonists' rights, often through boycotts, intimidation of tax collectors, and direct action like the Boston Tea Party."},
+{s:2,t:"John Adams",h:"His Revolutionary-era job was logistics, not fighting.",d:"A Founding Father who worked as part of the Continental Congress to provide funds and supplies for the war effort. Later became the first Vice President under Washington. He was NOT at the Constitutional Convention &mdash; he was in Great Britain."},
+{s:2,t:"Townshend Acts",h:"1767. Five specific goods, one of which caused a famous party.",d:"1767. Charles Townshend became the new British treasurer and imposed indirect taxes on <b>glass, lead, paint, paper, and tea</b>. Colonists responded with boycotts, Britain sent troops to keep control, and that troop presence led directly to the Boston Massacre in 1770."},
+{s:2,t:"Continental Congress",h:"It was a reaction to a specific set of 1774 laws.",d:"Created in response to the Intolerable Acts. The <b>First Continental Congress (1774)</b> brought delegates from 12 colonies together in Philadelphia; they sent a letter of grievances to King George III. It became the governing body that coordinated the war effort."},
+{s:2,t:"Intolerable Acts",h:"Four laws, one punished city, one closed harbor.",d:"1774. A series of FOUR laws passed by British Parliament to punish the colony of Massachusetts Bay for the Boston Tea Party. They closed Boston Harbor. The colonial response was the First Continental Congress and the Committees of Correspondence."},
+{s:2,t:"Tar and Feathering",h:"A punishment, not a policy.",d:"A violent and painful public punishment colonists used against British tax officials &mdash; hot tar poured on the victim followed by feathers. A form of intimidation protest meant to make enforcing British taxes impossible."},
+{s:2,t:"Stamp Act",h:"1765. It taxed paper itself.",d:"An act of British Parliament in 1765 that raised revenue by imposing a stamp duty on newspapers and legal and commercial documents. Colonial opposition was so fierce it was repealed in 1766 &mdash; but the repeal came with the Declaratory Act asserting Parliament's right to tax the colonies anyway."},
+{s:2,t:"Boston Tea Party",h:"1773, and it was a response to a tax that actually made tea cheaper.",d:"December 1773. In protest of the Tea Act, colonists (Sons of Liberty) boarded British ships and dumped chests of tea into Boston Harbor. Britain retaliated with the Intolerable Acts in 1774."},
+{s:2,t:"Thomas Jefferson",h:"He wrote the most famous document of 1776 and missed the most famous meeting of 1787.",d:"Wrote the <b>Declaration of Independence</b>, approved July 4, 1776 &mdash; an \"explanation\" of independence that listed the misdeeds of King George III. Note the hypocrisy angle Mrs. Wolf raises: \"all men are created equal\" while hundreds of thousands were enslaved. He missed the Constitutional Convention (he was in France) and later served as Washington's Secretary of State."},
+{s:2,t:"George Washington",h:"Three separate roles across both units.",d:"<b>General of the Continental Army</b> &mdash; understood what needed to happen for America to win; his early strategy was simply \"don't lose.\" Later <b>President of the Constitutional Convention</b> (1787), then <b>first U.S. President</b>, unanimously chosen by the electoral college."},
+{s:2,t:"Lexington and Concord",h:"1775. Massachusetts. A midnight ride warned them.",d:"1775, in <b>Massachusetts</b>. The first battles of the American Revolution &mdash; \"the shot heard round the world.\" Paul Revere's famous midnight ride warned the colonists the British were coming."},
+{s:2,t:"Battle of Bunker Hill",h:"May 1775. A British win, but a costly one.",d:"May 1775 in Massachusetts. Part of the Northern Campaign (1775&ndash;77), which went badly for the colonists. A British victory."},
+{s:2,t:"Battle of Saratoga",h:"The single most important answer in Unit 2.",d:"<b>October 1777, New York. THE TURNING POINT OF THE WAR.</b> The American victory convinced <b>France to become a U.S. ally</b> &mdash; and French naval power, money, and supplies are what ultimately made independence possible."},
+{s:2,t:"Battle of Yorktown",h:"October 1781. An entire army surrendered.",d:"October 1781 in Virginia. A huge American victory where <b>General Cornwallis surrendered his entire army</b>. British communication failures contributed to the defeat. After Yorktown, British desire to continue the war collapsed, leading to the Treaty of Paris."},
+{s:2,t:"Patriots",h:"Pick a side.",d:"Colonists who supported independence from Britain and backed the Revolution."},
+{s:2,t:"Loyalists",h:"The other side.",d:"Colonists who remained loyal to the British Crown and opposed the Revolution."},
+
+{s:3,t:"Treaty of Paris (1783)",h:"Don't confuse it with the 1763 one.",d:"Signed 1783. Formally ended the American Revolution and recognized <b>America as its own independent nation</b>. It followed the British collapse after Yorktown."},
+{s:3,t:"Articles of Confederation",h:"Make two lists: what it COULD do, and what it COULDN'T.",d:"America's first constitution. Created a loose confederation of sovereign states with a very weak central government, leaving most power with the states.<ul><li><b>Federal gov't COULD:</b> declare war, make treaties, borrow money, send diplomats abroad</li><li><b>Federal gov't COULD NOT:</b> regulate trade/commerce, collect taxes, enforce laws, issue currency</li><li>No executive branch, no national court system; any amendment needed all 13 states to agree</li></ul>The design came straight from what the writers hated about England: taxation without representation, an all-powerful central government, and a king who could change laws at will."},
+{s:3,t:"Shays' Rebellion",h:"A farmer, a veteran of Bunker Hill, and a lot of courthouses.",d:"1786&ndash;1787. A series of violent attacks on courthouses and government property in <b>Massachusetts</b>, led by <b>Daniel Shays</b>, a farmer and former soldier who had fought at Bunker Hill. It escalated into full military confrontation and convinced Americans the nation needed a <b>stronger central government</b> &mdash; which is what led to the Constitutional Convention."},
+{s:3,t:"New Jersey Plan",h:"Small states. One house, one vote.",d:"The <b>small state plan</b>. Proposed a <b>unicameral</b> (one-house) legislature with <b>one vote per state</b> &mdash; meaning 13 votes total. Essentially kept the Articles of Confederation but fixed obvious problems: Congress could tax if a majority of states approved, there would be a plural executive elected by Congress (recallable, one term only), and states would have to follow federal law."},
+{s:3,t:"Virginia Plan",h:"Large states. Written by the Father of the Constitution.",d:"The <b>large state plan</b>, written by <b>James Madison</b>. Wanted to REPLACE the Articles of Confederation entirely with a <b>bicameral</b> (two-house) Congress where representation was apportioned <b>by population</b> &mdash; better for populous states. Became the framework for the whole Constitution, which is why Madison is called the Father of the Constitution. Small states objected (no term limits specified, and replacing the Articles looked like treason to some), creating a stalemate."},
+{s:3,t:"The Great Compromise",h:"Introduced by a New England state. It gave both sides what they wanted.",d:"Introduced by <b>Connecticut</b>. Created a <b>bicameral legislature</b> that satisfied both plans:<ul><li><b>Upper house (Senate)</b> &mdash; EQUAL vote per state &rarr; small states happy</li><li><b>Lower house (House of Representatives)</b> &mdash; representation by POPULATION &rarr; large states happy</li></ul>"},
+{s:3,t:"3/5ths Compromise",h:"It's about who counts toward population.",d:"Settled the question of who counted toward a state's population for representation: <b>one enslaved person counted as 3/5 of a person</b>. A compromise between Southern states wanting enslaved people counted for representation and Northern states objecting."},
+{s:3,t:"Federalists",h:"Pro-Constitution. Three famous authors.",d:"<b>Supporters of the Constitution</b> who favored a strong central government with the power to enforce laws.<ul><li><b>Leaders:</b> Alexander Hamilton, James Madison, John Jay</li><li><b>Wanted:</b> powerful central gov't, two-house legislature, representative democracy</li><li><b>Argued:</b> the Articles were too weak; a stronger national gov't was needed to solve domestic problems and preserve the Union</li><li><b>Support:</b> Atlantic coast, large cities, merchants, elites</li><li><b>Advantage:</b> strong leaders, better organized. <b>Weakness:</b> no bill of rights</li><li>Wrote the <b>Federalist Papers</b> (No. 10 = defends republican gov't against mob rule; No. 51 = checks and balances; both Madison)</li></ul>"},
+{s:3,t:"Anti-Federalists",h:"Anti-Constitution. They lost the fight but won the first ten amendments.",d:"<b>Opponents of the Constitution.</b><ul><li><b>Leaders:</b> Patrick Henry, Sam Adams</li><li><b>Feared:</b> the national gov't was too strong and states would lose power; no protection for basic freedoms; a President who could be re-elected forever, like a king</li><li><b>Wanted:</b> stronger state gov'ts, frequent elections, smaller districts, more direct democracy</li><li><b>Support:</b> backcountry/western frontier settlers, small farmers, state politicians</li><li><b>Weakness:</b> poorly organized, not united in their arguments</li><li>Their pressure is the reason the <b>Bill of Rights</b> exists</li></ul>"},
+{s:3,t:"Bill of Rights",h:"1791. A number you should know cold.",d:"The <b>first 10 amendments</b> to the Constitution, added in <b>1791</b>. Came about in large part because of <b>Anti-Federalist</b> demands for written protection of basic freedoms. Context Mrs. Wolf gives: the U.S. Constitution has only been amended 27 times total, while France went through 14 constitutions in the same period."}
+];
+
+const TIMELINE=[
+["1754-63","French and Indian War (Seven Years' War). Britain wins, gains land, and ends up deep in debt."],
+["1763","Proclamation of 1763 &mdash; Britain forbids colonists from settling in the Ohio Valley."],
+["1764","Sugar Act &mdash; taxes on sugar and molasses."],
+["1765","Stamp Act &mdash; colonists must buy stamps for all printed material."],
+["1765","Quartering Act &mdash; colonists must house and feed British soldiers."],
+["1766","Stamp Act repealed after colonial opposition."],
+["1767","Declaratory Act &mdash; Parliament ends the Stamp and Sugar Acts but asserts its right to tax the colonies."],
+["1767","Townshend Acts &mdash; taxes on paint, glass, lead, paper, and tea."],
+["1770","<b>Boston Massacre</b> &mdash; a snowball fight escalates; British soldiers kill five Americans."],
+["1773","Tea Act &mdash; tax on tea."],
+["1773","<b>Boston Tea Party</b> &mdash; colonists dump tea into Boston Harbor."],
+["1774","Intolerable Acts &mdash; Britain punishes Boston, closes the harbor."],
+["1774","First Continental Congress &mdash; delegates from 12 colonies write to King George III."],
+["1775","<b>Lexington and Concord</b> &mdash; the American Revolution begins (Massachusetts)."],
+["1775","Bunker Hill, MA &mdash; British victory."],
+["1776","Sept-Dec: Battle of Long Island, NY &mdash; British win, but Washington escapes."],
+["1776","Jan 10: <b>Common Sense</b> published by Thomas Paine."],
+["1776","July 4: <b>Declaration of Independence</b> approved."],
+["1776-77","Dec/Jan: Trenton and Princeton, NJ &mdash; American victories."],
+["1777","Oct: <b>Saratoga, NY &mdash; THE TURNING POINT.</b> France allies with the U.S."],
+["1781","Oct: <b>Yorktown, VA</b> &mdash; Cornwallis surrenders his entire army."],
+["1783","<b>Treaty of Paris</b> &mdash; war ends, U.S. recognized as an independent nation."],
+["1786-87","<b>Shays' Rebellion</b> in Massachusetts exposes the weakness of the Articles."],
+["1787","May-Sept: <b>Constitutional Convention</b>, Philadelphia. 55 delegates, every state but Rhode Island."],
+["1788","The Constitution is ratified by 9 of 13 states (New Hampshire puts it over the top)."],
+["1789","George Washington elected President, John Adams Vice President. Judiciary Act passed."],
+["1791","<b>Bill of Rights</b> added &mdash; first 10 amendments."],
+["1791-94","Whiskey Rebellion &mdash; Washington handles it cleanly, unlike Shays' under the Articles."],
+["1796","Washington's Farewell Address &mdash; two-term precedent, warns against permanent alliances, political parties, and sectionalism."]
+];
+
+/* ---------- Flashcards ---------- */
+let deck=[],pos=0,known=new Set();
+const $=id=>document.getElementById(id);
+function buildDeck(){
+  const s=$("fcSec").value;
+  deck=TERMS.filter(x=>s==="all"||x.s==+s).map((x,i)=>x);
+  pos=0;known.clear();render();
+}
+function render(){
+  if(!deck.length)return;
+  if(pos>=deck.length)pos=0;
+  const c=deck[pos];
+  $("fcTag").textContent=["","Section 1 \u00b7 The Colonial Era","Section 2 \u00b7 Declaring Independence","Section 3 \u00b7 The New Republic"][c.s]+"  \u2014  "+(pos+1)+" / "+deck.length;
+  $("fcTerm").textContent=c.t;
+  $("fcDef").innerHTML=c.d;
+  $("fcHint").textContent=c.h;
+  $("fcDef").classList.add("hidden");$("fcHint").classList.add("hidden");
+  $("fcKnown").textContent=known.size;
+  $("fcLeft").textContent=deck.length-known.size;
+  $("fcBar").style.width=(known.size/deck.length*100)+"%";
+}
+$("fcFlip").onclick=()=>$("fcDef").classList.toggle("hidden");
+$("fcHintBtn").onclick=()=>$("fcHint").classList.toggle("hidden");
+$("fcGot").onclick=()=>{known.add(deck[pos].t);pos++;render();};
+$("fcAgain").onclick=()=>{const c=deck.splice(pos,1)[0];deck.push(c);render();};
+$("fcShuffle").onclick=()=>{deck.sort(()=>Math.random()-.5);pos=0;render();};
+$("fcReset").onclick=buildDeck;
+$("fcSec").onchange=buildDeck;
+
+/* ---------- Quiz ---------- */
+function stripHtml(h){const d=document.createElement("div");d.innerHTML=h;return d.textContent;}
+function firstSentence(h){const txt=stripHtml(h).trim();const m=txt.match(/^[^.]+\./);return m?m[0]:txt.slice(0,140);}
+let qScore=0,qDone=0;
+function newQuiz(){
+  qScore=0;qDone=0;$("qzScore").textContent="0 / 0";
+  const pool=[...TERMS].sort(()=>Math.random()-.5).slice(0,20);
+  const body=$("qzBody");body.innerHTML="";
+  pool.forEach((c,i)=>{
+    const wrong=TERMS.filter(x=>x.t!==c.t).sort(()=>Math.random()-.5).slice(0,3);
+    const opts=[c,...wrong].sort(()=>Math.random()-.5);
+    const div=document.createElement("div");div.className="q";
+    div.innerHTML="<h3>"+(i+1)+". "+firstSentence(c.d)+"</h3>";
+    opts.forEach(o=>{
+      const b=document.createElement("button");b.className="opt";b.textContent=o.t;
+      b.onclick=()=>{
+        [...div.querySelectorAll(".opt")].forEach(x=>{x.disabled=true;if(x.textContent===c.t)x.classList.add("right");});
+        if(o.t!==c.t)b.classList.add("wrong");else qScore++;
+        qDone++;$("qzScore").textContent=qScore+" / "+qDone;
+        const w=document.createElement("div");w.className="why";w.innerHTML="<b>"+c.t+":</b> "+c.d;
+        div.appendChild(w);
+      };
+      div.appendChild(b);
+    });
+    body.appendChild(div);
+  });
+}
+$("qzNew").onclick=newQuiz;
+
+/* ---------- Static views ---------- */
+$("tl").innerHTML='<div class="score">Mrs. Wolf gave you an explicit timeline slide on Day 3. Dates she is most likely to ask for are bolded.</div><div class="tl">'+
+  TIMELINE.map(r=>'<div><b>'+r[0]+'</b>'+r[1]+'</div>').join("")+'</div>';
+
+$("cmp").innerHTML=`
+<div class="big"><h3>The Three Colonial Regions</h3>
+<table><tr><th></th><th>New England</th><th>Middle</th><th>Southern</th></tr>
+<tr><th>Colonies</th><td>MA, NH, RI, CT</td><td>NY, PA, NJ, DE</td><td>MD, VA, NC, SC, GA</td></tr>
+<tr><th>Geography</th><td>Rocky, hilly, forested, narrow coastal plain</td><td>Rich fertile land, Hudson &amp; Delaware Rivers</td><td>Flat low Tidewater plains, rich soil, backcountry</td></tr>
+<tr><th>Climate</th><td>Cold, long harsh winters, short growing season</td><td>Mild, long growing season</td><td>Warm, hot humid summers, mild winters</td></tr>
+<tr><th>Who settled</th><td>Pilgrims &amp; Puritans</td><td>Melting pot: Germans, Scots, Irish, Scandinavians, Dutch</td><td>Planters seeking cheap land and profit</td></tr>
+<tr><th>Religion</th><td>Puritan, NOT tolerant, central</td><td>Very tolerant, many denominations</td><td>Mixed, minor role &mdash; profit was the focus</td></tr>
+<tr><th>Government</th><td>Town meetings (direct democracy)</td><td>Proprietor-chosen governors, assemblies</td><td>Royal colonies, King picks governor; House of Burgesses</td></tr>
+<tr><th>Economy</th><td>Fishing, whaling, shipbuilding, rum, trade</td><td>Breadbasket: wheat, barley, rye; iron &amp; crafts</td><td>Plantations, cash crops, slavery</td></tr>
+<tr><th>Cities</th><td>Boston</td><td>Philadelphia, New York</td><td>&mdash;</td></tr></table></div>
+
+<div class="big"><h3>Spanish vs. French vs. English Colonization</h3>
+<table><tr><th></th><th>Spanish</th><th>French</th><th>English</th></tr>
+<tr><th>Goal</th><td>Gold, silver, glory, conversion</td><td>Fur trade</td><td>Settlement, land, religious freedom</td></tr>
+<tr><th>Native relations</th><td>Exploitative &mdash; encomienda forced labor, conquest</td><td>Cooperative &mdash; Natives as valued trading partners</td><td>Mixed &mdash; help at first (Powhatan), then conflict over land</td></tr>
+<tr><th>Settlement</th><td>~500k by 1650, mostly unmarried men; mestizos/mulattos</td><td>Little effort to encourage settlement</td><td>Whole families, permanent communities</td></tr>
+<tr><th>Key figures/places</th><td>Ponce de Leon (FL), de Soto (SE), Coronado (SW), St. Augustine 1565, Santa Fe, las Casas</td><td>Champlain, Quebec 1608, St. Lawrence, Great Lakes, Mississippi</td><td>Roanoke (failed), Jamestown 1608</td></tr>
+<tr><th>Weakness</th><td>Lust for gold over trade centers &mdash; no lasting U.S. settlements</td><td>Too few settlers to hold territory</td><td>Distinct, disunified colonies</td></tr></table></div>
+
+<div class="big"><h3>Virginia Plan vs. New Jersey Plan vs. The Great Compromise</h3>
+<table><tr><th></th><th>Virginia Plan</th><th>New Jersey Plan</th><th>Great Compromise</th></tr>
+<tr><th>Backed by</th><td>Large states</td><td>Small states</td><td>Introduced by Connecticut</td></tr>
+<tr><th>Author</th><td>James Madison</td><td>&mdash;</td><td>&mdash;</td></tr>
+<tr><th>Legislature</th><td>Bicameral (two houses)</td><td>Unicameral (one house)</td><td>Bicameral</td></tr>
+<tr><th>Representation</th><td>By population</td><td>One vote per state (13 total)</td><td>Senate = equal; House = by population</td></tr>
+<tr><th>Articles?</th><td>Replace them entirely</td><td>Keep, but patch the worst flaws</td><td>New Constitution</td></tr></table></div>
+
+<div class="big"><h3>Federalists vs. Anti-Federalists</h3>
+<table><tr><th></th><th>Federalists</th><th>Anti-Federalists</th></tr>
+<tr><th>Leaders</th><td>Hamilton, Madison, Jay</td><td>Patrick Henry, Sam Adams</td></tr>
+<tr><th>Position</th><td>Supported the Constitution</td><td>Opposed the Constitution</td></tr>
+<tr><th>Wanted</th><td>Powerful central gov't, 2-house legislature, representative democracy</td><td>Stronger states, frequent elections, smaller districts, more direct democracy</td></tr>
+<tr><th>Argument</th><td>Articles too weak; strong national gov't needed to preserve the Union</td><td>National gov't too strong; states lose power; no list of rights</td></tr>
+<tr><th>Advantages</th><td>Strong leaders, better organized</td><td>Appealed to popular distrust of gov't from colonial experience</td></tr>
+<tr><th>Disadvantages</th><td>Lacked a bill of rights</td><td>Poorly organized</td></tr>
+<tr><th>Support base</th><td>Atlantic coast, large cities, merchants, elites</td><td>Backcountry settlers, small farmers, state politicians</td></tr></table></div>
+
+<div class="big"><h3>British vs. American Advantages in the War</h3>
+<table><tr><th>British</th><th>American</th></tr>
+<tr><td>Superior navy</td><td>Home-field environment / knew the land</td></tr>
+<tr><td>Well supplied (food, equipment, ammunition)</td><td>Grand cause: independence, rights, liberty</td></tr>
+<tr><td>Well paid and better trained</td><td>Surprisingly effective leadership</td></tr>
+<tr><td>Native American and Hessian (German) allies</td><td>Time was on their side; Britain already in debt</td></tr>
+<tr><td></td><td><b>The French alliance</b> (after Saratoga)</td></tr></table></div>
+
+<div class="big"><h3>Articles of Confederation vs. The Constitution</h3>
+<table><tr><th></th><th>Articles of Confederation</th><th>Constitution</th></tr>
+<tr><th>Legislature</th><td>Unicameral, one vote per state</td><td>Bicameral: Senate (equal) + House (population)</td></tr>
+<tr><th>Taxes</th><td>Cannot collect</td><td>Federal gov't can tax</td></tr>
+<tr><th>Trade</th><td>Cannot regulate commerce</td><td>Can regulate interstate and foreign trade</td></tr>
+<tr><th>Executive</th><td>None</td><td>President</td></tr>
+<tr><th>Courts</th><td>No national court system</td><td>Federal judiciary</td></tr>
+<tr><th>Currency</th><td>Cannot issue</td><td>Can issue</td></tr>
+<tr><th>Enforcing laws</th><td>Cannot</td><td>Can</td></tr>
+<tr><th>Amendments</th><td>All 13 states must agree</td><td>Supermajority process</td></tr>
+<tr><th>Ratification</th><td>&mdash;</td><td>9 of 13 states</td></tr>
+<tr><th>Rights</th><td>None listed</td><td>Bill of Rights added 1791</td></tr></table></div>`;
+
+$("essay").innerHTML=`
+<div class="score">These are the 15 discussion questions from your study guide. Try answering out loud first, then open the prompt to check whether you hit the points Mrs. Wolf's slides emphasize. The prompts are checklists, not scripts &mdash; write them in your own words.</div>
+
+<div class="big"><h3>Section 1 &mdash; The Colonial Era</h3>
+<details><summary>1. Reasons the British began settling in the colonies</summary><p>Did you cover: 17th-century population boom &middot; competition for land, food, and jobs creating a mobile vagrant population &middot; religious freedom after the Protestant Reformation &middot; search for the Northwest Passage &middot; safer seas after the defeat of the Spanish Armada &middot; poor European economy &middot; opportunity for land, especially for younger sons shut out by the Law of Primogeniture?</p></details>
+<details><summary>2. Why the Northern colonies didn't need slavery as badly</summary><p>Build the answer off GEOGRAPHY and CLIMATE, not attitude. New England: rocky hilly soil, short growing season, long harsh winters &rarr; farming unproductive &rarr; no large plantations &rarr; economy based on fishing, whaling, shipbuilding, rum, and trade, which family and wage labor could handle. The South: warm climate, long growing season, flat fertile Tidewater soil &rarr; huge plantations growing labor-intensive cash crops (tobacco, rice, indigo, cotton) &rarr; enormous demand for forced labor.</p></details>
+<details><summary>3. Similarities and differences among the three regions</summary><p>Use the Compare Charts tab. Hit all seven categories: colonies included, geography, climate, who settled, religion, government, economy. Similarity thread: all had English-style governor/legislature/courts and had to obey Parliament; all had bays and harbors and the Appalachians to the west.</p></details>
+<details><summary>4. Products / economic activity by colony</summary><p>New England: fish, whale oil, ships, rum, furs, sea trade. Middle: wheat, barley, rye (Breadbasket), iron manufacturing, watches, guns, locks, cloth, glassware, hats, furs. Southern: tobacco, rice, indigo, cotton &mdash; plus forests, wetlands, and coastal fisheries.</p></details>
+<details><summary>5. How the French and Indian War pulled the colonies and England apart</summary><p>Britain won but was left with enormous debt &rarr; Parliament decided the colonies should pay for their own defense &rarr; Sugar, Stamp, Quartering, Townshend Acts. Add the Proclamation of 1763, which blocked settlement in the Ohio Valley the colonists thought they had just fought for. Colonists resented paying taxes passed by a Parliament they had no representation in. Also note the Albany Congress and the "Join, or Die" flag as an early push toward colonial unity.</p></details></div>
+
+<div class="big"><h3>Section 2 &mdash; Declaring Independence</h3>
+<details><summary>1. Colonist actions in reaction to the British, 1765&ndash;1780</summary><p>Boycotts of British goods &middot; tarring and feathering tax collectors &middot; Boston Tea Party &middot; Sons of Liberty (Samuel Adams) &middot; Committees of Correspondence &middot; First Continental Congress &middot; and eventually armed resistance at Lexington and Concord.</p></details>
+<details><summary>2. What created a new American identity</summary><p>Shared grievances and shared enemy &middot; "no taxation without representation" as a common slogan &middot; intercolonial communication through Committees of Correspondence and the Continental Congress &middot; Common Sense making independence a popular idea in plain language &middot; the Declaration of Independence &middot; fighting a war together and winning it.</p></details>
+<details><summary>3. Strengths and weaknesses of both sides</summary><p>See the Compare Charts tab. For weaknesses, flip each list: Britain was fighting 3,000 miles from home in unfamiliar terrain with poor communication (which cost them Yorktown), and was already in debt. America had no navy, poor supply, untrained troops, and no money.</p></details>
+<details><summary>4. Why Saratoga is the turning point</summary><p>One sentence matters most: the American victory at Saratoga (Oct 1777, NY) convinced FRANCE to become an ally. French naval power, financing, and supplies gave America protection on the Atlantic and the resources to keep fighting &mdash; the slides call the French the key factor in the war.</p></details>
+<details><summary>5. Lasting effects of the American Revolution</summary><p>An independent nation recognized by the Treaty of Paris (1783) &middot; the need to build a government from scratch &rarr; Articles of Confederation &rarr; Constitution &middot; a new American identity &middot; ideals of liberty and equality that sat in open contradiction with slavery.</p></details>
+<details><summary>6. Paine's message in Common Sense</summary><p>Published Jan 10, 1776. Argued for a REPUBLIC and for full independence rather than reconciliation, written in language ordinary colonists could read. It inspired those at the Philadelphia Convention and helped shift public opinion from protest to revolution.</p></details></div>
+
+<div class="big"><h3>Section 3 &mdash; The New Republic</h3>
+<details><summary>1. Strengths and weaknesses of the Articles of Confederation</summary><p>Strengths: it worked as a wartime alliance, could declare war, make treaties, borrow money, send diplomats; it protected states from the tyranny they'd just fought. Weaknesses: no power to tax, regulate trade, enforce laws, or issue currency; no executive; no national courts; amendments required all 13 states. Shays' Rebellion exposed all of it.</p></details>
+<details><summary>2. The Constitutional Convention &mdash; what, who, outcome</summary><p>Why: to revise the Articles. What: they wrote an entirely new Constitution instead. When: May&ndash;September 1787. Where: Philadelphia, the Statehouse (Independence Hall). Who: 55 delegates from every state EXCEPT Rhode Island &mdash; white, wealthy, mostly lawyers, average age 42. Washington presided, Madison took the notes, Hamilton pushed for it, Franklin was the elder statesman. Absent: Jefferson (France), John Adams (Britain), Sam Adams (not chosen), Patrick Henry (opposed).</p></details>
+<details><summary>3. Why the Great Compromise satisfied large AND small states</summary><p>Because it gave each side one house. Large states got the House of Representatives apportioned by population (the Virginia Plan's core demand). Small states got the Senate with an equal vote per state (the New Jersey Plan's core demand). Neither side had to fully surrender.</p></details>
+<details><summary>4. Constitution vs. Articles &mdash; what changed</summary><p>Work down the Compare Charts table: taxation, trade regulation, executive branch, national courts, currency, law enforcement, amendment process, ratification threshold, and the Bill of Rights. The through-line: the Constitution fixed the Articles' central flaw, which was a federal government with responsibilities but no power to carry them out.</p></details></div>`;
+
+document.querySelectorAll("nav button").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".view").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");document.getElementById(b.dataset.v).classList.add("on");
+  };
+});
+buildDeck();newQuiz();
+</script>
+</body>
+</html>
