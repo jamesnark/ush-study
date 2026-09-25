@@ -3,346 +3,330 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>USH Unit 1+2 Study Trainer</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>James · Study Hub</title>
 <style>
-:root{
-  --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
-  --ink:#e8eaf0; --dim:#9aa3b2; --accent:#5b8cff; --good:#3ecf8e; --warn:#ffb020; --bad:#ff5c5c;
-}
+:root{--bg:#0f1115;--panel:#171a21;--panel2:#1e222b;--line:#2a2f3a;--ink:#e8eaf0;--dim:#9aa3b2;
+--accent:#5b8cff;--good:#3ecf8e;--warn:#ffb020;--bad:#ff5c5c;--purple:#a78bfa;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-header{padding:20px 24px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:10}
-h1{margin:0 0 4px;font-size:19px;letter-spacing:-.2px}
-.sub{color:var(--dim);font-size:13px}
-nav{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
-nav button{background:var(--panel);border:1px solid var(--line);color:var(--dim);padding:7px 14px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+header{padding:calc(14px + env(safe-area-inset-top)) 18px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(15,17,21,.97);backdrop-filter:blur(10px);z-index:20}
+h1{margin:0;font-size:17px;letter-spacing:-.2px}
+.sub{color:var(--dim);font-size:12px;margin-top:2px}
+nav{display:flex;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+nav::-webkit-scrollbar{display:none}
+nav button{background:var(--panel);border:1px solid var(--line);color:var(--dim);padding:7px 13px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
 nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
-main{max-width:860px;margin:0 auto;padding:22px 20px 80px}
-.view{display:none} .view.on{display:block}
-.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
-select,.btn{background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:7px;font-size:13px;cursor:pointer}
+main{max-width:840px;margin:0 auto;padding:18px 16px calc(70px + env(safe-area-inset-bottom))}
+.view{display:none}.view.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:16px 18px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:15px}
+.card p{margin:0 0 8px;color:#cdd4e0;font-size:14px}
+.exam{border-left:3px solid var(--bad)}
+.exam.soon{border-left-color:var(--warn)}
+.exam .when{font-size:12px;color:var(--warn);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+.days{float:right;font-size:26px;font-weight:700;line-height:1;color:var(--bad)}
+.days small{display:block;font-size:10px;color:var(--dim);text-align:center;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+ul.tight{margin:6px 0 0;padding-left:18px}ul.tight li{margin:3px 0;color:#cdd4e0;font-size:14px}
+a{color:var(--accent)}
+.btn{display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:7px 13px;border-radius:7px;font-size:13px;cursor:pointer;text-decoration:none;margin:3px 4px 0 0}
 .btn:hover{border-color:var(--accent)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.prog{height:4px;background:var(--panel);border-radius:3px;overflow:hidden;margin-bottom:18px}
+.bar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+select{background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:7px 11px;border-radius:7px;font-size:13px}
+.prog{height:4px;background:var(--panel);border-radius:3px;overflow:hidden;margin-bottom:14px}
 .prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:30px 26px;min-height:230px;display:flex;flex-direction:column;justify-content:center}
-.tag{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);margin-bottom:12px}
-.term{font-size:26px;font-weight:600;letter-spacing:-.3px}
-.defn{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);color:#cdd4e0;font-size:15px}
-.defn ul{margin:8px 0 0;padding-left:18px} .defn li{margin:3px 0}
-.hint{margin-top:14px;color:var(--warn);font-size:13px;font-style:italic}
+.fc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px 20px;min-height:210px;display:flex;flex-direction:column;justify-content:center}
+.tag{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);margin-bottom:10px}
+.term{font-size:23px;font-weight:600;letter-spacing:-.3px}
+.defn{margin-top:15px;padding-top:15px;border-top:1px solid var(--line);color:#cdd4e0;font-size:14.5px}
+.defn ul{margin:7px 0 0;padding-left:18px}.defn li{margin:3px 0}
+.hint{margin-top:12px;color:var(--warn);font-size:13px;font-style:italic}
 .hidden{display:none}
-.row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
-.q{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:12px}
-.q h3{margin:0 0 12px;font-size:15px;font-weight:600}
-.opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:10px 14px;border-radius:7px;margin-bottom:7px;cursor:pointer;font-size:14px}
-.opt:hover{border-color:var(--accent)}
+.row{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px 17px;margin-bottom:11px}
+.q h4{margin:0 0 11px;font-size:14.5px;font-weight:600}
+.opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:10px 13px;border-radius:7px;margin-bottom:6px;cursor:pointer;font-size:14px}
 .opt.right{border-color:var(--good);background:rgba(62,207,142,.12)}
 .opt.wrong{border-color:var(--bad);background:rgba(255,92,92,.12)}
-.opt:disabled{cursor:default}
-.why{margin-top:10px;font-size:13px;color:var(--dim);border-left:2px solid var(--accent);padding-left:12px}
-.score{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:16px;font-size:14px}
-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
-th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
-th{background:var(--panel2);font-weight:600;color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
-.tl{border-left:2px solid var(--line);margin-left:10px;padding-left:20px}
-.tl div{position:relative;padding:9px 0}
-.tl div:before{content:"";position:absolute;left:-26px;top:15px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
-.tl b{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:8px}
-.big{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:14px}
-.big h3{margin:0 0 10px;font-size:15px}
-.big p{margin:0 0 10px;color:#cdd4e0;font-size:14px}
-details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:500;padding:4px 0}
-.stat{display:inline-block;margin-right:16px;font-size:13px;color:var(--dim)}
-.stat b{color:var(--ink);font-size:16px}
+.why{margin-top:9px;font-size:13px;color:var(--dim);border-left:2px solid var(--accent);padding-left:11px}
+.stat{font-size:12.5px;color:var(--dim)}.stat b{color:var(--ink);font-size:15px}
+table{width:100%;border-collapse:collapse;margin:9px 0;font-size:13px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+.tl{border-left:2px solid var(--line);margin-left:8px;padding-left:18px}
+.tl div{position:relative;padding:8px 0;font-size:14px;color:#cdd4e0}
+.tl div:before{content:"";position:absolute;left:-24px;top:14px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.tl b{color:var(--accent);margin-right:7px;font-variant-numeric:tabular-nums}
+details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:500;padding:3px 0}
+.note{background:rgba(255,176,32,.09);border:1px solid rgba(255,176,32,.3);border-radius:9px;padding:12px 15px;margin-bottom:12px;font-size:13.5px;color:#e6d9bd}
+.flow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.75;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:14px;overflow-x:auto;color:#cdd4e0;white-space:pre}
+.pill{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:3px 10px;font-size:11.5px;color:var(--dim);margin:2px 3px 0 0}
 </style>
 </head>
 <body>
 <header>
-  <h1>US History &mdash; Unit 1 + 2 Study Trainer</h1>
-  <div class="sub">Built from Mrs. Wolf's Unit 1 &amp; Unit 2 decks &middot; Exam Monday 12:40 PM</div>
+  <h1>Study Hub</h1>
+  <div class="sub" id="today"></div>
   <nav>
-    <button class="on" data-v="fc">Flashcards</button>
-    <button data-v="qz">Practice Test</button>
-    <button data-v="tl">Timeline</button>
-    <button data-v="cmp">Compare Charts</button>
-    <button data-v="essay">Big Questions</button>
+    <button class="on" data-v="home">Overview</button>
+    <button data-v="chem">Chemistry</button>
+    <button data-v="rel">Religion</button>
+    <button data-v="ush">US History</button>
+    <button data-v="other">Other Classes</button>
   </nav>
 </header>
 <main>
 
-<section class="view on" id="fc">
+<section class="view on" id="home"></section>
+
+<section class="view" id="chem">
+  <div class="note"><b>Chem Unit 2 Exam</b> &middot; 50 pts, Mastery &middot; due Mon Sep 29 &middot; Mr. Rott. There is no study guide document posted. Mr. Rott's review resources are the Gimkit kit, the matter classification flowchart, the POGIL, and the Conservation of Mass lab. Everything below is pulled from those.</div>
   <div class="bar">
-    <select id="fcSec">
-      <option value="all">All sections (40 terms)</option>
-      <option value="1">1 &middot; The Colonial Era</option>
-      <option value="2">2 &middot; Declaring Independence</option>
-      <option value="3">3 &middot; The New Republic</option>
-    </select>
-    <button class="btn" id="fcShuffle">Shuffle</button>
-    <button class="btn" id="fcReset">Reset</button>
-    <span class="stat">Known <b id="fcKnown">0</b></span>
-    <span class="stat">Left <b id="fcLeft">0</b></span>
+    <button class="btn primary" id="cFc">Flashcards</button>
+    <button class="btn" id="cQz">Practice Test</button>
+    <button class="btn" id="cRef">Reference</button>
   </div>
-  <div class="prog"><i id="fcBar"></i></div>
-  <div class="card">
-    <div class="tag" id="fcTag"></div>
-    <div class="term" id="fcTerm"></div>
-    <div class="hint hidden" id="fcHint"></div>
-    <div class="defn hidden" id="fcDef"></div>
-  </div>
-  <div class="row">
-    <button class="btn" id="fcHintBtn">Hint</button>
-    <button class="btn primary" id="fcFlip">Reveal</button>
-    <button class="btn" id="fcAgain">Review again</button>
-    <button class="btn" id="fcGot">I knew it &rarr;</button>
-  </div>
+  <div id="chemBody"></div>
 </section>
 
-<section class="view" id="qz">
+<section class="view" id="rel">
+  <div class="note"><b>Religion Unit 2 Test</b> &middot; Life and Mission of Jesus &middot; due Wed Sep 30. Ms./Mr.'s posted instructions say to review: class notes (<b>especially the social hierarchy pyramid and the timeline</b>), the Unit 2 Blooket, handouts and reflection notes, and the Historical Context Google Form. No study guide document was posted.</div>
+  <div class="note" style="background:rgba(255,92,92,.09);border-color:rgba(255,92,92,.3);color:#f0cfcf"><b>Gap you need to fill yourself:</b> the "26 NT Background" slide deck in Classroom does <b>not</b> contain the social hierarchy pyramid, and it has no single timeline slide. Those came from a paper handout or board work in class. I built a timeline below from the dates scattered through the deck, but check it against your own notes, and get the pyramid from a classmate if you don't have it.</div>
   <div class="bar">
-    <button class="btn primary" id="qzNew">New 20-question test</button>
-    <span class="stat">Score <b id="qzScore">0 / 0</b></span>
+    <button class="btn primary" id="rFc">Flashcards</button>
+    <button class="btn" id="rQz">Practice Test</button>
+    <button class="btn" id="rRef">Timeline &amp; Groups</button>
   </div>
-  <div id="qzBody"></div>
+  <div id="relBody"></div>
 </section>
 
-<section class="view" id="tl"></section>
-<section class="view" id="cmp"></section>
-<section class="view" id="essay"></section>
+<section class="view" id="ush"></section>
+<section class="view" id="other"></section>
 
 </main>
 <script>
-const TERMS=[
-{s:1,t:"Mercantilism",h:"Think about WHO benefits: the colony or the mother country?",d:"Economic system where colonies exist to enrich the mother country. Colonies ship raw materials to England, England sends back manufactured goods that colonists must buy. New England and the Middle Colonies both operated under it."},
-{s:1,t:"The Columbian Exchange",h:"It went BOTH directions, and one direction was far deadlier.",d:"The transfer of people, plants, animals, diseases, and ideas between the Old World and the New World after 1492.<ul><li><b>To the Americas:</b> smallpox, whooping cough, measles, chicken pox, horses, cattle, pigs, goats, metal tools, Christianity</li><li><b>To Europe:</b> corn, tomatoes, peppers, chocolate, pineapples, sweet potatoes, tobacco, gold/silver, medicines (quinine, anesthetics, muscle relaxants, aspirin)</li></ul>"},
-{s:1,t:"Roanoke",h:"Two carved words are the only evidence left.",d:"England's FIRST attempt at a colony, and it failed. Known as \"The Lost Colony\" because the settlers vanished. The only evidence left behind was \"CRO\" and \"CROATOAN\" carved near the settlement."},
-{s:1,t:"Jamestown",h:"A local tribe is the reason it survived.",d:"The first SUCCESSFUL English settlement, founded 1608 in present-day Virginia. The local Powhatan people helped it thrive."},
-{s:1,t:"New England Colonies",h:"Four colonies. Rocky soil, cold winters, and a church at the center.",d:"<b>MA, NH, RI, CT.</b><ul><li><b>Geography:</b> rocky hilly soil, narrow coastal plain, heavy forests, bays and harbors, Appalachians to the west</li><li><b>Climate:</b> long harsh winters, short growing season</li><li><b>Settlers:</b> Pilgrims (Mayflower 1620) and Puritans; the Great Migration</li><li><b>Religion:</b> mostly Puritan, NOT tolerant, central to everything</li><li><b>Gov't:</b> governor/legislature/courts + town meetings (direct democracy)</li><li><b>Economy:</b> fishing, whaling, shipbuilding, rum, sea trade, furs. Farming unproductive. City: Boston</li></ul>"},
-{s:1,t:"Middle Colonies",h:"Two nicknames: one about bread, one about a cooking pot.",d:"<b>NY, PA, NJ, DE.</b><ul><li><b>Geography:</b> Hudson and Delaware Rivers, rich fertile land, bays and harbors</li><li><b>Climate:</b> mild, long growing season</li><li><b>Settlers:</b> Scandinavians, Germans, Scots, Irish, African indentured servants, Puritans &mdash; the \"Melting Pot\"</li><li><b>Religion:</b> mostly TOLERATED &mdash; Quakers, Baptists, Anglicans, Lutherans, Mennonites, Jews</li><li><b>Economy:</b> the \"Breadbasket Colonies\" &mdash; wheat, barley, rye; iron manufacturing, watches, guns, glassware. Cities: Philadelphia, New York</li></ul>"},
-{s:1,t:"Southern Colonies",h:"Warm, flat, and built on one labor system.",d:"<b>MD, VA, NC, SC, GA.</b><ul><li><b>Geography:</b> flat low Tidewater plains, rich soil, backcountry small farms toward the Appalachians</li><li><b>Climate:</b> warm, hot humid summers, mild winters &mdash; no brutal winters, but the moist heat carried killer diseases</li><li><b>Economy:</b> large plantations, cash crops (tobacco, rice, indigo, cotton), SLAVERY. Little manufacturing</li><li><b>Gov't:</b> royal colonies, governor chosen by the King; House of Burgesses (elected assembly)</li><li><b>Religion:</b> mixed (Baptists, Anglicans), minor role &mdash; the focus was profit</li></ul>"},
-{s:1,t:"Puritans",h:"\"A city upon a hill.\"",d:"English Protestants/Separatists who settled New England seeking to purify the church. Religion was central to colonial life and they were NOT tolerant of other faiths. John Winthrop led the Massachusetts Bay Colony (11 ships, 1,000 people) and preached the \"city upon a hill\" sermon. Church and state cooperated closely."},
-{s:1,t:"Sugar Act",h:"1764. Also called the Plantation Act or Revenue Act.",d:"A strongly enforced tax on sugar, molasses, and other products imported into the American colonies from NON-British Caribbean sources. Also called the Plantation Act or the Revenue Act. Passed 1764 to help pay off French and Indian War debt."},
-{s:1,t:"Cash Crops",h:"Grown to sell, not to eat.",d:"Crops grown for sale and profit rather than for the farmer's own use.<ul><li><b>South:</b> tobacco, rice, indigo, cotton</li><li><b>Middle:</b> wheat, barley, rye (the grain that made them the Breadbasket)</li></ul>"},
-{s:1,t:"French and Indian War",h:"Britain won, and that's exactly what caused the problem.",d:"1754&ndash;1763, known in Europe as the Seven Years' War. France's expansion into the Ohio River Valley clashed with British colonial claims, leading Britain to declare war in 1756. <b>Britain won</b> and expelled France from North America &mdash; but came out buried in war debt. Paying that debt through colonial taxes, plus the Proclamation of 1763 blocking westward settlement, is what began pulling the colonies and England apart."},
-
-{s:2,t:"Boston Massacre",h:"March 5, 1770. Five dead. It started with a snowball fight.",d:"March 5, 1770. A protest against the Townshend Acts and the British troops stationed in Boston turned violent &mdash; what began as a snowball fight ended with British soldiers firing into the crowd, killing five colonists. Became powerful anti-British propaganda and pushed the colonies closer to revolution."},
-{s:2,t:"Common Sense",h:"January 10, 1776. A pamphlet, not a book.",d:"A pamphlet published January 10, 1776 by radical <b>Thomas Paine</b>. It called for a republic and made the case for outright independence from Britain in plain language ordinary colonists could read. Inspired the delegates at the Philadelphia Convention."},
-{s:2,t:"Crispus Attucks",h:"One of the five.",d:"One of the five colonists killed at the Boston Massacre on March 5, 1770. Of African and Native American descent, he is often remembered as the first casualty of the American Revolution."},
-{s:2,t:"Sons of Liberty",h:"Founded by a man named Adams (not John).",d:"An organization created by <b>Samuel Adams</b>. A group of revolutionaries who resisted British taxation and advocated for colonists' rights, often through boycotts, intimidation of tax collectors, and direct action like the Boston Tea Party."},
-{s:2,t:"John Adams",h:"His Revolutionary-era job was logistics, not fighting.",d:"A Founding Father who worked as part of the Continental Congress to provide funds and supplies for the war effort. Later became the first Vice President under Washington. He was NOT at the Constitutional Convention &mdash; he was in Great Britain."},
-{s:2,t:"Townshend Acts",h:"1767. Five specific goods, one of which caused a famous party.",d:"1767. Charles Townshend became the new British treasurer and imposed indirect taxes on <b>glass, lead, paint, paper, and tea</b>. Colonists responded with boycotts, Britain sent troops to keep control, and that troop presence led directly to the Boston Massacre in 1770."},
-{s:2,t:"Continental Congress",h:"It was a reaction to a specific set of 1774 laws.",d:"Created in response to the Intolerable Acts. The <b>First Continental Congress (1774)</b> brought delegates from 12 colonies together in Philadelphia; they sent a letter of grievances to King George III. It became the governing body that coordinated the war effort."},
-{s:2,t:"Intolerable Acts",h:"Four laws, one punished city, one closed harbor.",d:"1774. A series of FOUR laws passed by British Parliament to punish the colony of Massachusetts Bay for the Boston Tea Party. They closed Boston Harbor. The colonial response was the First Continental Congress and the Committees of Correspondence."},
-{s:2,t:"Tar and Feathering",h:"A punishment, not a policy.",d:"A violent and painful public punishment colonists used against British tax officials &mdash; hot tar poured on the victim followed by feathers. A form of intimidation protest meant to make enforcing British taxes impossible."},
-{s:2,t:"Stamp Act",h:"1765. It taxed paper itself.",d:"An act of British Parliament in 1765 that raised revenue by imposing a stamp duty on newspapers and legal and commercial documents. Colonial opposition was so fierce it was repealed in 1766 &mdash; but the repeal came with the Declaratory Act asserting Parliament's right to tax the colonies anyway."},
-{s:2,t:"Boston Tea Party",h:"1773, and it was a response to a tax that actually made tea cheaper.",d:"December 1773. In protest of the Tea Act, colonists (Sons of Liberty) boarded British ships and dumped chests of tea into Boston Harbor. Britain retaliated with the Intolerable Acts in 1774."},
-{s:2,t:"Thomas Jefferson",h:"He wrote the most famous document of 1776 and missed the most famous meeting of 1787.",d:"Wrote the <b>Declaration of Independence</b>, approved July 4, 1776 &mdash; an \"explanation\" of independence that listed the misdeeds of King George III. Note the hypocrisy angle Mrs. Wolf raises: \"all men are created equal\" while hundreds of thousands were enslaved. He missed the Constitutional Convention (he was in France) and later served as Washington's Secretary of State."},
-{s:2,t:"George Washington",h:"Three separate roles across both units.",d:"<b>General of the Continental Army</b> &mdash; understood what needed to happen for America to win; his early strategy was simply \"don't lose.\" Later <b>President of the Constitutional Convention</b> (1787), then <b>first U.S. President</b>, unanimously chosen by the electoral college."},
-{s:2,t:"Lexington and Concord",h:"1775. Massachusetts. A midnight ride warned them.",d:"1775, in <b>Massachusetts</b>. The first battles of the American Revolution &mdash; \"the shot heard round the world.\" Paul Revere's famous midnight ride warned the colonists the British were coming."},
-{s:2,t:"Battle of Bunker Hill",h:"May 1775. A British win, but a costly one.",d:"May 1775 in Massachusetts. Part of the Northern Campaign (1775&ndash;77), which went badly for the colonists. A British victory."},
-{s:2,t:"Battle of Saratoga",h:"The single most important answer in Unit 2.",d:"<b>October 1777, New York. THE TURNING POINT OF THE WAR.</b> The American victory convinced <b>France to become a U.S. ally</b> &mdash; and French naval power, money, and supplies are what ultimately made independence possible."},
-{s:2,t:"Battle of Yorktown",h:"October 1781. An entire army surrendered.",d:"October 1781 in Virginia. A huge American victory where <b>General Cornwallis surrendered his entire army</b>. British communication failures contributed to the defeat. After Yorktown, British desire to continue the war collapsed, leading to the Treaty of Paris."},
-{s:2,t:"Patriots",h:"Pick a side.",d:"Colonists who supported independence from Britain and backed the Revolution."},
-{s:2,t:"Loyalists",h:"The other side.",d:"Colonists who remained loyal to the British Crown and opposed the Revolution."},
-
-{s:3,t:"Treaty of Paris (1783)",h:"Don't confuse it with the 1763 one.",d:"Signed 1783. Formally ended the American Revolution and recognized <b>America as its own independent nation</b>. It followed the British collapse after Yorktown."},
-{s:3,t:"Articles of Confederation",h:"Make two lists: what it COULD do, and what it COULDN'T.",d:"America's first constitution. Created a loose confederation of sovereign states with a very weak central government, leaving most power with the states.<ul><li><b>Federal gov't COULD:</b> declare war, make treaties, borrow money, send diplomats abroad</li><li><b>Federal gov't COULD NOT:</b> regulate trade/commerce, collect taxes, enforce laws, issue currency</li><li>No executive branch, no national court system; any amendment needed all 13 states to agree</li></ul>The design came straight from what the writers hated about England: taxation without representation, an all-powerful central government, and a king who could change laws at will."},
-{s:3,t:"Shays' Rebellion",h:"A farmer, a veteran of Bunker Hill, and a lot of courthouses.",d:"1786&ndash;1787. A series of violent attacks on courthouses and government property in <b>Massachusetts</b>, led by <b>Daniel Shays</b>, a farmer and former soldier who had fought at Bunker Hill. It escalated into full military confrontation and convinced Americans the nation needed a <b>stronger central government</b> &mdash; which is what led to the Constitutional Convention."},
-{s:3,t:"New Jersey Plan",h:"Small states. One house, one vote.",d:"The <b>small state plan</b>. Proposed a <b>unicameral</b> (one-house) legislature with <b>one vote per state</b> &mdash; meaning 13 votes total. Essentially kept the Articles of Confederation but fixed obvious problems: Congress could tax if a majority of states approved, there would be a plural executive elected by Congress (recallable, one term only), and states would have to follow federal law."},
-{s:3,t:"Virginia Plan",h:"Large states. Written by the Father of the Constitution.",d:"The <b>large state plan</b>, written by <b>James Madison</b>. Wanted to REPLACE the Articles of Confederation entirely with a <b>bicameral</b> (two-house) Congress where representation was apportioned <b>by population</b> &mdash; better for populous states. Became the framework for the whole Constitution, which is why Madison is called the Father of the Constitution. Small states objected (no term limits specified, and replacing the Articles looked like treason to some), creating a stalemate."},
-{s:3,t:"The Great Compromise",h:"Introduced by a New England state. It gave both sides what they wanted.",d:"Introduced by <b>Connecticut</b>. Created a <b>bicameral legislature</b> that satisfied both plans:<ul><li><b>Upper house (Senate)</b> &mdash; EQUAL vote per state &rarr; small states happy</li><li><b>Lower house (House of Representatives)</b> &mdash; representation by POPULATION &rarr; large states happy</li></ul>"},
-{s:3,t:"3/5ths Compromise",h:"It's about who counts toward population.",d:"Settled the question of who counted toward a state's population for representation: <b>one enslaved person counted as 3/5 of a person</b>. A compromise between Southern states wanting enslaved people counted for representation and Northern states objecting."},
-{s:3,t:"Federalists",h:"Pro-Constitution. Three famous authors.",d:"<b>Supporters of the Constitution</b> who favored a strong central government with the power to enforce laws.<ul><li><b>Leaders:</b> Alexander Hamilton, James Madison, John Jay</li><li><b>Wanted:</b> powerful central gov't, two-house legislature, representative democracy</li><li><b>Argued:</b> the Articles were too weak; a stronger national gov't was needed to solve domestic problems and preserve the Union</li><li><b>Support:</b> Atlantic coast, large cities, merchants, elites</li><li><b>Advantage:</b> strong leaders, better organized. <b>Weakness:</b> no bill of rights</li><li>Wrote the <b>Federalist Papers</b> (No. 10 = defends republican gov't against mob rule; No. 51 = checks and balances; both Madison)</li></ul>"},
-{s:3,t:"Anti-Federalists",h:"Anti-Constitution. They lost the fight but won the first ten amendments.",d:"<b>Opponents of the Constitution.</b><ul><li><b>Leaders:</b> Patrick Henry, Sam Adams</li><li><b>Feared:</b> the national gov't was too strong and states would lose power; no protection for basic freedoms; a President who could be re-elected forever, like a king</li><li><b>Wanted:</b> stronger state gov'ts, frequent elections, smaller districts, more direct democracy</li><li><b>Support:</b> backcountry/western frontier settlers, small farmers, state politicians</li><li><b>Weakness:</b> poorly organized, not united in their arguments</li><li>Their pressure is the reason the <b>Bill of Rights</b> exists</li></ul>"},
-{s:3,t:"Bill of Rights",h:"1791. A number you should know cold.",d:"The <b>first 10 amendments</b> to the Constitution, added in <b>1791</b>. Came about in large part because of <b>Anti-Federalist</b> demands for written protection of basic freedoms. Context Mrs. Wolf gives: the U.S. Constitution has only been amended 27 times total, while France went through 14 constitutions in the same period."}
+/* ============ DATA ============ */
+const CHEM=[
+{s:"Classification",t:"Matter",h:"The broadest category on the whole flowchart.",d:"Anything that has mass and takes up space. Everything on the classification chart is a type of matter."},
+{s:"Classification",t:"Pure Substance",h:"All the particles look the same.",d:"Matter in which <b>all of the particles are identical</b>. Has a fixed composition. Splits into two types: <b>elements</b> and <b>compounds</b>. Pure substances are always homogeneous."},
+{s:"Classification",t:"Mixture",h:"More than one type of particle, just physically mixed together.",d:"Matter containing <b>two or more different types of particles</b> that are only physically combined, not chemically bonded. Because there's no chemical bond, a mixture <b>can be separated by physical means</b>. Written with an ampersand, like <code>Cu &amp; Zn</code>."},
+{s:"Classification",t:"Element",h:"About 100 of them exist.",d:"A pure substance made of <b>only one type of atom</b>. The simplest unit of matter that still keeps all the properties of that matter. There are about 100 different ones.<br><b>Examples:</b> gold, carbon, silver, Al, Br<sub>2</sub>.<br>Note Br<sub>2</sub> is still an element, not a compound, because both atoms are the same type."},
+{s:"Classification",t:"Compound",h:"Two or more DIFFERENT types of atom, bonded.",d:"A pure substance containing <b>two or more different types of atoms chemically bonded</b> together. Separating them requires a <b>chemical</b> change.<br><b>Examples:</b> salt (sodium chloride), water, NaHCO<sub>3</sub>, CO<sub>2</sub>."},
+{s:"Classification",t:"Homogeneous Mixture",h:"It has another name you should know.",d:"A mixture that is <b>uniform throughout</b> &mdash; two or more substances mixed in equal proportions everywhere, so you see only one phase. <b>Also called a solution.</b><br><b>Examples:</b> air, Kool-Aid."},
+{s:"Classification",t:"Heterogeneous Mixture",h:"You can see the different parts.",d:"A mixture of two or more substances that are <b>easily distinguishable</b> from each other. Not uniform, and can show two or more phases.<br><b>Examples:</b> soil, milk, granite."},
+{s:"Classification",t:"Physical Separation",h:"Nothing chemical happens.",d:"A separation method that does <b>not</b> change the composition of the matter &mdash; no chemical bonds are broken or formed.<br><b>Methods:</b> filtering, distillation, straining.<br><b>Works on:</b> mixtures only."},
+{s:"Classification",t:"Chemical Separation",h:"Bonds get broken.",d:"A separation that <b>requires a chemical change</b> &mdash; chemical bonds are broken and/or formed, and the substance no longer has the same characteristics as before.<br><b>Methods:</b> decomposition, electrolysis (like splitting water into hydrogen and oxygen in a fuel cell).<br><b>Needed for:</b> compounds."},
+{s:"Particles",t:"Atom vs. Element",h:"One is a particle, one is a substance.",d:"An <b>atom</b> is a single smallest particle. An <b>element</b> is a <i>substance</i> made up of only one type of atom. So an atom is the building block; the element is the material built from it."},
+{s:"Particles",t:"Molecule vs. Compound",h:"Br<sub>2</sub> is the trick case.",d:"A <b>molecule</b> is two or more atoms held together by chemical bonds &mdash; they can be the <i>same</i> type (Br<sub>2</sub>, O<sub>2</sub>). A <b>compound</b> is specifically made of two or more <i>different</i> types of atoms.<br>So: every compound is a molecule, but not every molecule is a compound."},
+{s:"Particles",t:"Reading Chemical Formulas",h:"Letters, subscripts, ampersands.",d:"<ul><li><b>Letters</b> (R, Sq, T in the POGIL) = the type of atom</li><li><b>Subscripts</b> (the small numbers) = how many of that atom are in the molecule</li><li><b>Touching atoms</b> are shown by writing them together = a chemical bond</li><li><b>An ampersand (&amp;)</b> means it's a <b>mixture</b> &mdash; separate substances, not bonded</li></ul>"},
+{s:"Particles",t:"Chemical Bond",h:"What's holding touching atoms together?",d:"The force holding two atoms together when they are drawn touching. Bonds are what make a group of atoms a single molecule rather than a mixture of separate particles."},
+{s:"Conservation",t:"Law of Conservation of Mass",h:"Nothing is created, nothing is destroyed.",d:"Mass is <b>neither created nor destroyed</b> in a chemical reaction. The total mass of the reactants equals the total mass of the products &mdash; the atoms just get rearranged."},
+{s:"Conservation",t:"Open vs. Closed System",h:"Where does the gas go?",d:"<b>Closed system</b> (cap on): gas cannot escape, so the measured mass stays constant and conservation of mass is easy to demonstrate.<br><b>Open system</b> (cap off): gas escapes into the room, so the balance reading <b>appears to drop</b>. Mass wasn't destroyed, it just left the container.<br>This is why the law is easier to prove in a closed system."},
+{s:"Conservation",t:"Alka Seltzer Reaction",h:"Know the equation and the gas.",d:"<code>Alka Seltzer (s) + water (l) &rarr; precipitate (s) + water (l) + carbon dioxide (g)</code><br>It's a <b>chemical</b> reaction because new substances are produced &mdash; a precipitate and carbon dioxide gas that weren't there before.<br>The <b>carbon dioxide gas</b> is the whole reason the open condition loses mass."},
+{s:"Conservation",t:"Why the closed bottle loses mass when opened",h:"The star on your graph.",d:"While capped, the CO<sub>2</sub> is trapped, so mass stays the same. The instant you remove the cap, the trapped CO<sub>2</sub> escapes and the mass drops to roughly match the open condition. That drop is direct evidence that the missing mass in the open system was gas, not destroyed matter &mdash; which <b>confirms</b> the Law of Conservation of Mass."},
+{s:"States",t:"Phase",h:"Count what you can visually distinguish.",d:"A physically distinct portion of a sample. <b>Pure substances and homogeneous mixtures show one phase.</b> <b>Heterogeneous mixtures can show two or more phases.</b> On the Venn worksheet, 'can be two or more phases' belongs to mixtures only."}
 ];
 
-const TIMELINE=[
-["1754-63","French and Indian War (Seven Years' War). Britain wins, gains land, and ends up deep in debt."],
-["1763","Proclamation of 1763 &mdash; Britain forbids colonists from settling in the Ohio Valley."],
-["1764","Sugar Act &mdash; taxes on sugar and molasses."],
-["1765","Stamp Act &mdash; colonists must buy stamps for all printed material."],
-["1765","Quartering Act &mdash; colonists must house and feed British soldiers."],
-["1766","Stamp Act repealed after colonial opposition."],
-["1767","Declaratory Act &mdash; Parliament ends the Stamp and Sugar Acts but asserts its right to tax the colonies."],
-["1767","Townshend Acts &mdash; taxes on paint, glass, lead, paper, and tea."],
-["1770","<b>Boston Massacre</b> &mdash; a snowball fight escalates; British soldiers kill five Americans."],
-["1773","Tea Act &mdash; tax on tea."],
-["1773","<b>Boston Tea Party</b> &mdash; colonists dump tea into Boston Harbor."],
-["1774","Intolerable Acts &mdash; Britain punishes Boston, closes the harbor."],
-["1774","First Continental Congress &mdash; delegates from 12 colonies write to King George III."],
-["1775","<b>Lexington and Concord</b> &mdash; the American Revolution begins (Massachusetts)."],
-["1775","Bunker Hill, MA &mdash; British victory."],
-["1776","Sept-Dec: Battle of Long Island, NY &mdash; British win, but Washington escapes."],
-["1776","Jan 10: <b>Common Sense</b> published by Thomas Paine."],
-["1776","July 4: <b>Declaration of Independence</b> approved."],
-["1776-77","Dec/Jan: Trenton and Princeton, NJ &mdash; American victories."],
-["1777","Oct: <b>Saratoga, NY &mdash; THE TURNING POINT.</b> France allies with the U.S."],
-["1781","Oct: <b>Yorktown, VA</b> &mdash; Cornwallis surrenders his entire army."],
-["1783","<b>Treaty of Paris</b> &mdash; war ends, U.S. recognized as an independent nation."],
-["1786-87","<b>Shays' Rebellion</b> in Massachusetts exposes the weakness of the Articles."],
-["1787","May-Sept: <b>Constitutional Convention</b>, Philadelphia. 55 delegates, every state but Rhode Island."],
-["1788","The Constitution is ratified by 9 of 13 states (New Hampshire puts it over the top)."],
-["1789","George Washington elected President, John Adams Vice President. Judiciary Act passed."],
-["1791","<b>Bill of Rights</b> added &mdash; first 10 amendments."],
-["1791-94","Whiskey Rebellion &mdash; Washington handles it cleanly, unlike Shays' under the Articles."],
-["1796","Washington's Farewell Address &mdash; two-term precedent, warns against permanent alliances, political parties, and sectionalism."]
+const REL=[
+{s:"Rome",t:"Pax Romana",h:"Two Latin words. Started under one emperor.",d:"\"Roman Peace\" &mdash; the long period of stability established under <b>Augustus Caesar</b>. It lasted until the <b>2nd century A.D.</b> and covered everything from Europe to the ancient Near East. The deck describes Rome in this era as \"like a peacock with feathers extending out.\""},
+{s:"Rome",t:"Roman Roads and Communication",h:"Why did ideas spread so fast?",d:"Rome built systems of <b>paved roads</b> connecting the edges of the empire to its center, and established <b>Roman police</b> who kept the roads relatively safe. The result was that exchange of goods and the spread of ideas became seamless &mdash; which later helped Christianity spread."},
+{s:"Rome",t:"Latin vs. Greek",h:"One for law, one for business.",d:"<b>Latin</b> was the language of the <b>west</b> and of <b>legal affairs</b>.<br><b>Greek</b> was the language of <b>international affairs and commerce</b>, and was the <b>most common spoken language</b>."},
+{s:"Rome",t:"Roman Citizenship",h:"Three rights, and who got it automatically.",d:"Citizenship was a <b>birthright for children born of free marriages</b>. Rights included:<ul><li>Vote</li><li>Hold office</li><li>Appeal to the emperor for disputes</li></ul>"},
+{s:"Rome",t:"Slavery in the Empire",h:"A percentage you should memorize.",d:"<b>40% of the empire were slaves.</b> They could buy their freedom, though the notes hedge this as \"kinda.\""},
+{s:"Rome",t:"Urbanization / The Cities",h:"Two named cities.",d:"Cities were at their height during this period. Named examples in the notes: the <b>Decapolis</b> and <b>Alexandria</b>."},
+{s:"Rome",t:"Rome's show of authority",h:"Two methods.",d:"Rome demonstrated its authority through <b>constant taxation</b> and <b>armed garrisons</b>. Rome respected Jewish local customs, but that respect depended entirely on the political ambitions of whichever leader was appointed."},
+{s:"Rome",t:"Emperors who persecuted Christians",h:"Three names.",d:"<b>Nero, Domitian, and Trajan</b> all made several attempts to wipe out Christianity. Eventually Christianity became the <b>official religion of the Roman Empire</b>. Note also that <b>Jesus was born during the reign of Augustus</b>."},
+{s:"Judea",t:"Pompey's Conquest (63 B.C.)",h:"The year Judea became Roman.",d:"<b>63 B.C.</b> &mdash; Pompey's conquest made <b>Judea a Roman province</b>."},
+{s:"Judea",t:"Herod the Great",h:"Named king of the Jews, and not a nice one.",d:"Ruled Judea and was named <b>king of the Jews</b>. The notes are blunt: he was <b>not benevolent or tolerant</b>. He is best known for <b>urbanization</b> and for <b>enlarging the Temple in Jerusalem</b> (in 10 B.C.)."},
+{s:"Judea",t:"Roman Governors",h:"How much power did they have?",d:"Governors held <b>supreme authority</b>, including <b>power over life and death</b>."},
+{s:"Judea",t:"Pontius Pilate",h:"Dates matter here.",d:"The most famous Roman governor of Judea, serving <b>26&ndash;36 A.D.</b>"},
+{s:"Judea",t:"First Jewish Revolt",h:"Four years, and it ends catastrophically.",d:"<b>66&ndash;70 A.D.</b> Jewish revolutionaries wanted independence from Rome. In <b>70 A.D., Rome destroyed Jerusalem and the Second Temple.</b> <b>Masada</b> fell in <b>74 A.D.</b>, where the Jewish rebels were defeated. A <b>Second Jewish Revolt</b> followed later."},
+{s:"Judea",t:"Hebrew Bible Canon",h:"Around 90 A.D.",d:"Around <b>90 A.D.</b>, the <b>Hebrew Bible canon was established</b> &mdash; shortly after the Temple's destruction forced Judaism to reorganize around text rather than sacrifice."},
+{s:"Temple",t:"The Temple (history)",h:"Three dates: built, destroyed, rebuilt.",d:"The Temple of Jesus' time was the <b>second</b> built in Jerusalem.<ul><li>First Temple built by <b>King Solomon around 1000 B.C.</b></li><li><b>Destroyed by the Babylonians in 586 B.C.</b>, when much of the Jewish population was deported from Judah to Babylon</li><li><b>Second Temple built in 515 B.C.</b>, later enlarged by <b>Herod the Great in 10 B.C.</b></li></ul>"},
+{s:"Temple",t:"Holy Place vs. Holy of Holies",h:"Who goes in, and how often?",d:"<b>Holy Place</b> &mdash; priests entered <b>twice a day</b>.<br><b>Holy of Holies</b> &mdash; the <b>high priest</b> entered <b>once a year</b>.<br>The Temple was both a symbol of Jewish unity and a sacred space where the presence of God abided."},
+{s:"Temple",t:"Synagogues",h:"A number: how many men make a quorum?",d:"Emerged in the ancient Near East <b>after the Babylonian invasion of 586 B.C.</b>, when Jews maintained faith and identity by meeting in small congregations.<ul><li>Existed wherever a <b>quorum of 10 males</b> gathered</li><li>Run by <b>adult male Jews</b> of the town</li><li><b>No sacrifices</b> were offered &mdash; <b>teaching substituted for sacrifice</b></li><li>Synagogue worship <b>greatly influenced the liturgy of early Christian churches</b></li></ul>"},
+{s:"Temple",t:"The Imperial Cult",h:"It ranged from mild to extreme. And one group got out of it.",d:"At its <b>least extreme</b>, just a pledge of allegiance to the emperor. At its <b>most extreme</b>, an emperor let being thought divine go to his head and forced people to sacrifice to him and praise him. How bad it got <b>depended on the emperor's ego</b>. It gave the Roman army a feeling of <b>pride and unity</b>. <b>Jews were exempt</b>, because they already had their own beliefs and their own God."},
+{s:"Groups",t:"Sadducees",h:"Priestly, and they don't survive 70 A.D.",d:"A <b>priestly class</b> that <b>strictly adhered to the Torah</b> (the first 5 books of the Bible) and nothing beyond it. <b>The destruction of the Temple ended their party in 70 A.D.</b>"},
+{s:"Groups",t:"Pharisees",h:"The opposite of the Sadducees. Their work survives today.",d:"Described in the notes as the <b>complete opposites of the Sadducees</b>: they followed <b>not only the Torah but also oral tradition</b>. <b>Rabbinic Judaism is the work of the Pharisees</b>, which is why they outlasted the Temple."},
+{s:"Groups",t:"Zealots",h:"Violence and one famous fortress.",d:"Strongly opposed Roman rule in Judea. Advocated <b>armed rebellion and violence</b> to achieve Jewish independence. Played a central role in the <b>First Jewish-Roman War</b>, including the <b>defense of Masada</b>."},
+{s:"Groups",t:"Essenes",h:"Desert, and a famous set of scrolls.",d:"Practiced <b>communal living and ritual purity near the Dead Sea</b>. Believed to have <b>written the Dead Sea Scrolls</b> before their community was disrupted by the Romans."},
+{s:"Groups",t:"Samaritans",h:"A harsh word the notes use.",d:"<b>Not seen as Jews</b> &mdash; the notes record the slur \"half-breeds.\" They followed a <b>similar Torah with some modifications</b>."},
+{s:"Groups",t:"Diaspora Jews",h:"What happened after 70 C.E.?",d:"When the Temple was destroyed in <b>70 C.E.</b>, Jews were <b>displaced to Europe, Northern Africa, and the Middle East</b>."}
 ];
 
-/* ---------- Flashcards ---------- */
-let deck=[],pos=0,known=new Set();
-const $=id=>document.getElementById(id);
-function buildDeck(){
-  const s=$("fcSec").value;
-  deck=TERMS.filter(x=>s==="all"||x.s==+s).map((x,i)=>x);
-  pos=0;known.clear();render();
+const REL_TL=[
+["~1000 B.C.","King Solomon builds the <b>First Temple</b> in Jerusalem."],
+["586 B.C.","<b>Babylonians destroy the First Temple.</b> Much of the Jewish population is deported from Judah to Babylon. <b>Synagogues emerge</b> as Jews keep their faith in small congregations."],
+["515 B.C.","The <b>Second Temple</b> is built."],
+["63 B.C.","<b>Pompey's conquest</b> &mdash; Judea becomes a Roman province."],
+["10 B.C.","<b>Herod the Great enlarges</b> the Temple in Jerusalem."],
+["Reign of Augustus","<b>Jesus is born.</b> This is also the era of the <b>Pax Romana</b>."],
+["26&ndash;36 A.D.","<b>Pontius Pilate</b> serves as governor of Judea."],
+["66&ndash;70 A.D.","<b>First Jewish Revolt.</b>"],
+["70 A.D.","<b>Rome destroys Jerusalem and the Second Temple.</b> The <b>Sadducees</b> end as a party. The <b>Diaspora</b> scatters Jews to Europe, North Africa, and the Middle East."],
+["74 A.D.","<b>Masada falls</b>; the Jewish rebels there are defeated."],
+["~90 A.D.","The <b>Hebrew Bible canon</b> is established."],
+["2nd century A.D.","<b>Pax Romana ends.</b> A <b>Second Jewish Revolt</b> occurs."]
+];
+
+const CLASSES=[
+{n:"US History - Sem 1",t:"Katie Wolf",p:"Period 4",work:[["Unit 1+2 Exam","Mon Sep 28, 12:40 PM",1],["AoC vs Constitution Comparison","due today",1]]},
+{n:"Chemistry I",t:"Jason Rott",p:"Period 1",work:[["Unit 2 Exam (50 pts, Mastery)","Tue Sep 29",1]]},
+{n:"Life and Mission of Jesus",t:"",p:"Period 7",work:[["Unit 2 Test","Wed Sep 30",1],["World of Jesus Game Debrief","due today 11:59 PM",1],["Class Reflection","Mon Nov 30",0]]},
+{n:"AP Computer Science: Principles",t:"",p:"Period 5",work:[["The Internet - test","Mon Sep 28",1],["Khan - The Internet","Mon Sep 28",1],["Internet KWL chart","no due date",0]]},
+{n:"English 10",t:"",p:"Period 8",work:[["Read + annotate Ch. 3","Mon Sep 28",1],["GrammarFlip + Membean Cycle 4","Mon Sep 28",1],["Emerson &amp; Thoreau annotations","no due date",0]]},
+{n:"Algebra II - Honors",t:"Mr. Kaplan",p:"Period 6",work:[["2.1.4 CYU","due today 11:59 PM",1],["Match My Parabola","no due date",0],["Ch. 2 Quiz #2","Tue Oct 27",0],["Ch. 2 Test","Mon Nov 2",0]]},
+{n:"Spanish II",t:"",p:"Period 3",work:[["Welcome Survey","no due date",0]]}
+];
+
+/* ============ HOME ============ */
+function daysUntil(m,d){const now=new Date();const t=new Date(now.getFullYear(),m-1,d);return Math.ceil((t-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);}
+const EXAMS=[{n:"US History Unit 1+2 Exam",c:"Katie Wolf · Period 4",m:9,d:28,note:"Covers the entire Unit 1 and Unit 2 decks. Study guide is a separate graded assignment.",link:"ush"},
+{n:"AP CSP: The Internet Test",c:"Period 5",m:9,d:28,note:"Paired with the Khan - The Internet assignment, also due that day.",link:null},
+{n:"Chemistry Unit 2 Exam",c:"Jason Rott · Period 1 · 50 pts",m:9,d:29,note:"Matter and Change. No study guide posted; review = Gimkit kit, flowchart, POGIL, Conservation of Mass lab.",link:"chem"},
+{n:"Religion Unit 2 Test",c:"Life and Mission of Jesus · Period 7",m:9,d:30,note:"Review class notes (social hierarchy pyramid + timeline), Unit 2 Blooket, handouts, Historical Context form.",link:"rel"}];
+
+document.getElementById("today").textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+document.getElementById("home").innerHTML=
+'<div class="card" style="border-left:3px solid var(--warn)"><h3>Heads up: 4 tests in 3 days</h3><p>Sep 28 through Sep 30 you have four separate assessments across four classes. That is the real constraint this week, not any one of them individually.</p></div>'
++EXAMS.map(e=>{const n=daysUntil(e.m,e.d);
+return '<div class="card exam'+(n>2?' soon':'')+'"><div class="days">'+n+'<small>day'+(n===1?'':'s')+'</small></div>'
++'<div class="when">'+new Date(new Date().getFullYear(),e.m-1,e.d).toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'})+'</div>'
++'<h3 style="margin:4px 0 6px">'+e.n+'</h3><p style="font-size:12.5px;color:var(--dim)">'+e.c+'</p><p>'+e.note+'</p>'
++(e.link?'<button class="btn primary" onclick="go(\''+e.link+'\')">Study this</button>':'')+'</div>';}).join('');
+
+/* ============ ENGINE ============ */
+function mkFlash(host,data,key){
+  let deck=data.slice(),pos=0,known=new Set();
+  const secs=[...new Set(data.map(x=>x.s))];
+  host.innerHTML='<div class="bar"><select id="'+key+'sel"><option value="all">All topics ('+data.length+')</option>'
+    +secs.map(s=>'<option value="'+s+'">'+s+'</option>').join('')
+    +'</select><button class="btn" id="'+key+'sh">Shuffle</button><span class="stat">Known <b id="'+key+'k">0</b> · Left <b id="'+key+'l">'+data.length+'</b></span></div>'
+    +'<div class="prog"><i id="'+key+'bar"></i></div>'
+    +'<div class="fc"><div class="tag" id="'+key+'tag"></div><div class="term" id="'+key+'t"></div><div class="hint hidden" id="'+key+'h"></div><div class="defn hidden" id="'+key+'d"></div></div>'
+    +'<div class="row"><button class="btn" id="'+key+'hb">Hint</button><button class="btn primary" id="'+key+'f">Reveal</button><button class="btn" id="'+key+'a">Review again</button><button class="btn" id="'+key+'g">I knew it →</button></div>';
+  const g=id=>document.getElementById(key+id);
+  function rebuild(){const v=g('sel').value;deck=data.filter(x=>v==='all'||x.s===v);pos=0;known.clear();draw();}
+  function draw(){if(!deck.length)return;if(pos>=deck.length)pos=0;const c=deck[pos];
+    g('tag').textContent=c.s+'  —  '+(pos+1)+' / '+deck.length;
+    g('t').innerHTML=c.t;g('d').innerHTML=c.d;g('h').innerHTML=c.h;
+    g('d').classList.add('hidden');g('h').classList.add('hidden');
+    g('k').textContent=known.size;g('l').textContent=deck.length-known.size;
+    g('bar').style.width=(known.size/deck.length*100)+'%';}
+  g('f').onclick=()=>g('d').classList.toggle('hidden');
+  g('hb').onclick=()=>g('h').classList.toggle('hidden');
+  g('g').onclick=()=>{known.add(deck[pos].t);pos++;draw();};
+  g('a').onclick=()=>{const c=deck.splice(pos,1)[0];deck.push(c);draw();};
+  g('sh').onclick=()=>{deck.sort(()=>Math.random()-.5);pos=0;draw();};
+  g('sel').onchange=rebuild;rebuild();
 }
-function render(){
-  if(!deck.length)return;
-  if(pos>=deck.length)pos=0;
-  const c=deck[pos];
-  $("fcTag").textContent=["","Section 1 \u00b7 The Colonial Era","Section 2 \u00b7 Declaring Independence","Section 3 \u00b7 The New Republic"][c.s]+"  \u2014  "+(pos+1)+" / "+deck.length;
-  $("fcTerm").textContent=c.t;
-  $("fcDef").innerHTML=c.d;
-  $("fcHint").textContent=c.h;
-  $("fcDef").classList.add("hidden");$("fcHint").classList.add("hidden");
-  $("fcKnown").textContent=known.size;
-  $("fcLeft").textContent=deck.length-known.size;
-  $("fcBar").style.width=(known.size/deck.length*100)+"%";
+function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent;}
+function firstSent(h){const t=strip(h).trim();const m=t.match(/^[^.]+\./);return m?m[0]:t.slice(0,150);}
+function mkQuiz(host,data,key){
+  const n=Math.min(15,data.length);
+  host.innerHTML='<div class="bar"><button class="btn primary" id="'+key+'new">New '+n+'-question test</button><span class="stat">Score <b id="'+key+'sc">0 / 0</b></span></div><div id="'+key+'body"></div>';
+  const g=id=>document.getElementById(key+id);
+  let sc=0,dn=0;
+  function build(){sc=0;dn=0;g('sc').textContent='0 / 0';
+    const pool=data.slice().sort(()=>Math.random()-.5).slice(0,n);const b=g('body');b.innerHTML='';
+    pool.forEach((c,i)=>{
+      const wrong=data.filter(x=>x.t!==c.t).sort(()=>Math.random()-.5).slice(0,3);
+      const opts=[c,...wrong].sort(()=>Math.random()-.5);
+      const div=document.createElement('div');div.className='q';
+      div.innerHTML='<h4>'+(i+1)+'. '+firstSent(c.d)+'</h4>';
+      opts.forEach(o=>{const btn=document.createElement('button');btn.className='opt';btn.innerHTML=o.t;
+        btn.onclick=()=>{[...div.querySelectorAll('.opt')].forEach(x=>{x.disabled=true;if(strip(x.innerHTML)===strip(c.t))x.classList.add('right');});
+          if(o.t!==c.t)btn.classList.add('wrong');else sc++;dn++;g('sc').textContent=sc+' / '+dn;
+          const w=document.createElement('div');w.className='why';w.innerHTML='<b>'+c.t+':</b> '+c.d;div.appendChild(w);};
+        div.appendChild(btn);});
+      b.appendChild(div);});}
+  g('new').onclick=build;build();
 }
-$("fcFlip").onclick=()=>$("fcDef").classList.toggle("hidden");
-$("fcHintBtn").onclick=()=>$("fcHint").classList.toggle("hidden");
-$("fcGot").onclick=()=>{known.add(deck[pos].t);pos++;render();};
-$("fcAgain").onclick=()=>{const c=deck.splice(pos,1)[0];deck.push(c);render();};
-$("fcShuffle").onclick=()=>{deck.sort(()=>Math.random()-.5);pos=0;render();};
-$("fcReset").onclick=buildDeck;
-$("fcSec").onchange=buildDeck;
 
-/* ---------- Quiz ---------- */
-function stripHtml(h){const d=document.createElement("div");d.innerHTML=h;return d.textContent;}
-function firstSentence(h){const txt=stripHtml(h).trim();const m=txt.match(/^[^.]+\./);return m?m[0]:txt.slice(0,140);}
-let qScore=0,qDone=0;
-function newQuiz(){
-  qScore=0;qDone=0;$("qzScore").textContent="0 / 0";
-  const pool=[...TERMS].sort(()=>Math.random()-.5).slice(0,20);
-  const body=$("qzBody");body.innerHTML="";
-  pool.forEach((c,i)=>{
-    const wrong=TERMS.filter(x=>x.t!==c.t).sort(()=>Math.random()-.5).slice(0,3);
-    const opts=[c,...wrong].sort(()=>Math.random()-.5);
-    const div=document.createElement("div");div.className="q";
-    div.innerHTML="<h3>"+(i+1)+". "+firstSentence(c.d)+"</h3>";
-    opts.forEach(o=>{
-      const b=document.createElement("button");b.className="opt";b.textContent=o.t;
-      b.onclick=()=>{
-        [...div.querySelectorAll(".opt")].forEach(x=>{x.disabled=true;if(x.textContent===c.t)x.classList.add("right");});
-        if(o.t!==c.t)b.classList.add("wrong");else qScore++;
-        qDone++;$("qzScore").textContent=qScore+" / "+qDone;
-        const w=document.createElement("div");w.className="why";w.innerHTML="<b>"+c.t+":</b> "+c.d;
-        div.appendChild(w);
-      };
-      div.appendChild(b);
-    });
-    body.appendChild(div);
-  });
+const CHEM_REF='<div class="card"><h3>The Classification of Matter Flowchart</h3><p>This is the exact decision tree from Mr. Rott\'s handout. If you can redraw this from memory you can answer most of the exam.</p><div class="flow">                        MATTER\n                          |\n        Can it be separated by physical means?\n            |                          |\n           YES                        NO\n            |                          |\n         MIXTURE                 PURE SUBSTANCE\n            |                          |\n  Is it uniform throughout?   Can it be broken into simpler\n            |                 substances by chemical means?\n     |             |             |             |\n    YES           NO            YES            NO\n     |             |             |             |\nHOMOGENEOUS   HETEROGENEOUS  COMPOUND       ELEMENT\n  MIXTURE        MIXTURE\n(a solution)</div></div>'
++'<div class="card"><h3>Venn Diagram Answer Key</h3><p>From the Classifying Matter worksheet. Each letter goes in one region:</p><table><tr><th>Region</th><th>Letters</th><th>Meaning</th></tr>'
++'<tr><td><b>Elements only</b></td><td>B, H</td><td>Only one type of atom; about 100 different ones</td></tr>'
++'<tr><td><b>Compounds only</b></td><td>I, K</td><td>Two elements joined by chemical bonds; can be broken down by chemical change</td></tr>'
++'<tr><td><b>Mixtures only</b></td><td>E, G, J</td><td>Can be homogeneous; can be two or more phases; can be separated by physical change</td></tr>'
++'<tr><td><b>Elements + Compounds</b></td><td>A, D</td><td>Pure substance; always homogeneous</td></tr>'
++'<tr><td><b>Compounds + Mixtures</b></td><td>C</td><td>Two or more types of atom</td></tr>'
++'<tr><td><b>All three</b></td><td>F</td><td>Matter</td></tr></table></div>'
++'<div class="card"><h3>Formula Practice (POGIL Q13)</h3><table><tr><th>Formula</th><th>Answer</th><th>Why</th></tr>'
++'<tr><td>Br<sub>2</sub></td><td>Element</td><td>One type of atom, even though there are two of them</td></tr>'
++'<tr><td>NaHCO<sub>3</sub></td><td>Compound</td><td>Three different atom types, all bonded</td></tr>'
++'<tr><td>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> &amp; H<sub>2</sub>O</td><td>Mixture</td><td>The ampersand means two separate substances</td></tr>'
++'<tr><td>Cu &amp; Zn</td><td>Mixture</td><td>Ampersand again — two elements sitting together, not bonded</td></tr>'
++'<tr><td>CO<sub>2</sub></td><td>Compound</td><td>Carbon and oxygen bonded</td></tr>'
++'<tr><td>Al</td><td>Element</td><td>A single atom type</td></tr></table>'
++'<p style="margin-top:10px"><b>The rule:</b> ampersand → mixture. No ampersand, one letter type → element. No ampersand, two or more letter types → compound.</p></div>'
++'<div class="card"><h3>Separation: which method for which matter?</h3><table><tr><th></th><th>Physical separation</th><th>Chemical separation</th></tr>'
++'<tr><th>Methods</th><td>Filtering, distillation, straining</td><td>Decomposition, electrolysis</td></tr>'
++'<tr><th>Bonds broken?</th><td>No</td><td>Yes</td></tr>'
++'<tr><th>Works on</th><td>Mixtures</td><td>Compounds</td></tr>'
++'<tr><th>Example</th><td>Straining pasta from water</td><td>Fuel cell splitting water into H and O</td></tr></table>'
++'<p style="margin-top:10px"><b>Elements cannot be broken down by either method.</b> That is what makes them elements.</p></div>'
++'<div class="card"><h3>Conservation of Mass Lab &mdash; the conclusion logic</h3><p>The exam is likely to ask you to reason through this, not just recall it:</p><ul class="tight">'
++'<li><b>Open condition</b> (cap off): mass <b>decreases</b> over the 5 minutes</li>'
++'<li><b>Closed condition</b> (cap on): mass stays <b>constant</b></li>'
++'<li><b>Why:</b> the reaction produces <b>carbon dioxide gas</b>. In the open bottle it escapes into the room. In the closed bottle it is trapped, so it still counts on the balance.</li>'
++'<li><b>The star on the graph:</b> when you uncap the closed bottle, its mass drops to about the open bottle\'s value. That is the proof.</li>'
++'<li><b>Conclusion:</b> results <b>confirm</b> the Law of Conservation of Mass. The mass was never destroyed, it just left the system as gas.</li>'
++'<li><b>Sources of error:</b> spilling, splashing, delay before the first reading, gas escaping before the cap was on, balance drift.</li></ul></div>';
+
+const REL_REF='<div class="card"><h3>Unit 2 Timeline</h3><p>Reconstructed from the dates in the "26 NT Background" deck. Verify against your class notes.</p><div class="tl">'
++REL_TL.map(r=>'<div><b>'+r[0]+'</b>'+r[1]+'</div>').join('')+'</div></div>'
++'<div class="card"><h3>The Religious Groups, Side by Side</h3><table><tr><th>Group</th><th>Core belief / practice</th><th>Key fact</th></tr>'
++'<tr><td><b>Sadducees</b></td><td>Priestly class; strictly the Torah (first 5 books) only</td><td>Ended in 70 A.D. with the Temple\'s destruction</td></tr>'
++'<tr><td><b>Pharisees</b></td><td>Torah <i>and</i> oral tradition</td><td>Rabbinic Judaism is their work; described as the complete opposite of the Sadducees</td></tr>'
++'<tr><td><b>Zealots</b></td><td>Armed rebellion and violence against Roman rule</td><td>Central to the First Jewish-Roman War; defended Masada</td></tr>'
++'<tr><td><b>Essenes</b></td><td>Communal living and ritual purity near the Dead Sea</td><td>Believed to have written the Dead Sea Scrolls</td></tr>'
++'<tr><td><b>Samaritans</b></td><td>A similar Torah with modifications</td><td>Not accepted as Jews</td></tr>'
++'<tr><td><b>Diaspora Jews</b></td><td>Jews living outside Judea</td><td>Scattered to Europe, N. Africa, Middle East after 70 C.E.</td></tr></table>'
++'<p style="margin-top:10px"><b>Memory hook:</b> Sadducees = <b>S</b>criptural and <b>S</b>toppedin70. Pharisees = <b>P</b>lus oral tradition. Zealots = <b>Z</b>ealous/violent. Essenes = <b>E</b>remites in the desert.</p></div>'
++'<div class="card"><h3>Temple vs. Synagogue</h3><table><tr><th></th><th>Temple</th><th>Synagogue</th></tr>'
++'<tr><th>Where</th><td>Only in Jerusalem</td><td>Anywhere 10 adult males gathered</td></tr>'
++'<tr><th>Origin</th><td>Solomon ~1000 B.C.; rebuilt 515 B.C.</td><td>After the Babylonian invasion, 586 B.C.</td></tr>'
++'<tr><th>Sacrifice?</th><td>Yes — its central function</td><td>No — teaching substituted for sacrifice</td></tr>'
++'<tr><th>Run by</th><td>Priests and the high priest</td><td>Adult male Jews of the town</td></tr>'
++'<tr><th>Legacy</th><td>Symbol of Jewish unity; God\'s presence abided there</td><td>Greatly influenced early Christian liturgy</td></tr></table></div>'
++'<div class="card"><h3>Essay-ready connections</h3>'
++'<details><summary>How did Roman infrastructure help Christianity spread?</summary><p>Paved roads connected the whole empire and Roman police kept them relatively safe, so goods and ideas moved seamlessly. Greek was the most common spoken language, giving missionaries a shared tongue across regions. The Pax Romana meant stability for travel. All of this was built for Roman control but ended up being the delivery system for a new religion.</p></details>'
++'<details><summary>Why did the Pharisees survive 70 A.D. when the Sadducees did not?</summary><p>The Sadducees were a priestly class whose identity and authority ran through the Temple and its sacrifices, so when Rome destroyed the Temple their party ended. The Pharisees followed oral tradition alongside the Torah, which meant their religious practice did not depend on a building. That portability became Rabbinic Judaism.</p></details>'
++'<details><summary>Why were Jews exempt from the imperial cult?</summary><p>The imperial cult ranged from a pledge of allegiance to forced sacrifice to a self-deifying emperor. Rome allowed Jews to practice their religion and respected local Jewish customs, so Jews were exempt because they already had their own God and their own established beliefs. Note the notes\' caveat: that respect depended entirely on the political ambitions of whoever was appointed.</p></details>'
++'<details><summary>What made the Temple so significant beyond worship?</summary><p>It was a symbol of Jewish unity and a sacred space where the presence of God abided. Its layered access told you the whole social-religious structure: ordinary priests entered the Holy Place twice daily, but only the high priest entered the Holy of Holies, only once a year. Destroying it in 70 A.D. therefore did not just remove a building, it ended the Sadducees, forced the canon to be fixed around 90 A.D., and scattered the Diaspora.</p></details></div>';
+
+/* ============ OTHER + USH ============ */
+document.getElementById("other").innerHTML=CLASSES.map(c=>
+'<div class="card"><h3>'+c.n+'</h3><p style="font-size:12.5px;color:var(--dim)">'+[c.t,c.p].filter(Boolean).join(' · ')+'</p>'
++'<ul class="tight">'+c.work.map(w=>'<li>'+w[0]+' <span class="pill">'+w[1]+'</span></li>').join('')+'</ul></div>').join('');
+
+document.getElementById("ush").innerHTML=
+'<div class="card"><h3>US History Unit 1+2 Exam</h3><p>Monday Sep 28, 12:40 PM · Katie Wolf · Period 4</p>'
++'<p>The full trainer for this one already exists as its own page: 40 terms, practice test, a 29-event timeline, six comparison charts, and all 15 study guide discussion questions with checklists.</p>'
++'<a class="btn primary" href="ush.html">Open the US History trainer</a></div>'
++'<div class="card"><h3>What it covers</h3><ul class="tight">'
++'<li><b>Unit 1:</b> historical thinking, Native creation stories, Age of Exploration, Columbian Exchange, Spanish/French/English colonization, the 13 colonies by region</li>'
++'<li><b>Unit 2:</b> French &amp; Indian War through the taxes, Boston Massacre, the war and its battles, Articles of Confederation, Constitutional Convention, Federalists vs. Anti-Federalists, Bill of Rights, Washington\'s presidency</li></ul></div>';
+
+/* ============ NAV ============ */
+let built={};
+function go(v){
+  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle('on',x.dataset.v===v));
+  document.querySelectorAll(".view").forEach(x=>x.classList.toggle('on',x.id===v));
+  window.scrollTo(0,0);
 }
-$("qzNew").onclick=newQuiz;
-
-/* ---------- Static views ---------- */
-$("tl").innerHTML='<div class="score">Mrs. Wolf gave you an explicit timeline slide on Day 3. Dates she is most likely to ask for are bolded.</div><div class="tl">'+
-  TIMELINE.map(r=>'<div><b>'+r[0]+'</b>'+r[1]+'</div>').join("")+'</div>';
-
-$("cmp").innerHTML=`
-<div class="big"><h3>The Three Colonial Regions</h3>
-<table><tr><th></th><th>New England</th><th>Middle</th><th>Southern</th></tr>
-<tr><th>Colonies</th><td>MA, NH, RI, CT</td><td>NY, PA, NJ, DE</td><td>MD, VA, NC, SC, GA</td></tr>
-<tr><th>Geography</th><td>Rocky, hilly, forested, narrow coastal plain</td><td>Rich fertile land, Hudson &amp; Delaware Rivers</td><td>Flat low Tidewater plains, rich soil, backcountry</td></tr>
-<tr><th>Climate</th><td>Cold, long harsh winters, short growing season</td><td>Mild, long growing season</td><td>Warm, hot humid summers, mild winters</td></tr>
-<tr><th>Who settled</th><td>Pilgrims &amp; Puritans</td><td>Melting pot: Germans, Scots, Irish, Scandinavians, Dutch</td><td>Planters seeking cheap land and profit</td></tr>
-<tr><th>Religion</th><td>Puritan, NOT tolerant, central</td><td>Very tolerant, many denominations</td><td>Mixed, minor role &mdash; profit was the focus</td></tr>
-<tr><th>Government</th><td>Town meetings (direct democracy)</td><td>Proprietor-chosen governors, assemblies</td><td>Royal colonies, King picks governor; House of Burgesses</td></tr>
-<tr><th>Economy</th><td>Fishing, whaling, shipbuilding, rum, trade</td><td>Breadbasket: wheat, barley, rye; iron &amp; crafts</td><td>Plantations, cash crops, slavery</td></tr>
-<tr><th>Cities</th><td>Boston</td><td>Philadelphia, New York</td><td>&mdash;</td></tr></table></div>
-
-<div class="big"><h3>Spanish vs. French vs. English Colonization</h3>
-<table><tr><th></th><th>Spanish</th><th>French</th><th>English</th></tr>
-<tr><th>Goal</th><td>Gold, silver, glory, conversion</td><td>Fur trade</td><td>Settlement, land, religious freedom</td></tr>
-<tr><th>Native relations</th><td>Exploitative &mdash; encomienda forced labor, conquest</td><td>Cooperative &mdash; Natives as valued trading partners</td><td>Mixed &mdash; help at first (Powhatan), then conflict over land</td></tr>
-<tr><th>Settlement</th><td>~500k by 1650, mostly unmarried men; mestizos/mulattos</td><td>Little effort to encourage settlement</td><td>Whole families, permanent communities</td></tr>
-<tr><th>Key figures/places</th><td>Ponce de Leon (FL), de Soto (SE), Coronado (SW), St. Augustine 1565, Santa Fe, las Casas</td><td>Champlain, Quebec 1608, St. Lawrence, Great Lakes, Mississippi</td><td>Roanoke (failed), Jamestown 1608</td></tr>
-<tr><th>Weakness</th><td>Lust for gold over trade centers &mdash; no lasting U.S. settlements</td><td>Too few settlers to hold territory</td><td>Distinct, disunified colonies</td></tr></table></div>
-
-<div class="big"><h3>Virginia Plan vs. New Jersey Plan vs. The Great Compromise</h3>
-<table><tr><th></th><th>Virginia Plan</th><th>New Jersey Plan</th><th>Great Compromise</th></tr>
-<tr><th>Backed by</th><td>Large states</td><td>Small states</td><td>Introduced by Connecticut</td></tr>
-<tr><th>Author</th><td>James Madison</td><td>&mdash;</td><td>&mdash;</td></tr>
-<tr><th>Legislature</th><td>Bicameral (two houses)</td><td>Unicameral (one house)</td><td>Bicameral</td></tr>
-<tr><th>Representation</th><td>By population</td><td>One vote per state (13 total)</td><td>Senate = equal; House = by population</td></tr>
-<tr><th>Articles?</th><td>Replace them entirely</td><td>Keep, but patch the worst flaws</td><td>New Constitution</td></tr></table></div>
-
-<div class="big"><h3>Federalists vs. Anti-Federalists</h3>
-<table><tr><th></th><th>Federalists</th><th>Anti-Federalists</th></tr>
-<tr><th>Leaders</th><td>Hamilton, Madison, Jay</td><td>Patrick Henry, Sam Adams</td></tr>
-<tr><th>Position</th><td>Supported the Constitution</td><td>Opposed the Constitution</td></tr>
-<tr><th>Wanted</th><td>Powerful central gov't, 2-house legislature, representative democracy</td><td>Stronger states, frequent elections, smaller districts, more direct democracy</td></tr>
-<tr><th>Argument</th><td>Articles too weak; strong national gov't needed to preserve the Union</td><td>National gov't too strong; states lose power; no list of rights</td></tr>
-<tr><th>Advantages</th><td>Strong leaders, better organized</td><td>Appealed to popular distrust of gov't from colonial experience</td></tr>
-<tr><th>Disadvantages</th><td>Lacked a bill of rights</td><td>Poorly organized</td></tr>
-<tr><th>Support base</th><td>Atlantic coast, large cities, merchants, elites</td><td>Backcountry settlers, small farmers, state politicians</td></tr></table></div>
-
-<div class="big"><h3>British vs. American Advantages in the War</h3>
-<table><tr><th>British</th><th>American</th></tr>
-<tr><td>Superior navy</td><td>Home-field environment / knew the land</td></tr>
-<tr><td>Well supplied (food, equipment, ammunition)</td><td>Grand cause: independence, rights, liberty</td></tr>
-<tr><td>Well paid and better trained</td><td>Surprisingly effective leadership</td></tr>
-<tr><td>Native American and Hessian (German) allies</td><td>Time was on their side; Britain already in debt</td></tr>
-<tr><td></td><td><b>The French alliance</b> (after Saratoga)</td></tr></table></div>
-
-<div class="big"><h3>Articles of Confederation vs. The Constitution</h3>
-<table><tr><th></th><th>Articles of Confederation</th><th>Constitution</th></tr>
-<tr><th>Legislature</th><td>Unicameral, one vote per state</td><td>Bicameral: Senate (equal) + House (population)</td></tr>
-<tr><th>Taxes</th><td>Cannot collect</td><td>Federal gov't can tax</td></tr>
-<tr><th>Trade</th><td>Cannot regulate commerce</td><td>Can regulate interstate and foreign trade</td></tr>
-<tr><th>Executive</th><td>None</td><td>President</td></tr>
-<tr><th>Courts</th><td>No national court system</td><td>Federal judiciary</td></tr>
-<tr><th>Currency</th><td>Cannot issue</td><td>Can issue</td></tr>
-<tr><th>Enforcing laws</th><td>Cannot</td><td>Can</td></tr>
-<tr><th>Amendments</th><td>All 13 states must agree</td><td>Supermajority process</td></tr>
-<tr><th>Ratification</th><td>&mdash;</td><td>9 of 13 states</td></tr>
-<tr><th>Rights</th><td>None listed</td><td>Bill of Rights added 1791</td></tr></table></div>`;
-
-$("essay").innerHTML=`
-<div class="score">These are the 15 discussion questions from your study guide. Try answering out loud first, then open the prompt to check whether you hit the points Mrs. Wolf's slides emphasize. The prompts are checklists, not scripts &mdash; write them in your own words.</div>
-
-<div class="big"><h3>Section 1 &mdash; The Colonial Era</h3>
-<details><summary>1. Reasons the British began settling in the colonies</summary><p>Did you cover: 17th-century population boom &middot; competition for land, food, and jobs creating a mobile vagrant population &middot; religious freedom after the Protestant Reformation &middot; search for the Northwest Passage &middot; safer seas after the defeat of the Spanish Armada &middot; poor European economy &middot; opportunity for land, especially for younger sons shut out by the Law of Primogeniture?</p></details>
-<details><summary>2. Why the Northern colonies didn't need slavery as badly</summary><p>Build the answer off GEOGRAPHY and CLIMATE, not attitude. New England: rocky hilly soil, short growing season, long harsh winters &rarr; farming unproductive &rarr; no large plantations &rarr; economy based on fishing, whaling, shipbuilding, rum, and trade, which family and wage labor could handle. The South: warm climate, long growing season, flat fertile Tidewater soil &rarr; huge plantations growing labor-intensive cash crops (tobacco, rice, indigo, cotton) &rarr; enormous demand for forced labor.</p></details>
-<details><summary>3. Similarities and differences among the three regions</summary><p>Use the Compare Charts tab. Hit all seven categories: colonies included, geography, climate, who settled, religion, government, economy. Similarity thread: all had English-style governor/legislature/courts and had to obey Parliament; all had bays and harbors and the Appalachians to the west.</p></details>
-<details><summary>4. Products / economic activity by colony</summary><p>New England: fish, whale oil, ships, rum, furs, sea trade. Middle: wheat, barley, rye (Breadbasket), iron manufacturing, watches, guns, locks, cloth, glassware, hats, furs. Southern: tobacco, rice, indigo, cotton &mdash; plus forests, wetlands, and coastal fisheries.</p></details>
-<details><summary>5. How the French and Indian War pulled the colonies and England apart</summary><p>Britain won but was left with enormous debt &rarr; Parliament decided the colonies should pay for their own defense &rarr; Sugar, Stamp, Quartering, Townshend Acts. Add the Proclamation of 1763, which blocked settlement in the Ohio Valley the colonists thought they had just fought for. Colonists resented paying taxes passed by a Parliament they had no representation in. Also note the Albany Congress and the "Join, or Die" flag as an early push toward colonial unity.</p></details></div>
-
-<div class="big"><h3>Section 2 &mdash; Declaring Independence</h3>
-<details><summary>1. Colonist actions in reaction to the British, 1765&ndash;1780</summary><p>Boycotts of British goods &middot; tarring and feathering tax collectors &middot; Boston Tea Party &middot; Sons of Liberty (Samuel Adams) &middot; Committees of Correspondence &middot; First Continental Congress &middot; and eventually armed resistance at Lexington and Concord.</p></details>
-<details><summary>2. What created a new American identity</summary><p>Shared grievances and shared enemy &middot; "no taxation without representation" as a common slogan &middot; intercolonial communication through Committees of Correspondence and the Continental Congress &middot; Common Sense making independence a popular idea in plain language &middot; the Declaration of Independence &middot; fighting a war together and winning it.</p></details>
-<details><summary>3. Strengths and weaknesses of both sides</summary><p>See the Compare Charts tab. For weaknesses, flip each list: Britain was fighting 3,000 miles from home in unfamiliar terrain with poor communication (which cost them Yorktown), and was already in debt. America had no navy, poor supply, untrained troops, and no money.</p></details>
-<details><summary>4. Why Saratoga is the turning point</summary><p>One sentence matters most: the American victory at Saratoga (Oct 1777, NY) convinced FRANCE to become an ally. French naval power, financing, and supplies gave America protection on the Atlantic and the resources to keep fighting &mdash; the slides call the French the key factor in the war.</p></details>
-<details><summary>5. Lasting effects of the American Revolution</summary><p>An independent nation recognized by the Treaty of Paris (1783) &middot; the need to build a government from scratch &rarr; Articles of Confederation &rarr; Constitution &middot; a new American identity &middot; ideals of liberty and equality that sat in open contradiction with slavery.</p></details>
-<details><summary>6. Paine's message in Common Sense</summary><p>Published Jan 10, 1776. Argued for a REPUBLIC and for full independence rather than reconciliation, written in language ordinary colonists could read. It inspired those at the Philadelphia Convention and helped shift public opinion from protest to revolution.</p></details></div>
-
-<div class="big"><h3>Section 3 &mdash; The New Republic</h3>
-<details><summary>1. Strengths and weaknesses of the Articles of Confederation</summary><p>Strengths: it worked as a wartime alliance, could declare war, make treaties, borrow money, send diplomats; it protected states from the tyranny they'd just fought. Weaknesses: no power to tax, regulate trade, enforce laws, or issue currency; no executive; no national courts; amendments required all 13 states. Shays' Rebellion exposed all of it.</p></details>
-<details><summary>2. The Constitutional Convention &mdash; what, who, outcome</summary><p>Why: to revise the Articles. What: they wrote an entirely new Constitution instead. When: May&ndash;September 1787. Where: Philadelphia, the Statehouse (Independence Hall). Who: 55 delegates from every state EXCEPT Rhode Island &mdash; white, wealthy, mostly lawyers, average age 42. Washington presided, Madison took the notes, Hamilton pushed for it, Franklin was the elder statesman. Absent: Jefferson (France), John Adams (Britain), Sam Adams (not chosen), Patrick Henry (opposed).</p></details>
-<details><summary>3. Why the Great Compromise satisfied large AND small states</summary><p>Because it gave each side one house. Large states got the House of Representatives apportioned by population (the Virginia Plan's core demand). Small states got the Senate with an equal vote per state (the New Jersey Plan's core demand). Neither side had to fully surrender.</p></details>
-<details><summary>4. Constitution vs. Articles &mdash; what changed</summary><p>Work down the Compare Charts table: taxation, trade regulation, executive branch, national courts, currency, law enforcement, amendment process, ratification threshold, and the Bill of Rights. The through-line: the Constitution fixed the Articles' central flaw, which was a federal government with responsibilities but no power to carry them out.</p></details></div>`;
-
-document.querySelectorAll("nav button").forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
-    document.querySelectorAll(".view").forEach(x=>x.classList.remove("on"));
-    b.classList.add("on");document.getElementById(b.dataset.v).classList.add("on");
-  };
-});
-buildDeck();newQuiz();
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+const cb=document.getElementById('chemBody'),rb=document.getElementById('relBody');
+function setBar(ids,active){ids.forEach(i=>document.getElementById(i).classList.toggle('primary',i===active));}
+document.getElementById('cFc').onclick=()=>{setBar(['cFc','cQz','cRef'],'cFc');mkFlash(cb,CHEM,'cf');};
+document.getElementById('cQz').onclick=()=>{setBar(['cFc','cQz','cRef'],'cQz');mkQuiz(cb,CHEM,'cq');};
+document.getElementById('cRef').onclick=()=>{setBar(['cFc','cQz','cRef'],'cRef');cb.innerHTML=CHEM_REF;};
+document.getElementById('rFc').onclick=()=>{setBar(['rFc','rQz','rRef'],'rFc');mkFlash(rb,REL,'rf');};
+document.getElementById('rQz').onclick=()=>{setBar(['rFc','rQz','rRef'],'rQz');mkQuiz(rb,REL,'rq');};
+document.getElementById('rRef').onclick=()=>{setBar(['rFc','rQz','rRef'],'rRef');rb.innerHTML=REL_REF;};
+mkFlash(cb,CHEM,'cf');mkFlash(rb,REL,'rf');
 </script>
 </body>
 </html>
