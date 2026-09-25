@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>James · Study Hub</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--panel2:#1e222b;--line:#2a2f3a;--ink:#e8eaf0;--dim:#9aa3b2;
+--accent:#5b8cff;--good:#3ecf8e;--warn:#ffb020;--bad:#ff5c5c;--purple:#a78bfa;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+header{padding:calc(14px + env(safe-area-inset-top)) 18px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(15,17,21,.97);backdrop-filter:blur(10px);z-index:20}
+h1{margin:0;font-size:17px;letter-spacing:-.2px}
+.sub{color:var(--dim);font-size:12px;margin-top:2px}
+nav{display:flex;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+nav::-webkit-scrollbar{display:none}
+nav button{background:var(--panel);border:1px solid var(--line);color:var(--dim);padding:7px 13px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+main{max-width:840px;margin:0 auto;padding:18px 16px calc(70px + env(safe-area-inset-bottom))}
+.view{display:none}.view.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:16px 18px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:15px}
+.card p{margin:0 0 8px;color:#cdd4e0;font-size:14px}
+.exam{border-left:3px solid var(--bad)}
+.exam.soon{border-left-color:var(--warn)}
+.exam .when{font-size:12px;color:var(--warn);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+.days{float:right;font-size:26px;font-weight:700;line-height:1;color:var(--bad)}
+.days small{display:block;font-size:10px;color:var(--dim);text-align:center;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+ul.tight{margin:6px 0 0;padding-left:18px}ul.tight li{margin:3px 0;color:#cdd4e0;font-size:14px}
+a{color:var(--accent)}
+.btn{display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:7px 13px;border-radius:7px;font-size:13px;cursor:pointer;text-decoration:none;margin:3px 4px 0 0}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.bar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+select{background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:7px 11px;border-radius:7px;font-size:13px}
+.prog{height:4px;background:var(--panel);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.fc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px 20px;min-height:210px;display:flex;flex-direction:column;justify-content:center}
+.tag{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);margin-bottom:10px}
+.term{font-size:23px;font-weight:600;letter-spacing:-.3px}
+.defn{margin-top:15px;padding-top:15px;border-top:1px solid var(--line);color:#cdd4e0;font-size:14.5px}
+.defn ul{margin:7px 0 0;padding-left:18px}.defn li{margin:3px 0}
+.hint{margin-top:12px;color:var(--warn);font-size:13px;font-style:italic}
+.hidden{display:none}
+.row{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px 17px;margin-bottom:11px}
+.q h4{margin:0 0 11px;font-size:14.5px;font-weight:600}
+.opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:10px 13px;border-radius:7px;margin-bottom:6px;cursor:pointer;font-size:14px}
+.opt.right{border-color:var(--good);background:rgba(62,207,142,.12)}
+.opt.wrong{border-color:var(--bad);background:rgba(255,92,92,.12)}
+.why{margin-top:9px;font-size:13px;color:var(--dim);border-left:2px solid var(--accent);padding-left:11px}
+.stat{font-size:12.5px;color:var(--dim)}.stat b{color:var(--ink);font-size:15px}
+table{width:100%;border-collapse:collapse;margin:9px 0;font-size:13px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+.tl{border-left:2px solid var(--line);margin-left:8px;padding-left:18px}
+.tl div{position:relative;padding:8px 0;font-size:14px;color:#cdd4e0}
+.tl div:before{content:"";position:absolute;left:-24px;top:14px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.tl b{color:var(--accent);margin-right:7px;font-variant-numeric:tabular-nums}
+details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:500;padding:3px 0}
+.note{background:rgba(255,176,32,.09);border:1px solid rgba(255,176,32,.3);border-radius:9px;padding:12px 15px;margin-bottom:12px;font-size:13.5px;color:#e6d9bd}
+.flow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.75;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:14px;overflow-x:auto;color:#cdd4e0;white-space:pre}
+.pill{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:3px 10px;font-size:11.5px;color:var(--dim);margin:2px 3px 0 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Study Hub</h1>
+  <div class="sub" id="today"></div>
+  <nav>
+    <button class="on" data-v="home">Overview</button>
+    <button data-v="chem">Chemistry</button>
+    <button data-v="rel">Religion</button>
+    <button data-v="ush">US History</button>
+    <button data-v="other">Other Classes</button>
+  </nav>
+</header>
+<main>
+
+<section class="view on" id="home"></section>
+
+<section class="view" id="chem">
+  <div class="note"><b>Chem Unit 2 Exam</b> &middot; 50 pts, Mastery &middot; due Mon Sep 29 &middot; Mr. Rott. There is no study guide document posted. Mr. Rott's review resources are the Gimkit kit, the matter classification flowchart, the POGIL, and the Conservation of Mass lab. Everything below is pulled from those.</div>
+  <div class="bar">
+    <button class="btn primary" id="cFc">Flashcards</button>
+    <button class="btn" id="cQz">Practice Test</button>
+    <button class="btn" id="cRef">Reference</button>
+  </div>
+  <div id="chemBody"></div>
+</section>
+
+<section class="view" id="rel">
+  <div class="note"><b>Religion Unit 2 Test</b> &middot; Life and Mission of Jesus &middot; due Wed Sep 30. Ms./Mr.'s posted instructions say to review: class notes (<b>especially the social hierarchy pyramid and the timeline</b>), the Unit 2 Blooket, handouts and reflection notes, and the Historical Context Google Form. No study guide document was posted.</div>
+  <div class="note" style="background:rgba(255,92,92,.09);border-color:rgba(255,92,92,.3);color:#f0cfcf"><b>Gap you need to fill yourself:</b> the "26 NT Background" slide deck in Classroom does <b>not</b> contain the social hierarchy pyramid, and it has no single timeline slide. Those came from a paper handout or board work in class. I built a timeline below from the dates scattered through the deck, but check it against your own notes, and get the pyramid from a classmate if you don't have it.</div>
+  <div class="bar">
+    <button class="btn primary" id="rFc">Flashcards</button>
+    <button class="btn" id="rQz">Practice Test</button>
+    <button class="btn" id="rRef">Timeline &amp; Groups</button>
+  </div>
+  <div id="relBody"></div>
+</section>
+
+<section class="view" id="ush"></section>
+<section class="view" id="other"></section>
+
+</main>
+<script>
+/* ============ DATA ============ */
+const CHEM=[
+{s:"Classification",t:"Matter",h:"The broadest category on the whole flowchart.",d:"Anything that has mass and takes up space. Everything on the classification chart is a type of matter."},
+{s:"Classification",t:"Pure Substance",h:"All the particles look the same.",d:"Matter in which <b>all of the particles are identical</b>. Has a fixed composition. Splits into two types: <b>elements</b> and <b>compounds</b>. Pure substances are always homogeneous."},
+{s:"Classification",t:"Mixture",h:"More than one type of particle, just physically mixed together.",d:"Matter containing <b>two or more different types of particles</b> that are only physically combined, not chemically bonded. Because there's no chemical bond, a mixture <b>can be separated by physical means</b>. Written with an ampersand, like <code>Cu &amp; Zn</code>."},
+{s:"Classification",t:"Element",h:"About 100 of them exist.",d:"A pure substance made of <b>only one type of atom</b>. The simplest unit of matter that still keeps all the properties of that matter. There are about 100 different ones.<br><b>Examples:</b> gold, carbon, silver, Al, Br<sub>2</sub>.<br>Note Br<sub>2</sub> is still an element, not a compound, because both atoms are the same type."},
+{s:"Classification",t:"Compound",h:"Two or more DIFFERENT types of atom, bonded.",d:"A pure substance containing <b>two or more different types of atoms chemically bonded</b> together. Separating them requires a <b>chemical</b> change.<br><b>Examples:</b> salt (sodium chloride), water, NaHCO<sub>3</sub>, CO<sub>2</sub>."},
+{s:"Classification",t:"Homogeneous Mixture",h:"It has another name you should know.",d:"A mixture that is <b>uniform throughout</b> &mdash; two or more substances mixed in equal proportions everywhere, so you see only one phase. <b>Also called a solution.</b><br><b>Examples:</b> air, Kool-Aid."},
+{s:"Classification",t:"Heterogeneous Mixture",h:"You can see the different parts.",d:"A mixture of two or more substances that are <b>easily distinguishable</b> from each other. Not uniform, and can show two or more phases.<br><b>Examples:</b> soil, milk, granite."},
+{s:"Classification",t:"Physical Separation",h:"Nothing chemical happens.",d:"A separation method that does <b>not</b> change the composition of the matter &mdash; no chemical bonds are broken or formed.<br><b>Methods:</b> filtering, distillation, straining.<br><b>Works on:</b> mixtures only."},
+{s:"Classification",t:"Chemical Separation",h:"Bonds get broken.",d:"A separation that <b>requires a chemical change</b> &mdash; chemical bonds are broken and/or formed, and the substance no longer has the same characteristics as before.<br><b>Methods:</b> decomposition, electrolysis (like splitting water into hydrogen and oxygen in a fuel cell).<br><b>Needed for:</b> compounds."},
+{s:"Particles",t:"Atom vs. Element",h:"One is a particle, one is a substance.",d:"An <b>atom</b> is a single smallest particle. An <b>element</b> is a <i>substance</i> made up of only one type of atom. So an atom is the building block; the element is the material built from it."},
+{s:"Particles",t:"Molecule vs. Compound",h:"Br<sub>2</sub> is the trick case.",d:"A <b>molecule</b> is two or more atoms held together by chemical bonds &mdash; they can be the <i>same</i> type (Br<sub>2</sub>, O<sub>2</sub>). A <b>compound</b> is specifically made of two or more <i>different</i> types of atoms.<br>So: every compound is a molecule, but not every molecule is a compound."},
+{s:"Particles",t:"Reading Chemical Formulas",h:"Letters, subscripts, ampersands.",d:"<ul><li><b>Letters</b> (R, Sq, T in the POGIL) = the type of atom</li><li><b>Subscripts</b> (the small numbers) = how many of that atom are in the molecule</li><li><b>Touching atoms</b> are shown by writing them together = a chemical bond</li><li><b>An ampersand (&amp;)</b> means it's a <b>mixture</b> &mdash; separate substances, not bonded</li></ul>"},
+{s:"Particles",t:"Chemical Bond",h:"What's holding touching atoms together?",d:"The force holding two atoms together when they are drawn touching. Bonds are what make a group of atoms a single molecule rather than a mixture of separate particles."},
+{s:"Conservation",t:"Law of Conservation of Mass",h:"Nothing is created, nothing is destroyed.",d:"Mass is <b>neither created nor destroyed</b> in a chemical reaction. The total mass of the reactants equals the total mass of the products &mdash; the atoms just get rearranged."},
+{s:"Conservation",t:"Open vs. Closed System",h:"Where does the gas go?",d:"<b>Closed system</b> (cap on): gas cannot escape, so the measured mass stays constant and conservation of mass is easy to demonstrate.<br><b>Open system</b> (cap off): gas escapes into the room, so the balance reading <b>appears to drop</b>. Mass wasn't destroyed, it just left the container.<br>This is why the law is easier to prove in a closed system."},
+{s:"Conservation",t:"Alka Seltzer Reaction",h:"Know the equation and the gas.",d:"<code>Alka Seltzer (s) + water (l) &rarr; precipitate (s) + water (l) + carbon dioxide (g)</code><br>It's a <b>chemical</b> reaction because new substances are produced &mdash; a precipitate and carbon dioxide gas that weren't there before.<br>The <b>carbon dioxide gas</b> is the whole reason the open condition loses mass."},
+{s:"Conservation",t:"Why the closed bottle loses mass when opened",h:"The star on your graph.",d:"While capped, the CO<sub>2</sub> is trapped, so mass stays the same. The instant you remove the cap, the trapped CO<sub>2</sub> escapes and the mass drops to roughly match the open condition. That drop is direct evidence that the missing mass in the open system was gas, not destroyed matter &mdash; which <b>confirms</b> the Law of Conservation of Mass."},
+{s:"States",t:"Phase",h:"Count what you can visually distinguish.",d:"A physically distinct portion of a sample. <b>Pure substances and homogeneous mixtures show one phase.</b> <b>Heterogeneous mixtures can show two or more phases.</b> On the Venn worksheet, 'can be two or more phases' belongs to mixtures only."}
+];
+
+const REL=[
+{s:"Rome",t:"Pax Romana",h:"Two Latin words. Started under one emperor.",d:"\"Roman Peace\" &mdash; the long period of stability established under <b>Augustus Caesar</b>. It lasted until the <b>2nd century A.D.</b> and covered everything from Europe to the ancient Near East. The deck describes Rome in this era as \"like a peacock with feathers extending out.\""},
+{s:"Rome",t:"Roman Roads and Communication",h:"Why did ideas spread so fast?",d:"Rome built systems of <b>paved roads</b> connecting the edges of the empire to its center, and established <b>Roman police</b> who kept the roads relatively safe. The result was that exchange of goods and the spread of ideas became seamless &mdash; which later helped Christianity spread."},
+{s:"Rome",t:"Latin vs. Greek",h:"One for law, one for business.",d:"<b>Latin</b> was the language of the <b>west</b> and of <b>legal affairs</b>.<br><b>Greek</b> was the language of <b>international affairs and commerce</b>, and was the <b>most common spoken language</b>."},
+{s:"Rome",t:"Roman Citizenship",h:"Three rights, and who got it automatically.",d:"Citizenship was a <b>birthright for children born of free marriages</b>. Rights included:<ul><li>Vote</li><li>Hold office</li><li>Appeal to the emperor for disputes</li></ul>"},
+{s:"Rome",t:"Slavery in the Empire",h:"A percentage you should memorize.",d:"<b>40% of the empire were slaves.</b> They could buy their freedom, though the notes hedge this as \"kinda.\""},
+{s:"Rome",t:"Urbanization / The Cities",h:"Two named cities.",d:"Cities were at their height during this period. Named examples in the notes: the <b>Decapolis</b> and <b>Alexandria</b>."},
+{s:"Rome",t:"Rome's show of authority",h:"Two methods.",d:"Rome demonstrated its authority through <b>constant taxation</b> and <b>armed garrisons</b>. Rome respected Jewish local customs, but that respect depended entirely on the political ambitions of whichever leader was appointed."},
+{s:"Rome",t:"Emperors who persecuted Christians",h:"Three names.",d:"<b>Nero, Domitian, and Trajan</b> all made several attempts to wipe out Christianity. Eventually Christianity became the <b>official religion of the Roman Empire</b>. Note also that <b>Jesus was born during the reign of Augustus</b>."},
+{s:"Judea",t:"Pompey's Conquest (63 B.C.)",h:"The year Judea became Roman.",d:"<b>63 B.C.</b> &mdash; Pompey's conquest made <b>Judea a Roman province</b>."},
+{s:"Judea",t:"Herod the Great",h:"Named king of the Jews, and not a nice one.",d:"Ruled Judea and was named <b>king of the Jews</b>. The notes are blunt: he was <b>not benevolent or tolerant</b>. He is best known for <b>urbanization</b> and for <b>enlarging the Temple in Jerusalem</b> (in 10 B.C.)."},
+{s:"Judea",t:"Roman Governors",h:"How much power did they have?",d:"Governors held <b>supreme authority</b>, including <b>power over life and death</b>."},
+{s:"Judea",t:"Pontius Pilate",h:"Dates matter here.",d:"The most famous Roman governor of Judea, serving <b>26&ndash;36 A.D.</b>"},
+{s:"Judea",t:"First Jewish Revolt",h:"Four years, and it ends catastrophically.",d:"<b>66&ndash;70 A.D.</b> Jewish revolutionaries wanted independence from Rome. In <b>70 A.D., Rome destroyed Jerusalem and the Second Temple.</b> <b>Masada</b> fell in <b>74 A.D.</b>, where the Jewish rebels were defeated. A <b>Second Jewish Revolt</b> followed later."},
+{s:"Judea",t:"Hebrew Bible Canon",h:"Around 90 A.D.",d:"Around <b>90 A.D.</b>, the <b>Hebrew Bible canon was established</b> &mdash; shortly after the Temple's destruction forced Judaism to reorganize around text rather than sacrifice."},
+{s:"Temple",t:"The Temple (history)",h:"Three dates: built, destroyed, rebuilt.",d:"The Temple of Jesus' time was the <b>second</b> built in Jerusalem.<ul><li>First Temple built by <b>King Solomon around 1000 B.C.</b></li><li><b>Destroyed by the Babylonians in 586 B.C.</b>, when much of the Jewish population was deported from Judah to Babylon</li><li><b>Second Temple built in 515 B.C.</b>, later enlarged by <b>Herod the Great in 10 B.C.</b></li></ul>"},
+{s:"Temple",t:"Holy Place vs. Holy of Holies",h:"Who goes in, and how often?",d:"<b>Holy Place</b> &mdash; priests entered <b>twice a day</b>.<br><b>Holy of Holies</b> &mdash; the <b>high priest</b> entered <b>once a year</b>.<br>The Temple was both a symbol of Jewish unity and a sacred space where the presence of God abided."},
+{s:"Temple",t:"Synagogues",h:"A number: how many men make a quorum?",d:"Emerged in the ancient Near East <b>after the Babylonian invasion of 586 B.C.</b>, when Jews maintained faith and identity by meeting in small congregations.<ul><li>Existed wherever a <b>quorum of 10 males</b> gathered</li><li>Run by <b>adult male Jews</b> of the town</li><li><b>No sacrifices</b> were offered &mdash; <b>teaching substituted for sacrifice</b></li><li>Synagogue worship <b>greatly influenced the liturgy of early Christian churches</b></li></ul>"},
+{s:"Temple",t:"The Imperial Cult",h:"It ranged from mild to extreme. And one group got out of it.",d:"At its <b>least extreme</b>, just a pledge of allegiance to the emperor. At its <b>most extreme</b>, an emperor let being thought divine go to his head and forced people to sacrifice to him and praise him. How bad it got <b>depended on the emperor's ego</b>. It gave the Roman army a feeling of <b>pride and unity</b>. <b>Jews were exempt</b>, because they already had their own beliefs and their own God."},
+{s:"Groups",t:"Sadducees",h:"Priestly, and they don't survive 70 A.D.",d:"A <b>priestly class</b> that <b>strictly adhered to the Torah</b> (the first 5 books of the Bible) and nothing beyond it. <b>The destruction of the Temple ended their party in 70 A.D.</b>"},
+{s:"Groups",t:"Pharisees",h:"The opposite of the Sadducees. Their work survives today.",d:"Described in the notes as the <b>complete opposites of the Sadducees</b>: they followed <b>not only the Torah but also oral tradition</b>. <b>Rabbinic Judaism is the work of the Pharisees</b>, which is why they outlasted the Temple."},
+{s:"Groups",t:"Zealots",h:"Violence and one famous fortress.",d:"Strongly opposed Roman rule in Judea. Advocated <b>armed rebellion and violence</b> to achieve Jewish independence. Played a central role in the <b>First Jewish-Roman War</b>, including the <b>defense of Masada</b>."},
+{s:"Groups",t:"Essenes",h:"Desert, and a famous set of scrolls.",d:"Practiced <b>communal living and ritual purity near the Dead Sea</b>. Believed to have <b>written the Dead Sea Scrolls</b> before their community was disrupted by the Romans."},
+{s:"Groups",t:"Samaritans",h:"A harsh word the notes use.",d:"<b>Not seen as Jews</b> &mdash; the notes record the slur \"half-breeds.\" They followed a <b>similar Torah with some modifications</b>."},
+{s:"Groups",t:"Diaspora Jews",h:"What happened after 70 C.E.?",d:"When the Temple was destroyed in <b>70 C.E.</b>, Jews were <b>displaced to Europe, Northern Africa, and the Middle East</b>."}
+];
+
+const REL_TL=[
+["~1000 B.C.","King Solomon builds the <b>First Temple</b> in Jerusalem."],
+["586 B.C.","<b>Babylonians destroy the First Temple.</b> Much of the Jewish population is deported from Judah to Babylon. <b>Synagogues emerge</b> as Jews keep their faith in small congregations."],
+["515 B.C.","The <b>Second Temple</b> is built."],
+["63 B.C.","<b>Pompey's conquest</b> &mdash; Judea becomes a Roman province."],
+["10 B.C.","<b>Herod the Great enlarges</b> the Temple in Jerusalem."],
+["Reign of Augustus","<b>Jesus is born.</b> This is also the era of the <b>Pax Romana</b>."],
+["26&ndash;36 A.D.","<b>Pontius Pilate</b> serves as governor of Judea."],
+["66&ndash;70 A.D.","<b>First Jewish Revolt.</b>"],
+["70 A.D.","<b>Rome destroys Jerusalem and the Second Temple.</b> The <b>Sadducees</b> end as a party. The <b>Diaspora</b> scatters Jews to Europe, North Africa, and the Middle East."],
+["74 A.D.","<b>Masada falls</b>; the Jewish rebels there are defeated."],
+["~90 A.D.","The <b>Hebrew Bible canon</b> is established."],
+["2nd century A.D.","<b>Pax Romana ends.</b> A <b>Second Jewish Revolt</b> occurs."]
+];
+
+const CLASSES=[
+{n:"US History - Sem 1",t:"Katie Wolf",p:"Period 4",work:[["Unit 1+2 Exam","Mon Sep 28, 12:40 PM",1],["AoC vs Constitution Comparison","due today",1]]},
+{n:"Chemistry I",t:"Jason Rott",p:"Period 1",work:[["Unit 2 Exam (50 pts, Mastery)","Tue Sep 29",1]]},
+{n:"Life and Mission of Jesus",t:"",p:"Period 7",work:[["Unit 2 Test","Wed Sep 30",1],["World of Jesus Game Debrief","due today 11:59 PM",1],["Class Reflection","Mon Nov 30",0]]},
+{n:"AP Computer Science: Principles",t:"",p:"Period 5",work:[["The Internet - test","Mon Sep 28",1],["Khan - The Internet","Mon Sep 28",1],["Internet KWL chart","no due date",0]]},
+{n:"English 10",t:"",p:"Period 8",work:[["Read + annotate Ch. 3","Mon Sep 28",1],["GrammarFlip + Membean Cycle 4","Mon Sep 28",1],["Emerson &amp; Thoreau annotations","no due date",0]]},
+{n:"Algebra II - Honors",t:"Mr. Kaplan",p:"Period 6",work:[["2.1.4 CYU","due today 11:59 PM",1],["Match My Parabola","no due date",0],["Ch. 2 Quiz #2","Tue Oct 27",0],["Ch. 2 Test","Mon Nov 2",0]]},
+{n:"Spanish II",t:"",p:"Period 3",work:[["Welcome Survey","no due date",0]]}
+];
+
+/* ============ HOME ============ */
+function daysUntil(m,d){const now=new Date();const t=new Date(now.getFullYear(),m-1,d);return Math.ceil((t-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);}
+const EXAMS=[{n:"US History Unit 1+2 Exam",c:"Katie Wolf · Period 4",m:9,d:28,note:"Covers the entire Unit 1 and Unit 2 decks. Study guide is a separate graded assignment.",link:"ush"},
+{n:"AP CSP: The Internet Test",c:"Period 5",m:9,d:28,note:"Paired with the Khan - The Internet assignment, also due that day.",link:null},
+{n:"Chemistry Unit 2 Exam",c:"Jason Rott · Period 1 · 50 pts",m:9,d:29,note:"Matter and Change. No study guide posted; review = Gimkit kit, flowchart, POGIL, Conservation of Mass lab.",link:"chem"},
+{n:"Religion Unit 2 Test",c:"Life and Mission of Jesus · Period 7",m:9,d:30,note:"Review class notes (social hierarchy pyramid + timeline), Unit 2 Blooket, handouts, Historical Context form.",link:"rel"}];
+
+document.getElementById("today").textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+document.getElementById("home").innerHTML=
+'<div class="card" style="border-left:3px solid var(--warn)"><h3>Heads up: 4 tests in 3 days</h3><p>Sep 28 through Sep 30 you have four separate assessments across four classes. That is the real constraint this week, not any one of them individually.</p></div>'
++EXAMS.map(e=>{const n=daysUntil(e.m,e.d);
+return '<div class="card exam'+(n>2?' soon':'')+'"><div class="days">'+n+'<small>day'+(n===1?'':'s')+'</small></div>'
++'<div class="when">'+new Date(new Date().getFullYear(),e.m-1,e.d).toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'})+'</div>'
++'<h3 style="margin:4px 0 6px">'+e.n+'</h3><p style="font-size:12.5px;color:var(--dim)">'+e.c+'</p><p>'+e.note+'</p>'
++(e.link?'<button class="btn primary" onclick="go(\''+e.link+'\')">Study this</button>':'')+'</div>';}).join('');
+
+/* ============ ENGINE ============ */
+function mkFlash(host,data,key){
+  let deck=data.slice(),pos=0,known=new Set();
+  const secs=[...new Set(data.map(x=>x.s))];
+  host.innerHTML='<div class="bar"><select id="'+key+'sel"><option value="all">All topics ('+data.length+')</option>'
+    +secs.map(s=>'<option value="'+s+'">'+s+'</option>').join('')
+    +'</select><button class="btn" id="'+key+'sh">Shuffle</button><span class="stat">Known <b id="'+key+'k">0</b> · Left <b id="'+key+'l">'+data.length+'</b></span></div>'
+    +'<div class="prog"><i id="'+key+'bar"></i></div>'
+    +'<div class="fc"><div class="tag" id="'+key+'tag"></div><div class="term" id="'+key+'t"></div><div class="hint hidden" id="'+key+'h"></div><div class="defn hidden" id="'+key+'d"></div></div>'
+    +'<div class="row"><button class="btn" id="'+key+'hb">Hint</button><button class="btn primary" id="'+key+'f">Reveal</button><button class="btn" id="'+key+'a">Review again</button><button class="btn" id="'+key+'g">I knew it →</button></div>';
+  const g=id=>document.getElementById(key+id);
+  function rebuild(){const v=g('sel').value;deck=data.filter(x=>v==='all'||x.s===v);pos=0;known.clear();draw();}
+  function draw(){if(!deck.length)return;if(pos>=deck.length)pos=0;const c=deck[pos];
+    g('tag').textContent=c.s+'  —  '+(pos+1)+' / '+deck.length;
+    g('t').innerHTML=c.t;g('d').innerHTML=c.d;g('h').innerHTML=c.h;
+    g('d').classList.add('hidden');g('h').classList.add('hidden');
+    g('k').textContent=known.size;g('l').textContent=deck.length-known.size;
+    g('bar').style.width=(known.size/deck.length*100)+'%';}
+  g('f').onclick=()=>g('d').classList.toggle('hidden');
+  g('hb').onclick=()=>g('h').classList.toggle('hidden');
+  g('g').onclick=()=>{known.add(deck[pos].t);pos++;draw();};
+  g('a').onclick=()=>{const c=deck.splice(pos,1)[0];deck.push(c);draw();};
+  g('sh').onclick=()=>{deck.sort(()=>Math.random()-.5);pos=0;draw();};
+  g('sel').onchange=rebuild;rebuild();
+}
+function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent;}
+function firstSent(h){const t=strip(h).trim();const m=t.match(/^[^.]+\./);return m?m[0]:t.slice(0,150);}
+function mkQuiz(host,data,key){
+  const n=Math.min(15,data.length);
+  host.innerHTML='<div class="bar"><button class="btn primary" id="'+key+'new">New '+n+'-question test</button><span class="stat">Score <b id="'+key+'sc">0 / 0</b></span></div><div id="'+key+'body"></div>';
+  const g=id=>document.getElementById(key+id);
+  let sc=0,dn=0;
+  function build(){sc=0;dn=0;g('sc').textContent='0 / 0';
+    const pool=data.slice().sort(()=>Math.random()-.5).slice(0,n);const b=g('body');b.innerHTML='';
+    pool.forEach((c,i)=>{
+      const wrong=data.filter(x=>x.t!==c.t).sort(()=>Math.random()-.5).slice(0,3);
+      const opts=[c,...wrong].sort(()=>Math.random()-.5);
+      const div=document.createElement('div');div.className='q';
+      div.innerHTML='<h4>'+(i+1)+'. '+firstSent(c.d)+'</h4>';
+      opts.forEach(o=>{const btn=document.createElement('button');btn.className='opt';btn.innerHTML=o.t;
+        btn.onclick=()=>{[...div.querySelectorAll('.opt')].forEach(x=>{x.disabled=true;if(strip(x.innerHTML)===strip(c.t))x.classList.add('right');});
+          if(o.t!==c.t)btn.classList.add('wrong');else sc++;dn++;g('sc').textContent=sc+' / '+dn;
+          const w=document.createElement('div');w.className='why';w.innerHTML='<b>'+c.t+':</b> '+c.d;div.appendChild(w);};
+        div.appendChild(btn);});
+      b.appendChild(div);});}
+  g('new').onclick=build;build();
+}
+
+const CHEM_REF='<div class="card"><h3>The Classification of Matter Flowchart</h3><p>This is the exact decision tree from Mr. Rott\'s handout. If you can redraw this from memory you can answer most of the exam.</p><div class="flow">                        MATTER\n                          |\n        Can it be separated by physical means?\n            |                          |\n           YES                        NO\n            |                          |\n         MIXTURE                 PURE SUBSTANCE\n            |                          |\n  Is it uniform throughout?   Can it be broken into simpler\n            |                 substances by chemical means?\n     |             |             |             |\n    YES           NO            YES            NO\n     |             |             |             |\nHOMOGENEOUS   HETEROGENEOUS  COMPOUND       ELEMENT\n  MIXTURE        MIXTURE\n(a solution)</div></div>'
++'<div class="card"><h3>Venn Diagram Answer Key</h3><p>From the Classifying Matter worksheet. Each letter goes in one region:</p><table><tr><th>Region</th><th>Letters</th><th>Meaning</th></tr>'
++'<tr><td><b>Elements only</b></td><td>B, H</td><td>Only one type of atom; about 100 different ones</td></tr>'
++'<tr><td><b>Compounds only</b></td><td>I, K</td><td>Two elements joined by chemical bonds; can be broken down by chemical change</td></tr>'
++'<tr><td><b>Mixtures only</b></td><td>E, G, J</td><td>Can be homogeneous; can be two or more phases; can be separated by physical change</td></tr>'
++'<tr><td><b>Elements + Compounds</b></td><td>A, D</td><td>Pure substance; always homogeneous</td></tr>'
++'<tr><td><b>Compounds + Mixtures</b></td><td>C</td><td>Two or more types of atom</td></tr>'
++'<tr><td><b>All three</b></td><td>F</td><td>Matter</td></tr></table></div>'
++'<div class="card"><h3>Formula Practice (POGIL Q13)</h3><table><tr><th>Formula</th><th>Answer</th><th>Why</th></tr>'
++'<tr><td>Br<sub>2</sub></td><td>Element</td><td>One type of atom, even though there are two of them</td></tr>'
++'<tr><td>NaHCO<sub>3</sub></td><td>Compound</td><td>Three different atom types, all bonded</td></tr>'
++'<tr><td>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> &amp; H<sub>2</sub>O</td><td>Mixture</td><td>The ampersand means two separate substances</td></tr>'
++'<tr><td>Cu &amp; Zn</td><td>Mixture</td><td>Ampersand again — two elements sitting together, not bonded</td></tr>'
++'<tr><td>CO<sub>2</sub></td><td>Compound</td><td>Carbon and oxygen bonded</td></tr>'
++'<tr><td>Al</td><td>Element</td><td>A single atom type</td></tr></table>'
++'<p style="margin-top:10px"><b>The rule:</b> ampersand → mixture. No ampersand, one letter type → element. No ampersand, two or more letter types → compound.</p></div>'
++'<div class="card"><h3>Separation: which method for which matter?</h3><table><tr><th></th><th>Physical separation</th><th>Chemical separation</th></tr>'
++'<tr><th>Methods</th><td>Filtering, distillation, straining</td><td>Decomposition, electrolysis</td></tr>'
++'<tr><th>Bonds broken?</th><td>No</td><td>Yes</td></tr>'
++'<tr><th>Works on</th><td>Mixtures</td><td>Compounds</td></tr>'
++'<tr><th>Example</th><td>Straining pasta from water</td><td>Fuel cell splitting water into H and O</td></tr></table>'
++'<p style="margin-top:10px"><b>Elements cannot be broken down by either method.</b> That is what makes them elements.</p></div>'
++'<div class="card"><h3>Conservation of Mass Lab &mdash; the conclusion logic</h3><p>The exam is likely to ask you to reason through this, not just recall it:</p><ul class="tight">'
++'<li><b>Open condition</b> (cap off): mass <b>decreases</b> over the 5 minutes</li>'
++'<li><b>Closed condition</b> (cap on): mass stays <b>constant</b></li>'
++'<li><b>Why:</b> the reaction produces <b>carbon dioxide gas</b>. In the open bottle it escapes into the room. In the closed bottle it is trapped, so it still counts on the balance.</li>'
++'<li><b>The star on the graph:</b> when you uncap the closed bottle, its mass drops to about the open bottle\'s value. That is the proof.</li>'
++'<li><b>Conclusion:</b> results <b>confirm</b> the Law of Conservation of Mass. The mass was never destroyed, it just left the system as gas.</li>'
++'<li><b>Sources of error:</b> spilling, splashing, delay before the first reading, gas escaping before the cap was on, balance drift.</li></ul></div>';
+
+const REL_REF='<div class="card"><h3>Unit 2 Timeline</h3><p>Reconstructed from the dates in the "26 NT Background" deck. Verify against your class notes.</p><div class="tl">'
++REL_TL.map(r=>'<div><b>'+r[0]+'</b>'+r[1]+'</div>').join('')+'</div></div>'
++'<div class="card"><h3>The Religious Groups, Side by Side</h3><table><tr><th>Group</th><th>Core belief / practice</th><th>Key fact</th></tr>'
++'<tr><td><b>Sadducees</b></td><td>Priestly class; strictly the Torah (first 5 books) only</td><td>Ended in 70 A.D. with the Temple\'s destruction</td></tr>'
++'<tr><td><b>Pharisees</b></td><td>Torah <i>and</i> oral tradition</td><td>Rabbinic Judaism is their work; described as the complete opposite of the Sadducees</td></tr>'
++'<tr><td><b>Zealots</b></td><td>Armed rebellion and violence against Roman rule</td><td>Central to the First Jewish-Roman War; defended Masada</td></tr>'
++'<tr><td><b>Essenes</b></td><td>Communal living and ritual purity near the Dead Sea</td><td>Believed to have written the Dead Sea Scrolls</td></tr>'
++'<tr><td><b>Samaritans</b></td><td>A similar Torah with modifications</td><td>Not accepted as Jews</td></tr>'
++'<tr><td><b>Diaspora Jews</b></td><td>Jews living outside Judea</td><td>Scattered to Europe, N. Africa, Middle East after 70 C.E.</td></tr></table>'
++'<p style="margin-top:10px"><b>Memory hook:</b> Sadducees = <b>S</b>criptural and <b>S</b>toppedin70. Pharisees = <b>P</b>lus oral tradition. Zealots = <b>Z</b>ealous/violent. Essenes = <b>E</b>remites in the desert.</p></div>'
++'<div class="card"><h3>Temple vs. Synagogue</h3><table><tr><th></th><th>Temple</th><th>Synagogue</th></tr>'
++'<tr><th>Where</th><td>Only in Jerusalem</td><td>Anywhere 10 adult males gathered</td></tr>'
++'<tr><th>Origin</th><td>Solomon ~1000 B.C.; rebuilt 515 B.C.</td><td>After the Babylonian invasion, 586 B.C.</td></tr>'
++'<tr><th>Sacrifice?</th><td>Yes — its central function</td><td>No — teaching substituted for sacrifice</td></tr>'
++'<tr><th>Run by</th><td>Priests and the high priest</td><td>Adult male Jews of the town</td></tr>'
++'<tr><th>Legacy</th><td>Symbol of Jewish unity; God\'s presence abided there</td><td>Greatly influenced early Christian liturgy</td></tr></table></div>'
++'<div class="card"><h3>Essay-ready connections</h3>'
++'<details><summary>How did Roman infrastructure help Christianity spread?</summary><p>Paved roads connected the whole empire and Roman police kept them relatively safe, so goods and ideas moved seamlessly. Greek was the most common spoken language, giving missionaries a shared tongue across regions. The Pax Romana meant stability for travel. All of this was built for Roman control but ended up being the delivery system for a new religion.</p></details>'
++'<details><summary>Why did the Pharisees survive 70 A.D. when the Sadducees did not?</summary><p>The Sadducees were a priestly class whose identity and authority ran through the Temple and its sacrifices, so when Rome destroyed the Temple their party ended. The Pharisees followed oral tradition alongside the Torah, which meant their religious practice did not depend on a building. That portability became Rabbinic Judaism.</p></details>'
++'<details><summary>Why were Jews exempt from the imperial cult?</summary><p>The imperial cult ranged from a pledge of allegiance to forced sacrifice to a self-deifying emperor. Rome allowed Jews to practice their religion and respected local Jewish customs, so Jews were exempt because they already had their own God and their own established beliefs. Note the notes\' caveat: that respect depended entirely on the political ambitions of whoever was appointed.</p></details>'
++'<details><summary>What made the Temple so significant beyond worship?</summary><p>It was a symbol of Jewish unity and a sacred space where the presence of God abided. Its layered access told you the whole social-religious structure: ordinary priests entered the Holy Place twice daily, but only the high priest entered the Holy of Holies, only once a year. Destroying it in 70 A.D. therefore did not just remove a building, it ended the Sadducees, forced the canon to be fixed around 90 A.D., and scattered the Diaspora.</p></details></div>';
+
+/* ============ OTHER + USH ============ */
+document.getElementById("other").innerHTML=CLASSES.map(c=>
+'<div class="card"><h3>'+c.n+'</h3><p style="font-size:12.5px;color:var(--dim)">'+[c.t,c.p].filter(Boolean).join(' · ')+'</p>'
++'<ul class="tight">'+c.work.map(w=>'<li>'+w[0]+' <span class="pill">'+w[1]+'</span></li>').join('')+'</ul></div>').join('');
+
+document.getElementById("ush").innerHTML=
+'<div class="card"><h3>US History Unit 1+2 Exam</h3><p>Monday Sep 28, 12:40 PM · Katie Wolf · Period 4</p>'
++'<p>The full trainer for this one already exists as its own page: 40 terms, practice test, a 29-event timeline, six comparison charts, and all 15 study guide discussion questions with checklists.</p>'
++'<a class="btn primary" href="ush.html">Open the US History trainer</a></div>'
++'<div class="card"><h3>What it covers</h3><ul class="tight">'
++'<li><b>Unit 1:</b> historical thinking, Native creation stories, Age of Exploration, Columbian Exchange, Spanish/French/English colonization, the 13 colonies by region</li>'
++'<li><b>Unit 2:</b> French &amp; Indian War through the taxes, Boston Massacre, the war and its battles, Articles of Confederation, Constitutional Convention, Federalists vs. Anti-Federalists, Bill of Rights, Washington\'s presidency</li></ul></div>';
+
+/* ============ NAV ============ */
+let built={};
+function go(v){
+  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle('on',x.dataset.v===v));
+  document.querySelectorAll(".view").forEach(x=>x.classList.toggle('on',x.id===v));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+const cb=document.getElementById('chemBody'),rb=document.getElementById('relBody');
+function setBar(ids,active){ids.forEach(i=>document.getElementById(i).classList.toggle('primary',i===active));}
+document.getElementById('cFc').onclick=()=>{setBar(['cFc','cQz','cRef'],'cFc');mkFlash(cb,CHEM,'cf');};
+document.getElementById('cQz').onclick=()=>{setBar(['cFc','cQz','cRef'],'cQz');mkQuiz(cb,CHEM,'cq');};
+document.getElementById('cRef').onclick=()=>{setBar(['cFc','cQz','cRef'],'cRef');cb.innerHTML=CHEM_REF;};
+document.getElementById('rFc').onclick=()=>{setBar(['rFc','rQz','rRef'],'rFc');mkFlash(rb,REL,'rf');};
+document.getElementById('rQz').onclick=()=>{setBar(['rFc','rQz','rRef'],'rQz');mkQuiz(rb,REL,'rq');};
+document.getElementById('rRef').onclick=()=>{setBar(['rFc','rQz','rRef'],'rRef');rb.innerHTML=REL_REF;};
+mkFlash(cb,CHEM,'cf');mkFlash(rb,REL,'rf');
+</script>
+</body>
+</html>
