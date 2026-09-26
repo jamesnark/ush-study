@@ -1,399 +1,815 @@
 {
- "generated": "2026-09-25T18:53:50.110Z",
- "classes": [
-  {
-   "id": "ODcxNTkwNTk0NjI5",
-   "name": "US History",
-   "full": "US History - Sem 1",
-   "teacher": "Katie Wolf",
-   "period": 4,
-   "color": "#ff8a5b",
-   "aliases": [
-    "history",
-    "ush",
-    "us history",
-    "hist",
-    "wolf"
-   ],
-   "hints": []
-  },
-  {
-   "id": "ODU1NjYyNzExNDg5",
-   "name": "Algebra II",
-   "full": "Algebra II - Honors",
-   "teacher": "Mr. Kaplan",
-   "period": 6,
-   "color": "#5b8cff",
-   "aliases": [
-    "algebra",
-    "alg",
-    "math",
-    "alg2",
-    "algebra 2",
-    "kaplan"
-   ],
-   "hints": [
-    "cpm",
-    "cyu"
-   ]
-  },
-  {
-   "id": "ODcwODkxNTgzNjM0",
-   "name": "Spanish II",
-   "full": "Spanish II",
-   "teacher": "",
-   "period": 3,
-   "color": "#ffd166",
-   "aliases": [
-    "spanish",
-    "span",
-    "esp",
-    "espanol",
-    "español"
-   ],
-   "hints": [
-    "prueba",
-    "lingo",
-    "lingt",
-    "conjuguemos",
-    "duolingo"
-   ]
-  },
-  {
-   "id": "ODcwMjY4NTE2MjY1",
-   "name": "English 10",
-   "full": "English 10 Period 8",
-   "teacher": "",
-   "period": 8,
-   "color": "#a78bfa",
-   "aliases": [
-    "english",
-    "eng",
-    "lit"
-   ],
-   "hints": [
-    "gatsby",
-    "gg",
-    "membean",
-    "grammarflip",
-    "grammar flip",
-    "emerson",
-    "thoreau"
-   ]
-  },
-  {
-   "id": "ODU1MzQwMjg2ODE0",
-   "name": "AP CSP",
-   "full": "AP Computer Science: Principles",
-   "teacher": "",
-   "period": 5,
-   "color": "#3ecf8e",
-   "aliases": [
-    "csp",
-    "comp sci",
-    "computer science",
-    "apcsp",
-    "ap cs"
-   ],
-   "hints": [
-    "code.org",
-    "codeorg",
-    "khan",
-    "packets"
-   ]
-  },
-  {
-   "id": "ODcwMjc2MTU3MDI2",
-   "name": "Chemistry",
-   "full": "Chemistry I",
-   "teacher": "Jason Rott",
-   "period": 1,
-   "color": "#4dd0e1",
-   "aliases": [
-    "chem",
-    "chemistry",
-    "rott"
-   ],
-   "hints": [
-    "pogil"
-   ]
-  },
-  {
-   "id": "ODU1NDUzMjQ3MDIw",
-   "name": "Religion",
-   "full": "Life and Mission of Jesus",
-   "teacher": "",
-   "period": 7,
-   "color": "#f06292",
-   "aliases": [
-    "religion",
-    "rel",
-    "theo",
-    "theology",
-    "lmj"
-   ],
-   "hints": [
-    "jesus",
-    "blooket"
-   ]
-  }
- ],
- "assignments": [
-  {
-   "id": "c0",
-   "cls": "Algebra II",
-   "title": "2.1.4 CYU",
-   "due": "2026-09-25T23:59",
-   "status": "assigned",
-   "kind": "cyu"
-  },
-  {
-   "id": "c1",
-   "cls": "Religion",
-   "title": "World of Jesus Game Debrief",
-   "due": "2026-09-25T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c2",
-   "cls": "US History",
-   "title": "Unit 1+2 Exam",
-   "due": "2026-09-28T12:40",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c3",
-   "cls": "AP CSP",
-   "title": "The Internet - test",
-   "due": "2026-09-28T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c4",
-   "cls": "AP CSP",
-   "title": "Khan - The Internet",
-   "due": "2026-09-28T23:59",
-   "status": "assigned",
-   "kind": "video"
-  },
-  {
-   "id": "c5",
-   "cls": "English 10",
-   "title": "Read + annotate Ch. 3",
-   "due": "2026-09-28T23:59",
-   "status": "assigned",
-   "kind": "reading"
-  },
-  {
-   "id": "c6",
-   "cls": "English 10",
-   "title": "Grammar Flip and Membean assignments for Cycle 4",
-   "due": "2026-09-28T23:59",
-   "status": "assigned",
-   "kind": "drill"
-  },
-  {
-   "id": "c7",
-   "cls": "Chemistry",
-   "title": "Unit 2 Exam",
-   "due": "2026-09-29T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c8",
-   "cls": "Religion",
-   "title": "Unit 2 Test",
-   "due": "2026-09-30T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c9",
-   "cls": "Algebra II",
-   "title": "Ch. 2 Quiz #2",
-   "due": "2026-10-27T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c10",
-   "cls": "Algebra II",
-   "title": "Ch. 2 Test",
-   "due": "2026-11-02T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c11",
-   "cls": "Religion",
-   "title": "Class Reflection",
-   "due": "2026-11-30T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c12",
-   "cls": "English 10",
-   "title": "Membean and Grammar Flip",
-   "due": "2028-08-02T23:59",
-   "status": "assigned",
-   "kind": "drill"
-  },
-  {
-   "id": "c13",
-   "cls": "Spanish II",
-   "title": "Welcome Survey",
-   "due": null,
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c14",
-   "cls": "English 10",
-   "title": "Read, highlight, and annotate Emerson and Thoreau",
-   "due": null,
-   "status": "assigned",
-   "kind": "reading"
-  },
-  {
-   "id": "c15",
-   "cls": "AP CSP",
-   "title": "Internet KWL chart",
-   "due": null,
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c16",
-   "cls": "Algebra II",
-   "title": "Match My Parabola",
-   "due": null,
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c17",
-   "cls": "AP CSP",
-   "title": "Internet dilemmas",
-   "due": "2026-09-24T23:59",
-   "status": "missing",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c18",
-   "cls": "Chemistry",
-   "title": "Conservation of Mass Lab",
-   "due": "2026-09-24T23:59",
-   "status": "missing",
-   "kind": "lab"
-  },
-  {
-   "id": "c19",
-   "cls": "English 10",
-   "title": "Read, highlight, and annotate Ch. 2 of GG",
-   "due": "2026-09-22T23:59",
-   "status": "missing",
-   "kind": "reading"
-  },
-  {
-   "id": "c20",
-   "cls": "Algebra II",
-   "title": "2.1.3 CYU",
-   "due": "2026-09-22T23:59",
-   "status": "missing",
-   "kind": "cyu"
-  },
-  {
-   "id": "c21",
-   "cls": "Spanish II",
-   "title": "PRUEBA #2 / QUIZ #2 (During class)",
-   "due": "2026-09-22T23:59",
-   "status": "missing",
-   "kind": "test"
-  },
-  {
-   "id": "c22",
-   "cls": "AP CSP",
-   "title": "packets activity guide",
-   "due": "2026-09-18T23:59",
-   "status": "missing",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c23",
-   "cls": "AP CSP",
-   "title": "packets code.org questions",
-   "due": "2026-09-18T23:59",
-   "status": "missing",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c24",
-   "cls": "English 10",
-   "title": "Read, highlight, and annotate Ch. 1 of Great Gatsby",
-   "due": "2026-09-18T23:59",
-   "status": "missing",
-   "kind": "reading"
-  },
-  {
-   "id": "c25",
-   "cls": "Algebra II",
-   "title": "2.1.2 CYU",
-   "due": "2026-09-17T23:59",
-   "status": "missing",
-   "kind": "cyu"
-  },
-  {
-   "id": "c26",
-   "cls": "AP CSP",
-   "title": "code.org lesson 4 (routers) last 2 bubbles done",
-   "due": "2026-09-16T23:59",
-   "status": "missing",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c27",
-   "cls": "AP CSP",
-   "title": "code.org check for understanding question on building a network",
-   "due": "2026-09-11T23:59",
-   "status": "missing",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c28",
-   "cls": "Algebra II",
-   "title": "Ch. 1 Closure CYU",
-   "due": "2026-09-11T23:59",
-   "status": "missing",
-   "kind": "cyu"
-  },
-  {
-   "id": "c29",
-   "cls": "Algebra II",
-   "title": "Ch. 1 Test",
-   "due": "2026-09-11T23:59",
-   "status": "missing",
-   "kind": "test"
-  },
-  {
-   "id": "c30",
-   "cls": "Religion",
-   "title": "Rome to Judea Slides",
-   "due": "2026-09-10T23:59",
-   "status": "missing",
-   "kind": "project"
-  },
-  {
-   "id": "c31",
-   "cls": "Religion",
-   "title": "Historical Context Exit Ticket",
-   "due": "2026-09-08T23:59",
-   "status": "missing",
-   "kind": "worksheet"
-  }
- ]
+  "generated": "2026-09-26T11:46:03.259Z",
+  "classes": [
+    {
+      "id": "ODcxNTkwNTk0NjI5",
+      "name": "US History",
+      "full": "US History - Sem 1",
+      "teacher": "Katie Wolf",
+      "period": 4,
+      "color": "#ff8a5b",
+      "aliases": [
+        "history",
+        "ush",
+        "us history",
+        "hist",
+        "wolf"
+      ],
+      "hints": []
+    },
+    {
+      "id": "ODU1NjYyNzExNDg5",
+      "name": "Algebra II",
+      "full": "Algebra II - Honors",
+      "teacher": "Mr. Kaplan",
+      "period": 6,
+      "color": "#5b8cff",
+      "aliases": [
+        "algebra",
+        "alg",
+        "math",
+        "alg2",
+        "algebra 2",
+        "kaplan"
+      ],
+      "hints": [
+        "cpm",
+        "cyu"
+      ]
+    },
+    {
+      "id": "ODcwODkxNTgzNjM0",
+      "name": "Spanish II",
+      "full": "Spanish II",
+      "teacher": "",
+      "period": 3,
+      "color": "#ffd166",
+      "aliases": [
+        "spanish",
+        "span",
+        "esp",
+        "espanol",
+        "español"
+      ],
+      "hints": [
+        "prueba",
+        "lingo",
+        "lingt",
+        "conjuguemos",
+        "duolingo"
+      ]
+    },
+    {
+      "id": "ODcwMjY4NTE2MjY1",
+      "name": "English 10",
+      "full": "English 10 Period 8",
+      "teacher": "",
+      "period": 8,
+      "color": "#a78bfa",
+      "aliases": [
+        "english",
+        "eng",
+        "lit"
+      ],
+      "hints": [
+        "gatsby",
+        "gg",
+        "membean",
+        "grammarflip",
+        "grammar flip",
+        "emerson",
+        "thoreau"
+      ]
+    },
+    {
+      "id": "ODU1MzQwMjg2ODE0",
+      "name": "AP CSP",
+      "full": "AP Computer Science: Principles",
+      "teacher": "",
+      "period": 5,
+      "color": "#3ecf8e",
+      "aliases": [
+        "csp",
+        "comp sci",
+        "computer science",
+        "apcsp",
+        "ap cs"
+      ],
+      "hints": [
+        "code.org",
+        "codeorg",
+        "khan",
+        "packets"
+      ]
+    },
+    {
+      "id": "ODcwMjc2MTU3MDI2",
+      "name": "Chemistry",
+      "full": "Chemistry I",
+      "teacher": "Jason Rott",
+      "period": 1,
+      "color": "#4dd0e1",
+      "aliases": [
+        "chem",
+        "chemistry",
+        "rott"
+      ],
+      "hints": [
+        "pogil"
+      ]
+    },
+    {
+      "id": "ODU1NDUzMjQ3MDIw",
+      "name": "Religion",
+      "full": "Life and Mission of Jesus",
+      "teacher": "",
+      "period": 7,
+      "color": "#f06292",
+      "aliases": [
+        "religion",
+        "rel",
+        "theo",
+        "theology",
+        "lmj"
+      ],
+      "hints": [
+        "jesus",
+        "blooket"
+      ]
+    }
+  ],
+  "assignments": [
+    {
+      "id": "c0",
+      "cls": "US History",
+      "title": "Unit 1+2 Exam",
+      "due": "2026-09-28T12:40",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c1",
+      "cls": "AP CSP",
+      "title": "Khan - The Internet",
+      "due": "2026-09-28T23:59",
+      "status": "assigned",
+      "kind": "video"
+    },
+    {
+      "id": "c2",
+      "cls": "English 10",
+      "title": "Read + annotate Ch. 3",
+      "due": "2026-09-28T23:59",
+      "status": "assigned",
+      "kind": "reading"
+    },
+    {
+      "id": "c3",
+      "cls": "English 10",
+      "title": "Grammar Flip and Membean assignments for Cycle 4",
+      "due": "2026-09-28T23:59",
+      "status": "assigned",
+      "kind": "drill"
+    },
+    {
+      "id": "c4",
+      "cls": "AP CSP",
+      "title": "The Internet - test",
+      "due": "2026-09-28T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c5",
+      "cls": "Chemistry",
+      "title": "Unit 2 Exam",
+      "due": "2026-09-29T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c6",
+      "cls": "US History",
+      "title": "Unit 1+2 Study Guide",
+      "due": "2026-09-29T23:59",
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c7",
+      "cls": "English 10",
+      "title": "TGG Chapters 1-3 Quiz",
+      "due": "2026-09-29T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c8",
+      "cls": "Algebra II",
+      "title": "2.1.5 CYU",
+      "due": "2026-09-29T23:59",
+      "status": "assigned",
+      "kind": "cyu"
+    },
+    {
+      "id": "c9",
+      "cls": "Algebra II",
+      "title": "Ch. 2 Quiz #1",
+      "due": "2026-09-30T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c10",
+      "cls": "Religion",
+      "title": "Unit 2 Test",
+      "due": "2026-09-30T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c11",
+      "cls": "Algebra II",
+      "title": "Ch. 2 Quiz #2",
+      "due": "2026-10-27T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c12",
+      "cls": "Algebra II",
+      "title": "Ch. 2 Test",
+      "due": "2026-11-02T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c13",
+      "cls": "Religion",
+      "title": "Class Reflection",
+      "due": "2026-11-30T23:59",
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c14",
+      "cls": "English 10",
+      "title": "Membean and Grammar Flip",
+      "due": "2028-08-02T23:59",
+      "status": "assigned",
+      "kind": "drill"
+    },
+    {
+      "id": "c15",
+      "cls": "Spanish II",
+      "title": "Welcome Survey",
+      "due": null,
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c16",
+      "cls": "English 10",
+      "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
+      "due": null,
+      "status": "assigned",
+      "kind": "reading"
+    },
+    {
+      "id": "c17",
+      "cls": "AP CSP",
+      "title": "Internet KWL chart",
+      "due": null,
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c18",
+      "cls": "Algebra II",
+      "title": "Match My Parabola",
+      "due": null,
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c19",
+      "cls": "Religion",
+      "title": "World of Jesus Game Debrief",
+      "due": "2026-09-25T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c20",
+      "cls": "Algebra II",
+      "title": "2.1.4 CYU",
+      "due": "2026-09-25T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c21",
+      "cls": "AP CSP",
+      "title": "Internet dilemmas",
+      "due": "2026-09-24T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c22",
+      "cls": "Chemistry",
+      "title": "Conservation of Mass Lab",
+      "due": "2026-09-24T23:59",
+      "status": "missing",
+      "kind": "lab"
+    },
+    {
+      "id": "c23",
+      "cls": "English 10",
+      "title": "Read, highlight, and annotate Ch. 2 of GG",
+      "due": "2026-09-22T23:59",
+      "status": "missing",
+      "kind": "reading"
+    },
+    {
+      "id": "c24",
+      "cls": "Algebra II",
+      "title": "2.1.3 CYU",
+      "due": "2026-09-22T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c25",
+      "cls": "Spanish II",
+      "title": "PRUEBA #2 / QUIZ #2 (During class)",
+      "due": "2026-09-22T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c26",
+      "cls": "Spanish II",
+      "title": "Kahoot! game to help you prepare for the quiz",
+      "due": "2026-09-22T00:00",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c27",
+      "cls": "AP CSP",
+      "title": "packets activity guide",
+      "due": "2026-09-18T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c28",
+      "cls": "AP CSP",
+      "title": "packets code.org questions",
+      "due": "2026-09-18T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c29",
+      "cls": "English 10",
+      "title": "Read, highlight, and annotate Ch. 1 of Great Gatsby",
+      "due": "2026-09-18T23:59",
+      "status": "missing",
+      "kind": "reading"
+    },
+    {
+      "id": "c30",
+      "cls": "Algebra II",
+      "title": "2.1.2 CYU",
+      "due": "2026-09-17T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c31",
+      "cls": "AP CSP",
+      "title": "code.org lesson 4 (routers) last 2 bubbles done",
+      "due": "2026-09-16T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c32",
+      "cls": "English 10",
+      "title": "Bring your Gatsby book to class with you on Tuesday.",
+      "due": "2026-09-16T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c33",
+      "cls": "English 10",
+      "title": "Grammar Flip quiz over Active Voice and Passive Voice (Lesson 2.02)",
+      "due": "2026-09-16T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c34",
+      "cls": "Spanish II",
+      "title": "Vocabulario: Las redes sociales",
+      "due": "2026-09-16T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c35",
+      "cls": "Spanish II",
+      "title": "Vocabulario: La seguridad digital",
+      "due": "2026-09-16T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c36",
+      "cls": "AP CSP",
+      "title": "code.org lesson 3 bubbles - addressing",
+      "due": "2026-09-15T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c37",
+      "cls": "English 10",
+      "title": "Membean/Grammar Flip",
+      "due": "2026-09-15T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c38",
+      "cls": "English 10",
+      "title": "Print your essay and bring it to my office by 3:30 on Tuesday, 9/15/26",
+      "due": "2026-09-15T23:59",
+      "status": "missing",
+      "kind": "project"
+    },
+    {
+      "id": "c39",
+      "cls": "English 10",
+      "title": "Membean and Grammar Flip assignment",
+      "due": "2026-09-15T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c40",
+      "cls": "Algebra II",
+      "title": "Ch. 1 Test CYU",
+      "due": "2026-09-14T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c41",
+      "cls": "Algebra II",
+      "title": "2.1.1 CYU",
+      "due": "2026-09-14T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c42",
+      "cls": "AP CSP",
+      "title": "code.org check for understanding question on building a network",
+      "due": "2026-09-11T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c43",
+      "cls": "Algebra II",
+      "title": "Ch. 1 Closure CYU",
+      "due": "2026-09-11T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c44",
+      "cls": "Algebra II",
+      "title": "Ch. 1 Test",
+      "due": "2026-09-11T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c45",
+      "cls": "Religion",
+      "title": "Rome to Judea Slides",
+      "due": "2026-09-10T23:59",
+      "status": "missing",
+      "kind": "project"
+    },
+    {
+      "id": "c46",
+      "cls": "Religion",
+      "title": "Historical Context Exit Ticket",
+      "due": "2026-09-08T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c47",
+      "cls": "English 10",
+      "title": "Homework for Tuesday, 9/08/26",
+      "due": "2026-09-08T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c48",
+      "cls": "AP CSP",
+      "title": "khan - digital copy right laws",
+      "due": "2026-09-08T23:59",
+      "status": "missing",
+      "kind": "video"
+    },
+    {
+      "id": "c49",
+      "cls": "AP CSP",
+      "title": "Code.org lesson 11 - intellectual property - last 2 bubbles questions",
+      "due": "2026-09-08T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c50",
+      "cls": "Algebra II",
+      "title": "1.2.4 CYU",
+      "due": "2026-09-04T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c51",
+      "cls": "Religion",
+      "title": "Unit 1 Test",
+      "due": "2026-09-04T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c52",
+      "cls": "AP CSP",
+      "title": "Group article - make a presentation - tattoos",
+      "due": "2026-09-03T23:59",
+      "status": "missing",
+      "kind": "project"
+    },
+    {
+      "id": "c53",
+      "cls": "English 10",
+      "title": "GrammarFlip quiz will be given in class on Thursday, September 3.",
+      "due": "2026-09-03T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c54",
+      "cls": "Algebra II",
+      "title": "1.2.3 CYU",
+      "due": "2026-09-03T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c55",
+      "cls": "English 10",
+      "title": "Membean and GrammarFlip due by midnight on Wednesday, September 2",
+      "due": "2026-09-02T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c56",
+      "cls": "English 10",
+      "title": "Membean and Grammar Flip assignments",
+      "due": "2026-09-02T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c57",
+      "cls": "Spanish II",
+      "title": "Prueba #1 / Quiz #1 (During class)",
+      "due": "2026-09-01T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c58",
+      "cls": "Algebra II",
+      "title": "1.2.2b CYU",
+      "due": "2026-09-01T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c59",
+      "cls": "English 10",
+      "title": "Read assigned paragraphs by Emerson and Thoreau in your packet",
+      "due": "2026-08-31T23:59",
+      "status": "missing",
+      "kind": "reading"
+    },
+    {
+      "id": "c60",
+      "cls": "Algebra II",
+      "title": "1.2.2a CYU",
+      "due": "2026-08-31T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c61",
+      "cls": "Algebra II",
+      "title": "Ch. 1 Quiz",
+      "due": "2026-08-31T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c62",
+      "cls": "Algebra II",
+      "title": "8/26 Asynchronous Assignment",
+      "due": "2026-08-27T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c63",
+      "cls": "Algebra II",
+      "title": "1.2.1b CYU",
+      "due": "2026-08-27T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c64",
+      "cls": "English 10",
+      "title": "Declaration of Independence",
+      "due": "2026-08-25T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c65",
+      "cls": "Algebra II",
+      "title": "1.2.1a CYU",
+      "due": "2026-08-24T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c66",
+      "cls": "Religion",
+      "title": "Evangelist Interview Project",
+      "due": "2026-08-24T23:59",
+      "status": "missing",
+      "kind": "project"
+    },
+    {
+      "id": "c67",
+      "cls": "Algebra II",
+      "title": "1.1.4 CYU",
+      "due": "2026-08-21T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c68",
+      "cls": "English 10",
+      "title": "Homework for 8/20",
+      "due": "2026-08-20T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c69",
+      "cls": "English 10",
+      "title": "JM Paragraph",
+      "due": "2026-08-20T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c70",
+      "cls": "Algebra II",
+      "title": "1.1.3 CYU",
+      "due": "2026-08-19T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c71",
+      "cls": "Spanish II",
+      "title": "Vocabulario: Actividades en línea",
+      "due": "2026-08-19T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c72",
+      "cls": "Spanish II",
+      "title": "Vocabulario: La tecnología",
+      "due": "2026-08-19T23:59",
+      "status": "missing",
+      "kind": "drill"
+    },
+    {
+      "id": "c73",
+      "cls": "English 10",
+      "title": "SPACE CAT over JM",
+      "due": "2026-08-18T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c74",
+      "cls": "English 10",
+      "title": "MLA quiz",
+      "due": "2026-08-18T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c75",
+      "cls": "Algebra II",
+      "title": "1.1.2b CYU",
+      "due": "2026-08-18T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c76",
+      "cls": "Religion",
+      "title": "Art Reflection and Review Quiz",
+      "due": "2026-08-14T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c77",
+      "cls": "Algebra II",
+      "title": "1.1.2a CYU",
+      "due": "2026-08-14T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c78",
+      "cls": "Religion",
+      "title": "Historical Sources Annotations",
+      "due": "2026-08-13T23:59",
+      "status": "missing",
+      "kind": "reading"
+    },
+    {
+      "id": "c79",
+      "cls": "Algebra II",
+      "title": "1.1.1 CYU",
+      "due": "2026-08-12T23:59",
+      "status": "missing",
+      "kind": "cyu"
+    },
+    {
+      "id": "c80",
+      "cls": "AP CSP",
+      "title": "Get to know us slides",
+      "due": "2026-08-11T23:59",
+      "status": "missing",
+      "kind": "project"
+    },
+    {
+      "id": "c81",
+      "cls": "AP CSP",
+      "title": "Get to know me form",
+      "due": "2026-08-11T23:59",
+      "status": "missing",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c82",
+      "cls": "English 10",
+      "title": "Summer reading quiz",
+      "due": "2026-08-11T23:59",
+      "status": "missing",
+      "kind": "test"
+    },
+    {
+      "id": "c83",
+      "cls": "English 10",
+      "title": "Just Mercy Annotation Check",
+      "due": "2026-08-11T23:59",
+      "status": "missing",
+      "kind": "reading"
+    }
+  ]
 }
