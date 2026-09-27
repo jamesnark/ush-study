@@ -12,13 +12,15 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
 header{padding:calc(12px + env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(15,17,21,.97);backdrop-filter:blur(10px);z-index:30}
-h1{margin:0;font-size:16px}
+h1{margin:0;font-size:16px;display:flex;align-items:center;gap:8px}
+.syncdot{width:7px;height:7px;border-radius:50%;background:var(--dim);transition:background .3s}
+.syncdot.ok{background:var(--good)}.syncdot.busy{background:var(--warn)}.syncdot.err{background:var(--bad)}
 .sub{color:var(--dim);font-size:11.5px;margin-top:2px}
 nav{display:flex;gap:5px;margin-top:10px;overflow-x:auto}
 nav::-webkit-scrollbar{display:none}
 nav button{background:var(--panel);border:1px solid var(--line);color:var(--dim);padding:6px 12px;border-radius:7px;cursor:pointer;font-size:12.5px;font-weight:500;white-space:nowrap;flex-shrink:0}
 nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
-main{max-width:760px;margin:0 auto;padding:14px 14px calc(90px + env(safe-area-inset-bottom))}
+main{max-width:760px;margin:0 auto;padding:14px 14px calc(70px + env(safe-area-inset-bottom))}
 .view{display:none}.view.on{display:block}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:10px}
 .card h3{margin:0 0 8px;font-size:14.5px}
@@ -49,41 +51,30 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
 .meta{font-size:11.5px;color:var(--dim);margin-top:3px;display:flex;gap:7px;flex-wrap:wrap;align-items:center}
 .meta .due.od{color:var(--bad);font-weight:600}
 .meta .due.today{color:var(--warn);font-weight:600}
-.est{color:var(--accent)}
-.go{background:none;border:none;color:var(--dim);font-size:17px;cursor:pointer;padding:2px 5px;flex-shrink:0}
-.go:hover{color:var(--accent)}
+.note2{font-size:11.5px;color:var(--warn);margin-top:3px;font-style:italic}
 h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:.9px;color:var(--dim);margin:18px 0 8px;font-weight:600}
 h2.sec span{opacity:.6;font-weight:400}
-.clock{font-size:52px;font-weight:200;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-2px;margin:6px 0}
-.clocksub{text-align:center;color:var(--dim);font-size:13px;margin-bottom:14px}
-.state{text-align:center;padding:8px;border-radius:8px;font-size:12.5px;margin-bottom:12px;font-weight:500}
-.state.run{background:rgba(62,207,142,.12);color:var(--good)}
-.state.idle{background:rgba(255,176,32,.12);color:var(--warn)}
-.state.bg{background:rgba(155,163,178,.12);color:var(--dim)}
-.bars .b{margin-bottom:9px}
-.bars .lbl{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px}
-.bars .track{height:7px;background:var(--panel2);border-radius:4px;overflow:hidden}
-.bars .fill{height:100%;border-radius:4px}
 table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
 th,td{border:1px solid var(--line);padding:6px 9px;text-align:left}
 th{background:var(--panel2);font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--dim)}
 .empty{color:var(--dim);font-size:13.5px;text-align:center;padding:22px 10px}
 .note{background:rgba(255,176,32,.09);border:1px solid rgba(255,176,32,.3);border-radius:9px;padding:11px 14px;margin-bottom:10px;font-size:13px;color:#e6d9bd}
 .note.red{background:rgba(255,92,92,.09);border-color:rgba(255,92,92,.3);color:#f0cfcf}
+.note.green{background:rgba(62,207,142,.09);border-color:rgba(62,207,142,.3);color:#c9ecdc}
 .hintline{font-size:11.5px;color:var(--dim);margin-top:5px}
 .tiny{font-size:11px;color:var(--dim)}
+details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:500;padding:3px 0}
 </style>
 </head>
 <body>
 <header>
-  <h1>Study Hub</h1>
+  <h1>Study Hub <span class="syncdot" id="sdot" title="sync"></span></h1>
   <div class="sub" id="hdr">loading…</div>
   <nav>
     <button class="on" data-v="today">Today</button>
     <button data-v="all">All Work</button>
-    <button data-v="timer">Timer</button>
     <button data-v="grades">Grades</button>
-    <button data-v="insights">Insights</button>
+    <button data-v="cleared">Cleared</button>
     <button data-v="study">Study</button>
     <button data-v="settings">Settings</button>
   </nav>
@@ -91,74 +82,82 @@ th{background:var(--panel2);font-size:11px;text-transform:uppercase;letter-spaci
 <main>
 <section class="view on" id="today"></section>
 <section class="view" id="all"></section>
-<section class="view" id="timer"></section>
 <section class="view" id="grades"></section>
-<section class="view" id="insights"></section>
+<section class="view" id="cleared"></section>
 <section class="view" id="study"></section>
 <section class="view" id="settings"></section>
 </main>
 <script>
-const LS=k=>{try{return JSON.parse(localStorage.getItem('hub.'+k))}catch(e){return null}};
-const SS=(k,v)=>localStorage.setItem('hub.'+k,JSON.stringify(v));
-let DATA={classes:[],assignments:[],generated:null};
-let MY=LS('tasks')||[], SESS=LS('sessions')||[], DONE=LS('done')||{}, ALIAS=LS('alias')||{};
-let CFG=Object.assign({idleMin:2},LS('cfg')||{});
-const save=()=>{SS('tasks',MY);SS('sessions',SESS);SS('done',DONE);SS('alias',ALIAS);SS('cfg',CFG)};
+/* ===================== CLOUD SYNC ===================== */
+const SB_URL='https://qfgvtrifvgtttvlaspqn.supabase.co';
+const SB_KEY='sb_publishable_H3HI2vdy2okpATAjXR75Kw_LcGHFblP';
+const SB_ROW='james';
+const H=()=>({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'});
+let DATA={classes:[],assignments:[],powerschool:[],grades:[],generated:null};
+/* the one synced document */
+let S={dismissed:{},tasks:[],alias:{}};
+const cacheGet=()=>{try{return JSON.parse(localStorage.getItem('hub.cache'))}catch(e){return null}};
+const cacheSet=()=>localStorage.setItem('hub.cache',JSON.stringify(S));
+function dot(c){const d=document.getElementById('sdot');d.className='syncdot '+c}
+function mergeState(a,b){
+  const out={dismissed:{...(a.dismissed||{}),...(b.dismissed||{})},alias:{...(a.alias||{}),...(b.alias||{})},tasks:[]};
+  const seen={};[...(a.tasks||[]),...(b.tasks||[])].forEach(t=>{if(!seen[t.id]){seen[t.id]=1;out.tasks.push(t)}});
+  return out;
+}
+async function pull(){
+  dot('busy');
+  try{
+    const r=await fetch(SB_URL+'/rest/v1/hub_state?id=eq.'+SB_ROW+'&select=data',{headers:H(),cache:'no-store'});
+    if(!r.ok)throw new Error(r.status);
+    const j=await r.json();
+    const remote=(j[0]&&j[0].data)||{};
+    S=mergeState(S,remote);
+    cacheSet();dot('ok');return true;
+  }catch(e){dot('err');return false}
+}
+let pushT=null;
+function push(){
+  clearTimeout(pushT);dot('busy');cacheSet();
+  pushT=setTimeout(async()=>{
+    try{
+      const r=await fetch(SB_URL+'/rest/v1/hub_state?on_conflict=id',{method:'POST',
+        headers:{...H(),Prefer:'resolution=merge-duplicates,return=minimal'},
+        body:JSON.stringify({id:SB_ROW,data:S,updated_at:new Date().toISOString()})});
+      dot(r.ok?'ok':'err');
+    }catch(e){dot('err')}
+  },700);
+}
+
+/* ===================== UTIL ===================== */
 const uid=()=>Math.random().toString(36).slice(2,9);
+const K=t=>(t.cls||'Personal')+'|'+t.title;            /* stable key, survives id renumbering */
+const isCleared=t=>!!S.dismissed[K(t)];
 function startOfDay(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
 function dayDiff(due){if(!due)return null;return Math.round((startOfDay(new Date(due))-startOfDay(new Date()))/864e5)}
 function dueLabel(due){
   if(!due)return{txt:'no due date',cls:''};
   const n=dayDiff(due),d=new Date(due);
   const time=(d.getHours()!==23||d.getMinutes()!==59)?' '+d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}):'';
-  if(n<0)return{txt:Math.abs(n)+'d overdue',cls:'od'};
+  if(n<0)return{txt:Math.abs(n)+'d past due',cls:'od'};
   if(n===0)return{txt:'due today'+time,cls:'today'};
   if(n===1)return{txt:'due tomorrow'+time,cls:'today'};
   if(n<7)return{txt:'due '+d.toLocaleDateString([],{weekday:'long'})+time,cls:''};
   return{txt:'due '+d.toLocaleDateString([],{month:'short',day:'numeric'}),cls:''};
 }
-function fmtDur(sec){const h=Math.floor(sec/3600),m=Math.round(sec%3600/60);return h?h+'h '+m+'m':(m||1)+'m'}
-function clockFmt(sec){const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=Math.floor(sec%60);
-  return (h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(s).padStart(2,'0')}
-function clsOf(n){return DATA.classes.find(c=>c.name===n)}
-function colorOf(n){const c=clsOf(n);return c?c.color:'#6b7280'}
+function colorOf(n){const c=DATA.classes.find(c=>c.name===n);return c?c.color:'#6b7280'}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-function allTasks(){return [...DATA.assignments.map(a=>({...a,src:'classroom'})),...MY].map(t=>({...t,done:!!DONE[t.id]}))}
-/* PowerSchool is the source of truth for what is actually missing */
-function ps(bucket){return (DATA.powerschool||[]).filter(p=>p.bucket===bucket&&!DONE['ps:'+p.id])}
-function psRow(p,opts){
-  opts=opts||{};const col=colorOf(p.cls);
-  const scoreTxt=p.score===null?'not graded':p.score+'/'+p.possible+(p.pct!==null?' ('+Math.round(p.pct)+'%)':'');
-  return '<div class="task" style="border-left-color:'+col+'">'
-   +(opts.nocheck?'':'<div class="cb" onclick="togglePS(\''+p.id+'\')">&#10003;</div>')
-   +'<div class="body"><div class="ttl">'+esc(p.title)+'</div><div class="meta">'
-   +'<span class="dot" style="background:'+col+'"></span>'+esc(p.cls)
-   +'<span>'+(p.due?new Date(p.due+'T12:00').toLocaleDateString([],{month:'short',day:'numeric'}):'no date')+'</span>'
-   +'<span'+(p.bucket==='zero'?' class="due od"':'')+'>'+scoreTxt+'</span>'
-   +(p.flag?'<span class="tiny">flagged</span>':'')+(p.late?'<span class="tiny">late</span>':'')
-   +(p.cat?'<span class="tiny">'+esc(p.cat)+'</span>':'')
-   +'</div></div></div>';
-}
-function togglePS(id){const k='ps:'+id;if(DONE[k])delete DONE[k];else DONE[k]=new Date().toISOString();save();refresh()}
+function allTasks(){return [...DATA.assignments.map(a=>({...a,src:'classroom'})),...S.tasks.map(t=>({...t,src:'mine'}))]}
+function psAll(){return (DATA.powerschool||[])}
+function psB(b){return psAll().filter(p=>p.bucket===b&&!isCleared(p))}
 
-/* ---------- estimates ---------- */
-function totalsByTask(){const m={};SESS.forEach(s=>{m[s.taskId]=m[s.taskId]||{sec:0,cls:s.cls,kind:s.kind,title:s.title};m[s.taskId].sec+=s.sec});return m}
-function median(a){if(!a.length)return null;const b=a.slice().sort((x,y)=>x-y),i=Math.floor(b.length/2);return b.length%2?b[i]:Math.round((b[i-1]+b[i])/2)}
-function finishedTotals(){const t=totalsByTask(),o=[];for(const id in t)if(DONE[id])o.push({id,...t[id]});return o}
-function estimate(task){
-  const fin=finishedTotals();
-  const tries=[{f:fin.filter(x=>x.cls===task.cls&&x.kind===task.kind),b:(task.cls||'personal')+' '+task.kind+'s'},
-   {f:fin.filter(x=>x.kind===task.kind),b:task.kind+'s across all classes'},
-   {f:fin.filter(x=>x.cls===task.cls),b:'all '+(task.cls||'personal')+' work'},
-   {f:fin,b:'all your logged work'}];
-  for(const t of tries)if(t.f.length>=2)return{sec:median(t.f.map(x=>x.sec)),n:t.f.length,basis:t.b};
-  for(const t of tries)if(t.f.length===1)return{sec:t.f[0].sec,n:1,basis:t.b,weak:true};
-  if(task.userEst)return{sec:task.userEst,n:0,basis:'your own guess',weak:true};
-  return null;
+function clear_(t,note){
+  const k=K(t);
+  if(S.dismissed[k])delete S.dismissed[k];
+  else S.dismissed[k]={at:new Date().toISOString(),note:note||null,cls:t.cls,title:t.title};
+  push();refresh();
 }
-function estLabel(t){const e=estimate(t);return e?'~'+fmtDur(e.sec)+(e.weak?'?':''):''}
 
-/* ---------- natural language ---------- */
+/* ===================== NL PARSER ===================== */
 const LEAD=/^(please\s+)?(remind me(?: to)?|remember(?: to)?|don'?t forget(?: to)?|dont forget(?: to)?|i need to|i have to|i gotta|gotta|need to|have to|make sure i|add task|add|todo:?|to ?do:?|new task)\s+/i;
 const KINDW=[[/\b(test|exam|quiz|prueba)\b/i,'test'],[/\b(read|annotat|chapter|ch\.|novel|gatsby)\b/i,'reading'],
  [/\b(lab|experiment)\b/i,'lab'],[/\b(cyu|check for understanding|problem set)\b/i,'cyu'],
@@ -169,9 +168,7 @@ const MO=['january','february','march','april','may','june','july','august','sep
 const rx=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 function parse(raw){
   let s=raw.trim().replace(LEAD,'').trim();const orig=s;
-  let due=null,dueTxt=null,cls=null,mins=null,m;
-  if((m=s.match(/\b(?:takes?|about|around|for|~)?\s*(\d{1,3})\s*(min(?:ute)?s?|m|hours?|hrs?|h)\b/i))){
-    mins=/^h/i.test(m[2])?+m[1]*60:+m[1];s=s.replace(m[0],' ')}
+  let due=null,dueTxt=null,cls=null,m;
   const set=(d,l)=>{d.setHours(23,59,0,0);due=d;dueTxt=l};
   if(/\b(today|tonight)\b/i.test(s)){set(new Date(),'today');s=s.replace(/\b(today|tonight)\b/ig,' ')}
   else if(/\btomorrow\b/i.test(s)){const d=new Date();d.setDate(d.getDate()+1);set(d,'tomorrow');s=s.replace(/\btomorrow\b/ig,' ')}
@@ -187,18 +184,15 @@ function parse(raw){
   else if((m=s.match(/\b(?:by |on |due )?(\d{1,2})\/(\d{1,2})\b/))){
     const d=new Date((new Date()).getFullYear(),+m[1]-1,+m[2]);
     if(d<startOfDay(new Date()))d.setFullYear(d.getFullYear()+1);set(d,m[1]+'/'+m[2]);s=s.replace(m[0],' ')}
-  /* strippable class names vs content hints that must stay in the title */
   let best=null,hint=null;
-  for(const k in ALIAS){if(new RegExp('\\b'+rx(k),'i').test(s)&&(!best||k.length>best.k.length))best={k,name:ALIAS[k]}}
+  for(const k in S.alias){if(new RegExp('\\b'+rx(k),'i').test(s)&&(!best||k.length>best.k.length))best={k,name:S.alias[k]}}
   DATA.classes.forEach(c=>{
     [...(c.aliases||[]),c.name.toLowerCase()].forEach(a=>{
       if(new RegExp('\\b'+rx(a),'i').test(s)&&(!best||a.length>best.k.length))best={k:a,name:c.name}});
-    (c.hints||[]).forEach(hn=>{if(new RegExp('\\b'+rx(hn),'i').test(s)&&!hint)hint={k:hn,name:c.name}});
-  });
+    (c.hints||[]).forEach(hn=>{if(new RegExp('\\b'+rx(hn),'i').test(s)&&!hint)hint={k:hn,name:c.name}});});
   if(best){cls=best.name;s=s.replace(new RegExp('\\b'+rx(best.k),'ig'),' ')}
   else if(hint)cls=hint.name;
   let kind='worksheet';for(const [re,k] of KINDW)if(re.test(orig)){kind=k;break}
-  /* if still no class, infer from kind when only one class ever uses it */
   if(!cls){const cs=[...new Set(DATA.assignments.filter(a=>a.kind===kind).map(a=>a.cls))];if(cs.length===1)cls=cs[0]}
   let title=s.replace(/\b(do|the|my|a|an|for|class|hw|homework|assignment|stuff|work|and|some)\b/ig,' ').replace(/\s+/g,' ').trim();
   if(title.replace(/[^a-z0-9]/ig,'').length<2)title=orig.replace(/\s+/g,' ').trim();
@@ -206,31 +200,52 @@ function parse(raw){
   const STOP=new Set(['the','for','and','you','your','are','with','this','that','from','have','about','into','out','get','all','any','can','does','need','want','finish','study','due','next','week','day','days']);
   const words=orig.toLowerCase().split(/\W+/).filter(w=>w.length>2&&!STOP.has(w));
   let match=null,bs=0;
-  allTasks().filter(t=>!t.done&&t.src==='classroom').forEach(a=>{
-    const at=a.title.toLowerCase();
-    let sc=words.filter(w=>at.includes(w)).length;
-    if(sc===0)return;
-    if(cls&&a.cls===cls)sc+=0.6; else if(cls)sc-=0.6;
+  allTasks().filter(t=>!isCleared(t)&&t.src==='classroom').forEach(a=>{
+    const at=a.title.toLowerCase();let sc=words.filter(w=>at.includes(w)).length;
+    if(sc===0)return;if(cls&&a.cls===cls)sc+=0.6;else if(cls)sc-=0.6;
     if(sc>bs){bs=sc;match=a}});
   if(bs<1.5)match=null;
-  return{title,cls,due,dueTxt,mins,kind,match,raw:orig};
+  return{title,cls,due,dueTxt,kind,match,raw:orig};
 }
 
-/* ---------- render ---------- */
-function taskRow(t){
-  const dl=dueLabel(t.due),col=colorOf(t.cls),e=estLabel(t),lg=totalsByTask()[t.id];
-  return '<div class="task'+(t.done?' done':'')+((dl.cls==='od'&&!t.done)?' overdue':'')+'" style="border-left-color:'+col+'">'
-   +'<div class="cb" onclick="toggle(\''+t.id+'\')">&#10003;</div><div class="body">'
+/* ===================== ROWS ===================== */
+function row(t,o){
+  o=o||{};const dl=dueLabel(t.due),col=colorOf(t.cls),cleared=isCleared(t),d=S.dismissed[K(t)];
+  return '<div class="task'+(cleared?' done':'')+((dl.cls==='od'&&!cleared&&!o.soft)?' overdue':'')+'" style="border-left-color:'+col+'">'
+   +'<div class="cb" onclick="clearPrompt(\''+esc(K(t)).replace(/'/g,"\\'")+'\')">&#10003;</div><div class="body">'
    +'<div class="ttl">'+esc(t.title)+'</div><div class="meta">'
    +'<span class="dot" style="background:'+col+'"></span>'+esc(t.cls||'Personal')
    +'<span class="due '+dl.cls+'">'+dl.txt+'</span>'
-   +(e?'<span class="est">est '+e+'</span>':'')
-   +(lg?'<span>logged '+fmtDur(lg.sec)+'</span>':'')
-   +(t.src!=='classroom'?'<span class="tiny">yours</span>':'')
-   +'</div></div><button class="go" onclick="startTimer(\''+t.id+'\')" title="Start timer">&#9654;</button></div>';
+   +(t.src==='mine'?'<span class="tiny">yours</span>':'')
+   +'</div>'+(cleared&&d&&d.note?'<div class="note2">'+esc(d.note)+'</div>':'')+'</div></div>';
 }
+function psRow(p,o){
+  o=o||{};const col=colorOf(p.cls),cleared=isCleared(p),d=S.dismissed[K(p)];
+  const sc=p.score===null?'not graded':p.score+'/'+p.possible+(p.pct!==null?' ('+Math.round(p.pct)+'%)':'');
+  return '<div class="task'+(cleared?' done':'')+'" style="border-left-color:'+col+'">'
+   +(o.nocheck?'':'<div class="cb" onclick="clearPrompt(\''+esc(K(p)).replace(/'/g,"\\'")+'\')">&#10003;</div>')
+   +'<div class="body"><div class="ttl">'+esc(p.title)+'</div><div class="meta">'
+   +'<span class="dot" style="background:'+col+'"></span>'+esc(p.cls)
+   +'<span>'+(p.due?new Date(p.due+'T12:00').toLocaleDateString([],{month:'short',day:'numeric'}):'no date')+'</span>'
+   +'<span'+(p.bucket==='zero'?' class="due od"':'')+'>'+sc+'</span>'
+   +(p.cat?'<span class="tiny">'+esc(p.cat)+'</span>':'')
+   +'</div>'+(cleared&&d&&d.note?'<div class="note2">'+esc(d.note)+'</div>':'')+'</div></div>';
+}
+function findByKey(k){
+  return allTasks().find(t=>K(t)===k)||psAll().find(p=>K(p)===k);
+}
+function clearPrompt(k){
+  const t=findByKey(k);if(!t)return;
+  if(S.dismissed[k]){delete S.dismissed[k];push();refresh();return}
+  const why=prompt('Clear "'+t.title+'".\n\nOptional note for future you (why it was a zero, what you did about it):','');
+  if(why===null)return;
+  S.dismissed[k]={at:new Date().toISOString(),note:why.trim()||null,cls:t.cls,title:t.title};
+  push();refresh();
+}
+
+/* ===================== VIEWS ===================== */
 function addBar(){return '<div class="addwrap"><input id="nl" placeholder="e.g. remind me to do spanish lingo friday" autocomplete="off">'
- +'<div class="hintline">Say it however you want. I work out the class, the due date and how long it usually takes you.</div><div id="preview"></div></div>'}
+ +'<div class="hintline">Say it however you want. I work out the class and the due date.</div><div id="preview"></div></div>'}
 function wireAdd(){
   const i=document.getElementById('nl');if(!i)return;
   i.oninput=()=>{const v=i.value.trim(),p=document.getElementById('preview');
@@ -241,10 +256,9 @@ function wireAdd(){
      +DATA.classes.map(c=>'<option'+(c.name===r.cls?' selected':'')+'>'+c.name+'</option>').join('')+'</select>'
      +'<label>Due</label><input id="pdue" type="date" style="width:auto" value="'+(r.due?isoDate(r.due):'')+'"></div>'
      +'<div class="tiny">'+(r.cls?'Class picked up from what you typed. ':'No class spotted &mdash; choose one and I\'ll remember that word. ')
-     +(r.due?'Due '+r.dueTxt+'. ':'No date found. ')+'Type: '+r.kind+'.'
-     +(r.match?'<br><b style="color:var(--warn)">Careful: this looks like "'+esc(r.match.title)+'" ('+esc(r.match.cls)+'), already in Classroom.</b>':'')+'</div>'
-     +'<div style="margin-top:9px"><button class="btn primary sm" onclick="commit()">Add it</button>'
-     +(r.match?'<button class="btn sm" onclick="startTimer(\''+r.match.id+'\')">Use the Classroom one</button>':'')+'</div></div>'};
+     +(r.due?'Due '+r.dueTxt+'.':'No date found.')
+     +(r.match?'<br><b style="color:var(--warn)">Careful: looks like "'+esc(r.match.title)+'" ('+esc(r.match.cls)+'), already in Classroom.</b>':'')+'</div>'
+     +'<div style="margin-top:9px"><button class="btn primary sm" onclick="commit()">Add it</button></div></div>'};
   i.onkeydown=e=>{if(e.key==='Enter'&&window.__p)commit()};
 }
 function isoDate(d){const x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
@@ -253,170 +267,112 @@ function commit(){
   const se=document.getElementById('pcls'),de=document.getElementById('pdue');
   const cls=se?se.value:r.cls;let due=null;
   if(de&&de.value)due=new Date(de.value+'T23:59:00').toISOString();
-  if(cls&&cls!==r.cls){const w=r.title.toLowerCase().split(/\s+/).filter(x=>x.length>3)[0];if(w)ALIAS[w]=cls}
-  MY.push({id:uid(),title:r.title,cls:cls||null,due,kind:r.kind,src:'mine',created:new Date().toISOString(),userEst:r.mins?r.mins*60:null});
-  save();document.getElementById('nl').value='';document.getElementById('preview').innerHTML='';window.__p=null;refresh();
+  if(cls&&cls!==r.cls){const w=r.title.toLowerCase().split(/\s+/).filter(x=>x.length>3)[0];if(w)S.alias[w]=cls}
+  S.tasks.push({id:uid(),title:r.title,cls:cls||null,due,kind:r.kind,created:new Date().toISOString()});
+  push();document.getElementById('nl').value='';document.getElementById('preview').innerHTML='';window.__p=null;refresh();
 }
-function toggle(id){if(DONE[id])delete DONE[id];else DONE[id]=new Date().toISOString();save();refresh()}
 
 function renderToday(){
-  const t=allTasks().filter(x=>!x.done);
+  const t=allTasks().filter(x=>!isCleared(x));
   const od=t.filter(x=>x.due&&dayDiff(x.due)<0).sort((a,b)=>new Date(a.due)-new Date(b.due));
   const td=t.filter(x=>x.due&&dayDiff(x.due)===0);
   const soon=t.filter(x=>x.due&&dayDiff(x.due)>0&&dayDiff(x.due)<=3).sort((a,b)=>new Date(a.due)-new Date(b.due));
-  const plan=[...od,...td,...soon];let tot=0,unk=0;
-  plan.forEach(x=>{const e=estimate(x);if(e)tot+=e.sec;else unk++});
-  const zero=ps('zero'),ung=ps('ungraded').filter(p=>p.due&&new Date(p.due+'T12:00')<new Date());
+  const zero=psB('zero');
+  const ung=psB('ungraded').filter(p=>p.due&&new Date(p.due+'T12:00')<new Date());
   let h=addBar();
-  if(zero.length)h+='<div class="note red"><b>'+zero.length+' actually missing</b> in PowerSchool (scored zero). These are the ones that cost you points.</div>';
+  if(zero.length)h+='<div class="note red"><b>'+zero.length+' actually missing</b> in PowerSchool (scored zero). Tick one off to clear it for good &mdash; it syncs to every device.</div>';
+  else h+='<div class="note green">Nothing scored zero in PowerSchool right now.</div>';
   if(zero.length)h+='<h2 class="sec" style="color:var(--bad)">Actually missing <span>'+zero.length+'</span></h2>'+zero.map(p=>psRow(p)).join('');
   if(ung.length)h+='<h2 class="sec">Past due, no grade entered <span>'+ung.length+'</span></h2>'
-    +'<div class="tiny" style="margin:-4px 0 7px">Could be un-graded by the teacher, or could be genuinely not turned in. Worth a look.</div>'
-    +ung.map(p=>psRow(p)).join('');
-  h+='<div class="card"><h3>Load for the next 3 days</h3><p>'+plan.length+' item'+(plan.length===1?'':'s')+' on deck. '
-   +(tot?'Estimated <b>'+fmtDur(tot)+'</b> of work'+(unk?', plus '+unk+' with no history yet.':'.'):'No time history yet, so no estimate. Run the timer a few times and this fills in.')+'</p></div>';
+    +'<div class="tiny" style="margin:-4px 0 7px">Might just be un-graded by the teacher. Worth a glance.</div>'+ung.map(p=>psRow(p)).join('');
+  h+='<h2 class="sec">Due today <span>'+td.length+'</span></h2>'+(td.length?td.map(x=>row(x)).join(''):'<div class="empty">Nothing due today.</div>');
+  h+='<h2 class="sec">Next 3 days <span>'+soon.length+'</span></h2>'+(soon.length?soon.map(x=>row(x)).join(''):'<div class="empty">Clear.</div>');
   h+='<h2 class="sec">Past due in Classroom <span>'+od.length+'</span></h2>'
-   +'<div class="tiny" style="margin:-4px 0 7px">Classroom due dates only. Not the same as missing &mdash; check the Grades tab for what actually hurt you.</div>'
-   +(od.length?od.map(taskRow).join(''):'<div class="empty">Nothing past due.</div>');
-  h+='<h2 class="sec">Due today <span>'+td.length+'</span></h2>'+(td.length?td.map(taskRow).join(''):'<div class="empty">Nothing due today.</div>');
-  h+='<h2 class="sec">Next 3 days <span>'+soon.length+'</span></h2>'+(soon.length?soon.map(taskRow).join(''):'<div class="empty">Clear.</div>');
+   +'<div class="tiny" style="margin:-4px 0 7px">Classroom dates only. Not the same as missing &mdash; PowerSchool above is what counts.</div>'
+   +(od.length?od.map(x=>row(x,{soft:1})).join(''):'<div class="empty">Nothing past due.</div>');
   document.getElementById('today').innerHTML=h;wireAdd();
 }
 function renderAll(){
-  const t=allTasks(),open=t.filter(x=>!x.done).sort((a,b)=>{if(!a.due)return 1;if(!b.due)return -1;return new Date(a.due)-new Date(b.due)});
-  const done=t.filter(x=>x.done).sort((a,b)=>new Date(DONE[b.id])-new Date(DONE[a.id]));
+  const open=allTasks().filter(x=>!isCleared(x)).sort((a,b)=>{if(!a.due)return 1;if(!b.due)return -1;return new Date(a.due)-new Date(b.due)});
   const by={};open.forEach(x=>{const k=x.cls||'Personal';(by[k]=by[k]||[]).push(x)});
   let h=addBar()+'<h2 class="sec">Open <span>'+open.length+'</span></h2>';
-  Object.keys(by).sort().forEach(c=>{h+='<h2 class="sec" style="color:'+colorOf(c)+'">'+esc(c)+' <span>'+by[c].length+'</span></h2>'+by[c].map(taskRow).join('')});
-  h+='<h2 class="sec">Completed <span>'+done.length+'</span></h2>'+(done.length?done.slice(0,40).map(taskRow).join(''):'<div class="empty">Nothing completed yet.</div>');
+  Object.keys(by).sort().forEach(c=>{h+='<h2 class="sec" style="color:'+colorOf(c)+'">'+esc(c)+' <span>'+by[c].length+'</span></h2>'+by[c].map(x=>row(x)).join('')});
   document.getElementById('all').innerHTML=h;wireAdd();
 }
-
-/* ---------- timer ---------- */
-let T={taskId:null,sec:0,running:false,lastAct:Date.now(),state:'run'};
-const sv=LS('active');if(sv&&sv.taskId){T=Object.assign(T,sv);T.running=false}
-function findTask(id){return allTasks().find(t=>t.id===id)}
-function startTimer(id){
-  if(T.running&&T.taskId!==id)stopTimer();
-  if(!findTask(id))return;
-  if(T.taskId!==id){T.taskId=id;T.sec=0}
-  T.running=true;T.lastAct=Date.now();T.state='run';SS('active',T);go('timer');
-}
-function stopTimer(){
-  if(T.taskId&&T.sec>5){const t=findTask(T.taskId);
-    SESS.push({id:uid(),taskId:T.taskId,title:t?t.title:'(removed)',cls:t?t.cls:null,kind:t?t.kind:'worksheet',sec:Math.round(T.sec),ts:new Date().toISOString()});save()}
-  T={taskId:null,sec:0,running:false,lastAct:Date.now(),state:'run'};
-  localStorage.removeItem('hub.active');renderTimer();
-}
-function pauseTimer(){T.running=false;SS('active',T);renderTimer()}
-function finishNow(){const id=T.taskId;stopTimer();if(id){DONE[id]=new Date().toISOString();save()}refresh();go('today')}
-['mousemove','mousedown','keydown','touchstart','scroll','click'].forEach(e=>document.addEventListener(e,()=>{T.lastAct=Date.now()},{passive:true}));
-setInterval(()=>{
-  if(!T.running||!T.taskId)return;
-  let st='run';
-  if(document.hidden)st='bg';
-  else if(Date.now()-T.lastAct>CFG.idleMin*60000)st='idle';
-  T.state=st;if(st==='run')T.sec++;SS('active',T);
-  const c=document.getElementById('clk');
-  if(c){c.textContent=clockFmt(T.sec);const s=document.getElementById('tstate');
-    if(s){s.className='state '+st;
-      s.textContent=st==='run'?'Counting':st==='idle'?('Idle '+CFG.idleMin+'+ min — paused, this time is not being counted'):'Tab in background — paused, this time is not being counted'}}
-},1000);
-function renderTimer(){
-  const el=document.getElementById('timer');
-  if(!T.taskId){
-    const open=allTasks().filter(x=>!x.done).sort((a,b)=>{if(!a.due)return 1;if(!b.due)return -1;return new Date(a.due)-new Date(b.due)}).slice(0,12);
-    el.innerHTML='<div class="card"><h3>Pick something to work on</h3><p>The clock only runs while this page is in front of you and you are actually moving. Switch tabs, or sit still for '+CFG.idleMin+' minutes, and it pauses itself. That way "2 hours" means two real hours.</p></div>'+open.map(taskRow).join('');return}
-  const t=findTask(T.taskId),e=t?estimate(t):null,pct=e?Math.min(999,Math.round(T.sec/e.sec*100)):null;
-  el.innerHTML='<div class="card"><h3>'+esc(t?t.title:'Task')+'</h3>'
-   +'<p class="tiny"><span class="dot" style="background:'+colorOf(t&&t.cls)+'"></span> '+esc((t&&t.cls)||'Personal')+' &middot; '+esc(t?t.kind:'')+'</p>'
-   +'<div class="clock" id="clk">'+clockFmt(T.sec)+'</div>'
-   +'<div class="clocksub">'+(e?'Usually about <b>'+fmtDur(e.sec)+'</b> for you &mdash; you are at '+pct+'%':'No history for this type yet. This session becomes the first data point.')+'</div>'
-   +'<div class="state '+T.state+'" id="tstate">'+(T.running?'Counting':'Paused')+'</div><div style="text-align:center">'
-   +(T.running?'<button class="btn" onclick="pauseTimer()">Pause</button>':'<button class="btn primary" onclick="startTimer(\''+T.taskId+'\')">Resume</button>')
-   +'<button class="btn primary" onclick="finishNow()">Done &mdash; log it</button>'
-   +'<button class="btn danger" onclick="stopTimer()">Stop &amp; save</button></div></div>'
-   +(e?'<div class="card"><h3>Where that number comes from</h3><p>Median of <b>'+e.n+'</b> finished '+esc(e.basis)+'.'+(e.weak?' Only one sample so far, so treat it loosely.':'')+'</p></div>':'');
-}
-
-/* ---------- insights ---------- */
-function renderInsights(){
-  const el=document.getElementById('insights');
-  if(!SESS.length){el.innerHTML='<div class="empty">No time logged yet. Hit &#9654; on any task and this page fills in.</div>';return}
-  const wk=SESS.filter(s=>new Date(s.ts).getTime()>Date.now()-7*864e5);
-  const byC={};SESS.forEach(s=>{const k=s.cls||'Personal';byC[k]=(byC[k]||0)+s.sec});
-  const mx=Math.max(...Object.values(byC));
-  const fin=finishedTotals(),kinds={};fin.forEach(f=>{(kinds[f.kind]=kinds[f.kind]||[]).push(f.sec)});
-  let h='<div class="card"><h3>Totals</h3><p>Last 7 days: <b>'+fmtDur(wk.reduce((a,s)=>a+s.sec,0))+'</b> over '+wk.length+' session'+(wk.length===1?'':'s')+'.<br>All time: <b>'+fmtDur(SESS.reduce((a,s)=>a+s.sec,0))+'</b> over '+SESS.length+'.</p></div>';
-  h+='<div class="card"><h3>Time by class</h3><div class="bars">'+Object.entries(byC).sort((a,b)=>b[1]-a[1]).map(([c,v])=>
-    '<div class="b"><div class="lbl"><span>'+esc(c)+'</span><span class="tiny">'+fmtDur(v)+'</span></div><div class="track"><div class="fill" style="width:'+(v/mx*100)+'%;background:'+colorOf(c)+'"></div></div></div>').join('')+'</div></div>';
-  if(Object.keys(kinds).length)
-    h+='<div class="card"><h3>How long things actually take you</h3><p class="tiny">Median across finished tasks. This is exactly what the estimates use.</p><table><tr><th>Type</th><th>Median</th><th>Range</th><th>n</th></tr>'
-      +Object.entries(kinds).sort((a,b)=>b[1].length-a[1].length).map(([k,v])=>'<tr><td>'+esc(k)+'</td><td><b>'+fmtDur(median(v))+'</b></td><td class="tiny">'+fmtDur(Math.min(...v))+' &ndash; '+fmtDur(Math.max(...v))+'</td><td>'+v.length+'</td></tr>').join('')+'</table></div>';
-  else h+='<div class="note">You have logged time but not ticked anything off. Estimates only count <b>finished</b> tasks, so a half-done session can\'t drag the number down. Complete one and this starts working.</div>';
-  h+='<div class="card"><h3>Recent sessions</h3><table><tr><th>When</th><th>Task</th><th>Time</th></tr>'
-   +SESS.slice(-12).reverse().map(s=>'<tr><td class="tiny">'+new Date(s.ts).toLocaleDateString([],{month:'short',day:'numeric'})+'</td><td>'+esc(s.title)+'</td><td>'+fmtDur(s.sec)+'</td></tr>').join('')+'</table></div>';
-  el.innerHTML=h;
-}
 function renderGrades(){
-  const el=document.getElementById('grades');
   const G=DATA.grades||[];
   const ord={'A+':0,'A':1,'A-':2,'B+':3,'B':4,'B-':5,'C+':6,'C':7,'C-':8,'D+':9,'D':10,'D-':11,'F':12};
   const sorted=G.slice().sort((a,b)=>(ord[b.letter]??6)-(ord[a.letter]??6));
   let h='<div class="card"><h3>Current grades</h3><table><tr><th>Class</th><th>Grade</th><th></th></tr>'
-   +sorted.map(g=>{
-     const bad=['D+','D','D-','F','C-','C'].includes(g.letter);
+   +sorted.map(g=>{const bad=['D+','D','D-','F','C-','C','C+'].includes(g.letter);
      return '<tr><td><span class="dot" style="background:'+colorOf(g.cls)+'"></span> '+esc(g.cls)+'</td>'
-      +'<td><b style="color:'+(bad?'var(--bad)':'var(--good)')+'">'+esc(g.letter)+'</b> '
-      +(g.pct!==null?(g.scale==='points'?g.pct+' pts':g.pct+'%'):'')+'</td>'
+      +'<td><b style="color:'+(bad?'var(--bad)':'var(--good)')+'">'+esc(g.letter)+'</b> '+(g.pct!==null?(g.scale==='points'?g.pct+' pts':g.pct+'%'):'')+'</td>'
       +'<td><a class="tiny" target="_blank" href="https://brebeuf.powerschool.com/guardian/scores.html?frn='+g.frn+'&begdate=08/10/2026&enddate=12/18/2026&fg=S1&schoolid=1000003360">open</a></td></tr>'}).join('')
-   +'</table><p class="tiny" style="margin-top:8px">Algebra II is shown on a points scale by Mr. Kaplan, not a percent.</p></div>';
-  const low=ps('lowscore');
-  if(low.length)h+='<div class="card"><h3>Scores under 60%</h3><p class="tiny">Not missing &mdash; you turned these in, they just went badly. This is what is dragging the grade.</p></div>'+low.map(p=>psRow(p,{nocheck:1})).join('');
-  const ff=ps('falseflag');
+   +'</table><p class="tiny" style="margin-top:8px">Algebra II is on a points scale, not a percent.</p></div>';
+  const low=psB('lowscore');
+  if(low.length)h+='<div class="card"><h3>Scores under 60%</h3><p class="tiny">Not missing. You turned these in, they went badly. This is what is actually holding the grade down.</p></div>'+low.map(p=>psRow(p,{nocheck:1})).join('');
+  const ff=psAll().filter(p=>p.bucket==='falseflag');
   if(ff.length)h+='<div class="card"><h3>Flagged missing but full credit <span class="tiny">('+ff.length+')</span></h3>'
-   +'<p>These show the missing icon in PowerSchool but are scored 100%. The flag was never cleared. <b>You do not owe anything here.</b> '
-   +'They are all in '+esc([...new Set(ff.map(x=>x.cls))].join(', '))+', so it is one teacher not clearing flags rather than a real problem.</p>'
+   +'<p>These show the missing icon in PowerSchool but are scored 100%. The flag was never cleared. <b>You do not owe anything here.</b> All in '+esc([...new Set(ff.map(x=>x.cls))].join(', '))+'.</p>'
    +'<details><summary>Show all '+ff.length+'</summary>'+ff.map(p=>psRow(p,{nocheck:1})).join('')+'</details></div>';
   h+='<div class="card"><h3>How "missing" is decided</h3><ul style="margin:4px 0 0;padding-left:18px;color:#cdd4e0;font-size:13.5px">'
-   +'<li><b>Scored 0</b> out of anything &rarr; actually missing</li>'
-   +'<li><b>Missing flag + full credit</b> &rarr; ignored, teacher error</li>'
-   +'<li><b>Missing flag + partial credit</b> &rarr; ignored, you turned it in</li>'
-   +'<li><b>Past due, no score at all</b> &rarr; shown separately as "check this"</li>'
-   +'<li>Google Classroom\'s Missing tab is <b>not used</b> at all</li></ul></div>';
-  el.innerHTML=h;
+   +'<li><b>Scored 0</b> &rarr; actually missing</li><li><b>Flag + full credit</b> &rarr; ignored, teacher error</li>'
+   +'<li><b>Flag + partial credit</b> &rarr; ignored, you turned it in</li><li><b>Past due, no score</b> &rarr; shown as "check this"</li>'
+   +'<li>Classroom\'s Missing tab is <b>not used</b></li></ul></div>';
+  document.getElementById('grades').innerHTML=h;
 }
-function renderSettings(){
-  document.getElementById('settings').innerHTML=
-   '<div class="card"><h3>Idle cutoff</h3><p>If you don\'t touch the page for this long, the timer stops counting. This is the "left it open and walked away" guard.</p><select id="idle" style="width:auto"><option value="1">1 minute</option><option value="2">2 minutes</option><option value="3">3 minutes</option><option value="5">5 minutes</option><option value="10">10 minutes</option></select></div>'
-   +'<div class="card"><h3>Move data between devices</h3><p>Tasks and time logs live on this device only. Export here, paste into the box on your phone.</p><textarea id="dump" rows="4" placeholder="Paste a backup here, then hit Import"></textarea><div><button class="btn" onclick="exportData()">Export</button><button class="btn" onclick="importData()">Import</button></div></div>'
-   +'<div class="card"><h3>Learned words</h3><p class="tiny">When you correct a class, I remember the word you used.</p><div id="alist"></div></div>'
-   +'<div class="card"><h3>Data</h3><p class="tiny">Classroom list last refreshed: <b>'+(DATA.generated?new Date(DATA.generated).toLocaleString():'unknown')+'</b></p><button class="btn danger" onclick="if(confirm(\'Erase all tasks and time logs?\')){localStorage.clear();location.reload()}">Reset everything</button></div>';
-  const s=document.getElementById('idle');s.value=CFG.idleMin;s.onchange=()=>{CFG.idleMin=+s.value;save()};
-  const ks=Object.keys(ALIAS);
-  document.getElementById('alist').innerHTML=ks.length?ks.map(k=>'<span class="chip"><b>'+esc(k)+'</b> &rarr; '+esc(ALIAS[k])+'</span>').join(''):'<span class="tiny">None yet.</span>';
+function renderCleared(){
+  const ks=Object.keys(S.dismissed).sort((a,b)=>new Date(S.dismissed[b].at)-new Date(S.dismissed[a].at));
+  let h='<div class="card"><h3>Cleared items</h3><p>Things you ticked off. They stay hidden even when PowerSchool keeps reporting them, on every device. Tap one to bring it back.</p></div>';
+  if(!ks.length)h+='<div class="empty">Nothing cleared yet.</div>';
+  ks.forEach(k=>{const d=S.dismissed[k];
+    h+='<div class="task done" style="border-left-color:'+colorOf(d.cls)+'">'
+     +'<div class="cb" onclick="clearPrompt(\''+esc(k).replace(/'/g,"\\'")+'\')">&#10003;</div><div class="body">'
+     +'<div class="ttl">'+esc(d.title||k)+'</div><div class="meta"><span class="dot" style="background:'+colorOf(d.cls)+'"></span>'+esc(d.cls||'Personal')
+     +'<span>cleared '+new Date(d.at).toLocaleDateString([],{month:'short',day:'numeric'})+'</span></div>'
+     +(d.note?'<div class="note2">'+esc(d.note)+'</div>':'')+'</div></div>'});
+  document.getElementById('cleared').innerHTML=h;
 }
-function exportData(){document.getElementById('dump').value=JSON.stringify({tasks:MY,sessions:SESS,done:DONE,alias:ALIAS,cfg:CFG})}
-function importData(){try{const o=JSON.parse(document.getElementById('dump').value);
-  MY=o.tasks||[];SESS=o.sessions||[];DONE=o.done||{};ALIAS=o.alias||{};CFG=o.cfg||CFG;save();refresh();alert('Imported.')}catch(e){alert('That did not parse.')}}
-
-function go(v){document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.v===v));
-  document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id===v));
-  if(v==='timer')renderTimer();if(v==='insights')renderInsights();if(v==='settings')renderSettings();if(v==='grades')renderGrades();window.scrollTo(0,0)}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
-function refresh(){
-  renderToday();renderAll();
-  const open=allTasks().filter(x=>!x.done),miss=ps('zero').length;
-  document.getElementById('hdr').innerHTML=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})
-   +' &middot; '+open.length+' open'+(miss?' &middot; <span style="color:var(--bad)">'+miss+' missing</span>':' &middot; <span style="color:var(--good)">nothing missing</span>');
-  if(document.getElementById('grades').classList.contains('on'))renderGrades();
+function renderStudy(){
   document.getElementById('study').innerHTML=
-   '<div class="card"><h3>Test trainers</h3><p>Flashcards, practice tests and reference charts built from your teachers\' own notes.</p>'
+   '<div class="card"><h3>Test trainers</h3><p>Flashcards, practice tests and reference charts from your teachers\' own notes.</p>'
    +'<a class="btn primary" href="study.html">Chemistry &amp; Religion</a><a class="btn" href="ush.html">US History Unit 1+2</a></div>'
    +'<div class="card"><h3>Jump to a class</h3><div>'+DATA.classes.map(c=>'<a class="btn sm" target="_blank" href="https://classroom.google.com/c/'+c.id+'"><span class="dot" style="background:'+c.color+'"></span> '+esc(c.name)+'</a>').join('')+'</div></div>';
 }
-fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{DATA=d;refresh();renderTimer()})
- .catch(()=>{document.getElementById('today').innerHTML='<div class="note red">Could not load data.json.</div>'});
+function renderSettings(){
+  const ks=Object.keys(S.alias);
+  document.getElementById('settings').innerHTML=
+   '<div class="card"><h3>Sync</h3><p>Tasks and cleared items live in a shared database, so your Mac and your phone see the same thing. The dot next to the title is green when synced.</p>'
+   +'<button class="btn" onclick="pull().then(refresh)">Pull now</button><span class="tiny" id="syncinfo"></span></div>'
+   +'<div class="card"><h3>Data freshness</h3><p class="tiny">Classroom + PowerSchool last refreshed: <b>'+(DATA.generated?new Date(DATA.generated).toLocaleString():'unknown')+'</b><br>Refreshes automatically at 6:30 AM and 4:30 PM.</p></div>'
+   +'<div class="card"><h3>Learned words</h3><p class="tiny">When you correct a class, the word is remembered.</p><div>'+(ks.length?ks.map(k=>'<span class="chip"><b>'+esc(k)+'</b> &rarr; '+esc(S.alias[k])+'</span>').join(''):'<span class="tiny">None yet.</span>')+'</div></div>'
+   +'<div class="card"><h3>Reset</h3><button class="btn danger" onclick="if(confirm(\'Erase all your tasks and cleared items everywhere?\')){S={dismissed:{},tasks:[],alias:{}};push();refresh()}">Erase synced data</button></div>';
+}
+
+/* ===================== BOOT ===================== */
+function go(v){document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.v===v));
+  document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id===v));
+  if(v==='grades')renderGrades();if(v==='cleared')renderCleared();if(v==='settings')renderSettings();if(v==='study')renderStudy();
+  window.scrollTo(0,0)}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+function refresh(){
+  renderToday();renderAll();
+  const active=document.querySelector('.view.on');
+  if(active){if(active.id==='grades')renderGrades();if(active.id==='cleared')renderCleared();if(active.id==='settings')renderSettings();if(active.id==='study')renderStudy()}
+  const open=allTasks().filter(x=>!isCleared(x)).length,miss=psB('zero').length;
+  document.getElementById('hdr').innerHTML=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})
+   +' &middot; '+open+' open'+(miss?' &middot; <span style="color:var(--bad)">'+miss+' missing</span>':' &middot; <span style="color:var(--good)">nothing missing</span>');
+}
+async function boot(){
+  const c=cacheGet();if(c)S=mergeState(S,c);
+  try{DATA=await (await fetch('data.json?t='+Date.now(),{cache:'no-store'})).json()}
+  catch(e){document.getElementById('today').innerHTML='<div class="note red">Could not load data.json.</div>';return}
+  refresh();await pull();refresh();
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull().then(refresh)});
+window.addEventListener('focus',()=>pull().then(refresh));
+setInterval(()=>{if(!document.hidden)pull().then(refresh)},120000);
+boot();
 </script>
 </body>
 </html>
