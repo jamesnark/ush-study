@@ -82,6 +82,7 @@ th{background:var(--panel2);font-size:11px;text-transform:uppercase;letter-spaci
     <button class="on" data-v="today">Today</button>
     <button data-v="all">All Work</button>
     <button data-v="timer">Timer</button>
+    <button data-v="grades">Grades</button>
     <button data-v="insights">Insights</button>
     <button data-v="study">Study</button>
     <button data-v="settings">Settings</button>
@@ -91,6 +92,7 @@ th{background:var(--panel2);font-size:11px;text-transform:uppercase;letter-spaci
 <section class="view on" id="today"></section>
 <section class="view" id="all"></section>
 <section class="view" id="timer"></section>
+<section class="view" id="grades"></section>
 <section class="view" id="insights"></section>
 <section class="view" id="study"></section>
 <section class="view" id="settings"></section>
@@ -122,6 +124,22 @@ function clsOf(n){return DATA.classes.find(c=>c.name===n)}
 function colorOf(n){const c=clsOf(n);return c?c.color:'#6b7280'}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function allTasks(){return [...DATA.assignments.map(a=>({...a,src:'classroom'})),...MY].map(t=>({...t,done:!!DONE[t.id]}))}
+/* PowerSchool is the source of truth for what is actually missing */
+function ps(bucket){return (DATA.powerschool||[]).filter(p=>p.bucket===bucket&&!DONE['ps:'+p.id])}
+function psRow(p,opts){
+  opts=opts||{};const col=colorOf(p.cls);
+  const scoreTxt=p.score===null?'not graded':p.score+'/'+p.possible+(p.pct!==null?' ('+Math.round(p.pct)+'%)':'');
+  return '<div class="task" style="border-left-color:'+col+'">'
+   +(opts.nocheck?'':'<div class="cb" onclick="togglePS(\''+p.id+'\')">&#10003;</div>')
+   +'<div class="body"><div class="ttl">'+esc(p.title)+'</div><div class="meta">'
+   +'<span class="dot" style="background:'+col+'"></span>'+esc(p.cls)
+   +'<span>'+(p.due?new Date(p.due+'T12:00').toLocaleDateString([],{month:'short',day:'numeric'}):'no date')+'</span>'
+   +'<span'+(p.bucket==='zero'?' class="due od"':'')+'>'+scoreTxt+'</span>'
+   +(p.flag?'<span class="tiny">flagged</span>':'')+(p.late?'<span class="tiny">late</span>':'')
+   +(p.cat?'<span class="tiny">'+esc(p.cat)+'</span>':'')
+   +'</div></div></div>';
+}
+function togglePS(id){const k='ps:'+id;if(DONE[k])delete DONE[k];else DONE[k]=new Date().toISOString();save();refresh()}
 
 /* ---------- estimates ---------- */
 function totalsByTask(){const m={};SESS.forEach(s=>{m[s.taskId]=m[s.taskId]||{sec:0,cls:s.cls,kind:s.kind,title:s.title};m[s.taskId].sec+=s.sec});return m}
@@ -248,11 +266,18 @@ function renderToday(){
   const soon=t.filter(x=>x.due&&dayDiff(x.due)>0&&dayDiff(x.due)<=3).sort((a,b)=>new Date(a.due)-new Date(b.due));
   const plan=[...od,...td,...soon];let tot=0,unk=0;
   plan.forEach(x=>{const e=estimate(x);if(e)tot+=e.sec;else unk++});
+  const zero=ps('zero'),ung=ps('ungraded').filter(p=>p.due&&new Date(p.due+'T12:00')<new Date());
   let h=addBar();
-  if(od.length)h+='<div class="note red"><b>'+od.length+' overdue</b> &mdash; the oldest is '+Math.abs(dayDiff(od[0].due))+' days past due.</div>';
+  if(zero.length)h+='<div class="note red"><b>'+zero.length+' actually missing</b> in PowerSchool (scored zero). These are the ones that cost you points.</div>';
+  if(zero.length)h+='<h2 class="sec" style="color:var(--bad)">Actually missing <span>'+zero.length+'</span></h2>'+zero.map(p=>psRow(p)).join('');
+  if(ung.length)h+='<h2 class="sec">Past due, no grade entered <span>'+ung.length+'</span></h2>'
+    +'<div class="tiny" style="margin:-4px 0 7px">Could be un-graded by the teacher, or could be genuinely not turned in. Worth a look.</div>'
+    +ung.map(p=>psRow(p)).join('');
   h+='<div class="card"><h3>Load for the next 3 days</h3><p>'+plan.length+' item'+(plan.length===1?'':'s')+' on deck. '
    +(tot?'Estimated <b>'+fmtDur(tot)+'</b> of work'+(unk?', plus '+unk+' with no history yet.':'.'):'No time history yet, so no estimate. Run the timer a few times and this fills in.')+'</p></div>';
-  h+='<h2 class="sec">Overdue <span>'+od.length+'</span></h2>'+(od.length?od.map(taskRow).join(''):'<div class="empty">Nothing overdue.</div>');
+  h+='<h2 class="sec">Past due in Classroom <span>'+od.length+'</span></h2>'
+   +'<div class="tiny" style="margin:-4px 0 7px">Classroom due dates only. Not the same as missing &mdash; check the Grades tab for what actually hurt you.</div>'
+   +(od.length?od.map(taskRow).join(''):'<div class="empty">Nothing past due.</div>');
   h+='<h2 class="sec">Due today <span>'+td.length+'</span></h2>'+(td.length?td.map(taskRow).join(''):'<div class="empty">Nothing due today.</div>');
   h+='<h2 class="sec">Next 3 days <span>'+soon.length+'</span></h2>'+(soon.length?soon.map(taskRow).join(''):'<div class="empty">Clear.</div>');
   document.getElementById('today').innerHTML=h;wireAdd();
@@ -333,6 +358,34 @@ function renderInsights(){
    +SESS.slice(-12).reverse().map(s=>'<tr><td class="tiny">'+new Date(s.ts).toLocaleDateString([],{month:'short',day:'numeric'})+'</td><td>'+esc(s.title)+'</td><td>'+fmtDur(s.sec)+'</td></tr>').join('')+'</table></div>';
   el.innerHTML=h;
 }
+function renderGrades(){
+  const el=document.getElementById('grades');
+  const G=DATA.grades||[];
+  const ord={'A+':0,'A':1,'A-':2,'B+':3,'B':4,'B-':5,'C+':6,'C':7,'C-':8,'D+':9,'D':10,'D-':11,'F':12};
+  const sorted=G.slice().sort((a,b)=>(ord[b.letter]??6)-(ord[a.letter]??6));
+  let h='<div class="card"><h3>Current grades</h3><table><tr><th>Class</th><th>Grade</th><th></th></tr>'
+   +sorted.map(g=>{
+     const bad=['D+','D','D-','F','C-','C'].includes(g.letter);
+     return '<tr><td><span class="dot" style="background:'+colorOf(g.cls)+'"></span> '+esc(g.cls)+'</td>'
+      +'<td><b style="color:'+(bad?'var(--bad)':'var(--good)')+'">'+esc(g.letter)+'</b> '
+      +(g.pct!==null?(g.scale==='points'?g.pct+' pts':g.pct+'%'):'')+'</td>'
+      +'<td><a class="tiny" target="_blank" href="https://brebeuf.powerschool.com/guardian/scores.html?frn='+g.frn+'&begdate=08/10/2026&enddate=12/18/2026&fg=S1&schoolid=1000003360">open</a></td></tr>'}).join('')
+   +'</table><p class="tiny" style="margin-top:8px">Algebra II is shown on a points scale by Mr. Kaplan, not a percent.</p></div>';
+  const low=ps('lowscore');
+  if(low.length)h+='<div class="card"><h3>Scores under 60%</h3><p class="tiny">Not missing &mdash; you turned these in, they just went badly. This is what is dragging the grade.</p></div>'+low.map(p=>psRow(p,{nocheck:1})).join('');
+  const ff=ps('falseflag');
+  if(ff.length)h+='<div class="card"><h3>Flagged missing but full credit <span class="tiny">('+ff.length+')</span></h3>'
+   +'<p>These show the missing icon in PowerSchool but are scored 100%. The flag was never cleared. <b>You do not owe anything here.</b> '
+   +'They are all in '+esc([...new Set(ff.map(x=>x.cls))].join(', '))+', so it is one teacher not clearing flags rather than a real problem.</p>'
+   +'<details><summary>Show all '+ff.length+'</summary>'+ff.map(p=>psRow(p,{nocheck:1})).join('')+'</details></div>';
+  h+='<div class="card"><h3>How "missing" is decided</h3><ul style="margin:4px 0 0;padding-left:18px;color:#cdd4e0;font-size:13.5px">'
+   +'<li><b>Scored 0</b> out of anything &rarr; actually missing</li>'
+   +'<li><b>Missing flag + full credit</b> &rarr; ignored, teacher error</li>'
+   +'<li><b>Missing flag + partial credit</b> &rarr; ignored, you turned it in</li>'
+   +'<li><b>Past due, no score at all</b> &rarr; shown separately as "check this"</li>'
+   +'<li>Google Classroom\'s Missing tab is <b>not used</b> at all</li></ul></div>';
+  el.innerHTML=h;
+}
 function renderSettings(){
   document.getElementById('settings').innerHTML=
    '<div class="card"><h3>Idle cutoff</h3><p>If you don\'t touch the page for this long, the timer stops counting. This is the "left it open and walked away" guard.</p><select id="idle" style="width:auto"><option value="1">1 minute</option><option value="2">2 minutes</option><option value="3">3 minutes</option><option value="5">5 minutes</option><option value="10">10 minutes</option></select></div>'
@@ -349,13 +402,14 @@ function importData(){try{const o=JSON.parse(document.getElementById('dump').val
 
 function go(v){document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.v===v));
   document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id===v));
-  if(v==='timer')renderTimer();if(v==='insights')renderInsights();if(v==='settings')renderSettings();window.scrollTo(0,0)}
+  if(v==='timer')renderTimer();if(v==='insights')renderInsights();if(v==='settings')renderSettings();if(v==='grades')renderGrades();window.scrollTo(0,0)}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 function refresh(){
   renderToday();renderAll();
-  const open=allTasks().filter(x=>!x.done),od=open.filter(x=>x.due&&dayDiff(x.due)<0).length;
+  const open=allTasks().filter(x=>!x.done),miss=ps('zero').length;
   document.getElementById('hdr').innerHTML=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})
-   +' &middot; '+open.length+' open'+(od?' &middot; <span style="color:var(--bad)">'+od+' overdue</span>':'');
+   +' &middot; '+open.length+' open'+(miss?' &middot; <span style="color:var(--bad)">'+miss+' missing</span>':' &middot; <span style="color:var(--good)">nothing missing</span>');
+  if(document.getElementById('grades').classList.contains('on'))renderGrades();
   document.getElementById('study').innerHTML=
    '<div class="card"><h3>Test trainers</h3><p>Flashcards, practice tests and reference charts built from your teachers\' own notes.</p>'
    +'<a class="btn primary" href="study.html">Chemistry &amp; Religion</a><a class="btn" href="ush.html">US History Unit 1+2</a></div>'
