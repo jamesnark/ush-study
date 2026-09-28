@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>AP CSP Unit 2 - The Internet</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--panel2:#1e222b;--line:#2a2f3a;--ink:#e8eaf0;--dim:#9aa3b2;
+--accent:#3ecf8e;--good:#3ecf8e;--warn:#ffb020;--bad:#ff5c5c;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+header{padding:calc(14px + env(safe-area-inset-top)) 18px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(15,17,21,.97);backdrop-filter:blur(10px);z-index:20}
+h1{margin:0;font-size:17px}
+.sub{color:var(--dim);font-size:12px;margin-top:2px}
+nav{display:flex;gap:6px;margin-top:12px;overflow-x:auto}
+nav::-webkit-scrollbar{display:none}
+nav button{background:var(--panel);border:1px solid var(--line);color:var(--dim);padding:7px 13px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
+nav button.on{background:var(--accent);border-color:var(--accent);color:#08130d}
+main{max-width:840px;margin:0 auto;padding:18px 16px 80px}
+.view{display:none}.view.on{display:block}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+select,.btn{background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:7px;font-size:13px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#08130d;font-weight:600}
+.prog{height:4px;background:var(--panel);border-radius:3px;overflow:hidden;margin-bottom:16px}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.tag{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);margin-bottom:10px}
+.term{font-size:24px;font-weight:600;letter-spacing:-.3px}
+.defn{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);color:#cdd4e0;font-size:14.5px}
+.defn ul{margin:7px 0 0;padding-left:18px}.defn li{margin:3px 0}
+.hint{margin-top:13px;color:var(--warn);font-size:13px;font-style:italic}
+.hidden{display:none}
+.row{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+.stat{font-size:12.5px;color:var(--dim)}.stat b{color:var(--ink);font-size:15px}
+.q{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px 17px;margin-bottom:11px}
+.q h4{margin:0 0 11px;font-size:14.5px;font-weight:600}
+.opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:10px 13px;border-radius:7px;margin-bottom:6px;cursor:pointer;font-size:14px}
+.opt.right{border-color:var(--good);background:rgba(62,207,142,.12)}
+.opt.wrong{border-color:var(--bad);background:rgba(255,92,92,.12)}
+.why{margin-top:9px;font-size:13px;color:var(--dim);border-left:2px solid var(--accent);padding-left:11px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:16px 18px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:15px}
+.card p{margin:0 0 9px;color:#cdd4e0;font-size:14px}
+table{width:100%;border-collapse:collapse;margin:9px 0;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--panel2);font-weight:600;color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+.note{background:rgba(255,176,32,.09);border:1px solid rgba(255,176,32,.3);border-radius:9px;padding:12px 15px;margin-bottom:12px;font-size:13.5px;color:#e6d9bd}
+.empty{color:var(--dim);text-align:center;padding:20px}
+details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:500;padding:4px 0}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <h1>AP CSP &mdash; Unit 2: The Internet</h1>
+  <div class="sub">Ms. Reagin &middot; Period 5 &middot; test Tuesday Sep 29</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=4"></script>
+<script>
+const $=id=>document.getElementById(id);
+/* Every term below is from Ms. Reagin's "Internet Vocab.pdf", which is the official scope.
+   Extra detail comes from the Packets slides, the UDP vs TCP slide, and the Layers activity guide. */
+const T=[
+{s:"L2 \u00b7 Building a Network",cat:"network",t:"Bandwidth",
+ a:["Define it","What unit is it measured in?","Is it about speed or amount?"],
+ h:"Think maximum, fixed time, and a unit.",
+ d:"The <b>maximum amount of data that can be sent in a fixed amount of time</b>, usually measured in <b>bits per second</b>."},
+{s:"L2 \u00b7 Building a Network",cat:"network",t:"Computing Device",
+ a:["Define it","Name three examples the notes give"],
+ h:"The key phrase is \u201ccan run a program.\u201d",
+ d:"A machine that <b>can run a program</b> &mdash; including computers, tablets, servers, <b>routers</b>, and smart sensors.<br>Note routers count as computing devices."},
+{s:"L2 \u00b7 Building a Network",cat:"network",t:"Computing Network",
+ a:["Define it","What must the devices be able to do?"],
+ h:"Interconnected, and able to do one specific thing.",
+ d:"A group of <b>interconnected computing devices capable of sending or receiving data</b>."},
+{s:"L2 \u00b7 Building a Network",cat:"network",t:"Computing System",
+ a:["Define it","How is it different from a computing <i>network</i>?"],
+ h:"This one includes something a network definition doesn't.",
+ d:"A group of <b>computing devices AND programs</b> working together for a <b>common purpose</b>.<br><b>The distinction:</b> a <i>network</i> is just interconnected devices sending/receiving data. A <i>system</i> adds programs and a shared purpose."},
+{s:"L2 \u00b7 Building a Network",cat:"network",t:"Path",
+ a:["Define it","Where does it start and end?"],
+ h:"It has two specific endpoints.",
+ d:"The <b>series of connections</b> between computing devices on a network, <b>starting with a sender and ending with a receiver</b>."},
+
+{s:"L3 \u00b7 The Need for Addressing",cat:"protocol",t:"Protocol",
+ a:["Define it","Is it hardware or an agreement?"],
+ h:"Broadest of the three L3 terms.",
+ d:"An <b>agreed-upon set of rules</b> that specify the <b>behavior of some system</b>.<br>This is the umbrella term &mdash; IP, TCP, UDP, DNS and HTTP are all protocols."},
+{s:"L3 \u00b7 The Need for Addressing",cat:"protocol",t:"Internet Protocol (IP)",
+ a:["What does it do?","What does it assign?","Don't confuse it with the <i>address</i> itself"],
+ h:"It's the rulebook, not the number.",
+ d:"A <b>protocol for sending data across the Internet</b> that <b>assigns unique numbers (IP addresses)</b> to each connected device.<br><b>Watch the trap:</b> IP is the protocol; an IP address is the number it hands out."},
+{s:"L3 \u00b7 The Need for Addressing",cat:"protocol",t:"IP Address",
+ a:["Define it","Is it unique?","Who or what has one?"],
+ h:"One per device.",
+ d:"The <b>unique number assigned to each device on the Internet</b>.<br>Packets carry a <b>to</b> and <b>from</b> IP address, and routers use those to move data along."},
+
+{s:"L4 \u00b7 Routers and Redundancy",cat:"reliability",t:"Router",
+ a:["Define it","What kind of thing is it?"],
+ h:"The definition starts with a surprising two words.",
+ d:"<b>A type of computer</b> that <b>forwards data across a network</b>.<br>Note the notes call it a computer, not just a box."},
+{s:"L4 \u00b7 Routers and Redundancy",cat:"reliability",t:"Redundancy",
+ a:["Define it","Give the network example","How does it relate to fault tolerance?"],
+ h:"Extra on purpose.",
+ d:"The inclusion of <b>extra components</b> so a system can keep working even if individual components fail &mdash; for example <b>having more than one path between any two connected devices</b>.<br><b>Redundancy is how you achieve fault tolerance.</b>"},
+{s:"L4 \u00b7 Routers and Redundancy",cat:"reliability",t:"Fault Tolerant",
+ a:["Define it","Why does it matter for a network?","What creates it?"],
+ h:"Keeps going when parts break.",
+ d:"<b>Can continue to function even when individual components fail.</b> This matters because parts of a complex system like a computer network fail at unexpected times, often in groups.<br><b>Redundancy</b> (extra paths) is what makes a network fault tolerant."},
+{s:"L4 \u00b7 Routers and Redundancy",cat:"reliability",t:"Physical Network layer",
+ a:["What problem does it solve?","Name three physical things that make it up","Must every computer connect directly to every other?"],
+ h:"The bottom layer.",
+ d:"Solves <b>physically connecting devices</b> so information can move.<br>Made of <b>fiber optic cables, wifi signals, or copper wires</b>.<br><b>Key point:</b> computers do NOT need to be directly connected to each other &mdash; just to a single point on the network."},
+
+{s:"L5 \u00b7 Packets",cat:"packet",t:"Packet",
+ a:["Define it","What happens to large messages?","Three ways packets can arrive"],
+ h:"The arrival part is the tested part.",
+ d:"A <b>chunk of data sent over a network</b>. Larger messages are <b>divided into packets</b> that may arrive at the destination <b>in order, out-of-order, or not at all</b>."},
+{s:"L5 \u00b7 Packets",cat:"packet",t:"Packet Metadata",
+ a:["Define it","What two jobs does it do?","What's actually in it?"],
+ h:"Data about the data.",
+ d:"<b>Data added to packets to help route them</b> through the network and <b>reassemble</b> the original message.<br>Includes the <b>sender and receiver IP addresses</b>. In the Internet Simulator, 16 of each packet's 80 bits were metadata, leaving 64 bits (8 ASCII characters)."},
+{s:"L5 \u00b7 Packets",cat:"packet",t:"Datastream",
+ a:["Define it"],
+ h:"How information moves through the internet.",
+ d:"<b>Information passed through the internet in packets.</b>"},
+{s:"L5 \u00b7 Packets",cat:"packet",t:"Transmission Control Protocol (TCP)",
+ a:["Speed or accuracy?","Three things it does mechanically","Three real-life uses"],
+ h:"Slower, but it checks.",
+ d:"<b>Slower but more accurate.</b> Sends packets with error-checking.<ul>"
+ +"<li><b>Numbers packets</b> so they can be re-ordered</li><li><b>Confirms</b> all were received</li>"
+ +"<li><b>Resends</b> any missing packets, with multiple back-and-forth confirmations</li></ul>"
+ +"<b>Use when accuracy beats a split second:</b> emails, photos, browsing websites, downloading files."},
+{s:"L5 \u00b7 Packets",cat:"packet",t:"User Datagram Protocol (UDP)",
+ a:["Speed or accuracy?","What does it deliberately NOT do?","Three real-life uses"],
+ h:"Fast, and it doesn't look back.",
+ d:"<b>Fast, with minimal error-checking.</b> Sends all the packets but <b>does not check</b> whether they arrive or arrive in order, and <b>does not resend</b> dropped packets.<br>"
+ +"<b>Use when split seconds beat accuracy:</b> video-conferencing, live streaming, online gaming."},
+
+{s:"L6 \u00b7 HTTP and DNS",cat:"protocol",t:"Domain Name System (DNS)",
+ a:["What problem does it solve?","Which direction does it translate?","What does it travel over?"],
+ h:"Names in, numbers out.",
+ d:"The system responsible for <b>translating domain names</b> like example.com <b>into IP addresses</b>.<br>Your computer contacts a system of DNS servers that track which IP goes with which domain. Those requests themselves travel as <b>TCP/IP packets</b>."},
+{s:"L6 \u00b7 HTTP and DNS",cat:"protocol",t:"HyperText Transfer Protocol (HTTP)",
+ a:["What is it used for?","What does a request look like?","What does it ride on top of?"],
+ h:"Requesting and sharing web content.",
+ d:"The protocol used for <b>transmitting web pages over the Internet</b> &mdash; requesting and sharing webpages, audio, images, video and other files.<br>Computers communicate in <b>plain text</b>, like <b>GET</b>, to request files; the server responds with the files, which the browser displays. HTTP requests are sent <b>inside TCP/IP packets</b>."},
+{s:"L6 \u00b7 HTTP and DNS",cat:"concept",t:"World Wide Web",
+ a:["Define it","Is it the same thing as the Internet?"],
+ h:"Short definition. The trap is the follow-up.",
+ d:"A <b>system of linked pages, programs, and files</b>.<br><b>The trap:</b> the web is NOT the Internet. The Internet is the network; the web is just files requested using <b>HTTP</b> and sent over that network."},
+
+{s:"L7 \u00b7 Internet Dilemmas",cat:"concept",t:"Digital Divide",
+ a:["Define it","Name the three characteristics it's based on"],
+ h:"Three categories, and they're specific.",
+ d:"<b>Differing access to computing devices and the Internet</b>, based on <b>socioeconomic, geographic, or demographic</b> characteristics."},
+{s:"Layers",cat:"concept",t:"Layers of the Internet",
+ a:["What is the big idea?","Name the layers bottom to top","Why layers at all?"],
+ h:"Each one relies on the one below it.",
+ d:"The Internet is made of <b>many protocols that build on each other like layers</b>, with higher layers relying on the ones below.<br>"
+ +"<b>Bottom to top:</b> Physical Network &rarr; IP &rarr; TCP <i>or</i> UDP &rarr; DNS and HTTP.<br>"
+ +"Together they solve every problem needed for <b>billions of devices</b> to communicate."}
+];
+const CARDS=T.map(x=>({s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat}));
+
+/* ---------- generated scenario questions ---------- */
+const SCEN=[
+ ["a video call with your grandma","UDP","a split second matters more than a perfect picture"],
+ ["live streaming a football game","UDP","speed matters more than correcting every error"],
+ ["an online multiplayer game","UDP","lag is worse than a dropped frame"],
+ ["sending an email","TCP","the message has to arrive complete and in order"],
+ ["uploading photos to a website","TCP","a missing chunk would corrupt the image"],
+ ["loading a normal web page","TCP","the page has to arrive accurately"],
+ ["downloading a large file","TCP","every packet must arrive or the file is broken"],
+ ["a voice-over-IP phone call","UDP","delay is more damaging than a tiny glitch"]
+];
+const LAYERS=[
+ ["physically connecting devices so information can move","Physical Network"],
+ ["uniquely identifying devices and routing messages between them","IP"],
+ ["sending a large message when accuracy matters most","TCP"],
+ ["sending a large message when speed matters most","UDP"],
+ ["translating a domain name into an IP address","DNS"],
+ ["requesting and sharing webpages, images and video","HTTP"]
+];
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
+function qScenario(){
+  const s=shuf(SCEN)[0];
+  return {topic:"TCP vs UDP scenarios",
+    q:"Which protocol would <b>"+s[0]+"</b> most likely use?",
+    choices:shuf([{label:"TCP",right:s[1]==="TCP"},{label:"UDP",right:s[1]==="UDP"}]),
+    why:"<b>"+s[1]+"</b> &mdash; "+s[2]+". TCP = slower but checks and resends. UDP = fast with no error-checking."};
+}
+function qLayer(){
+  const pick=shuf(LAYERS)[0];
+  const wrong=shuf(LAYERS.filter(function(l){return l[1]!==pick[1]})).slice(0,3);
+  return {topic:"Which protocol does what",
+    q:"Which protocol or layer solves this problem: <b>"+pick[0]+"</b>?",
+    choices:shuf([{label:pick[1],right:true}].concat(wrong.map(function(w){return {label:w[1],right:false}}))),
+    why:"<b>"+pick[1]+"</b> handles that. Bottom to top the layers are Physical Network, IP, TCP or UDP, then DNS and HTTP."};
+}
+function qOrder(){
+  const right="Physical Network \u2192 IP \u2192 TCP/UDP \u2192 DNS &amp; HTTP";
+  const wrongs=["IP \u2192 Physical Network \u2192 HTTP \u2192 TCP/UDP",
+    "HTTP \u2192 DNS \u2192 TCP/UDP \u2192 IP \u2192 Physical Network",
+    "Physical Network \u2192 HTTP \u2192 IP \u2192 TCP/UDP"];
+  return {topic:"Layer order",
+    q:"Which shows the layers of the Internet from the <b>bottom up</b>?",
+    choices:shuf([{label:right,right:true}].concat(wrongs.map(function(w){return {label:w,right:false}}))),
+    why:"Higher layers rely on the ones below: <b>Physical Network &rarr; IP &rarr; TCP/UDP &rarr; DNS &amp; HTTP</b>."};
+}
+function extras(){return shuf([qScenario(),qScenario(),qLayer(),qLayer(),qOrder()])}
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"csp"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"csp",count:18,extras:extras});
+
+$("ref").innerHTML=
+'<div class="note">This is Ms. Reagin\'s posted <b>Internet Vocab</b> list, which is the official scope of the test, plus the detail from the Packets slides, the UDP vs TCP slide, and the Layers of the Internet activity guide.</div>'
++'<div class="card"><h3>TCP vs UDP &mdash; the one they always test</h3><table>'
++'<tr><th></th><th>TCP</th><th>UDP</th></tr>'
++'<tr><th>Priority</th><td>Accuracy</td><td>Speed</td></tr>'
++'<tr><th>Speed</th><td>Slower</td><td>Faster</td></tr>'
++'<tr><th>Numbers packets?</th><td>Yes, so they can be re-ordered</td><td>No</td></tr>'
++'<tr><th>Confirms arrival?</th><td>Yes, multiple back-and-forth confirmations</td><td>No</td></tr>'
++'<tr><th>Resends dropped packets?</th><td>Yes</td><td>No</td></tr>'
++'<tr><th>Use it for</th><td>Email, photos, browsing, downloads</td><td>Video calls, live streaming, online gaming</td></tr>'
++'</table><p><b>One-liner:</b> if losing a bit of quality is better than waiting, use UDP. If waiting is better than losing data, use TCP.</p></div>'
++'<div class="card"><h3>Layers of the Internet</h3><table><tr><th>Layer</th><th>Problem it solves</th><th>How it works</th></tr>'
++'<tr><td><b>Physical Network</b></td><td>Physically connecting devices</td><td>Fiber optic cable, wifi signals, copper wire. A device only needs to reach one point on the network, not every other device.</td></tr>'
++'<tr><td><b>IP</b></td><td>Identifying devices and routing between them</td><td>Every device gets a unique IP address. Packets carry to/from addresses. Routers pick the path, and routing is <b>dynamic</b> &mdash; the path changes and is unpredictable.</td></tr>'
++'<tr><td><b>TCP</b></td><td>Large messages where accuracy matters</td><td>Split into numbered packets, re-ordered on arrival, missing ones re-requested. Slower but reliable.</td></tr>'
++'<tr><td><b>UDP</b></td><td>Large messages where speed matters</td><td>Split into packets, sent, no error-checking. Faster, more errors possible.</td></tr>'
++'<tr><td><b>DNS</b></td><td>Turning names into numbers</td><td>Servers map example.com to an IP address. DNS requests themselves travel as TCP/IP packets.</td></tr>'
++'<tr><td><b>HTTP</b></td><td>Requesting and sharing web content</td><td>Plain-text commands like <b>GET</b>. The server returns files the browser displays. Rides inside TCP/IP packets.</td></tr>'
++'</table></div>'
++'<div class="card"><h3>Vocabulary by lesson</h3>'
++'<p class="tiny" style="color:var(--dim);font-size:12px">Lesson 1 and Lesson 8 have no vocabulary.</p>'
++'<table><tr><th>Lesson</th><th>Terms</th></tr>'
++'<tr><td><b>2 &middot; Building a Network</b></td><td>Bandwidth, Computing Device, Computing Network, Computing System, Path</td></tr>'
++'<tr><td><b>3 &middot; The Need for Addressing</b></td><td>IP Address, Internet Protocol (IP), Protocol</td></tr>'
++'<tr><td><b>4 &middot; Routers and Redundancy</b></td><td>Fault Tolerant, Redundancy, Router</td></tr>'
++'<tr><td><b>5 &middot; Packets</b></td><td>Packet (+ Packet Metadata, Datastream, TCP, UDP from the slides)</td></tr>'
++'<tr><td><b>6 &middot; HTTP and DNS</b></td><td>Domain Name System (DNS), HyperText Transfer Protocol (HTTP), World Wide Web</td></tr>'
++'<tr><td><b>7 &middot; Internet Dilemmas</b></td><td>Digital Divide</td></tr>'
++'</table></div>'
++'<div class="card"><h3>Pairs people mix up</h3>'
++'<details><summary>Internet Protocol vs. IP Address</summary><p><b>Internet Protocol</b> is the set of rules for sending data and assigning numbers. An <b>IP Address</b> is the unique number itself. Protocol = rulebook, address = the number.</p></details>'
++'<details><summary>Computing Network vs. Computing System</summary><p><b>Network</b> = interconnected devices that can send or receive data. <b>System</b> = devices <i>and programs</i> working toward a <i>common purpose</i>. The system definition adds programs and purpose.</p></details>'
++'<details><summary>Redundancy vs. Fault Tolerant</summary><p><b>Redundancy</b> is the extra components, like a second path. <b>Fault tolerant</b> is the resulting property of still working when parts fail. Redundancy is the cause, fault tolerance is the effect.</p></details>'
++'<details><summary>The Internet vs. the World Wide Web</summary><p>The <b>Internet</b> is the physical network of connected devices and the protocols running on it. The <b>World Wide Web</b> is a system of linked pages, programs and files requested over HTTP that travels on the Internet. The web is a thing that uses the Internet.</p></details>'
++'<details><summary>Bandwidth vs. speed</summary><p><b>Bandwidth</b> is the maximum <i>amount</i> of data in a fixed time, measured in <b>bits per second</b>. It caps how much can move at once, which is not the same as how quickly one packet travels.</p></details></div>';
+
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>

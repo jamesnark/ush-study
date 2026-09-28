@@ -336,7 +336,7 @@ function renderCleared(){
 function renderStudy(){
   document.getElementById('study').innerHTML=
    '<div class="card"><h3>Test trainers</h3><p>Flashcards, practice tests and reference charts from your teachers\' own notes.</p>'
-   +'<a class="btn primary" href="study.html">Chemistry &amp; Religion</a><a class="btn" href="ush.html">US History Unit 1+2</a></div>'
+   +'<a class="btn primary" href="csp.html">AP CSP Unit 2 &mdash; The Internet</a><a class="btn" href="study.html">Chemistry &amp; Religion</a><a class="btn" href="ush.html">US History Unit 1+2</a></div>'
    +'<div class="card"><h3>Jump to a class</h3><div>'+DATA.classes.map(c=>'<a class="btn sm" target="_blank" href="https://classroom.google.com/c/'+c.id+'"><span class="dot" style="background:'+c.color+'"></span> '+esc(c.name)+'</a>').join('')+'</div></div>';
 }
 function renderSettings(){
