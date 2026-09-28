@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Chemistry Unit 2 - Matter and Change</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>:root{--accent:#4dd0e1;--accent-ink:#062a30}</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>Chemistry &mdash; Unit 2: Matter and Change</h1>
+  <div class="sub">Mr. Rott &middot; Period 1 &middot; 50 pts, Mastery</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=6"></script>
+<script>
+const $=id=>document.getElementById(id);
+const CAT={
+"Matter":"class","Pure Substance":"class","Mixture":"class","Element":"class","Compound":"class",
+"Homogeneous Mixture":"class","Heterogeneous Mixture":"class","Phase":"class",
+"Atom vs. Element":"particle","Molecule vs. Compound":"particle","Reading Chemical Formulas":"particle","Chemical Bond":"particle",
+"Physical Separation":"process","Chemical Separation":"process","Law of Conservation of Mass":"process",
+"Open vs. Closed System":"process","Alka Seltzer Reaction":"process","Why the closed bottle loses mass when opened":"process",
+"Pax Romana":"rome","Roman Roads and Communication":"rome","Latin vs. Greek":"rome","Roman Citizenship":"rome",
+"Slavery in the Empire":"rome","Urbanization / The Cities":"rome","Rome's show of authority":"rome","Emperors who persecuted Christians":"rome",
+"Pompey's Conquest (63 B.C.)":"judea","Herod the Great":"judea","Roman Governors":"judea","Pontius Pilate":"judea",
+"First Jewish Revolt":"judea","Hebrew Bible Canon":"judea",
+"The Temple (history)":"worship","Holy Place vs. Holy of Holies":"worship","Synagogues":"worship","The Imperial Cult":"worship",
+"Sadducees":"sect","Pharisees":"sect","Zealots":"sect","Essenes":"sect","Samaritans":"sect","Diaspora Jews":"sect"
+};
+const ASK={
+"Matter":["Define it","Where does it sit on the flowchart?"],
+"Pure Substance":["What is true of ALL its particles","Its two sub-types","Homogeneous or heterogeneous?"],
+"Mixture":["How many particle types","Bonded or not?","How do you separate it?","How is it written in a formula?"],
+"Element":["How many atom types","Roughly how many exist","Two examples","Why does Br<sub>2</sub> still count?"],
+"Compound":["How many atom types","Bonded or not?","What kind of change separates it","Two examples"],
+"Homogeneous Mixture":["Uniform or not","Its other name","How many phases","Two examples"],
+"Heterogeneous Mixture":["Uniform or not","How many phases","Three examples"],
+"Physical Separation":["Are bonds broken?","Two methods","Which types of matter it works on"],
+"Chemical Separation":["Are bonds broken?","Two methods","Which type of matter needs it"],
+"Atom vs. Element":["Which is the particle, which is the substance","State the difference in one sentence"],
+"Molecule vs. Compound":["Define each","Which term is broader?","The example that separates them"],
+"Reading Chemical Formulas":["What do the letters mean","What do subscripts mean","What does an ampersand mean"],
+"Chemical Bond":["What does it do","How is it shown in a drawing"],
+"Law of Conservation of Mass":["State the law","Reactants vs products","What actually happens to the atoms"],
+"Open vs. Closed System":["What the balance shows in each","WHY they differ","Which one proves the law more easily"],
+"Alka Seltzer Reaction":["Write the equation with states","Why is it a CHEMICAL reaction?","Which product causes the mass change"],
+"Why the closed bottle loses mass when opened":["What happens the moment you uncap it","What that proves","Confirmed or refuted?"],
+"Phase":["Define it","How many for pure substances and solutions","How many for heterogeneous mixtures"],
+"Pax Romana":["What the words mean","Which emperor started it","When it ended","How far it stretched"],
+"Roman Roads and Communication":["Two things Rome built","Effect on goods and ideas","Why this matters for Christianity later"],
+"Latin vs. Greek":["Which region and purpose for each","Which was most commonly spoken"],
+"Roman Citizenship":["Who got it automatically","The three rights"],
+"Slavery in the Empire":["What percentage of the empire","Could they get out?"],
+"Urbanization / The Cities":["State of cities in this period","Two named cities"],
+"Rome's show of authority":["The two methods","Rome's stance on Jewish customs &mdash; and the catch"],
+"Emperors who persecuted Christians":["The three names","How it ended up","Which emperor reigned when Jesus was born"],
+"Pompey's Conquest (63 B.C.)":["The year","What it made Judea"],
+"Herod the Great":["His title","Benevolent or not?","The two things he is known for"],
+"Roman Governors":["How much authority","The specific power they held"],
+"Pontius Pilate":["His role","His exact dates"],
+"First Jewish Revolt":["The years","What happened in 70 A.D.","Masada: year and outcome"],
+"Hebrew Bible Canon":["The approximate year","Why it happened right then"],
+"The Temple (history)":["Who built the first, and when","Who destroyed it, and when","When the second was built","Who enlarged it, and when"],
+"Holy Place vs. Holy of Holies":["Who enters each","How often","What the Temple represented"],
+"Synagogues":["What event created them","Minimum number of people","Who ran them","Sacrifice or teaching?","What they influenced later"],
+"The Imperial Cult":["Least extreme version","Most extreme version","What it depended on","Who was exempt, and why"],
+"Sadducees":["Their class","Which text they followed","What ended them, and when"],
+"Pharisees":["How they differ from the Sadducees","What they follow beyond the Torah","What they became"],
+"Zealots":["Their method","Which war","Which siege"],
+"Essenes":["Where they lived","How they lived","What they likely wrote"],
+"Samaritans":["How other Jews saw them","Which text they used"],
+"Diaspora Jews":["The trigger event and year","Where they went"]
+};
+/* ============ DATA ============ */
+const CHEM=[
+{s:"Classification",t:"Matter",h:"The broadest category on the whole flowchart.",d:"Anything that has mass and takes up space. Everything on the classification chart is a type of matter."},
+{s:"Classification",t:"Pure Substance",h:"All the particles look the same.",d:"Matter in which <b>all of the particles are identical</b>. Has a fixed composition. Splits into two types: <b>elements</b> and <b>compounds</b>. Pure substances are always homogeneous."},
+{s:"Classification",t:"Mixture",h:"More than one type of particle, just physically mixed together.",d:"Matter containing <b>two or more different types of particles</b> that are only physically combined, not chemically bonded. Because there's no chemical bond, a mixture <b>can be separated by physical means</b>. Written with an ampersand, like <code>Cu &amp; Zn</code>."},
+{s:"Classification",t:"Element",h:"About 100 of them exist.",d:"A pure substance made of <b>only one type of atom</b>. The simplest unit of matter that still keeps all the properties of that matter. There are about 100 different ones.<br><b>Examples:</b> gold, carbon, silver, Al, Br<sub>2</sub>.<br>Note Br<sub>2</sub> is still an element, not a compound, because both atoms are the same type."},
+{s:"Classification",t:"Compound",h:"Two or more DIFFERENT types of atom, bonded.",d:"A pure substance containing <b>two or more different types of atoms chemically bonded</b> together. Separating them requires a <b>chemical</b> change.<br><b>Examples:</b> salt (sodium chloride), water, NaHCO<sub>3</sub>, CO<sub>2</sub>."},
+{s:"Classification",t:"Homogeneous Mixture",h:"It has another name you should know.",d:"A mixture that is <b>uniform throughout</b> &mdash; two or more substances mixed in equal proportions everywhere, so you see only one phase. <b>Also called a solution.</b><br><b>Examples:</b> air, Kool-Aid."},
+{s:"Classification",t:"Heterogeneous Mixture",h:"You can see the different parts.",d:"A mixture of two or more substances that are <b>easily distinguishable</b> from each other. Not uniform, and can show two or more phases.<br><b>Examples:</b> soil, milk, granite."},
+{s:"Classification",t:"Physical Separation",h:"Nothing chemical happens.",d:"A separation method that does <b>not</b> change the composition of the matter &mdash; no chemical bonds are broken or formed.<br><b>Methods:</b> filtering, distillation, straining.<br><b>Works on:</b> mixtures only."},
+{s:"Classification",t:"Chemical Separation",h:"Bonds get broken.",d:"A separation that <b>requires a chemical change</b> &mdash; chemical bonds are broken and/or formed, and the substance no longer has the same characteristics as before.<br><b>Methods:</b> decomposition, electrolysis (like splitting water into hydrogen and oxygen in a fuel cell).<br><b>Needed for:</b> compounds."},
+{s:"Particles",t:"Atom vs. Element",h:"One is a particle, one is a substance.",d:"An <b>atom</b> is a single smallest particle. An <b>element</b> is a <i>substance</i> made up of only one type of atom. So an atom is the building block; the element is the material built from it."},
+{s:"Particles",t:"Molecule vs. Compound",h:"Br<sub>2</sub> is the trick case.",d:"A <b>molecule</b> is two or more atoms held together by chemical bonds &mdash; they can be the <i>same</i> type (Br<sub>2</sub>, O<sub>2</sub>). A <b>compound</b> is specifically made of two or more <i>different</i> types of atoms.<br>So: every compound is a molecule, but not every molecule is a compound."},
+{s:"Particles",t:"Reading Chemical Formulas",h:"Letters, subscripts, ampersands.",d:"<ul><li><b>Letters</b> (R, Sq, T in the POGIL) = the type of atom</li><li><b>Subscripts</b> (the small numbers) = how many of that atom are in the molecule</li><li><b>Touching atoms</b> are shown by writing them together = a chemical bond</li><li><b>An ampersand (&amp;)</b> means it's a <b>mixture</b> &mdash; separate substances, not bonded</li></ul>"},
+{s:"Particles",t:"Chemical Bond",h:"What's holding touching atoms together?",d:"The force holding two atoms together when they are drawn touching. Bonds are what make a group of atoms a single molecule rather than a mixture of separate particles."},
+{s:"Conservation",t:"Law of Conservation of Mass",h:"Nothing is created, nothing is destroyed.",d:"Mass is <b>neither created nor destroyed</b> in a chemical reaction. The total mass of the reactants equals the total mass of the products &mdash; the atoms just get rearranged."},
+{s:"Conservation",t:"Open vs. Closed System",h:"Where does the gas go?",d:"<b>Closed system</b> (cap on): gas cannot escape, so the measured mass stays constant and conservation of mass is easy to demonstrate.<br><b>Open system</b> (cap off): gas escapes into the room, so the balance reading <b>appears to drop</b>. Mass wasn't destroyed, it just left the container.<br>This is why the law is easier to prove in a closed system."},
+{s:"Conservation",t:"Alka Seltzer Reaction",h:"Know the equation and the gas.",d:"<code>Alka Seltzer (s) + water (l) &rarr; precipitate (s) + water (l) + carbon dioxide (g)</code><br>It's a <b>chemical</b> reaction because new substances are produced &mdash; a precipitate and carbon dioxide gas that weren't there before.<br>The <b>carbon dioxide gas</b> is the whole reason the open condition loses mass."},
+{s:"Conservation",t:"Why the closed bottle loses mass when opened",h:"The star on your graph.",d:"While capped, the CO<sub>2</sub> is trapped, so mass stays the same. The instant you remove the cap, the trapped CO<sub>2</sub> escapes and the mass drops to roughly match the open condition. That drop is direct evidence that the missing mass in the open system was gas, not destroyed matter &mdash; which <b>confirms</b> the Law of Conservation of Mass."},
+{s:"States",t:"Phase",h:"Count what you can visually distinguish.",d:"A physically distinct portion of a sample. <b>Pure substances and homogeneous mixtures show one phase.</b> <b>Heterogeneous mixtures can show two or more phases.</b> On the Venn worksheet, 'can be two or more phases' belongs to mixtures only."}
+];
+const CARDS=CHEM.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:ASK[x.t]||null,cat:CAT[x.t]||"concept"}});
+const CHEM_REF='<div class="card"><h3>The Classification of Matter Flowchart</h3><p>This is the exact decision tree from Mr. Rott\'s handout. If you can redraw this from memory you can answer most of the exam.</p><div class="flow">                        MATTER\n                          |\n        Can it be separated by physical means?\n            |                          |\n           YES                        NO\n            |                          |\n         MIXTURE                 PURE SUBSTANCE\n            |                          |\n  Is it uniform throughout?   Can it be broken into simpler\n            |                 substances by chemical means?\n     |             |             |             |\n    YES           NO            YES            NO\n     |             |             |             |\nHOMOGENEOUS   HETEROGENEOUS  COMPOUND       ELEMENT\n  MIXTURE        MIXTURE\n(a solution)</div></div>'
++'<div class="card"><h3>Venn Diagram Answer Key</h3><p>From the Classifying Matter worksheet. Each letter goes in one region:</p><table><tr><th>Region</th><th>Letters</th><th>Meaning</th></tr>'
++'<tr><td><b>Elements only</b></td><td>B, H</td><td>Only one type of atom; about 100 different ones</td></tr>'
++'<tr><td><b>Compounds only</b></td><td>I, K</td><td>Two elements joined by chemical bonds; can be broken down by chemical change</td></tr>'
++'<tr><td><b>Mixtures only</b></td><td>E, G, J</td><td>Can be homogeneous; can be two or more phases; can be separated by physical change</td></tr>'
++'<tr><td><b>Elements + Compounds</b></td><td>A, D</td><td>Pure substance; always homogeneous</td></tr>'
++'<tr><td><b>Compounds + Mixtures</b></td><td>C</td><td>Two or more types of atom</td></tr>'
++'<tr><td><b>All three</b></td><td>F</td><td>Matter</td></tr></table></div>'
++'<div class="card"><h3>Formula Practice (POGIL Q13)</h3><table><tr><th>Formula</th><th>Answer</th><th>Why</th></tr>'
++'<tr><td>Br<sub>2</sub></td><td>Element</td><td>One type of atom, even though there are two of them</td></tr>'
++'<tr><td>NaHCO<sub>3</sub></td><td>Compound</td><td>Three different atom types, all bonded</td></tr>'
++'<tr><td>C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> &amp; H<sub>2</sub>O</td><td>Mixture</td><td>The ampersand means two separate substances</td></tr>'
++'<tr><td>Cu &amp; Zn</td><td>Mixture</td><td>Ampersand again — two elements sitting together, not bonded</td></tr>'
++'<tr><td>CO<sub>2</sub></td><td>Compound</td><td>Carbon and oxygen bonded</td></tr>'
++'<tr><td>Al</td><td>Element</td><td>A single atom type</td></tr></table>'
++'<p style="margin-top:10px"><b>The rule:</b> ampersand → mixture. No ampersand, one letter type → element. No ampersand, two or more letter types → compound.</p></div>'
++'<div class="card"><h3>Separation: which method for which matter?</h3><table><tr><th></th><th>Physical separation</th><th>Chemical separation</th></tr>'
++'<tr><th>Methods</th><td>Filtering, distillation, straining</td><td>Decomposition, electrolysis</td></tr>'
++'<tr><th>Bonds broken?</th><td>No</td><td>Yes</td></tr>'
++'<tr><th>Works on</th><td>Mixtures</td><td>Compounds</td></tr>'
++'<tr><th>Example</th><td>Straining pasta from water</td><td>Fuel cell splitting water into H and O</td></tr></table>'
++'<p style="margin-top:10px"><b>Elements cannot be broken down by either method.</b> That is what makes them elements.</p></div>'
++'<div class="card"><h3>Conservation of Mass Lab &mdash; the conclusion logic</h3><p>The exam is likely to ask you to reason through this, not just recall it:</p><ul class="tight">'
++'<li><b>Open condition</b> (cap off): mass <b>decreases</b> over the 5 minutes</li>'
++'<li><b>Closed condition</b> (cap on): mass stays <b>constant</b></li>'
++'<li><b>Why:</b> the reaction produces <b>carbon dioxide gas</b>. In the open bottle it escapes into the room. In the closed bottle it is trapped, so it still counts on the balance.</li>'
++'<li><b>The star on the graph:</b> when you uncap the closed bottle, its mass drops to about the open bottle\'s value. That is the proof.</li>'
++'<li><b>Conclusion:</b> results <b>confirm</b> the Law of Conservation of Mass. The mass was never destroyed, it just left the system as gas.</li>'
++'<li><b>Sources of error:</b> spilling, splashing, delay before the first reading, gas escaping before the cap was on, balance drift.</li></ul></div>';
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"chem"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"chem",count:20});
+$("ref").innerHTML=CHEM_REF;
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>

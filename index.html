@@ -62,6 +62,23 @@ th{background:var(--panel2);font-size:11px;text-transform:uppercase;letter-spaci
 .note.red{background:rgba(255,92,92,.09);border-color:rgba(255,92,92,.3);color:#f0cfcf}
 .note.green{background:rgba(62,207,142,.09);border-color:rgba(62,207,142,.3);color:#c9ecdc}
 .hintline{font-size:11.5px;color:var(--dim);margin-top:5px}
+.big{background:var(--panel);border:1px solid var(--line);border-left-width:4px;border-radius:12px;
+ padding:14px 16px;margin-bottom:9px;display:flex;gap:14px;align-items:center}
+.big .cd{text-align:center;flex-shrink:0;min-width:46px}
+.big .cd b{display:block;font-size:26px;line-height:1;font-weight:700}
+.big .cd span{font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim)}
+.big .bd{flex:1;min-width:0}
+.big .bt{font-size:15px;font-weight:600;letter-spacing:-.2px}
+.big .bm{font-size:11.5px;color:var(--dim);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.kindpill{font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;border-radius:20px;
+ background:var(--panel2);border:1px solid var(--line)}
+.clshead{display:flex;align-items:center;gap:8px;margin:20px 0 9px;font-size:12px;font-weight:600;
+ text-transform:uppercase;letter-spacing:.9px}
+.clsbar{flex:1;height:1px;background:var(--line)}
+.tcard{background:var(--panel);border:1px solid var(--line);border-left-width:4px;border-radius:12px;
+ padding:15px 17px;margin-bottom:10px}
+.tcard h3{margin:0 0 3px;font-size:15px}
+.tcard .tm{font-size:11.5px;color:var(--dim);margin-bottom:9px}
 .tiny{font-size:11px;color:var(--dim)}
 details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:500;padding:3px 0}
 </style>
@@ -272,6 +289,21 @@ function commit(){
   push();document.getElementById('nl').value='';document.getElementById('preview').innerHTML='';window.__p=null;refresh();
 }
 
+function trainerFor(t){
+  return (DATA.trainers||[]).find(x=>x.cls===t.cls&&!x.past&&(!x.title||x.title===t.title))||null;
+}
+function bigRow(t){
+  const col=colorOf(t.cls),n=dayDiff(t.due),d=new Date(t.due);
+  const tr=trainerFor(t);
+  return '<div class="big" style="border-left-color:'+col+'">'
+   +'<div class="cd"><b style="color:'+(n<=1?'var(--bad)':n<=3?'var(--warn)':col)+'">'+n+'</b><span>'+(n===1?'day':'days')+'</span></div>'
+   +'<div class="bd"><div class="bt">'+esc(t.title)+'</div><div class="bm">'
+   +'<span class="dot" style="background:'+col+'"></span>'+esc(t.cls)
+   +'<span>'+d.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'})+'</span>'
+   +'<span class="kindpill">'+esc(t.kind)+'</span></div></div>'
+   +(tr?'<a class="btn sm" href="'+tr.file+'">Study</a>':'')
+   +'</div>';
+}
 function renderToday(){
   const t=allTasks().filter(x=>!isCleared(x));
   const od=t.filter(x=>x.due&&dayDiff(x.due)<0).sort((a,b)=>new Date(a.due)-new Date(b.due));
@@ -279,7 +311,15 @@ function renderToday(){
   const soon=t.filter(x=>x.due&&dayDiff(x.due)>0&&dayDiff(x.due)<=3).sort((a,b)=>new Date(a.due)-new Date(b.due));
   const zero=psB('zero');
   const ung=psB('ungraded').filter(p=>p.due&&new Date(p.due+'T12:00')<new Date());
+  /* big-ticket items first: tests and projects inside the next two weeks */
+  const bigs=allTasks().filter(x=>!isCleared(x)&&(x.kind==='test'||x.kind==='project')&&x.due
+      &&dayDiff(x.due)>=0&&dayDiff(x.due)<=14)
+    .sort((a,b)=>new Date(a.due)-new Date(b.due));
   let h=addBar();
+  if(bigs.length){
+    h+='<h2 class="sec">Big things coming up <span>'+bigs.length+'</span></h2>'
+      +bigs.map(bigRow).join('');
+  }
   if(zero.length)h+='<div class="note red"><b>'+zero.length+' actually missing</b> in PowerSchool (scored zero). Tick one off to clear it for good &mdash; it syncs to every device.</div>';
   else h+='<div class="note green">Nothing scored zero in PowerSchool right now.</div>';
   if(zero.length)h+='<h2 class="sec" style="color:var(--bad)">Actually missing <span>'+zero.length+'</span></h2>'+zero.map(p=>psRow(p)).join('');
@@ -334,10 +374,28 @@ function renderCleared(){
   document.getElementById('cleared').innerHTML=h;
 }
 function renderStudy(){
-  document.getElementById('study').innerHTML=
-   '<div class="card"><h3>Test trainers</h3><p>Flashcards, practice tests and reference charts from your teachers\' own notes.</p>'
-   +'<a class="btn primary" href="csp.html">AP CSP Unit 2 &mdash; The Internet</a><a class="btn" href="study.html">Chemistry &amp; Religion</a><a class="btn" href="ush.html">US History Unit 1+2</a></div>'
-   +'<div class="card"><h3>Jump to a class</h3><div>'+DATA.classes.map(c=>'<a class="btn sm" target="_blank" href="https://classroom.google.com/c/'+c.id+'"><span class="dot" style="background:'+c.color+'"></span> '+esc(c.name)+'</a>').join('')+'</div></div>';
+  const tests=allTasks().filter(x=>!isCleared(x)&&x.kind==='test'&&x.due&&dayDiff(x.due)>=0)
+    .sort((a,b)=>new Date(a.due)-new Date(b.due));
+  let sh='<h2 class="sec">Upcoming tests <span>'+tests.length+'</span></h2>';
+  sh+= tests.length? tests.map(function(t){
+      const col=colorOf(t.cls),n=dayDiff(t.due),tr=trainerFor(t);
+      return '<div class="tcard" style="border-left-color:'+col+'">'
+       +'<h3>'+esc(t.title)+'</h3><div class="tm">'+esc(t.cls)+' &middot; '
+       +new Date(t.due).toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'})
+       +' &middot; '+(n===0?'today':n===1?'tomorrow':'in '+n+' days')+'</div>'
+       +(tr?'<a class="btn primary sm" href="'+tr.file+'">Open '+esc(tr.label)+' trainer</a>'
+           :'<span class="tiny">No trainer built for this one yet &mdash; ask me and I\'ll make one.</span>')
+       +'</div>'}).join('')
+    : '<div class="empty">No tests scheduled.</div>';
+  const past=(DATA.trainers||[]).filter(function(x){return x.past});
+  if(past.length)sh+='<h2 class="sec">Past trainers</h2>'+past.map(function(x){
+    return '<div class="tcard" style="border-left-color:'+colorOf(x.cls)+';opacity:.75">'
+     +'<h3>'+esc(x.cls)+'</h3><div class="tm">'+esc(x.label)+' &middot; '+x.terms+' terms</div>'
+     +'<a class="btn sm" href="'+x.file+'">Still open it</a></div>'}).join('');
+  sh+='<h2 class="sec">Jump to a class</h2><div class="card">'
+   +DATA.classes.map(c=>'<a class="btn sm" target="_blank" href="https://classroom.google.com/c/'+c.id+'"><span class="dot" style="background:'+c.color+'"></span> '+esc(c.name)+'</a>').join('')
+   +'</div>';
+  document.getElementById('study').innerHTML=sh;
 }
 function renderSettings(){
   const ks=Object.keys(S.alias);

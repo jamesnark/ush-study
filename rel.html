@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Religion Unit 2 - Cultural Context</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>:root{--accent:#f06292;--accent-ink:#33030f}</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>Religion &mdash; Unit 2: Cultural Context</h1>
+  <div class="sub">Hannah Rao &middot; Period 7 &middot; Life and Mission of Jesus</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=6"></script>
+<script>
+const $=id=>document.getElementById(id);
+const CAT={
+"Matter":"class","Pure Substance":"class","Mixture":"class","Element":"class","Compound":"class",
+"Homogeneous Mixture":"class","Heterogeneous Mixture":"class","Phase":"class",
+"Atom vs. Element":"particle","Molecule vs. Compound":"particle","Reading Chemical Formulas":"particle","Chemical Bond":"particle",
+"Physical Separation":"process","Chemical Separation":"process","Law of Conservation of Mass":"process",
+"Open vs. Closed System":"process","Alka Seltzer Reaction":"process","Why the closed bottle loses mass when opened":"process",
+"Pax Romana":"rome","Roman Roads and Communication":"rome","Latin vs. Greek":"rome","Roman Citizenship":"rome",
+"Slavery in the Empire":"rome","Urbanization / The Cities":"rome","Rome's show of authority":"rome","Emperors who persecuted Christians":"rome",
+"Pompey's Conquest (63 B.C.)":"judea","Herod the Great":"judea","Roman Governors":"judea","Pontius Pilate":"judea",
+"First Jewish Revolt":"judea","Hebrew Bible Canon":"judea",
+"The Temple (history)":"worship","Holy Place vs. Holy of Holies":"worship","Synagogues":"worship","The Imperial Cult":"worship",
+"Sadducees":"sect","Pharisees":"sect","Zealots":"sect","Essenes":"sect","Samaritans":"sect","Diaspora Jews":"sect"
+};
+const ASK={
+"Matter":["Define it","Where does it sit on the flowchart?"],
+"Pure Substance":["What is true of ALL its particles","Its two sub-types","Homogeneous or heterogeneous?"],
+"Mixture":["How many particle types","Bonded or not?","How do you separate it?","How is it written in a formula?"],
+"Element":["How many atom types","Roughly how many exist","Two examples","Why does Br<sub>2</sub> still count?"],
+"Compound":["How many atom types","Bonded or not?","What kind of change separates it","Two examples"],
+"Homogeneous Mixture":["Uniform or not","Its other name","How many phases","Two examples"],
+"Heterogeneous Mixture":["Uniform or not","How many phases","Three examples"],
+"Physical Separation":["Are bonds broken?","Two methods","Which types of matter it works on"],
+"Chemical Separation":["Are bonds broken?","Two methods","Which type of matter needs it"],
+"Atom vs. Element":["Which is the particle, which is the substance","State the difference in one sentence"],
+"Molecule vs. Compound":["Define each","Which term is broader?","The example that separates them"],
+"Reading Chemical Formulas":["What do the letters mean","What do subscripts mean","What does an ampersand mean"],
+"Chemical Bond":["What does it do","How is it shown in a drawing"],
+"Law of Conservation of Mass":["State the law","Reactants vs products","What actually happens to the atoms"],
+"Open vs. Closed System":["What the balance shows in each","WHY they differ","Which one proves the law more easily"],
+"Alka Seltzer Reaction":["Write the equation with states","Why is it a CHEMICAL reaction?","Which product causes the mass change"],
+"Why the closed bottle loses mass when opened":["What happens the moment you uncap it","What that proves","Confirmed or refuted?"],
+"Phase":["Define it","How many for pure substances and solutions","How many for heterogeneous mixtures"],
+"Pax Romana":["What the words mean","Which emperor started it","When it ended","How far it stretched"],
+"Roman Roads and Communication":["Two things Rome built","Effect on goods and ideas","Why this matters for Christianity later"],
+"Latin vs. Greek":["Which region and purpose for each","Which was most commonly spoken"],
+"Roman Citizenship":["Who got it automatically","The three rights"],
+"Slavery in the Empire":["What percentage of the empire","Could they get out?"],
+"Urbanization / The Cities":["State of cities in this period","Two named cities"],
+"Rome's show of authority":["The two methods","Rome's stance on Jewish customs &mdash; and the catch"],
+"Emperors who persecuted Christians":["The three names","How it ended up","Which emperor reigned when Jesus was born"],
+"Pompey's Conquest (63 B.C.)":["The year","What it made Judea"],
+"Herod the Great":["His title","Benevolent or not?","The two things he is known for"],
+"Roman Governors":["How much authority","The specific power they held"],
+"Pontius Pilate":["His role","His exact dates"],
+"First Jewish Revolt":["The years","What happened in 70 A.D.","Masada: year and outcome"],
+"Hebrew Bible Canon":["The approximate year","Why it happened right then"],
+"The Temple (history)":["Who built the first, and when","Who destroyed it, and when","When the second was built","Who enlarged it, and when"],
+"Holy Place vs. Holy of Holies":["Who enters each","How often","What the Temple represented"],
+"Synagogues":["What event created them","Minimum number of people","Who ran them","Sacrifice or teaching?","What they influenced later"],
+"The Imperial Cult":["Least extreme version","Most extreme version","What it depended on","Who was exempt, and why"],
+"Sadducees":["Their class","Which text they followed","What ended them, and when"],
+"Pharisees":["How they differ from the Sadducees","What they follow beyond the Torah","What they became"],
+"Zealots":["Their method","Which war","Which siege"],
+"Essenes":["Where they lived","How they lived","What they likely wrote"],
+"Samaritans":["How other Jews saw them","Which text they used"],
+"Diaspora Jews":["The trigger event and year","Where they went"]
+};
+/* ============ DATA ============ */
+const REL=[
+{s:"Rome",t:"Pax Romana",h:"Two Latin words. Started under one emperor.",d:"\"Roman Peace\" &mdash; the long period of stability established under <b>Augustus Caesar</b>. It lasted until the <b>2nd century A.D.</b> and covered everything from Europe to the ancient Near East. The deck describes Rome in this era as \"like a peacock with feathers extending out.\""},
+{s:"Rome",t:"Roman Roads and Communication",h:"Why did ideas spread so fast?",d:"Rome built systems of <b>paved roads</b> connecting the edges of the empire to its center, and established <b>Roman police</b> who kept the roads relatively safe. The result was that exchange of goods and the spread of ideas became seamless &mdash; which later helped Christianity spread."},
+{s:"Rome",t:"Latin vs. Greek",h:"One for law, one for business.",d:"<b>Latin</b> was the language of the <b>west</b> and of <b>legal affairs</b>.<br><b>Greek</b> was the language of <b>international affairs and commerce</b>, and was the <b>most common spoken language</b>."},
+{s:"Rome",t:"Roman Citizenship",h:"Three rights, and who got it automatically.",d:"Citizenship was a <b>birthright for children born of free marriages</b>. Rights included:<ul><li>Vote</li><li>Hold office</li><li>Appeal to the emperor for disputes</li></ul>"},
+{s:"Rome",t:"Slavery in the Empire",h:"A percentage you should memorize.",d:"<b>40% of the empire were slaves.</b> They could buy their freedom, though the notes hedge this as \"kinda.\""},
+{s:"Rome",t:"Urbanization / The Cities",h:"Two named cities.",d:"Cities were at their height during this period. Named examples in the notes: the <b>Decapolis</b> and <b>Alexandria</b>."},
+{s:"Rome",t:"Rome's show of authority",h:"Two methods.",d:"Rome demonstrated its authority through <b>constant taxation</b> and <b>armed garrisons</b>. Rome respected Jewish local customs, but that respect depended entirely on the political ambitions of whichever leader was appointed."},
+{s:"Rome",t:"Emperors who persecuted Christians",h:"Three names.",d:"<b>Nero, Domitian, and Trajan</b> all made several attempts to wipe out Christianity. Eventually Christianity became the <b>official religion of the Roman Empire</b>. Note also that <b>Jesus was born during the reign of Augustus</b>."},
+{s:"Judea",t:"Pompey's Conquest (63 B.C.)",h:"The year Judea became Roman.",d:"<b>63 B.C.</b> &mdash; Pompey's conquest made <b>Judea a Roman province</b>."},
+{s:"Judea",t:"Herod the Great",h:"Named king of the Jews, and not a nice one.",d:"Ruled Judea and was named <b>king of the Jews</b>. The notes are blunt: he was <b>not benevolent or tolerant</b>. He is best known for <b>urbanization</b> and for <b>enlarging the Temple in Jerusalem</b> (in 10 B.C.)."},
+{s:"Judea",t:"Roman Governors",h:"How much power did they have?",d:"Governors held <b>supreme authority</b>, including <b>power over life and death</b>."},
+{s:"Judea",t:"Pontius Pilate",h:"Dates matter here.",d:"The most famous Roman governor of Judea, serving <b>26&ndash;36 A.D.</b>"},
+{s:"Judea",t:"First Jewish Revolt",h:"Four years, and it ends catastrophically.",d:"<b>66&ndash;70 A.D.</b> Jewish revolutionaries wanted independence from Rome. In <b>70 A.D., Rome destroyed Jerusalem and the Second Temple.</b> <b>Masada</b> fell in <b>74 A.D.</b>, where the Jewish rebels were defeated. A <b>Second Jewish Revolt</b> followed later."},
+{s:"Judea",t:"Hebrew Bible Canon",h:"Around 90 A.D.",d:"Around <b>90 A.D.</b>, the <b>Hebrew Bible canon was established</b> &mdash; shortly after the Temple's destruction forced Judaism to reorganize around text rather than sacrifice."},
+{s:"Temple",t:"The Temple (history)",h:"Three dates: built, destroyed, rebuilt.",d:"The Temple of Jesus' time was the <b>second</b> built in Jerusalem.<ul><li>First Temple built by <b>King Solomon around 1000 B.C.</b></li><li><b>Destroyed by the Babylonians in 586 B.C.</b>, when much of the Jewish population was deported from Judah to Babylon</li><li><b>Second Temple built in 515 B.C.</b>, later enlarged by <b>Herod the Great in 10 B.C.</b></li></ul>"},
+{s:"Temple",t:"Holy Place vs. Holy of Holies",h:"Who goes in, and how often?",d:"<b>Holy Place</b> &mdash; priests entered <b>twice a day</b>.<br><b>Holy of Holies</b> &mdash; the <b>high priest</b> entered <b>once a year</b>.<br>The Temple was both a symbol of Jewish unity and a sacred space where the presence of God abided."},
+{s:"Temple",t:"Synagogues",h:"A number: how many men make a quorum?",d:"Emerged in the ancient Near East <b>after the Babylonian invasion of 586 B.C.</b>, when Jews maintained faith and identity by meeting in small congregations.<ul><li>Existed wherever a <b>quorum of 10 males</b> gathered</li><li>Run by <b>adult male Jews</b> of the town</li><li><b>No sacrifices</b> were offered &mdash; <b>teaching substituted for sacrifice</b></li><li>Synagogue worship <b>greatly influenced the liturgy of early Christian churches</b></li></ul>"},
+{s:"Temple",t:"The Imperial Cult",h:"It ranged from mild to extreme. And one group got out of it.",d:"At its <b>least extreme</b>, just a pledge of allegiance to the emperor. At its <b>most extreme</b>, an emperor let being thought divine go to his head and forced people to sacrifice to him and praise him. How bad it got <b>depended on the emperor's ego</b>. It gave the Roman army a feeling of <b>pride and unity</b>. <b>Jews were exempt</b>, because they already had their own beliefs and their own God."},
+{s:"Groups",t:"Sadducees",h:"Priestly, and they don't survive 70 A.D.",d:"A <b>priestly class</b> that <b>strictly adhered to the Torah</b> (the first 5 books of the Bible) and nothing beyond it. <b>The destruction of the Temple ended their party in 70 A.D.</b>"},
+{s:"Groups",t:"Pharisees",h:"The opposite of the Sadducees. Their work survives today.",d:"Described in the notes as the <b>complete opposites of the Sadducees</b>: they followed <b>not only the Torah but also oral tradition</b>. <b>Rabbinic Judaism is the work of the Pharisees</b>, which is why they outlasted the Temple."},
+{s:"Groups",t:"Zealots",h:"Violence and one famous fortress.",d:"Strongly opposed Roman rule in Judea. Advocated <b>armed rebellion and violence</b> to achieve Jewish independence. Played a central role in the <b>First Jewish-Roman War</b>, including the <b>defense of Masada</b>."},
+{s:"Groups",t:"Essenes",h:"Desert, and a famous set of scrolls.",d:"Practiced <b>communal living and ritual purity near the Dead Sea</b>. Believed to have <b>written the Dead Sea Scrolls</b> before their community was disrupted by the Romans."},
+{s:"Groups",t:"Samaritans",h:"A harsh word the notes use.",d:"<b>Not seen as Jews</b> &mdash; the notes record the slur \"half-breeds.\" They followed a <b>similar Torah with some modifications</b>."},
+{s:"Groups",t:"Diaspora Jews",h:"What happened after 70 C.E.?",d:"When the Temple was destroyed in <b>70 C.E.</b>, Jews were <b>displaced to Europe, Northern Africa, and the Middle East</b>."}
+];
+const REL_TL=[
+["~1000 B.C.","King Solomon builds the <b>First Temple</b> in Jerusalem."],
+["586 B.C.","<b>Babylonians destroy the First Temple.</b> Much of the Jewish population is deported from Judah to Babylon. <b>Synagogues emerge</b> as Jews keep their faith in small congregations."],
+["515 B.C.","The <b>Second Temple</b> is built."],
+["63 B.C.","<b>Pompey's conquest</b> &mdash; Judea becomes a Roman province."],
+["10 B.C.","<b>Herod the Great enlarges</b> the Temple in Jerusalem."],
+["Reign of Augustus","<b>Jesus is born.</b> This is also the era of the <b>Pax Romana</b>."],
+["26&ndash;36 A.D.","<b>Pontius Pilate</b> serves as governor of Judea."],
+["66&ndash;70 A.D.","<b>First Jewish Revolt.</b>"],
+["70 A.D.","<b>Rome destroys Jerusalem and the Second Temple.</b> The <b>Sadducees</b> end as a party. The <b>Diaspora</b> scatters Jews to Europe, North Africa, and the Middle East."],
+["74 A.D.","<b>Masada falls</b>; the Jewish rebels there are defeated."],
+["~90 A.D.","The <b>Hebrew Bible canon</b> is established."],
+["2nd century A.D.","<b>Pax Romana ends.</b> A <b>Second Jewish Revolt</b> occurs."]
+];
+const CARDS=REL.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:ASK[x.t]||null,cat:CAT[x.t]||"concept"}});
+const REL_REF='<div class="card"><h3>Unit 2 Timeline</h3><p>Reconstructed from the dates in the "26 NT Background" deck. Verify against your class notes.</p><div class="tl">'
++REL_TL.map(r=>'<div><b>'+r[0]+'</b>'+r[1]+'</div>').join('')+'</div></div>'
++'<div class="card"><h3>The Religious Groups, Side by Side</h3><table><tr><th>Group</th><th>Core belief / practice</th><th>Key fact</th></tr>'
++'<tr><td><b>Sadducees</b></td><td>Priestly class; strictly the Torah (first 5 books) only</td><td>Ended in 70 A.D. with the Temple\'s destruction</td></tr>'
++'<tr><td><b>Pharisees</b></td><td>Torah <i>and</i> oral tradition</td><td>Rabbinic Judaism is their work; described as the complete opposite of the Sadducees</td></tr>'
++'<tr><td><b>Zealots</b></td><td>Armed rebellion and violence against Roman rule</td><td>Central to the First Jewish-Roman War; defended Masada</td></tr>'
++'<tr><td><b>Essenes</b></td><td>Communal living and ritual purity near the Dead Sea</td><td>Believed to have written the Dead Sea Scrolls</td></tr>'
++'<tr><td><b>Samaritans</b></td><td>A similar Torah with modifications</td><td>Not accepted as Jews</td></tr>'
++'<tr><td><b>Diaspora Jews</b></td><td>Jews living outside Judea</td><td>Scattered to Europe, N. Africa, Middle East after 70 C.E.</td></tr></table>'
++'<p style="margin-top:10px"><b>Memory hook:</b> Sadducees = <b>S</b>criptural and <b>S</b>toppedin70. Pharisees = <b>P</b>lus oral tradition. Zealots = <b>Z</b>ealous/violent. Essenes = <b>E</b>remites in the desert.</p></div>'
++'<div class="card"><h3>Temple vs. Synagogue</h3><table><tr><th></th><th>Temple</th><th>Synagogue</th></tr>'
++'<tr><th>Where</th><td>Only in Jerusalem</td><td>Anywhere 10 adult males gathered</td></tr>'
++'<tr><th>Origin</th><td>Solomon ~1000 B.C.; rebuilt 515 B.C.</td><td>After the Babylonian invasion, 586 B.C.</td></tr>'
++'<tr><th>Sacrifice?</th><td>Yes — its central function</td><td>No — teaching substituted for sacrifice</td></tr>'
++'<tr><th>Run by</th><td>Priests and the high priest</td><td>Adult male Jews of the town</td></tr>'
++'<tr><th>Legacy</th><td>Symbol of Jewish unity; God\'s presence abided there</td><td>Greatly influenced early Christian liturgy</td></tr></table></div>'
++'<div class="card"><h3>Essay-ready connections</h3>'
++'<details><summary>How did Roman infrastructure help Christianity spread?</summary><p>Paved roads connected the whole empire and Roman police kept them relatively safe, so goods and ideas moved seamlessly. Greek was the most common spoken language, giving missionaries a shared tongue across regions. The Pax Romana meant stability for travel. All of this was built for Roman control but ended up being the delivery system for a new religion.</p></details>'
++'<details><summary>Why did the Pharisees survive 70 A.D. when the Sadducees did not?</summary><p>The Sadducees were a priestly class whose identity and authority ran through the Temple and its sacrifices, so when Rome destroyed the Temple their party ended. The Pharisees followed oral tradition alongside the Torah, which meant their religious practice did not depend on a building. That portability became Rabbinic Judaism.</p></details>'
++'<details><summary>Why were Jews exempt from the imperial cult?</summary><p>The imperial cult ranged from a pledge of allegiance to forced sacrifice to a self-deifying emperor. Rome allowed Jews to practice their religion and respected local Jewish customs, so Jews were exempt because they already had their own God and their own established beliefs. Note the notes\' caveat: that respect depended entirely on the political ambitions of whoever was appointed.</p></details>'
++'<details><summary>What made the Temple so significant beyond worship?</summary><p>It was a symbol of Jewish unity and a sacred space where the presence of God abided. Its layered access told you the whole social-religious structure: ordinary priests entered the Holy Place twice daily, but only the high priest entered the Holy of Holies, only once a year. Destroying it in 70 A.D. therefore did not just remove a building, it ended the Sadducees, forced the canon to be fixed around 90 A.D., and scattered the Diaspora.</p></details></div>';
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"rel"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"rel",count:20});
+$("ref").innerHTML=REL_REF;
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>
