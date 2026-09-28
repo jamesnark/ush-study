@@ -244,27 +244,31 @@ function qList(region){
     const cand=shuf(shuf(right).slice(0,right.length-n).concat(shuf(pool).slice(0,n))).join(", ");
     if(cand!==correct&&wrongs.indexOf(cand)<0)wrongs.push(cand);
   }
-  return {q:"Which list is exactly the "+NUMW[right.length]+" <b>"+region+" Colonies</b>?",
+  return {topic:"Members of the "+region+" Colonies",
+    q:"Which list is exactly the "+NUMW[right.length]+" <b>"+region+" Colonies</b>?",
     choices:shuf([{label:correct,right:true}].concat(wrongs.map(w=>({label:w,right:false})))),
     why:"<b>"+region+" Colonies:</b> "+fullList(region)+"."};
 }
 function qNot(region){
   const right=REGIONS[region], intruder=shuf(outside(region))[0];
-  return {q:"Which of these was <b>NOT</b> one of the "+region+" Colonies?",
+  return {topic:"Members of the "+region+" Colonies",
+    q:"Which of these was <b>NOT</b> one of the "+region+" Colonies?",
     choices:shuf(shuf(right).slice(0,3).map(x=>({label:x,right:false})).concat([{label:intruder,right:true}])),
     why:"<b>"+intruder+"</b> was a "+regionOf(intruder)+" colony. The "+region+" Colonies were "+fullList(region)+"."};
 }
 function qWhich(){
   let all=[];for(const r in REGIONS)all=all.concat(REGIONS[r]);
   const c=shuf(all)[0], r=regionOf(c);
-  return {q:"<b>"+c+"</b> belonged to which group?",
+  return {topic:"Which group: "+c,
+    q:"<b>"+c+"</b> belonged to which group?",
     choices:shuf(Object.keys(REGIONS).map(x=>({label:x+" Colonies",right:x===r}))),
     why:"<b>"+c+"</b> was one of the "+r+" Colonies: "+fullList(r)+"."};
 }
 function qCount(){
   const r=shuf(Object.keys(REGIONS))[0], n=REGIONS[r].length;
   const nums=shuf([3,4,5,6].filter(x=>x!==n)).slice(0,3).concat([n]);
-  return {q:"How many colonies were in the <b>"+r+" Colonies</b>?",
+  return {topic:"Size of the "+r+" Colonies",
+    q:"How many colonies were in the <b>"+r+" Colonies</b>?",
     choices:shuf(nums).map(x=>({label:String(x),right:x===n})),
     why:"The "+r+" Colonies had "+n+": "+fullList(r)+"."};
 }

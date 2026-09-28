@@ -7,15 +7,26 @@ const SB_KEY='sb_publishable_H3HI2vdy2okpATAjXR75Kw_LcGHFblP';
 const ROW='james_study';
 const H=()=>({apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'});
 
-let GAPS={}, pushT=null;
+let GAPS={}, STATS={}, pushT=null;
 const cacheGet=()=>{try{return JSON.parse(localStorage.getItem('flash.gaps'))||{}}catch(e){return {}}};
-const cacheSet=()=>localStorage.setItem('flash.gaps',JSON.stringify(GAPS));
+const statGet=()=>{try{return JSON.parse(localStorage.getItem('flash.stats'))||{}}catch(e){return {}}};
+const cacheSet=()=>{localStorage.setItem('flash.gaps',JSON.stringify(GAPS));localStorage.setItem('flash.stats',JSON.stringify(STATS))};
+/* merge stats by trusting whichever side has seen the question more often */
+function mergeStats(a,b){
+  const out=Object.assign({},a);
+  for(const k in b){
+    const x=out[k],y=b[k];
+    if(!x||((y.right+y.wrong)>(x.right+x.wrong)))out[k]=y;
+  }
+  return out;
+}
 async function pull(){
   try{
     const r=await fetch(SB_URL+'/rest/v1/hub_state?id=eq.'+ROW+'&select=data',{headers:H(),cache:'no-store'});
     if(!r.ok)throw 0;
-    const j=await r.json();
-    GAPS=Object.assign({},(j[0]&&j[0].data&&j[0].data.gaps)||{},GAPS);
+    const j=await r.json(), d=(j[0]&&j[0].data)||{};
+    GAPS=Object.assign({},d.gaps||{},GAPS);
+    STATS=mergeStats(STATS,d.stats||{});
     cacheSet();
   }catch(e){}
 }
@@ -24,8 +35,69 @@ function push(){
   pushT=setTimeout(()=>{
     fetch(SB_URL+'/rest/v1/hub_state?on_conflict=id',{method:'POST',
       headers:Object.assign(H(),{Prefer:'resolution=merge-duplicates,return=minimal'}),
-      body:JSON.stringify({id:ROW,data:{gaps:GAPS},updated_at:new Date().toISOString()})}).catch(()=>{});
+      body:JSON.stringify({id:ROW,data:{gaps:GAPS,stats:STATS},updated_at:new Date().toISOString()})}).catch(()=>{});
   },600);
+}
+
+/* ===================== PER-QUESTION STATS ===================== */
+function stat(sk){return STATS[sk]||null}
+function record(sk,label,ok){
+  const s=STATS[sk]||{right:0,wrong:0,streak:0,label:label,hist:[]};
+  s.label=label||s.label;
+  if(ok){s.right++;s.streak=Math.max(0,s.streak)+1}else{s.wrong++;s.streak=0}
+  s.last=new Date().toISOString();
+  s.hist=(s.hist||[]).concat(ok?1:0).slice(-12);
+  STATS[sk]=s;push();
+}
+function accOf(s){const n=s.right+s.wrong;return n?s.right/n:0}
+/* New -> Learning -> Solid -> Mastered. Mastered ones are shown far less often. */
+function statusOf(sk){
+  const s=stat(sk);
+  if(!s||(s.right+s.wrong)===0)return{k:'new',label:'Not seen yet'};
+  if(s.streak>=5&&accOf(s)>=0.8)return{k:'mastered',label:'Mastered — rarely shown'};
+  if(s.streak>=3)return{k:'solid',label:'Solid — shown less often'};
+  if(accOf(s)<0.5)return{k:'weak',label:'Struggling — shown more often'};
+  return{k:'learning',label:'Learning'};
+}
+/* how likely this question is to appear in the next test */
+function weightOf(sk){
+  const s=stat(sk);
+  if(!s||(s.right+s.wrong)===0)return 3;
+  let w=3;
+  if(s.streak>=1)w=2;
+  if(s.streak>=2)w=1.2;
+  if(s.streak>=3)w=0.4;
+  if(s.streak>=5)w=0.12;
+  if(accOf(s)<0.5)w=Math.max(w,4.5);
+  if(s.last){const days=(Date.now()-new Date(s.last).getTime())/864e5;if(days>3)w*=2.2}
+  return w;
+}
+function weightedPick(items,skOf,n){
+  const pool=items.slice(),out=[];
+  while(out.length<n&&pool.length){
+    const ws=pool.map(x=>weightOf(skOf(x)));
+    let total=ws.reduce((a,b)=>a+b,0),r=Math.random()*total,i=0;
+    while(i<pool.length&&(r-=ws[i])>0)i++;
+    if(i>=pool.length)i=pool.length-1;
+    out.push(pool.splice(i,1)[0]);
+  }
+  return out;
+}
+function statPanel(sk){
+  const s=stat(sk),st=statusOf(sk);
+  if(!s)return '<div class="qstats"><b>'+st.label+'</b><div class="tiny">No attempts recorded yet.</div></div>';
+  const n=s.right+s.wrong;
+  const dots=(s.hist||[]).map(h=>'<i class="hd '+(h?'g':'r')+'"></i>').join('');
+  return '<div class="qstats"><div class="qsrow"><b>'+esc(s.label||'')+'</b><span class="badge '+st.k+'">'+st.label+'</span></div>'
+   +'<div class="qsgrid">'
+   +'<div><span>'+n+'</span>seen</div>'
+   +'<div><span style="color:var(--good)">'+s.right+'</span>right</div>'
+   +'<div><span style="color:var(--bad)">'+s.wrong+'</span>wrong</div>'
+   +'<div><span>'+Math.round(accOf(s)*100)+'%</span>accuracy</div>'
+   +'<div><span>'+s.streak+'</span>streak</div></div>'
+   +(dots?'<div class="tiny" style="margin-top:7px">recent: '+dots+'</div>':'')
+   +(s.last?'<div class="tiny">last seen '+new Date(s.last).toLocaleString()+'</div>':'')
+   +'<div style="margin-top:7px"><button class="btn sm qsreset">Reset this question</button></div></div>';
 }
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const esc2=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -153,7 +225,9 @@ function quiz(opts){
   const extrasFn=opts.extras||null;   /* () => [{q, choices:[{label,right}], why}] */
   host.innerHTML='<div class="bar"><button class="btn primary qnew">New '+N+'-question test</button>'
    +'<label class="tiny"><input type="checkbox" class="qgapsonly" style="width:auto;margin-right:5px">only my flagged cards</label>'
-   +'<span class="stat">Score <b class="qsc">0 / 0</b></span></div><div class="qbody"></div>';
+   +'<label class="tiny"><input type="checkbox" class="qallin" style="width:auto;margin-right:5px">include mastered</label>'
+   +'<span class="stat">Score <b class="qsc">0 / 0</b></span></div>'
+   +'<div class="tiny qmeta" style="margin:-4px 0 10px"></div><div class="qbody"></div>';
   const q=s=>host.querySelector(s);
   let sc=0,dn=0;
   function build(){
@@ -165,20 +239,35 @@ function quiz(opts){
     let items=[];
     const extras=(extrasFn&&!q('.qgapsonly').checked)?extrasFn():[];
     const nCards=Math.max(0,N-extras.length);
-    pool.slice().sort(()=>Math.random()-.5).slice(0,Math.min(nCards,pool.length)).forEach(c=>{
-      items.push({kind:'card',card:c,reverse:Math.random()<0.45});
-    });
+    /* drop questions you've already nailed repeatedly, unless you ask for them back */
+    const allIn=q('.qallin').checked;
+    const masteredList=pool.filter(c=>statusOf(key(c)).k==='mastered');
+    let usable=allIn?pool:pool.filter(c=>statusOf(key(c)).k!=='mastered');
+    const retired=masteredList.length;
+    if(usable.length<Math.min(nCards,4))usable=pool;
+    /* when you explicitly ask for mastered ones, weight everything evenly so they actually turn up */
+    const picked=allIn
+      ? usable.slice().sort(()=>Math.random()-.5).slice(0,Math.min(nCards,usable.length))
+      : weightedPick(usable,c=>key(c),Math.min(nCards,usable.length));
+    picked.forEach(c=>{items.push({kind:'card',card:c,reverse:Math.random()<0.45})});
     extras.forEach(x=>items.push({kind:'custom',x:x}));
     items=items.sort(()=>Math.random()-.5);
+    q('.qmeta').innerHTML=allIn
+      ? 'Showing everything, mastered included ('+retired+' mastered).'
+      : (retired
+        ? retired+' question'+(retired===1?'':'s')+' held back because you keep getting them right. Tick “include mastered” to see them.'
+        : 'Questions you miss come back more often; ones you keep getting right fade out.');
     if(items.length<1){b.innerHTML='<div class="empty">Not enough cards for a test.</div>';return}
     items.forEach((it,i)=>{
       const div=document.createElement('div');div.className='q';
-      let optEls,why,flagCard=null;
+      let optEls,why,flagCard=null,sk,lbl;
       if(it.kind==='custom'){
+        sk=deck+'|#'+(it.x.topic||'custom');lbl=it.x.topic||'Custom question';
         div.innerHTML='<h4>'+(i+1)+'. '+it.x.q+'</h4>';
         optEls=it.x.choices.map(o=>({label:o.label,right:!!o.right}));
         why=it.x.why;
       }else{
+        sk=key(it.card);lbl=it.card.t;
         const c=it.card;flagCard=c;
         const wrong=pickDistractors(c,pool.length>=5?pool:cards,3);
         if(!it.reverse){
@@ -191,6 +280,20 @@ function quiz(opts){
         }
         why='<b>'+c.t+':</b> '+c.d;
       }
+      /* corner button: per-question stats */
+      const corner=document.createElement('button');
+      corner.className='qstatbtn';corner.title='stats for this question';corner.innerHTML='&#9202;';
+      const panel=document.createElement('div');panel.className='qspanel';panel.style.display='none';
+      corner.onclick=()=>{
+        if(panel.style.display==='none'){panel.innerHTML=statPanel(sk);panel.style.display='block';
+          const rb=panel.querySelector('.qsreset');
+          if(rb)rb.onclick=()=>{delete STATS[sk];push();panel.innerHTML=statPanel(sk);};
+        }else panel.style.display='none';
+      };
+      div.appendChild(corner);div.appendChild(panel);
+      const badge=statusOf(sk);
+      if(badge.k!=='new'){const bg=document.createElement('span');bg.className='badge '+badge.k+' qinline';
+        bg.textContent=badge.k;div.querySelector('h4').appendChild(bg)}
       optEls.forEach(o=>{
         const btn=document.createElement('button');btn.className='opt';btn.innerHTML=o.label;
         btn.onclick=()=>{
@@ -200,6 +303,10 @@ function quiz(opts){
           const idx=optEls.map(z=>!!z.right).indexOf(true);
           div.querySelectorAll('.opt')[idx].classList.add('right');
           if(o.right)sc++;dn++;q('.qsc').textContent=sc+' / '+dn;
+          record(sk,lbl,!!o.right);
+          const nb=div.querySelector('.qinline'),ns=statusOf(sk);
+          if(nb){nb.className='badge '+ns.k+' qinline';nb.textContent=ns.k}
+          if(panel.style.display!=='none')panel.innerHTML=statPanel(sk);
           const w=document.createElement('div');w.className='why';
           w.innerHTML=why+((!o.right&&flagCard)?'<div style="margin-top:7px"><button class="btn sm qflag">Flag this for re-drill</button></div>':'');
           div.appendChild(w);
@@ -211,8 +318,8 @@ function quiz(opts){
       b.appendChild(div);
     });
   }
-  q('.qnew').onclick=build;q('.qgapsonly').onchange=build;
-  build();pull();
+  q('.qnew').onclick=build;q('.qgapsonly').onchange=build;q('.qallin').onchange=build;
+  build();pull().then(build);
 }
 
 const CSS='.fcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px 20px;min-height:200px;'
@@ -229,9 +336,29 @@ const CSS='.fcard{background:var(--panel);border:1px solid var(--line);border-ra
 +'.fnote:focus{outline:none;border-color:var(--accent)}'
 +'.frow2{display:flex;gap:7px;align-items:center;margin-top:7px}'
 +'.btn.sm{padding:4px 10px;font-size:12px}'
-+'.tiny{font-size:11px;color:var(--dim)}';
++'.tiny{font-size:11px;color:var(--dim)}'
++'.q{position:relative}'
++'.qstatbtn{position:absolute;top:8px;right:8px;background:none;border:1px solid var(--line);color:var(--dim);'
++'border-radius:7px;width:26px;height:26px;cursor:pointer;font-size:13px;line-height:1;padding:0}'
++'.qstatbtn:hover{border-color:var(--accent);color:var(--accent)}'
++'.q h4{padding-right:34px}'
++'.qspanel{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin:0 0 10px}'
++'.qsrow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-size:13px}'
++'.qsgrid{display:flex;gap:14px;flex-wrap:wrap}'
++'.qsgrid div{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}'
++'.qsgrid span{display:block;font-size:17px;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:600}'
++'.badge{font-size:10px;padding:2px 8px;border-radius:20px;letter-spacing:.3px;white-space:nowrap}'
++'.badge.new{background:rgba(155,163,178,.15);color:var(--dim)}'
++'.badge.learning{background:rgba(91,140,255,.15);color:var(--accent)}'
++'.badge.weak{background:rgba(255,92,92,.15);color:var(--bad)}'
++'.badge.solid{background:rgba(62,207,142,.13);color:var(--good)}'
++'.badge.mastered{background:rgba(62,207,142,.2);color:var(--good)}'
++'.qinline{margin-left:8px;vertical-align:middle}'
++'.hd{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:3px}'
++'.hd.g{background:var(--good)}.hd.r{background:var(--bad)}';
 const st=document.createElement('style');st.textContent=CSS;document.head.appendChild(st);
 
-GAPS=cacheGet();
-window.Flash={mount:mount,quiz:quiz,gaps:function(){return GAPS},pull:pull};
+GAPS=cacheGet();STATS=statGet();
+window.Flash={mount:mount,quiz:quiz,gaps:function(){return GAPS},stats:function(){return STATS},
+  statusOf:statusOf,weightOf:weightOf,pull:pull};
 })();
