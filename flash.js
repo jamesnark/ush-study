@@ -260,16 +260,26 @@ function quiz(opts){
     let items=[];
     N=parseInt(q('.qcount').value,10)||20;
     localStorage.setItem('flash.qcount',String(N));
-    const extras=(extrasFn&&!q('.qgapsonly').checked)?extrasFn():[];
+    const allInEarly=q('.qallin').checked;
+    let extras=(extrasFn&&!q('.qgapsonly').checked)?extrasFn():[];
+    /* generated questions have stat keys too, so respect mastery for them as well */
+    if(!allInEarly){
+      const keep=extras.filter(function(x){return statusOf(deck+'|#'+(x.topic||'custom')).k!=='mastered'});
+      if(keep.length)extras=keep; else extras=[];
+    }
     /* 999 = the whole deck */
     const target=(N>=999)?(cards.length+extras.length):N;
     const nCards=Math.max(0,target-extras.length);
     /* drop questions you've already nailed repeatedly, unless you ask for them back */
-    const allIn=q('.qallin').checked;
+    const allIn=allInEarly;
     const masteredList=pool.filter(c=>statusOf(key(c)).k==='mastered');
     let usable=allIn?pool:pool.filter(c=>statusOf(key(c)).k!=='mastered');
     const retired=masteredList.length;
-    if(usable.length<Math.min(nCards,4))usable=pool;
+    /* Only fall back to mastered cards when there is genuinely nothing else left to ask.
+       Previously this fired whenever fewer than 4 remained, which quietly re-added every
+       mastered card while still claiming they were held back. */
+    const exhausted=(!allIn&&usable.length===0&&extras.length===0&&pool.length>0);
+    if(exhausted)usable=pool;
     /* when you explicitly ask for mastered ones, weight everything evenly so they actually turn up */
     const picked=allIn
       ? usable.slice().sort(()=>Math.random()-.5).slice(0,Math.min(nCards,usable.length))
@@ -277,12 +287,14 @@ function quiz(opts){
     picked.forEach(c=>{items.push({kind:'card',card:c,reverse:Math.random()<0.45})});
     extras.forEach(x=>items.push({kind:'custom',x:x}));
     items=items.sort(()=>Math.random()-.5);
-    const short=(target>items.length)?(' Only '+items.length+' available right now'+(retired&&!allIn?' because '+retired+' are held back as mastered':'')+'.'):'';
-    q('.qmeta').innerHTML=(allIn
-      ? 'Showing everything, mastered included ('+retired+' mastered).'
-      : (retired
-        ? retired+' question'+(retired===1?'':'s')+' held back because you keep getting them right. Tick “include mastered” to see them.'
-        : 'Questions you miss come back more often; ones you keep getting right fade out.'))+short;
+    const short=(target>items.length)?(' Short test: only '+items.length+' question'+(items.length===1?'':'s')+' left that you have not mastered.'):'';
+    q('.qmeta').innerHTML=exhausted
+      ? 'You have mastered every question in this deck, so it is showing them all again.'
+      : ((allIn
+        ? 'Showing everything, mastered included ('+retired+' mastered).'
+        : (retired
+          ? retired+' question'+(retired===1?'':'s')+' held back because you keep getting them right. Tick “include mastered” to see them.'
+          : 'Questions you miss come back more often; ones you keep getting right fade out.'))+short);
     if(items.length<1){b.innerHTML='<div class="empty">Not enough cards for a test.</div>';return}
     items.forEach((it,i)=>{
       const div=document.createElement('div');div.className='q';
