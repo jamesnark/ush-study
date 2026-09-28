@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>English 10 - Gatsby Ch. 1-3</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>:root{--accent:#a78bfa;--accent-ink:#17082e}</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>The Great Gatsby &mdash; Chapters 1&ndash;3</h1>
+  <div class="sub">Mrs. Beresford &middot; Period 8 &middot; Summative quiz Tue Sep 29</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="sum">Chapter Summaries</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="sum"></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=6"></script>
+<script>
+const $=id=>document.getElementById(id);
+const T=[
+/* ---------- CHARACTERS ---------- */
+{s:"Characters",cat:"character",t:"Nick Carraway",
+ a:["His relationship to Daisy and to Tom","Where he's from and why he came east","What he claims about himself","Should you trust him?"],
+ h:"He tells you he's trustworthy. That's exactly why to be careful.",
+ d:"The <b>narrator</b>. From the <b>Midwest</b>, went to <b>Yale</b> (where he knew Tom), moved to <b>West Egg</b> in the spring to learn the <b>bond business</b>, funded by his father for a year. <b>Daisy's cousin</b>, Tom's old classmate, and he becomes Jordan's love interest.<br>"
+ +"He sets himself up as the moral example: \u201c<b>Reserving judgements is a matter of infinite hope</b>\u201d (2). He calls himself honest.<br>"
+ +"<b>Why reliability is the big question:</b> he opens by saying \u201cwhen I came back from the east last autumn\u201d (2), so he's telling this <i>after</i> everything happened, and he admits he can't be completely honest about the night in Myrtle's apartment. He also says he was \u201c<b>within and without, simultaneously enchanted and repelled</b>\u201d \u2014 he judges the parties while enjoying them."},
+{s:"Characters",cat:"character",t:"Tom Buchanan",
+ a:["Where he lives and where he's from","His history with Nick","Three things that make him awful","Who he's having an affair with"],
+ h:"Old money, old football, new racism.",
+ d:"<b>Daisy's husband</b>, lives in <b>East Egg</b> (old money), formerly Chicago. Knew <b>Nick at Yale</b>. Enormously wealthy, physically imposing, aggressive.<br>"
+ +"<b>Ways he's awful:</b> he lectures everyone about his racist \u201cbooks\u201d (12-13); he keeps a mistress openly enough that the phone ringing at dinner is understood by everyone (14); he <b>breaks Myrtle's nose</b> when she repeats Daisy's name.<br>"
+ +"His mistress is <b>Myrtle Wilson</b>."},
+{s:"Characters",cat:"character",t:"Daisy Buchanan",
+ a:["Her relationship to Nick","What she wears and what surrounds her","Her first line in the novel","How her voice is described"],
+ h:"White, breeze, and a famous line about her daughter.",
+ d:"<b>Nick's cousin</b>, <b>Tom's wife</b>, lives in <b>East Egg</b>. Introduced in <b>white</b>, with a <b>breeze</b> blowing through the room and curtains \u2014 an image of lightness and purity that the novel undercuts.<br>"
+ +"<b>First words:</b> \u201c<b>I'm p-paralyzed with happiness</b>\u201d (8).<br>"
+ +"<b>Voice:</b> a \u201c<b>murmur</b>,\u201d a \u201clow, thrilling voice\u201d (9). People lean in to hear her.<br>"
+ +"She tells Nick about her daughter's birth and says she hopes the girl will be \u201ca beautiful little fool\u201d \u2014 the best thing a girl can be in her world (16-17)."},
+{s:"Characters",cat:"character",t:"Jordan Baker",
+ a:["Her job","Her reputation","Her famous line about parties","Who she knows"],
+ h:"A golfer with a cheating rumour.",
+ d:"A <b>professional golfer</b> and <b>Daisy's friend</b>. Mrs. Beresford's slides say she \u201c<b>balances Daisy</b>.\u201d Introduced bored and still, then \u201cshe yawned and with a series of rapid, deft movements stood up into the room\u201d (10).<br>"
+ +"<b>Reputation:</b> dishonest \u2014 there's a rumour she cheated in a golf tournament. Nick says she's incurably dishonest.<br>"
+ +"At Gatsby's party she's \u201c<b>leaning a little backward and looking with contemptuous interest down into the garden</b>\u201d (42).<br>"
+ +"<b>Her line:</b> \u201cI like large parties. <b>They're so intimate.</b> At small parties there isn't any privacy\u201d (49).<br>"
+ +"She <b>knows Gatsby</b>, and he pulls her aside privately at the party. She becomes Nick's love interest."},
+{s:"Characters",cat:"character",t:"Jay Gatsby",
+ a:["Where he lives and what he's famous for","When he's first mentioned vs. first seen","What his smile is like","What he does at his own party"],
+ h:"You hear about him for two and a half chapters before you meet him.",
+ d:"Owns the mansion next door to Nick in <b>West Egg</b> (new money) and throws enormous parties.<br>"
+ +"<b>First mentioned</b> on page 11, when Nick has barely arrived \u2014 and Jordan reacts as if the name means something. <b>First seen</b> at the end of Chapter 1 (20), alone on his lawn, <b>reaching toward a green light</b>. <b>First actually met</b> in Chapter 3 (47).<br>"
+ +"<b>His smile:</b> \u201cone of those rare smiles with a quality of <b>eternal reassurance</b> in it, that you may come across four or five times in life\u201d (48).<br>"
+ +"<b>At his own party</b> he doesn't drink and doesn't dance. He watches. Nick sees \u201capproving eyes\u201d and \u201cnothing sinister about him\u201d (50). At the end he stands alone on the porch with his hand raised in farewell (55)."},
+{s:"Characters",cat:"character",t:"Myrtle Wilson",
+ a:["Who she's married to and who she's involved with","Where she lives","How she's described","What ends the party"],
+ h:"Her nose is the last event of Chapter 2.",
+ d:"<b>George Wilson's wife</b> and <b>Tom's mistress</b>. Lives above the garage in the <b>Valley of Ashes</b>.<br>"
+ +"<b>Described</b> as \u201cin the middle thirties, and faintly stout, but she carried her <b>surplus flesh sensuously</b> as some women can\u201d (25). Note the diction: <i>stout</i>, <i>flesh</i> \u2014 physical and earthy, deliberately unlike how Daisy is described.<br>"
+ +"She married George believing he was a gentleman, and says she was wrong about him.<br>"
+ +"<b>End of Chapter 2:</b> she chants Daisy's name at Tom and he <b>breaks her nose</b> with his open hand."},
+{s:"Characters",cat:"character",t:"George Wilson",
+ a:["His job and where","How he's described","What Tom says about him","Why does he think Tom is visiting?"],
+ h:"Three adjectives, all of them draining.",
+ d:"Runs a <b>garage in the Valley of Ashes</b>; <b>Myrtle's husband</b>.<br>"
+ +"<b>Described</b> as \u201ca <b>blond, spiritless man, anaemic, and faintly handsome</b>\u201d (25).<br>"
+ +"He thinks Tom keeps visiting to <b>sell him a car</b>. He has no idea about the affair.<br>"
+ +"<b>Tom on George:</b> \u201cHe's so dumb he doesn't know he's alive\u201d (26)."},
+{s:"Characters",cat:"character",t:"Catherine",
+ a:["Whose sister is she?","What does she claim about Gatsby?","What does she tell Nick about Tom and Myrtle?"],
+ h:"She's a gossip source, and the slides flag her as important.",
+ d:"<b>Myrtle's sister</b>, at the apartment party in Chapter 2. She claims to <b>\u201cknow\u201d Gatsby</b> and passes along rumours about him \u2014 part of the pattern where everyone has heard something and nobody has facts.<br>"
+ +"She tells Nick that <b>neither Tom nor Myrtle can stand the person they're married to</b>, and that the reason Tom and Daisy don't divorce is that <b>Daisy is Catholic</b>. Nick notes this is a lie, since Daisy isn't Catholic \u2014 another example of how casually everyone in this book lies."},
+{s:"Characters",cat:"character",t:"Mr. and Mrs. McKee",
+ a:["Where do they live?","His job","How is she described?"],
+ h:"Four adjectives, and the last one is brutal.",
+ d:"Guests at Tom and Myrtle's apartment party. They live <b>downstairs</b>. <b>Mr. McKee is a photographer</b>. <b>Mrs. McKee</b> is \u201c<b>shrill, languid, handsome, and horrible</b>\u201d \u2014 the diction tells you exactly what Nick thinks of this whole crowd."},
+{s:"Characters",cat:"character",t:"Owl Eyes",
+ a:["Where does Nick find him?","What amazes him?","What detail does he point out about the books?"],
+ h:"He's in the library, and he's making a point about Gatsby.",
+ d:"A drunk man in <b>owl-eyed spectacles</b> in <b>Gatsby's library</b> (45). He's astonished the books are real: \u201c<b>Absolutely real \u2014 have pages and everything. I thought they'd be a durable cardboard</b>\u201d (45).<br>"
+ +"<b>The detail that matters:</b> the <b>pages are uncut</b>, meaning nobody has ever read them. Gatsby built a real library he doesn't use. That's the whole appearance-vs-reality theme in one prop."},
+
+/* ---------- PLACES ---------- */
+{s:"Setting",cat:"place",t:"East Egg",
+ a:["Old money or new?","Who lives there?"],
+ h:"Inherited.",
+ d:"The fashionable egg \u2014 <b>old money</b>, inherited wealth, established families. <b>Tom and Daisy Buchanan</b> live here, as does Jordan's social circle."},
+{s:"Setting",cat:"place",t:"West Egg",
+ a:["Old money or new?","Who lives there?"],
+ h:"Earned, and looked down on for it.",
+ d:"The less fashionable egg \u2014 <b>new money</b>, self-made wealth, viewed as vulgar by East Egg. <b>Nick</b> rents a small house here and <b>Gatsby's mansion</b> is next door."},
+{s:"Setting",cat:"place",t:"The Valley of Ashes",
+ a:["Where is it and what's there?","Who lives there?","What watches over it?","Why does it matter?"],
+ h:"Grey, and something is watching.",
+ d:"A <b>desolate industrial wasteland between West Egg and New York City</b>, described as a grey place where ash grows like wheat into ridges and hills, and men move dimly through the dust (23-24).<br>"
+ +"<b>The Wilsons</b> live here above their garage. The <b>eyes of Doctor T. J. Eckleburg</b> watch over it.<br>"
+ +"<b>Why it matters:</b> it's the deliberate contrast to the glittering Eggs \u2014 this is the cost of all that wealth, the place the money grinds up."},
+{s:"Setting",cat:"place",t:"Tom and Myrtle's apartment",
+ a:["Which city?","What's it like inside?","What happens there?"],
+ h:"Too much furniture, too little room.",
+ d:"An apartment <b>in New York City</b> that Tom keeps for the affair (29). Small and crammed with furniture far too large for it, so that moving around means stumbling over scenes of Versailles.<br>"
+ +"<b>What happens:</b> Myrtle buys a dog, Catherine and the McKees come up, everyone drinks heavily, and the chapter ends with <b>Tom breaking Myrtle's nose</b>. It's only the second time in his life Nick has been drunk."},
+
+/* ---------- SYMBOLS ---------- */
+{s:"Symbols",cat:"symbol",t:"The eyes of Doctor T. J. Eckleburg",
+ a:["What literally are they?","Where are they?","What are they usually read as?"],
+ h:"An advertisement that outlived its business.",
+ d:"A <b>faded billboard</b> for an oculist \u2014 gigantic blue eyes behind yellow spectacles \u2014 looming over the <b>Valley of Ashes</b>.<br>"
+ +"<b>Commonly read as:</b> God, or some moral authority, watching over a corrupt world and doing nothing. They're a leftover advertisement, which is the point: in this world the only thing watching is a billboard."},
+{s:"Symbols",cat:"symbol",t:"The green light",
+ a:["Where is it?","Who reaches for it and when?","What does it stand for?"],
+ h:"Last image of Chapter 1.",
+ d:"A <b>green light at the end of Daisy's dock</b> in East Egg, visible across the water from Gatsby's lawn.<br>"
+ +"At the <b>end of Chapter 1</b> (20), Nick sees Gatsby alone in the dark, trembling, <b>stretching his arms toward it</b>. Nick looks again and Gatsby has vanished.<br>"
+ +"<b>Stands for:</b> Gatsby's longing \u2014 for Daisy, and more broadly for a future always just out of reach. It's the American Dream made into an object you can see but not hold."},
+{s:"Symbols",cat:"symbol",t:"Gatsby's uncut books",
+ a:["Who notices them?","What's remarkable about them?","What does it say about Gatsby?"],
+ h:"Real covers, unread pages.",
+ d:"In the library, <b>Owl Eyes</b> marvels that Gatsby's books are real rather than cardboard fakes \u2014 but the <b>pages have never been cut</b>, so none have been read.<br>"
+ +"<b>What it says:</b> Gatsby's persona is more thorough than a fake, yet still a performance. He bought the appearance of an educated man down to the last convincing detail. Straight into <b>appearance vs. reality</b>, which is the activity Mrs. Beresford ran on Chapter 3."},
+{s:"Symbols",cat:"symbol",t:"Daisy, white, and the breeze",
+ a:["What is Daisy wearing when we meet her?","What's happening in the room?","What does Tom do to it?"],
+ h:"Tom shuts the windows.",
+ d:"Daisy and Jordan are first seen in <b>white</b>, on an enormous couch, with a <b>breeze</b> billowing the curtains so the two women seem to float.<br>"
+ +"Then <b>Tom shuts the windows</b> and the room goes still. The image is worth knowing: the lightness and apparent purity around Daisy is fragile, and Tom is the one who kills it."},
+
+/* ---------- LITERARY TERMS ---------- */
+{s:"Literary terms",cat:"litterm",t:"Direct Characterization",
+ a:["Define it","Give the slide's example"],
+ h:"The author just tells you.",
+ d:"<b>Tells</b> the audience what the personality of the character is.<br>"
+ +"<b>Slide example:</b> \u201cThe <i>patient</i> boy and the <i>quiet</i> girl were both <i>well-mannered</i> and did not disobey their mother.\u201d"},
+{s:"Literary terms",cat:"litterm",t:"Indirect Characterization",
+ a:["Define it","What acronym goes with it?"],
+ h:"The author shows you and lets you work it out.",
+ d:"<b>Shows</b> things that reveal the personality of the character, leaving you to infer it. The acronym for the five kinds of evidence is <b>STEAL</b>."},
+{s:"Literary terms",cat:"litterm",t:"STEAL",
+ a:["What does each letter stand for?","What is it a tool for?"],
+ h:"Five letters, and your worksheet is built on it.",
+ d:"The five types of <b>indirect characterization</b>:<ul>"
+ +"<li><b>S</b>peech \u2014 what the character says and how they say it</li>"
+ +"<li><b>T</b>houghts \u2014 their private thoughts and feelings</li>"
+ +"<li><b>E</b>ffect on others \u2014 how other characters react to them</li>"
+ +"<li><b>A</b>ctions \u2014 what they do and how they behave</li>"
+ +"<li><b>L</b>ooks \u2014 appearance and dress</li></ul>"
+ +"Your <b>STEAL worksheet is due at the beginning of class</b> on quiz day, book only."},
+{s:"Literary terms",cat:"litterm",t:"Flat Character",
+ a:["Define it","How many traits?","Give an example type"],
+ h:"Summarizable in a word.",
+ d:"A <b>two-dimensional</b> character lacking depth or a real personality, usually with just <b>one or two traits</b>. Can often be summed up in one word and never goes beyond that role.<br>"
+ +"<b>Examples:</b> \u201cbully,\u201d \u201clove interest,\u201d \u201csidekick.\u201d"},
+{s:"Literary terms",cat:"litterm",t:"Round Character",
+ a:["Define it","Why do audiences care about them?","Which term is it confused with?"],
+ h:"Deep and layered, not necessarily changing.",
+ d:"<b>Deep and layered</b>, complex enough to seem real, so audiences get invested in their goals, strengths and failures. They have believable conflict and develop.<br>"
+ +"<b>Don't confuse with dynamic:</b> round is about having a <b>complex personality</b>; dynamic is about <b>changing</b>. A character can be both."},
+{s:"Literary terms",cat:"litterm",t:"Static Character",
+ a:["Define it","Which term is it confused with?"],
+ h:"Same at the end as at the start.",
+ d:"Undergoes <b>no significant change</b> in character, personality or perspective throughout the story.<br>"
+ +"<b>Don't confuse with flat:</b> flat is <b>two-dimensional</b>, static <b>doesn't change</b>. Most flat characters are static, but <b>not all static characters are flat</b> \u2014 a complex character can still end where they began."},
+{s:"Literary terms",cat:"litterm",t:"Dynamic Character",
+ a:["Define it","Can they be characterized directly, indirectly, or both?"],
+ h:"Transformed by the story.",
+ d:"Undergoes a <b>major transition</b> in character, personality and/or perspective. Dynamic characters may be characterized <b>both directly and indirectly</b>."},
+{s:"Literary terms",cat:"litterm",t:"Internal Conflict",
+ a:["What is the one type?","Give an example from Ch. 1-3"],
+ h:"Only one flavour.",
+ d:"<b>Man vs. Self.</b><br>"
+ +"<b>In these chapters:</b> Nick being \u201cwithin and without, simultaneously enchanted and repelled\u201d is internal conflict \u2014 he's disgusted by these people and drawn to them at the same time."},
+{s:"Literary terms",cat:"litterm",t:"External Conflict",
+ a:["Name all four types","Give an example from Ch. 1-3"],
+ h:"Four types on the slide.",
+ d:"<b>Man vs. Man</b>, <b>Man vs. Nature</b>, <b>Man vs. Supernatural/Fate</b>, <b>Man vs. Society</b>.<br>"
+ +"<b>In these chapters:</b> Tom vs. Myrtle over Daisy's name is man vs. man; Gatsby's whole project of reinventing himself against a class system that won't accept him is man vs. society."},
+
+/* ---------- CONTEXT ---------- */
+{s:"Context",cat:"context",t:"Modernism",
+ a:["Rough dates","Name four of its ideals","What kind of hero does it favour?"],
+ h:"It lost faith in something specific.",
+ d:"Roughly <b>1900\u20131950</b>. A deliberately loose set of ideals:<ul>"
+ +"<li><b>Bold experimentation</b></li><li><b>Rejection of traditions</b></li>"
+ +"<li><b>Disillusionment</b> \u2014 lost faith in the American Dream</li>"
+ +"<li>Rejects <b>sentimentality and artificiality</b></li>"
+ +"<li>Favours heroes who are <b>flawed and \u201cgraceful under pressure\u201d</b></li>"
+ +"<li><b>Redefined</b> the American Dream</li></ul>"},
+{s:"Context",cat:"context",t:"The American Dream (classic)",
+ a:["Name the three central assumptions","What image is it usually described with?"],
+ h:"Three assumptions, and a picket fence.",
+ d:"Usually pictured as \u201ca white picket fence\u201d with \u201c2.5 kids.\u201d Three central assumptions:<ul>"
+ +"<li><b>America is a New Eden</b> \u2014 a land of beauty, bounty and unlimited promise</li>"
+ +"<li><b>Belief in progress</b> \u2014 optimism about a better life</li>"
+ +"<li><b>Individuals are triumphant</b> \u2014 the independent and self-reliant are praised; everything is possible with hard work</li></ul>"
+ +"The novel shows both the <b>promises and the disappointments</b> of that dream."},
+{s:"Context",cat:"context",t:"F. Scott Fitzgerald",
+ a:["His nickname","Where he was born","What he inherited from each parent","His line about America"],
+ h:"Two inheritances that pull opposite ways.",
+ d:"Known as the \u201c<b>Prophet of the Jazz Age</b>.\u201d Born in <b>St. Paul, Minnesota</b>. His father was an irresponsible salesman who had <b>married above his social position</b>.<br>"
+ +"<b>From his mother</b> he inherited the dream that any young man could become anything through hard work. <b>From his father</b>, a <b>propensity for failure</b>.<br>"
+ +"<b>Zelda Sayre</b>, a Southern belle socially above him, refused his first proposals because he was too poor; he wrote <i>This Side of Paradise</i> to win her \u2014 which should sound a lot like Gatsby and Daisy.<br>"
+ +"<b>His line:</b> \u201cAmerica's great promise is that something's going to happen, but it never does. <b>America is the moon that never rose.</b>\u201d"},
+{s:"Context",cat:"context",t:"Prohibition (18th Amendment, 1920)",
+ a:["What did it do?","How does it connect to Gatsby?","When was it repealed?"],
+ h:"It explains where a fortune could come from fast.",
+ d:"Banned alcohol nationally from <b>1920</b>, repealed in <b>1933</b>. <i>The Great Gatsby</i> was published in <b>1925</b>, right in the middle.<br>"
+ +"<b>Why it matters:</b> all that champagne at Gatsby's parties is illegal, and bootlegging is one of the rumoured sources of his fortune. Mrs. Beresford's slide asks directly what impact the 18th Amendment might have had on the plot."},
+{s:"Context",cat:"context",t:"Nick as narrator (point of view)",
+ a:["What point of view is this?","When is he telling it?","Two reasons to doubt him"],
+ h:"First person, and after the fact.",
+ d:"<b>First-person</b>, told by a character inside the story, <b>retrospectively</b> \u2014 \u201cwhen I came back from the east last autumn\u201d (2) means he already knows how it ends.<br>"
+ +"<b>Reasons to doubt him:</b> he insists on his own honesty and reserved judgement, yet he opens by telling you Gatsby \u201crepresented everything for which I have unaffected scorn\u201d and then exempts him anyway; and he admits he can't give a full account of the night at Myrtle's apartment."}
+];
+const CARDS=T.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat}});
+
+/* ---------- generated questions ---------- */
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
+const QUOTES=[
+ ["I'm p-paralyzed with happiness.","Daisy Buchanan"],
+ ["I like large parties. They're so intimate. At small parties there isn't any privacy.","Jordan Baker"],
+ ["He's so dumb he doesn't know he's alive.","Tom Buchanan"],
+ ["Absolutely real \u2014 have pages and everything. I thought they'd be a durable cardboard.","Owl Eyes"],
+ ["Reserving judgements is a matter of infinite hope.","Nick Carraway"]
+];
+const WHERE=[["Tom Buchanan","East Egg"],["Daisy Buchanan","East Egg"],["Nick Carraway","West Egg"],
+ ["Jay Gatsby","West Egg"],["Myrtle Wilson","The Valley of Ashes"],["George Wilson","The Valley of Ashes"]];
+const STEAL=[["S","Speech \u2014 what the character says and how"],["T","Thoughts \u2014 private thoughts and feelings"],
+ ["E","Effect on others \u2014 how others react to them"],["A","Actions \u2014 what they do"],["L","Looks \u2014 appearance and dress"]];
+function qQuote(){
+  const p=shuf(QUOTES)[0];
+  const names=["Nick Carraway","Daisy Buchanan","Tom Buchanan","Jordan Baker","Jay Gatsby","Myrtle Wilson","Owl Eyes"];
+  const wrong=shuf(names.filter(function(n){return n!==p[1]})).slice(0,3);
+  return {topic:"Who said it",q:"Who says this? &mdash; \u201c"+p[0]+"\u201d",
+   choices:shuf([{label:p[1],right:true}].concat(wrong.map(function(w){return{label:w,right:false}}))),
+   why:"<b>"+p[1]+"</b> says it."};
+}
+function qWhere(){
+  const p=shuf(WHERE)[0];
+  return {topic:"Who lives where",q:"Where does <b>"+p[0]+"</b> live?",
+   choices:shuf(["East Egg","West Egg","The Valley of Ashes"].map(function(x){return{label:x,right:x===p[1]}})),
+   why:"<b>"+p[0]+"</b> lives in <b>"+p[1]+"</b>. East Egg = old money (Tom, Daisy). West Egg = new money (Nick, Gatsby). Valley of Ashes = the Wilsons."};
+}
+function qSteal(){
+  const p=shuf(STEAL)[0];
+  const wrong=shuf(STEAL.filter(function(x){return x[0]!==p[0]})).slice(0,3);
+  return {topic:"STEAL letters",q:"In <b>STEAL</b>, what does the <b>"+p[0]+"</b> stand for?",
+   choices:shuf([{label:p[1],right:true}].concat(wrong.map(function(w){return{label:w[1],right:false}}))),
+   why:"<b>"+p[0]+"</b> = "+p[1]+". STEAL is the five types of indirect characterization."};
+}
+function qChapter(){
+  const EV=[["Nick has dinner at Tom and Daisy's and the phone keeps ringing","Chapter 1"],
+   ["Gatsby reaches toward the green light","Chapter 1"],
+   ["Nick visits the Valley of Ashes and meets the Wilsons","Chapter 2"],
+   ["Tom breaks Myrtle's nose","Chapter 2"],
+   ["Nick meets Owl Eyes in the library","Chapter 3"],
+   ["Nick finally meets Gatsby face to face","Chapter 3"],
+   ["A car loses a wheel in the driveway after the party","Chapter 3"]];
+  const p=shuf(EV)[0];
+  return {topic:"Which chapter",q:"Which chapter does this happen in? &mdash; <b>"+p[0]+"</b>",
+   choices:shuf(["Chapter 1","Chapter 2","Chapter 3"].map(function(c){return{label:c,right:c===p[1]}})),
+   why:"That's <b>"+p[1]+"</b>."};
+}
+function extras(){return shuf([qQuote(),qQuote(),qWhere(),qSteal(),qChapter(),qChapter()])}
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"eng"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"eng",count:20,extras:extras});
+
+$("sum").innerHTML=
+'<div class="note"><b>Read this first if you are behind.</b> This is a beat-by-beat walkthrough of what actually happens, with the page numbers Mrs. Beresford used in class. It is a scaffold, not a replacement for the book &mdash; the quiz has <b>short answer</b> as well as multiple choice, and short answer is where not having read shows.</div>'
+
++'<div class="card"><h3>Chapter 1 &mdash; Meeting everyone</h3>'
++'<p><b>Nick introduces himself</b> (1-3). He quotes his father\u2019s advice about not criticising others, claims he reserves judgement, and tells us he came back from the east last autumn disgusted. So the whole novel is a flashback told by someone who already knows how it ends. He singles out Gatsby as the one person exempt from his scorn.</p>'
++'<p><b>The setting</b> (5). Nick has moved to <b>West Egg</b>, the new-money side, into a small house squeezed beside an enormous mansion. Across the bay is <b>East Egg</b>, old money, where his cousin <b>Daisy</b> lives with <b>Tom Buchanan</b>, whom Nick knew at Yale (6).</p>'
++'<p><b>Dinner at the Buchanans\u2019</b> (8-19). Nick arrives to find <b>Daisy</b> and <b>Jordan Baker</b> in white on a huge couch with the curtains blowing; Tom shuts the windows and the room goes still. Daisy\u2019s first line is \u201cI\u2019m p-paralyzed with happiness.\u201d Tom holds forth about a racist book he\u2019s been reading (12-13). <b>The phone rings</b> (14) and the mood collapses &mdash; Jordan quietly tells Nick it\u2019s Tom\u2019s woman in New York. Daisy tells Nick about her daughter\u2019s birth and says she hopes the girl grows up a <b>beautiful little fool</b>.</p>'
++'<p><b>Gatsby\u2019s name comes up</b> (11) and Jordan reacts as though it means something. Nick leaves \u201cconfused and a little disgusted\u201d (20).</p>'
++'<p><b>The last image</b> (20): Nick sees his neighbour alone on the lawn, trembling, arms stretched toward a <b>green light</b> across the water. He looks away, and Gatsby is gone.</p></div>'
+
++'<div class="card"><h3>Chapter 2 &mdash; The Valley of Ashes</h3>'
++'<p><b>The Valley of Ashes</b> (23-24). Between West Egg and New York is a grey industrial wasteland where ash piles up like wheat and men move through the dust. Over it hang the enormous blue <b>eyes of Doctor T. J. Eckleburg</b> on a faded billboard.</p>'
++'<p><b>The Wilsons</b> (25-26). Tom drags Nick off the train to meet his mistress. <b>George Wilson</b> runs the garage &mdash; \u201cblond, spiritless, anaemic, and faintly handsome.\u201d He believes Tom is there to sell him a car and has no idea about the affair. <b>Myrtle</b>, his wife, is vivid and physical where Daisy is airy. Tom on George: \u201cHe\u2019s so dumb he doesn\u2019t know he\u2019s alive.\u201d</p>'
++'<p><b>The city</b> (29 onward). Myrtle buys a <b>dog</b> on the way. They go up to the apartment Tom keeps for her, crammed with furniture too big for it. <b>Catherine</b> (Myrtle\u2019s sister) and the <b>McKees</b> from downstairs come up. Catherine passes on gossip about Gatsby and claims Tom and Daisy don\u2019t divorce because Daisy is Catholic &mdash; which is a lie.</p>'
++'<p><b>Everyone drinks.</b> It\u2019s only the second time in his life Nick has been drunk, and he admits he can\u2019t describe the evening fully. He says he was \u201c<b>within and without, simultaneously enchanted and repelled</b>.\u201d</p>'
++'<p><b>The ending.</b> Myrtle starts chanting <b>Daisy\u2019s name</b> at Tom. He tells her she has no right to say it. She says it again, and he <b>breaks her nose</b> with his open hand.</p></div>'
+
++'<div class="card"><h3>Chapter 3 &mdash; The party</h3>'
++'<p><b>The machine of the parties</b> (39-40). \u201cMen and girls came and went like moths among the whisperings and the champagne and the stars.\u201d Gatsby\u2019s station wagon \u201cscampered like a brisk yellow bug to meet all trains.\u201d Crates of oranges go in and pulp comes out. Nobody is invited &mdash; they simply arrive.</p>'
++'<p><b>Nick actually is invited</b> (41), by a chauffeur in blue, which makes him almost unique among the guests.</p>'
++'<p><b>Nobody knows the host.</b> Nick asks where Gatsby is and gets blank looks. Rumours circulate: he <b>killed a man</b>, he was a <b>German spy</b> in the war, he\u2019s an <b>Oxford man</b>. He finds <b>Jordan</b> (42), leaning back and looking with <i>contemptuous</i> interest into the garden. A girl rips her dress and Gatsby quietly sends her a new one (43).</p>'
++'<p><b>The library</b> (45). <b>Owl Eyes</b> is astonished the books are real, not cardboard &mdash; but the <b>pages are uncut</b>. Nobody has read them.</p>'
++'<p><b>Meeting Gatsby</b> (47-48). Nick chats with a man his own age who turns out to be Gatsby. The famous <b>smile</b>: \u201cone of those rare smiles with a quality of eternal reassurance in it, that you may come across four or five times in life.\u201d He calls Nick \u201cold sport.\u201d He doesn\u2019t drink and doesn\u2019t dance; he watches from the edges (50).</p>'
++'<p><b>Jordan is summoned</b> and comes back saying she\u2019s just heard \u201cthe most amazing thing\u201d but can\u2019t tell Nick yet (49-52).</p>'
++'<p><b>Leaving</b> (53-55). In the driveway a drunk has driven a car into a ditch and lost a wheel, and can\u2019t grasp what happened &mdash; carelessness with machines and with people, which will matter later. The last image is Gatsby alone on the porch, hand raised in farewell, \u201ca sudden emptiness\u201d flowing from the house.</p>'
++'<p><b>Afterward</b> (56-59). Nick describes his ordinary working life in New York, then that he began seeing <b>Jordan</b>, that she is <b>incurably dishonest</b> (the golf-cheating rumour), and that he still has a vague entanglement back home &mdash; right after telling us he is one of the few honest people he knows.</p></div>';
+
+$("ref").innerHTML=
+'<div class="card"><h3>Quiz format</h3><p>Mrs. Beresford\u2019s slide says it is a <b>combination of short answer and multiple choice</b>, standard time 20 minutes, extended time 30. It is marked <b>Summative</b>. Your <b>STEAL worksheet is collected at the start of that class</b>, and for it you may use <b>nothing but your book</b>.</p></div>'
+
++'<div class="card"><h3>Characters at a glance</h3><table>'
++'<tr><th>Character</th><th>Who they are</th><th>Detail to remember</th></tr>'
++'<tr><td><b>Nick Carraway</b></td><td>Narrator, West Egg, Daisy\u2019s cousin, bond business</td><td>Claims honesty; \u201cwithin and without\u201d</td></tr>'
++'<tr><td><b>Tom Buchanan</b></td><td>Daisy\u2019s husband, East Egg, Yale</td><td>Racist books; breaks Myrtle\u2019s nose</td></tr>'
++'<tr><td><b>Daisy Buchanan</b></td><td>Nick\u2019s cousin, Tom\u2019s wife, East Egg</td><td>White dress; \u201cbeautiful little fool\u201d</td></tr>'
++'<tr><td><b>Jordan Baker</b></td><td>Golfer, Daisy\u2019s friend, Nick\u2019s love interest</td><td>Incurably dishonest; cheating rumour</td></tr>'
++'<tr><td><b>Jay Gatsby</b></td><td>West Egg mansion, throws the parties</td><td>Smile of \u201ceternal reassurance\u201d; \u201cold sport\u201d</td></tr>'
++'<tr><td><b>Myrtle Wilson</b></td><td>Tom\u2019s mistress, George\u2019s wife</td><td>\u201cSurplus flesh sensuously\u201d; nose broken</td></tr>'
++'<tr><td><b>George Wilson</b></td><td>Garage owner, Valley of Ashes</td><td>\u201cSpiritless, anaemic\u201d; thinks Tom sells cars</td></tr>'
++'<tr><td><b>Catherine</b></td><td>Myrtle\u2019s sister</td><td>Lies that Daisy is Catholic</td></tr>'
++'<tr><td><b>The McKees</b></td><td>Downstairs neighbours</td><td>He photographs; she is \u201chorrible\u201d</td></tr>'
++'<tr><td><b>Owl Eyes</b></td><td>Drunk man in the library</td><td>The uncut pages</td></tr>'
++'</table></div>'
+
++'<div class="card"><h3>The three worlds</h3><table>'
++'<tr><th></th><th>East Egg</th><th>West Egg</th><th>Valley of Ashes</th></tr>'
++'<tr><th>Money</th><td>Old, inherited</td><td>New, self-made</td><td>None</td></tr>'
++'<tr><th>Who</th><td>Tom, Daisy</td><td>Nick, Gatsby</td><td>George, Myrtle</td></tr>'
++'<tr><th>Feel</th><td>Effortless, closed</td><td>Loud, showy, striving</td><td>Grey, dead, forgotten</td></tr>'
++'<tr><th>Watched by</th><td>&mdash;</td><td>&mdash;</td><td>Eyes of Dr. T. J. Eckleburg</td></tr>'
++'</table></div>'
+
++'<div class="card"><h3>Quotes worth knowing</h3><table><tr><th>Quote</th><th>Who / where</th><th>Why it matters</th></tr>'
++'<tr><td>\u201cReserving judgements is a matter of infinite hope\u201d (2)</td><td>Nick</td><td>His claim to reliability, which the novel tests</td></tr>'
++'<tr><td>\u201cI\u2019m p-paralyzed with happiness\u201d (8)</td><td>Daisy, first line</td><td>Performed delight; nothing she says is quite straight</td></tr>'
++'<tr><td>\u201cA beautiful little fool\u201d (17)</td><td>Daisy, on her daughter</td><td>What women are allowed to be in this world</td></tr>'
++'<tr><td>\u201cHe\u2019s so dumb he doesn\u2019t know he\u2019s alive\u201d (26)</td><td>Tom, about George</td><td>Tom\u2019s contempt for anyone beneath him</td></tr>'
++'<tr><td>\u201cWithin and without, simultaneously enchanted and repelled\u201d</td><td>Nick, Ch. 2</td><td>The clearest statement of his internal conflict</td></tr>'
++'<tr><td>\u201cMen and girls came and went like moths\u2026\u201d (39)</td><td>Narration, Ch. 3</td><td>Guests drawn to light, insubstantial, easily burned</td></tr>'
++'<tr><td>\u201cAbsolutely real \u2014 have pages and everything\u201d (45)</td><td>Owl Eyes</td><td>Appearance vs. reality in one object</td></tr>'
++'<tr><td>\u201cOne of those rare smiles with a quality of eternal reassurance\u201d (48)</td><td>Nick, on Gatsby</td><td>Why everyone believes in him</td></tr>'
++'<tr><td>\u201cI like large parties. They\u2019re so intimate\u201d (49)</td><td>Jordan</td><td>Crowds as a place to hide</td></tr>'
++'</table></div>'
+
++'<div class="card"><h3>Rumours about Gatsby (Ch. 3)</h3><p>Mrs. Beresford specifically told you to track these while annotating Chapter 3:</p>'
++'<ul style="margin:4px 0 0;padding-left:18px;color:#cdd4e0;font-size:14px">'
++'<li>He <b>killed a man</b></li><li>He was a <b>German spy</b> during the war</li>'
++'<li>He\u2019s an <b>Oxford man</b> &mdash; Jordan doesn\u2019t believe it</li>'
++'<li>He\u2019s a <b>bootlegger</b> (Prohibition is on)</li></ul>'
++'<p style="margin-top:9px">The point is not which is true. It\u2019s that <b>nobody at his parties actually knows him</b>, and he lets that stand.</p></div>'
+
++'<div class="card"><h3>Characterization terms</h3><table><tr><th>Pair</th><th>The difference</th></tr>'
++'<tr><td><b>Direct vs. Indirect</b></td><td>Direct <b>tells</b> you the trait. Indirect <b>shows</b> it and you infer &mdash; use STEAL.</td></tr>'
++'<tr><td><b>Flat vs. Round</b></td><td>Flat = two-dimensional, one or two traits. Round = complex, layered, develops.</td></tr>'
++'<tr><td><b>Static vs. Dynamic</b></td><td>Static = doesn\u2019t change. Dynamic = undergoes a major transition.</td></tr>'
++'<tr><td><b>Flat vs. Static</b></td><td>The trap. Flat is about <b>depth</b>, static is about <b>change</b>. Most flat characters are static, but not all static characters are flat.</td></tr>'
++'<tr><td><b>Round vs. Dynamic</b></td><td>The other trap. Round is <b>complex personality</b>, dynamic is <b>changes</b>. A character can be both.</td></tr>'
++'</table></div>'
+
++'<div class="card"><h3>Conflict types</h3><p><b>Internal:</b> Man vs. Self.<br><b>External:</b> Man vs. Man &middot; Man vs. Nature &middot; Man vs. Supernatural/Fate &middot; Man vs. Society.</p></div>'
+
++'<div class="card"><h3>Context you were given</h3>'
++'<details><summary>Timeline from the unit slides</summary><p>1914 WWI begins &middot; 1917 US enters &middot; 1919 Treaty of Versailles &middot; <b>1920 18th Amendment (Prohibition)</b> &middot; 1920 19th Amendment (women vote) &middot; <b>1925 The Great Gatsby published</b> &middot; 1929 stock market crash &middot; 1929-39 Great Depression &middot; 1933 Prohibition repealed &middot; 1939-45 WWII.</p></details>'
++'<details><summary>Modernism</summary><p>Bold experimentation; rejection of traditions; disillusionment and lost faith in the American Dream; rejection of sentimentality and artificiality; flawed heroes who are \u201cgraceful under pressure\u201d; a redefined American Dream.</p></details>'
++'<details><summary>The American Dream, classic and new</summary><p><b>Classic:</b> America as a New Eden; belief in progress; individuals triumphant through hard work. <b>New:</b> cynicism moves in, people question authority and tradition, living in the moment becomes the priority \u2014 and modernism is born.</p></details>'
++'<details><summary>Fitzgerald in one paragraph</summary><p>\u201cProphet of the Jazz Age,\u201d born St. Paul, Minnesota. Father an irresponsible salesman who married above his social position. From his mother he inherited the belief that anyone can become anything; from his father a propensity for failure. Zelda refused him for being poor until he wrote a novel to win her. He said: \u201cAmerica is the moon that never rose.\u201d</p></details>'
++'<details><summary>Topics the class listed for the novel</summary><p>Love, money, happiness, hope, success, the American Dream, judgement. Remember the distinction your class drew: a <b>topic</b> is one or two words; a <b>theme</b> is what the author is <i>saying</i> about that topic.</p></details></div>';
+
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>
