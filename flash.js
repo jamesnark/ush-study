@@ -30,14 +30,27 @@ async function pull(){
     cacheSet();
   }catch(e){}
 }
+let dirty=false;
 function push(){
   clearTimeout(pushT);cacheSet();
   pushT=setTimeout(()=>{
     fetch(SB_URL+'/rest/v1/hub_state?on_conflict=id',{method:'POST',
       headers:Object.assign(H(),{Prefer:'resolution=merge-duplicates,return=minimal'}),
-      body:JSON.stringify({id:ROW,data:{gaps:GAPS,stats:STATS},updated_at:new Date().toISOString()})}).catch(()=>{});
+      body:JSON.stringify({id:ROW,data:{gaps:GAPS,stats:STATS},updated_at:new Date().toISOString()})})
+      .then(r=>{dirty=!r.ok})
+      .catch(()=>{dirty=true});   /* offline: keep it and retry on the next sync tick */
   },600);
 }
+/* re-pull when you come back to the tab, so a phone session shows up on the laptop */
+const REDRAW=[];
+async function sync(){
+  await pull();
+  if(dirty){dirty=false;push()}
+  REDRAW.forEach(fn=>{try{fn()}catch(e){}});
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});
+window.addEventListener('focus',sync);
+setInterval(()=>{if(!document.hidden)sync()},120000);
 
 /* ===================== PER-QUESTION STATS ===================== */
 function stat(sk){return STATS[sk]||null}
@@ -207,6 +220,8 @@ function mount(opts){
     push();q('.fsync').textContent='saved';draw()};
   q('.fclear').onclick=()=>{const c=list[pos];if(!c)return;delete GAPS[key(c)];q('.fnote').value='';push();q('.fsync').textContent='cleared';draw()};
   build();pull().then(draw);
+  /* safe to refresh a flashcard view in place */
+  REDRAW.push(function(){try{draw()}catch(e){}});
 }
 
 /* ===================== PRACTICE TEST ===================== */
@@ -283,7 +298,7 @@ function quiz(opts){
       /* corner button: per-question stats */
       const corner=document.createElement('button');
       corner.className='qstatbtn';corner.title='stats for this question';corner.innerHTML='&#9202;';
-      const panel=document.createElement('div');panel.className='qspanel';panel.style.display='none';
+      const panel=document.createElement('div');panel.className='qspanel';panel.style.display='none';panel.dataset.sk=sk;
       corner.onclick=()=>{
         if(panel.style.display==='none'){panel.innerHTML=statPanel(sk);panel.style.display='block';
           const rb=panel.querySelector('.qsreset');
@@ -320,6 +335,10 @@ function quiz(opts){
   }
   q('.qnew').onclick=build;q('.qgapsonly').onchange=build;q('.qallin').onchange=build;
   build();pull().then(build);
+  /* do NOT rebuild a test in progress - that would wipe answers. just refresh the badges. */
+  REDRAW.push(function(){
+    try{[].forEach.call(host.querySelectorAll('.qspanel'),function(p){if(p.style.display!=='none'&&p.dataset.sk)p.innerHTML=statPanel(p.dataset.sk)})}catch(e){}
+  });
 }
 
 const CSS='.fcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px 20px;min-height:200px;'
