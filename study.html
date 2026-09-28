@@ -108,6 +108,19 @@ details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:50
 </main>
 <script src="flash.js"></script>
 <script>
+const CAT={
+"Matter":"class","Pure Substance":"class","Mixture":"class","Element":"class","Compound":"class",
+"Homogeneous Mixture":"class","Heterogeneous Mixture":"class","Phase":"class",
+"Atom vs. Element":"particle","Molecule vs. Compound":"particle","Reading Chemical Formulas":"particle","Chemical Bond":"particle",
+"Physical Separation":"process","Chemical Separation":"process","Law of Conservation of Mass":"process",
+"Open vs. Closed System":"process","Alka Seltzer Reaction":"process","Why the closed bottle loses mass when opened":"process",
+"Pax Romana":"rome","Roman Roads and Communication":"rome","Latin vs. Greek":"rome","Roman Citizenship":"rome",
+"Slavery in the Empire":"rome","Urbanization / The Cities":"rome","Rome's show of authority":"rome","Emperors who persecuted Christians":"rome",
+"Pompey's Conquest (63 B.C.)":"judea","Herod the Great":"judea","Roman Governors":"judea","Pontius Pilate":"judea",
+"First Jewish Revolt":"judea","Hebrew Bible Canon":"judea",
+"The Temple (history)":"worship","Holy Place vs. Holy of Holies":"worship","Synagogues":"worship","The Imperial Cult":"worship",
+"Sadducees":"sect","Pharisees":"sect","Zealots":"sect","Essenes":"sect","Samaritans":"sect","Diaspora Jews":"sect"
+};
 const ASK={
 "Matter":["Define it","Where does it sit on the flowchart?"],
 "Pure Substance":["What is true of ALL its particles","Its two sub-types","Homogeneous or heterogeneous?"],
@@ -243,10 +256,9 @@ return '<div class="card exam'+(n>2?' soon':'')+'"><div class="days">'+n+'<small
 +(e.link?'<button class="btn primary" onclick="go(\''+e.link+'\')">Study this</button>':'')+'</div>';}).join('');
 
 /* ============ ENGINE ============ */
+function toCards(data){return data.map(x=>({s:x.s,t:x.t,h:x.h,d:x.d,a:ASK[x.t]||null,cat:CAT[x.t]||'concept'}))}
 function mkFlash(host,data,key){
-  const secName={"Classification":"Chem \u00b7 Classification","Particles":"Chem \u00b7 Particles","Conservation":"Chem \u00b7 Conservation","States":"Chem \u00b7 States"};
-  Flash.mount({host:host,deckId:key,
-    cards:data.map(x=>({s:secName[x.s]||x.s,t:x.t,h:x.h,d:x.d,a:ASK[x.t]||null}))});
+  Flash.mount({host:host,deckId:key.slice(0,1)==='c'?'chem':'rel',cards:toCards(data)});
   return;
   /* legacy engine below, unused */
   let deck=data.slice(),pos=0,known=new Set();
@@ -275,6 +287,9 @@ function mkFlash(host,data,key){
 function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent;}
 function firstSent(h){const t=strip(h).trim();const m=t.match(/^[^.]+\./);return m?m[0]:t.slice(0,150);}
 function mkQuiz(host,data,key){
+  Flash.quiz({host:host,deckId:key.slice(0,1)==='c'?'chem':'rel',cards:toCards(data),count:Math.min(15,data.length)});
+  return;
+  /* legacy engine below, unused */
   const n=Math.min(15,data.length);
   host.innerHTML='<div class="bar"><button class="btn primary" id="'+key+'new">New '+n+'-question test</button><span class="stat">Score <b id="'+key+'sc">0 / 0</b></span></div><div id="'+key+'body"></div>';
   const g=id=>document.getElementById(key+id);

@@ -73,13 +73,7 @@ details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:50
 
 <section class="view on" id="fc"><div id="fcHost"></div></section>
 
-<section class="view" id="qz">
-  <div class="bar">
-    <button class="btn primary" id="qzNew">New 20-question test</button>
-    <span class="stat">Score <b id="qzScore">0 / 0</b></span>
-  </div>
-  <div id="qzBody"></div>
-</section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
 
 <section class="view" id="tl"></section>
 <section class="view" id="cmp"></section>
@@ -88,6 +82,18 @@ details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:50
 </main>
 <script src="flash.js"></script>
 <script>
+/* category controls which wrong answers a question is allowed to offer */
+const CAT={
+"Crispus Attucks":"person","John Adams":"person","Thomas Jefferson":"person","George Washington":"person",
+"Lexington and Concord":"battle","Battle of Bunker Hill":"battle","Battle of Saratoga":"battle","Battle of Yorktown":"battle",
+"Sugar Act":"law","Stamp Act":"law","Townshend Acts":"law","Intolerable Acts":"law",
+"The Columbian Exchange":"event","French and Indian War":"event","Boston Massacre":"event","Boston Tea Party":"event","Shays' Rebellion":"event",
+"Common Sense":"document","Treaty of Paris (1783)":"document","Articles of Confederation":"document","Bill of Rights":"document",
+"Puritans":"group","Sons of Liberty":"group","Patriots":"group","Loyalists":"group","Federalists":"group","Anti-Federalists":"group","Continental Congress":"group",
+"New Jersey Plan":"plan","Virginia Plan":"plan","The Great Compromise":"plan","3/5ths Compromise":"plan",
+"Roanoke":"place","Jamestown":"place","New England Colonies":"place","Middle Colonies":"place","Southern Colonies":"place",
+"Mercantilism":"concept","Cash Crops":"concept","Tar and Feathering":"concept"
+};
 const ASK={
 "Mercantilism":["Who benefits &mdash; the colony or the mother country?","What flows in each direction?","Which colonial regions ran on it?"],
 "The Columbian Exchange":["What went TO the Americas?","What came BACK to Europe?","Which direction was deadlier, and roughly how deadly?"],
@@ -210,39 +216,14 @@ const TIMELINE=[
 /* ---------- Flashcards ---------- */
 const $=id=>document.getElementById(id);
 const SECN=["","Section 1 \u00b7 The Colonial Era","Section 2 \u00b7 Declaring Independence","Section 3 \u00b7 The New Republic"];
+const FCARDS=TERMS.map(x=>({s:SECN[x.s],t:x.t,h:x.h,d:x.d,a:ASK[x.t]||null,cat:CAT[x.t]||'concept'}));
 function buildDeck(){
-  Flash.mount({host:$("fcHost"),cards:TERMS.map(x=>({s:SECN[x.s],t:x.t,h:x.h,d:x.d,a:ASK[x.t]||null})),deckId:"ush"});
+  Flash.mount({host:$("fcHost"),cards:FCARDS,deckId:"ush"});
 }
 
 
 /* ---------- Quiz ---------- */
-function stripHtml(h){const d=document.createElement("div");d.innerHTML=h;return d.textContent;}
-function firstSentence(h){const txt=stripHtml(h).trim();const m=txt.match(/^[^.]+\./);return m?m[0]:txt.slice(0,140);}
-let qScore=0,qDone=0;
-function newQuiz(){
-  qScore=0;qDone=0;$("qzScore").textContent="0 / 0";
-  const pool=[...TERMS].sort(()=>Math.random()-.5).slice(0,20);
-  const body=$("qzBody");body.innerHTML="";
-  pool.forEach((c,i)=>{
-    const wrong=TERMS.filter(x=>x.t!==c.t).sort(()=>Math.random()-.5).slice(0,3);
-    const opts=[c,...wrong].sort(()=>Math.random()-.5);
-    const div=document.createElement("div");div.className="q";
-    div.innerHTML="<h3>"+(i+1)+". "+firstSentence(c.d)+"</h3>";
-    opts.forEach(o=>{
-      const b=document.createElement("button");b.className="opt";b.textContent=o.t;
-      b.onclick=()=>{
-        [...div.querySelectorAll(".opt")].forEach(x=>{x.disabled=true;if(x.textContent===c.t)x.classList.add("right");});
-        if(o.t!==c.t)b.classList.add("wrong");else qScore++;
-        qDone++;$("qzScore").textContent=qScore+" / "+qDone;
-        const w=document.createElement("div");w.className="why";w.innerHTML="<b>"+c.t+":</b> "+c.d;
-        div.appendChild(w);
-      };
-      div.appendChild(b);
-    });
-    body.appendChild(div);
-  });
-}
-$("qzNew").onclick=newQuiz;
+function newQuiz(){Flash.quiz({host:$("qzHost"),cards:FCARDS,deckId:"ush",count:20});}
 
 /* ---------- Static views ---------- */
 $("tl").innerHTML='<div class="score">Mrs. Wolf gave you an explicit timeline slide on Day 3. Dates she is most likely to ask for are bolded.</div><div class="tl">'+
