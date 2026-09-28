@@ -235,10 +235,16 @@ function pickDistractors(card,pool,n){
   return out;
 }
 function quiz(opts){
-  const host=opts.host, cards=opts.cards, deck=opts.deckId, N=opts.count||20;
+  const host=opts.host, cards=opts.cards, deck=opts.deckId;
   const key=c=>deck+'|'+c.t;
   const extrasFn=opts.extras||null;   /* () => [{q, choices:[{label,right}], why}] */
-  host.innerHTML='<div class="bar"><button class="btn primary qnew">New '+N+'-question test</button>'
+  const SIZES=[10,15,20,30];
+  const saved=parseInt(localStorage.getItem('flash.qcount'),10);
+  let N=saved||opts.count||20;
+  host.innerHTML='<div class="bar"><button class="btn primary qnew">New test</button>'
+   +'<select class="qcount" style="width:auto">'
+   +SIZES.map(function(n){return '<option value="'+n+'"'+(n===N?' selected':'')+'>'+n+' questions</option>'}).join('')
+   +'<option value="999"'+(N===999?' selected':'')+'>every question</option></select>'
    +'<label class="tiny"><input type="checkbox" class="qgapsonly" style="width:auto;margin-right:5px">only my flagged cards</label>'
    +'<label class="tiny"><input type="checkbox" class="qallin" style="width:auto;margin-right:5px">include mastered</label>'
    +'<span class="stat">Score <b class="qsc">0 / 0</b></span></div>'
@@ -252,8 +258,12 @@ function quiz(opts){
     const b=q('.qbody');b.innerHTML='';
     /* build a mixed question list: some from cards, some hand-generated */
     let items=[];
+    N=parseInt(q('.qcount').value,10)||20;
+    localStorage.setItem('flash.qcount',String(N));
     const extras=(extrasFn&&!q('.qgapsonly').checked)?extrasFn():[];
-    const nCards=Math.max(0,N-extras.length);
+    /* 999 = the whole deck */
+    const target=(N>=999)?(cards.length+extras.length):N;
+    const nCards=Math.max(0,target-extras.length);
     /* drop questions you've already nailed repeatedly, unless you ask for them back */
     const allIn=q('.qallin').checked;
     const masteredList=pool.filter(c=>statusOf(key(c)).k==='mastered');
@@ -267,11 +277,12 @@ function quiz(opts){
     picked.forEach(c=>{items.push({kind:'card',card:c,reverse:Math.random()<0.45})});
     extras.forEach(x=>items.push({kind:'custom',x:x}));
     items=items.sort(()=>Math.random()-.5);
-    q('.qmeta').innerHTML=allIn
+    const short=(target>items.length)?(' Only '+items.length+' available right now'+(retired&&!allIn?' because '+retired+' are held back as mastered':'')+'.'):'';
+    q('.qmeta').innerHTML=(allIn
       ? 'Showing everything, mastered included ('+retired+' mastered).'
       : (retired
         ? retired+' question'+(retired===1?'':'s')+' held back because you keep getting them right. Tick “include mastered” to see them.'
-        : 'Questions you miss come back more often; ones you keep getting right fade out.');
+        : 'Questions you miss come back more often; ones you keep getting right fade out.'))+short;
     if(items.length<1){b.innerHTML='<div class="empty">Not enough cards for a test.</div>';return}
     items.forEach((it,i)=>{
       const div=document.createElement('div');div.className='q';
@@ -333,7 +344,7 @@ function quiz(opts){
       b.appendChild(div);
     });
   }
-  q('.qnew').onclick=build;q('.qgapsonly').onchange=build;q('.qallin').onchange=build;
+  q('.qnew').onclick=build;q('.qgapsonly').onchange=build;q('.qallin').onchange=build;q('.qcount').onchange=build;
   build();pull().then(build);
   /* do NOT rebuild a test in progress - that would wipe answers. just refresh the badges. */
   REDRAW.push(function(){

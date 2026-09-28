@@ -67,7 +67,7 @@ a{color:var(--accent)}
 <section class="view" id="qz"><div id="qzHost"></div></section>
 <section class="view" id="ref"></section>
 </main>
-<script src="flash.js?v=4"></script>
+<script src="flash.js?v=5"></script>
 <script>
 const $=id=>document.getElementById(id);
 /* Every term below is from Ms. Reagin's "Internet Vocab.pdf", which is the official scope.
@@ -223,7 +223,7 @@ function qOrder(){
 function extras(){return shuf([qScenario(),qScenario(),qLayer(),qLayer(),qOrder()])}
 
 Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"csp"});
-Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"csp",count:18,extras:extras});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"csp",count:20,extras:extras});
 
 $("ref").innerHTML=
 '<div class="note">This is Ms. Reagin\'s posted <b>Internet Vocab</b> list, which is the official scope of the test, plus the detail from the Packets slides, the UDP vs TCP slide, and the Layers of the Internet activity guide.</div>'

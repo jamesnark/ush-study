@@ -106,7 +106,7 @@ details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:50
 <section class="view" id="other"></section>
 
 </main>
-<script src="flash.js?v=4"></script>
+<script src="flash.js?v=5"></script>
 <script>
 const CAT={
 "Matter":"class","Pure Substance":"class","Mixture":"class","Element":"class","Compound":"class",
@@ -287,7 +287,7 @@ function mkFlash(host,data,key){
 function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent;}
 function firstSent(h){const t=strip(h).trim();const m=t.match(/^[^.]+\./);return m?m[0]:t.slice(0,150);}
 function mkQuiz(host,data,key){
-  Flash.quiz({host:host,deckId:key.slice(0,1)==='c'?'chem':'rel',cards:toCards(data),count:Math.min(15,data.length)});
+  Flash.quiz({host:host,deckId:key.slice(0,1)==='c'?'chem':'rel',cards:toCards(data),count:20});
   return;
   /* legacy engine below, unused */
   const n=Math.min(15,data.length);
