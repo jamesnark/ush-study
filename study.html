@@ -106,7 +106,52 @@ details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:50
 <section class="view" id="other"></section>
 
 </main>
+<script src="flash.js"></script>
 <script>
+const ASK={
+"Matter":["Define it","Where does it sit on the flowchart?"],
+"Pure Substance":["What is true of ALL its particles","Its two sub-types","Homogeneous or heterogeneous?"],
+"Mixture":["How many particle types","Bonded or not?","How do you separate it?","How is it written in a formula?"],
+"Element":["How many atom types","Roughly how many exist","Two examples","Why does Br<sub>2</sub> still count?"],
+"Compound":["How many atom types","Bonded or not?","What kind of change separates it","Two examples"],
+"Homogeneous Mixture":["Uniform or not","Its other name","How many phases","Two examples"],
+"Heterogeneous Mixture":["Uniform or not","How many phases","Three examples"],
+"Physical Separation":["Are bonds broken?","Two methods","Which types of matter it works on"],
+"Chemical Separation":["Are bonds broken?","Two methods","Which type of matter needs it"],
+"Atom vs. Element":["Which is the particle, which is the substance","State the difference in one sentence"],
+"Molecule vs. Compound":["Define each","Which term is broader?","The example that separates them"],
+"Reading Chemical Formulas":["What do the letters mean","What do subscripts mean","What does an ampersand mean"],
+"Chemical Bond":["What does it do","How is it shown in a drawing"],
+"Law of Conservation of Mass":["State the law","Reactants vs products","What actually happens to the atoms"],
+"Open vs. Closed System":["What the balance shows in each","WHY they differ","Which one proves the law more easily"],
+"Alka Seltzer Reaction":["Write the equation with states","Why is it a CHEMICAL reaction?","Which product causes the mass change"],
+"Why the closed bottle loses mass when opened":["What happens the moment you uncap it","What that proves","Confirmed or refuted?"],
+"Phase":["Define it","How many for pure substances and solutions","How many for heterogeneous mixtures"],
+"Pax Romana":["What the words mean","Which emperor started it","When it ended","How far it stretched"],
+"Roman Roads and Communication":["Two things Rome built","Effect on goods and ideas","Why this matters for Christianity later"],
+"Latin vs. Greek":["Which region and purpose for each","Which was most commonly spoken"],
+"Roman Citizenship":["Who got it automatically","The three rights"],
+"Slavery in the Empire":["What percentage of the empire","Could they get out?"],
+"Urbanization / The Cities":["State of cities in this period","Two named cities"],
+"Rome's show of authority":["The two methods","Rome's stance on Jewish customs &mdash; and the catch"],
+"Emperors who persecuted Christians":["The three names","How it ended up","Which emperor reigned when Jesus was born"],
+"Pompey's Conquest (63 B.C.)":["The year","What it made Judea"],
+"Herod the Great":["His title","Benevolent or not?","The two things he is known for"],
+"Roman Governors":["How much authority","The specific power they held"],
+"Pontius Pilate":["His role","His exact dates"],
+"First Jewish Revolt":["The years","What happened in 70 A.D.","Masada: year and outcome"],
+"Hebrew Bible Canon":["The approximate year","Why it happened right then"],
+"The Temple (history)":["Who built the first, and when","Who destroyed it, and when","When the second was built","Who enlarged it, and when"],
+"Holy Place vs. Holy of Holies":["Who enters each","How often","What the Temple represented"],
+"Synagogues":["What event created them","Minimum number of people","Who ran them","Sacrifice or teaching?","What they influenced later"],
+"The Imperial Cult":["Least extreme version","Most extreme version","What it depended on","Who was exempt, and why"],
+"Sadducees":["Their class","Which text they followed","What ended them, and when"],
+"Pharisees":["How they differ from the Sadducees","What they follow beyond the Torah","What they became"],
+"Zealots":["Their method","Which war","Which siege"],
+"Essenes":["Where they lived","How they lived","What they likely wrote"],
+"Samaritans":["How other Jews saw them","Which text they used"],
+"Diaspora Jews":["The trigger event and year","Where they went"]
+};
 /* ============ DATA ============ */
 const CHEM=[
 {s:"Classification",t:"Matter",h:"The broadest category on the whole flowchart.",d:"Anything that has mass and takes up space. Everything on the classification chart is a type of matter."},
@@ -199,6 +244,11 @@ return '<div class="card exam'+(n>2?' soon':'')+'"><div class="days">'+n+'<small
 
 /* ============ ENGINE ============ */
 function mkFlash(host,data,key){
+  const secName={"Classification":"Chem \u00b7 Classification","Particles":"Chem \u00b7 Particles","Conservation":"Chem \u00b7 Conservation","States":"Chem \u00b7 States"};
+  Flash.mount({host:host,deckId:key,
+    cards:data.map(x=>({s:secName[x.s]||x.s,t:x.t,h:x.h,d:x.d,a:ASK[x.t]||null}))});
+  return;
+  /* legacy engine below, unused */
   let deck=data.slice(),pos=0,known=new Set();
   const secs=[...new Set(data.map(x=>x.s))];
   host.innerHTML='<div class="bar"><select id="'+key+'sel"><option value="all">All topics ('+data.length+')</option>'

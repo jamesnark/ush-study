@@ -71,33 +71,7 @@ details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:50
 </header>
 <main>
 
-<section class="view on" id="fc">
-  <div class="bar">
-    <select id="fcSec">
-      <option value="all">All sections (40 terms)</option>
-      <option value="1">1 &middot; The Colonial Era</option>
-      <option value="2">2 &middot; Declaring Independence</option>
-      <option value="3">3 &middot; The New Republic</option>
-    </select>
-    <button class="btn" id="fcShuffle">Shuffle</button>
-    <button class="btn" id="fcReset">Reset</button>
-    <span class="stat">Known <b id="fcKnown">0</b></span>
-    <span class="stat">Left <b id="fcLeft">0</b></span>
-  </div>
-  <div class="prog"><i id="fcBar"></i></div>
-  <div class="card">
-    <div class="tag" id="fcTag"></div>
-    <div class="term" id="fcTerm"></div>
-    <div class="hint hidden" id="fcHint"></div>
-    <div class="defn hidden" id="fcDef"></div>
-  </div>
-  <div class="row">
-    <button class="btn" id="fcHintBtn">Hint</button>
-    <button class="btn primary" id="fcFlip">Reveal</button>
-    <button class="btn" id="fcAgain">Review again</button>
-    <button class="btn" id="fcGot">I knew it &rarr;</button>
-  </div>
-</section>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
 
 <section class="view" id="qz">
   <div class="bar">
@@ -112,7 +86,50 @@ details summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:50
 <section class="view" id="essay"></section>
 
 </main>
+<script src="flash.js"></script>
 <script>
+const ASK={
+"Mercantilism":["Who benefits &mdash; the colony or the mother country?","What flows in each direction?","Which colonial regions ran on it?"],
+"The Columbian Exchange":["What went TO the Americas?","What came BACK to Europe?","Which direction was deadlier, and roughly how deadly?"],
+"Roanoke":["First, or successful? (careful)","What happened to it?","The one piece of evidence left behind"],
+"Jamestown":["Year and present-day state","What makes it different from Roanoke","Which people helped it survive"],
+"New England Colonies":["Which four colonies","Geography and climate","Who settled, and how tolerant were they","Economy and main city"],
+"Middle Colonies":["Which four colonies","Its two nicknames","Religion compared with New England","Main crops and cities"],
+"Southern Colonies":["Which five colonies","Climate: one advantage, one danger","Economy and labor system","Name its elected assembly"],
+"Puritans":["Where they settled and why","How tolerant were they?","Who led Massachusetts Bay, and his famous line"],
+"Sugar Act":["Year","What exactly it taxed","Its two other names"],
+"Cash Crops":["Define it in one line","Southern ones","Middle Colony ones"],
+"French and Indian War":["Years, and its other name","Who fought, and who won","What started it","Why WINNING created Britain's problem"],
+"Boston Massacre":["Exact date","What set it off","How many died","Why it pushed the colonies toward revolution"],
+"Common Sense":["Author and exact date","What form of government it argued for","Why its writing style mattered"],
+"Crispus Attucks":["Which event","His background","Why he is remembered"],
+"Sons of Liberty":["Who founded it","What they opposed","Two things they actually did"],
+"John Adams":["His job during the Revolution","His job after","Was he at the Constitutional Convention? Why not?"],
+"Townshend Acts":["Year, and who it is named after","The five taxed goods","The two things it led to"],
+"Continental Congress":["What it was a reaction to","Year, and how many colonies attended","What it sent to King George III"],
+"Intolerable Acts":["Year, and how many laws","Which colony was punished, and for what","The harshest specific measure"],
+"Tar and Feathering":["Who it was done to","Why colonists used it"],
+"Stamp Act":["Year","What it taxed","What happened to it &mdash; and the catch that came with the repeal"],
+"Boston Tea Party":["Year, and which act caused it","Who did it and what they did","Britain's response"],
+"Thomas Jefferson":["What he wrote and when","What that document actually argues","The hypocrisy Wolf points out","Why he missed 1787"],
+"George Washington":["His three separate roles across both units","His early war strategy in one phrase","How he became president"],
+"Lexington and Concord":["Year and state","Its significance","Who warned them"],
+"Battle of Bunker Hill":["Date and state","Who won","Which campaign it belongs to"],
+"Battle of Saratoga":["Date and state","Who won","The ONE consequence that decides the whole war"],
+"Battle of Yorktown":["Date and state","Who surrendered, and how much","What it led to"],
+"Patriots":["Which side","What they wanted"],
+"Loyalists":["Which side","What they wanted"],
+"Treaty of Paris (1783)":["Year","What it ended","What it formally recognized","Which other treaty do NOT confuse it with?"],
+"Articles of Confederation":["What it was","FOUR things the federal government COULD do","FOUR things it COULD NOT do","What was structurally missing"],
+"Shays' Rebellion":["Years and state","Who led it, and his background","What it convinced people the country needed"],
+"New Jersey Plan":["Which states backed it","One house or two? Votes per state?","What it kept, and what it fixed"],
+"Virginia Plan":["Which states backed it","Who wrote it, and his nickname","One house or two? Representation based on what?","What it did to the Articles"],
+"The Great Compromise":["Which state introduced it","What each house does","Why LARGE states accepted it","Why SMALL states accepted it"],
+"3/5ths Compromise":["The question it answered","The exact ratio","Who wanted what, and why"],
+"Federalists":["For or against the Constitution","Their three leaders","Their main argument","Their one big weakness","Who supported them"],
+"Anti-Federalists":["For or against","Their two leaders","Their fears about the new government","What they ultimately won"],
+"Bill of Rights":["Year, and how many amendments","Which side forced it into existence","Total amendments since then"]
+};
 const TERMS=[
 {s:1,t:"Mercantilism",h:"Think about WHO benefits: the colony or the mother country?",d:"Economic system where colonies exist to enrich the mother country. Colonies ship raw materials to England, England sends back manufactured goods that colonists must buy. New England and the Middle Colonies both operated under it."},
 {s:1,t:"The Columbian Exchange",h:"It went BOTH directions, and one direction was far deadlier.",d:"The transfer of people, plants, animals, diseases, and ideas between the Old World and the New World after 1492.<ul><li><b>To the Americas:</b> smallpox, whooping cough, measles, chicken pox, horses, cattle, pigs, goats, metal tools, Christianity</li><li><b>To Europe:</b> corn, tomatoes, peppers, chocolate, pineapples, sweet potatoes, tobacco, gold/silver, medicines (quinine, anesthetics, muscle relaxants, aspirin)</li></ul>"},
@@ -191,33 +208,12 @@ const TIMELINE=[
 ];
 
 /* ---------- Flashcards ---------- */
-let deck=[],pos=0,known=new Set();
 const $=id=>document.getElementById(id);
+const SECN=["","Section 1 \u00b7 The Colonial Era","Section 2 \u00b7 Declaring Independence","Section 3 \u00b7 The New Republic"];
 function buildDeck(){
-  const s=$("fcSec").value;
-  deck=TERMS.filter(x=>s==="all"||x.s==+s).map((x,i)=>x);
-  pos=0;known.clear();render();
+  Flash.mount({host:$("fcHost"),cards:TERMS.map(x=>({s:SECN[x.s],t:x.t,h:x.h,d:x.d,a:ASK[x.t]||null})),deckId:"ush"});
 }
-function render(){
-  if(!deck.length)return;
-  if(pos>=deck.length)pos=0;
-  const c=deck[pos];
-  $("fcTag").textContent=["","Section 1 \u00b7 The Colonial Era","Section 2 \u00b7 Declaring Independence","Section 3 \u00b7 The New Republic"][c.s]+"  \u2014  "+(pos+1)+" / "+deck.length;
-  $("fcTerm").textContent=c.t;
-  $("fcDef").innerHTML=c.d;
-  $("fcHint").textContent=c.h;
-  $("fcDef").classList.add("hidden");$("fcHint").classList.add("hidden");
-  $("fcKnown").textContent=known.size;
-  $("fcLeft").textContent=deck.length-known.size;
-  $("fcBar").style.width=(known.size/deck.length*100)+"%";
-}
-$("fcFlip").onclick=()=>$("fcDef").classList.toggle("hidden");
-$("fcHintBtn").onclick=()=>$("fcHint").classList.toggle("hidden");
-$("fcGot").onclick=()=>{known.add(deck[pos].t);pos++;render();};
-$("fcAgain").onclick=()=>{const c=deck.splice(pos,1)[0];deck.push(c);render();};
-$("fcShuffle").onclick=()=>{deck.sort(()=>Math.random()-.5);pos=0;render();};
-$("fcReset").onclick=buildDeck;
-$("fcSec").onchange=buildDeck;
+
 
 /* ---------- Quiz ---------- */
 function stripHtml(h){const d=document.createElement("div");d.innerHTML=h;return d.textContent;}
