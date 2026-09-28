@@ -148,8 +148,9 @@ function pickDistractors(card,pool,n){
   return out;
 }
 function quiz(opts){
-  const host=opts.host, cards=opts.cards, deck=opts.deckId, N=Math.min(opts.count||20,cards.length);
+  const host=opts.host, cards=opts.cards, deck=opts.deckId, N=opts.count||20;
   const key=c=>deck+'|'+c.t;
+  const extrasFn=opts.extras||null;   /* () => [{q, choices:[{label,right}], why}] */
   host.innerHTML='<div class="bar"><button class="btn primary qnew">New '+N+'-question test</button>'
    +'<label class="tiny"><input type="checkbox" class="qgapsonly" style="width:auto;margin-right:5px">only my flagged cards</label>'
    +'<span class="stat">Score <b class="qsc">0 / 0</b></span></div><div class="qbody"></div>';
@@ -159,40 +160,51 @@ function quiz(opts){
     sc=0;dn=0;q('.qsc').textContent='0 / 0';
     let pool=cards.slice();
     if(q('.qgapsonly').checked){const g=cards.filter(c=>GAPS[key(c)]);if(g.length>=4)pool=g}
-    const chosen=pool.slice().sort(()=>Math.random()-.5).slice(0,Math.min(N,pool.length));
     const b=q('.qbody');b.innerHTML='';
-    if(chosen.length<4){b.innerHTML='<div class="empty">Not enough cards for a test.</div>';return}
-    chosen.forEach((c,i)=>{
-      const wrong=pickDistractors(c,pool.length>=5?pool:cards,3);
-      const reverse=Math.random()<0.45;   /* mix both directions */
+    /* build a mixed question list: some from cards, some hand-generated */
+    let items=[];
+    const extras=(extrasFn&&!q('.qgapsonly').checked)?extrasFn():[];
+    const nCards=Math.max(0,N-extras.length);
+    pool.slice().sort(()=>Math.random()-.5).slice(0,Math.min(nCards,pool.length)).forEach(c=>{
+      items.push({kind:'card',card:c,reverse:Math.random()<0.45});
+    });
+    extras.forEach(x=>items.push({kind:'custom',x:x}));
+    items=items.sort(()=>Math.random()-.5);
+    if(items.length<1){b.innerHTML='<div class="empty">Not enough cards for a test.</div>';return}
+    items.forEach((it,i)=>{
       const div=document.createElement('div');div.className='q';
-      let optEls;
-      if(!reverse){
-        /* definition -> term */
-        div.innerHTML='<h4>'+(i+1)+'. '+esc(scrub(snippet(c.d,110,260),c.t))+'</h4>';
-        optEls=[c].concat(wrong).sort(()=>Math.random()-.5).map(o=>({label:esc(o.t),right:o.t===c.t}));
+      let optEls,why,flagCard=null;
+      if(it.kind==='custom'){
+        div.innerHTML='<h4>'+(i+1)+'. '+it.x.q+'</h4>';
+        optEls=it.x.choices.map(o=>({label:o.label,right:!!o.right}));
+        why=it.x.why;
       }else{
-        /* term -> which statement is true. every option is padded to a similar size
-           so you can't spot the answer by length alone */
-        div.innerHTML='<h4>'+(i+1)+'. Which of these is true of <b>'+esc(c.t)+'</b>?</h4>';
-        optEls=[c].concat(wrong).sort(()=>Math.random()-.5)
-          .map(o=>({label:esc(scrub(snippet(o.d,95,200),o.t,true)),right:o.t===c.t}));
+        const c=it.card;flagCard=c;
+        const wrong=pickDistractors(c,pool.length>=5?pool:cards,3);
+        if(!it.reverse){
+          div.innerHTML='<h4>'+(i+1)+'. '+esc(scrub(snippet(c.d,110,260),c.t))+'</h4>';
+          optEls=[c].concat(wrong).sort(()=>Math.random()-.5).map(o=>({label:esc(o.t),right:o.t===c.t}));
+        }else{
+          div.innerHTML='<h4>'+(i+1)+'. Which of these is true of <b>'+esc(c.t)+'</b>?</h4>';
+          optEls=[c].concat(wrong).sort(()=>Math.random()-.5)
+            .map(o=>({label:esc(scrub(snippet(o.d,95,200),o.t,true)),right:o.t===c.t}));
+        }
+        why='<b>'+c.t+':</b> '+c.d;
       }
       optEls.forEach(o=>{
         const btn=document.createElement('button');btn.className='opt';btn.innerHTML=o.label;
         btn.onclick=()=>{
           if(div.dataset.done)return;div.dataset.done='1';
           [].forEach.call(div.querySelectorAll('.opt'),x=>{x.disabled=true});
-          [].forEach.call(div.querySelectorAll('.opt'),x=>{if(x===btn&&!o.right)x.classList.add('wrong')});
-          const idx=optEls.findIndex(z=>z.right);
+          if(!o.right)btn.classList.add('wrong');
+          const idx=optEls.map(z=>!!z.right).indexOf(true);
           div.querySelectorAll('.opt')[idx].classList.add('right');
           if(o.right)sc++;dn++;q('.qsc').textContent=sc+' / '+dn;
           const w=document.createElement('div');w.className='why';
-          w.innerHTML='<b>'+c.t+':</b> '+c.d
-            +(o.right?'':'<div style="margin-top:7px"><button class="btn sm qflag">Flag this for re-drill</button></div>');
+          w.innerHTML=why+((!o.right&&flagCard)?'<div style="margin-top:7px"><button class="btn sm qflag">Flag this for re-drill</button></div>':'');
           div.appendChild(w);
           const fb=w.querySelector('.qflag');
-          if(fb)fb.onclick=()=>{GAPS[key(c)]={note:'got this wrong on a practice test',at:new Date().toISOString(),term:c.t,deck:deck};push();fb.textContent='flagged';fb.disabled=true};
+          if(fb)fb.onclick=()=>{GAPS[key(flagCard)]={note:'got this wrong on a practice test',at:new Date().toISOString(),term:flagCard.t,deck:deck};push();fb.textContent='flagged';fb.disabled=true};
         };
         div.appendChild(btn);
       });

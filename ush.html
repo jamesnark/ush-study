@@ -222,8 +222,58 @@ function buildDeck(){
 }
 
 
+/* ---------- Which colony was in which group ---------- */
+const REGIONS={
+ "New England":["Massachusetts","New Hampshire","Rhode Island","Connecticut"],
+ "Middle":["New York","Pennsylvania","New Jersey","Delaware"],
+ "Southern":["Maryland","Virginia","North Carolina","South Carolina","Georgia"]
+};
+const NUMW={4:"four",5:"five"};
+function shuf(a){return a.slice().sort(()=>Math.random()-.5)}
+function regionOf(c){for(const r in REGIONS)if(REGIONS[r].indexOf(c)>=0)return r;return null}
+function outside(region){let o=[];for(const r in REGIONS)if(r!==region)o=o.concat(REGIONS[r]);return o}
+function fullList(region){return REGIONS[region].join(", ")}
+/* "Which list is exactly the four New England Colonies?" — wrong lists swap in 1-2 real
+   colonies from other groups, so you can't spot the answer by shape alone */
+function qList(region){
+  const right=REGIONS[region], pool=outside(region);
+  const correct=shuf(right).join(", ");
+  const wrongs=[];let guard=0;
+  while(wrongs.length<3&&guard++<80){
+    const n=Math.random()<0.55?1:2;
+    const cand=shuf(shuf(right).slice(0,right.length-n).concat(shuf(pool).slice(0,n))).join(", ");
+    if(cand!==correct&&wrongs.indexOf(cand)<0)wrongs.push(cand);
+  }
+  return {q:"Which list is exactly the "+NUMW[right.length]+" <b>"+region+" Colonies</b>?",
+    choices:shuf([{label:correct,right:true}].concat(wrongs.map(w=>({label:w,right:false})))),
+    why:"<b>"+region+" Colonies:</b> "+fullList(region)+"."};
+}
+function qNot(region){
+  const right=REGIONS[region], intruder=shuf(outside(region))[0];
+  return {q:"Which of these was <b>NOT</b> one of the "+region+" Colonies?",
+    choices:shuf(shuf(right).slice(0,3).map(x=>({label:x,right:false})).concat([{label:intruder,right:true}])),
+    why:"<b>"+intruder+"</b> was a "+regionOf(intruder)+" colony. The "+region+" Colonies were "+fullList(region)+"."};
+}
+function qWhich(){
+  let all=[];for(const r in REGIONS)all=all.concat(REGIONS[r]);
+  const c=shuf(all)[0], r=regionOf(c);
+  return {q:"<b>"+c+"</b> belonged to which group?",
+    choices:shuf(Object.keys(REGIONS).map(x=>({label:x+" Colonies",right:x===r}))),
+    why:"<b>"+c+"</b> was one of the "+r+" Colonies: "+fullList(r)+"."};
+}
+function qCount(){
+  const r=shuf(Object.keys(REGIONS))[0], n=REGIONS[r].length;
+  const nums=shuf([3,4,5,6].filter(x=>x!==n)).slice(0,3).concat([n]);
+  return {q:"How many colonies were in the <b>"+r+" Colonies</b>?",
+    choices:shuf(nums).map(x=>({label:String(x),right:x===n})),
+    why:"The "+r+" Colonies had "+n+": "+fullList(r)+"."};
+}
+function colonyExtras(){
+  const regions=shuf(Object.keys(REGIONS));
+  return shuf([qList(regions[0]),qList(regions[1]),qNot(shuf(Object.keys(REGIONS))[0]),qWhich(),qWhich(),qCount()]);
+}
 /* ---------- Quiz ---------- */
-function newQuiz(){Flash.quiz({host:$("qzHost"),cards:FCARDS,deckId:"ush",count:20});}
+function newQuiz(){Flash.quiz({host:$("qzHost"),cards:FCARDS,deckId:"ush",count:20,extras:colonyExtras});}
 
 /* ---------- Static views ---------- */
 $("tl").innerHTML='<div class="score">Mrs. Wolf gave you an explicit timeline slide on Day 3. Dates she is most likely to ask for are bolded.</div><div class="tl">'+
