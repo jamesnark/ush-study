@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29T07:23:57.189000-04:00",
+  "generated": "2026-09-29T13:16:59.333+00:00",
   "classes": [
     {
       "id": "ODcxNTkwNTk0NjI5",
@@ -258,6 +258,57 @@
       "kind": "worksheet",
       "id": "c14",
       "status": "assigned"
+    }
+  ],
+  "grades": [
+    {
+      "cls": "Chemistry",
+      "letter": "A-",
+      "pct": 89.5,
+      "frn": "00450938",
+      "scale": "percent"
+    },
+    {
+      "cls": "Spanish II",
+      "letter": "D+",
+      "pct": 69,
+      "frn": "00447215",
+      "scale": "percent"
+    },
+    {
+      "cls": "US History",
+      "letter": "A",
+      "pct": 98.5,
+      "frn": "00447214",
+      "scale": "percent"
+    },
+    {
+      "cls": "AP CSP",
+      "letter": "A",
+      "pct": 98.3,
+      "frn": "00450940",
+      "scale": "percent"
+    },
+    {
+      "cls": "Algebra II",
+      "letter": "A",
+      "pct": 3.8,
+      "frn": "00447213",
+      "scale": "points"
+    },
+    {
+      "cls": "Religion",
+      "letter": "A",
+      "pct": 97,
+      "frn": "00447216",
+      "scale": "percent"
+    },
+    {
+      "cls": "English 10",
+      "letter": "C",
+      "pct": 73,
+      "frn": "00450937",
+      "scale": "percent"
     }
   ],
   "powerschool": [
@@ -535,55 +586,43 @@
       "bucket": "lowscore"
     }
   ],
-  "grades": [
+  "psGenerated": "2026-09-29T07:23:57.189000-04:00",
+  "trainers": [
     {
-      "cls": "Chemistry",
-      "letter": "A-",
-      "pct": 89.5,
-      "frn": "00450938",
-      "scale": "percent"
-    },
-    {
-      "cls": "Spanish II",
-      "letter": "D+",
-      "pct": 69,
-      "frn": "00447215",
-      "scale": "percent"
-    },
-    {
-      "cls": "US History",
-      "letter": "A",
-      "pct": 98.5,
-      "frn": "00447214",
-      "scale": "percent"
+      "cls": "English 10",
+      "title": "TGG Chapters 1-3 Quiz",
+      "file": "eng.html",
+      "label": "Gatsby · Chapters 1-3",
+      "terms": 31
     },
     {
       "cls": "AP CSP",
-      "letter": "A",
-      "pct": 98.3,
-      "frn": "00450940",
-      "scale": "percent"
+      "title": "The Internet - test",
+      "file": "csp.html",
+      "label": "Unit 2 · The Internet",
+      "terms": 22
     },
     {
-      "cls": "Algebra II",
-      "letter": "A",
-      "pct": 3.8,
-      "frn": "00447213",
-      "scale": "points"
+      "cls": "Chemistry",
+      "title": "Unit 2 Exam",
+      "file": "chem.html",
+      "label": "Unit 2 · Matter and Change",
+      "terms": 18
     },
     {
       "cls": "Religion",
-      "letter": "A",
-      "pct": 97,
-      "frn": "00447216",
-      "scale": "percent"
+      "title": "Unit 2 Test",
+      "file": "rel.html",
+      "label": "Unit 2 · Cultural Context",
+      "terms": 24
     },
     {
-      "cls": "English 10",
-      "letter": "C",
-      "pct": 73,
-      "frn": "00450937",
-      "scale": "percent"
+      "cls": "US History",
+      "title": null,
+      "file": "ush.html",
+      "label": "Unit 1+2 · taken Sep 28",
+      "terms": 40,
+      "past": true
     }
   ]
 }
