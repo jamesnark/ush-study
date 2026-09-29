@@ -140,6 +140,192 @@ const CHEM_REF='<div class="card"><h3>The Classification of Matter Flowchart</h3
 Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"chem"});
 Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"chem",count:20});
 $("ref").innerHTML=CHEM_REF;
+
+/* ================= interactive classification flowchart ================= */
+/* Each species is drawn as its atoms: same colour = same element. */
+const SPECIES={
+ au:{n:"Au",atoms:[[0,0,12,"#f0c14b","Au"]]},
+ cu:{n:"Cu",atoms:[[0,0,12,"#c87137","Cu"]]},
+ zn:{n:"Zn",atoms:[[0,0,12,"#9aa5b1","Zn"]]},
+ he:{n:"He",atoms:[[0,0,11,"#7ee8fa","He"]]},
+ o2:{n:"O\u2082",atoms:[[-8,0,10,"#ff6b6b","O"],[8,0,10,"#ff6b6b","O"]]},
+ n2:{n:"N\u2082",atoms:[[-8,0,10,"#6f9bff","N"],[8,0,10,"#6f9bff","N"]]},
+ h2o:{n:"H\u2082O",atoms:[[0,2,12,"#ff6b6b","O"],[-11,-8,7,"#e8eaf0","H"],[11,-8,7,"#e8eaf0","H"]]},
+ co2:{n:"CO\u2082",atoms:[[0,0,10,"#4a5160","C"],[-15,0,9,"#ff6b6b","O"],[15,0,9,"#ff6b6b","O"]]},
+ nacl:{n:"NaCl",atoms:[[-8,0,10,"#a78bfa","Na"],[9,0,12,"#3ecf8e","Cl"]]},
+ sio2:{n:"SiO\u2082",atoms:[[0,0,13,"#d4a373","Si"]]},
+ oil:{n:"oil",atoms:[[0,0,12,"#ffd166",""]]},
+ qz:{n:"quartz",atoms:[[0,0,12,"#e8eaf0",""]]},
+ fd:{n:"feldspar",atoms:[[0,0,12,"#ff9f7a",""]]},
+ mi:{n:"mica",atoms:[[0,0,12,"#4a5160",""]]}
+};
+function drawBox(grid){
+  const cw=64,ch=50,cols=Math.max.apply(null,grid.map(r=>r.length)),rows=grid.length;
+  const w=cols*cw,h=rows*ch;
+  let s='<svg class="pbox" viewBox="0 0 '+w+' '+h+'" width="100%" style="max-width:'+w+'px">';
+  s+='<rect x="1" y="1" width="'+(w-2)+'" height="'+(h-2)+'" rx="10" fill="#12151b" stroke="#2a2f3a"/>';
+  grid.forEach(function(row,r){
+    row.forEach(function(key,c){
+      if(!key||key===".")return;
+      const sp=SPECIES[key]; if(!sp)return;
+      const cx=c*cw+cw/2, cy=r*ch+ch/2;
+      /* bonds first so they sit under the atoms */
+      if(sp.atoms.length>1){
+        for(let i=1;i<sp.atoms.length;i++){
+          s+='<line x1="'+(cx+sp.atoms[0][0])+'" y1="'+(cy+sp.atoms[0][1])+'" x2="'+(cx+sp.atoms[i][0])+'" y2="'+(cy+sp.atoms[i][1])+'" stroke="#5b6270" stroke-width="3"/>';
+        }
+      }
+      sp.atoms.forEach(function(a){
+        s+='<circle cx="'+(cx+a[0])+'" cy="'+(cy+a[1])+'" r="'+a[2]+'" fill="'+a[3]+'" stroke="#0f1115" stroke-width="1.5"/>';
+        if(a[4])s+='<text x="'+(cx+a[0])+'" y="'+(cy+a[1]+3.5)+'" font-size="9" font-weight="700" text-anchor="middle" fill="#0f1115" font-family="-apple-system,sans-serif">'+a[4]+'</text>';
+      });
+    });
+  });
+  return s+'</svg>';
+}
+const EX={
+ matter:{title:"Matter",lead:"Anything with mass that takes up space. Everything below is a kind of matter.",items:[
+  {name:"Gold \u2014 an element",grid:[["au","au","au","au"],["au","au","au","au"]],
+   why:"Every particle is a single gold atom. One type of atom, nothing bonded.",
+   real:"Jewellery, and the plating on phone and computer connectors because it never corrodes."},
+  {name:"Water \u2014 a compound",grid:[["h2o","h2o","h2o"],["h2o","h2o","h2o"]],
+   why:"Every particle is identical, and each one is built from two different atom types bonded together.",
+   real:"Drinking water, car coolant, and the water in every cell in your body."},
+  {name:"Air \u2014 a mixture",grid:[["n2","o2","n2"],["o2","n2","co2"]],
+   why:"Several different particle types sharing a space. Nothing is bonded between them.",
+   real:"What you are breathing right now. Roughly 78% nitrogen, 21% oxygen."}
+ ]},
+ pure:{title:"Pure Substance",lead:"All particles are identical. Splits into elements and compounds.",items:[
+  {name:"Copper",grid:[["cu","cu","cu","cu"],["cu","cu","cu","cu"]],
+   why:"Every single particle is the same. That is what makes it pure.",
+   real:"Household wiring and water pipes, because it conducts electricity and heat well."},
+  {name:"Carbon dioxide",grid:[["co2","co2","co2"],["co2","co2","co2"]],
+   why:"Still pure \u2014 the particles are more complicated, but every one of them is identical.",
+   real:"The fizz in soda, what you breathe out, and dry ice when frozen solid."},
+  {name:"Table salt",grid:[["nacl","nacl","nacl","nacl"],["nacl","nacl","nacl","nacl"]],
+   why:"Identical particles again, each one sodium bonded to chlorine.",
+   real:"Seasoning food, and salting roads in winter to stop ice forming."}
+ ]},
+ element:{title:"Element",lead:"A pure substance made of only ONE type of atom. About 100 exist.",items:[
+  {name:"Helium",grid:[["he","he","he","he"],["he","he","he","he"]],
+   why:"Single atoms, all the same colour here because they are all the same element.",
+   real:"Party balloons, and cooling the superconducting magnets inside an MRI scanner."},
+  {name:"Oxygen gas (O\u2082)",grid:[["o2","o2","o2"],["o2","o2","o2"]],
+   why:"<b>The trap.</b> These particles are molecules of two atoms \u2014 but both atoms are the <b>same type</b>, so this is still an element, not a compound.",
+   real:"Medical oxygen tanks, and the gas a fire needs to keep burning."},
+  {name:"Gold",grid:[["au","au","au","au"],["au","au","au","au"]],
+   why:"One atom type, nothing else present.",
+   real:"Jewellery, dental fillings, and electronics contacts."}
+ ]},
+ compound:{title:"Compound",lead:"A pure substance where each particle is TWO OR MORE different atom types chemically bonded.",items:[
+  {name:"Water (H\u2082O)",grid:[["h2o","h2o","h2o"],["h2o","h2o","h2o"]],
+   why:"Two hydrogen atoms bonded to one oxygen. Different colours in one particle = compound.",
+   real:"Everything from drinking to cooling a car engine. Splitting it back into H and O needs electrolysis, a chemical change."},
+  {name:"Carbon dioxide (CO\u2082)",grid:[["co2","co2","co2"],["co2","co2","co2"]],
+   why:"One carbon bonded to two oxygens. Again, identical particles made of different atom types.",
+   real:"Carbonated drinks, fire extinguishers, and what plants take in for photosynthesis."},
+  {name:"Sodium chloride (NaCl)",grid:[["nacl","nacl","nacl","nacl"],["nacl","nacl","nacl","nacl"]],
+   why:"Sodium bonded to chlorine. On its own sodium explodes in water and chlorine is poisonous \u2014 bonded, it is table salt. A compound has completely different properties from its elements.",
+   real:"Food seasoning, food preservation, and de-icing roads."}
+ ]},
+ mixture:{title:"Mixture",lead:"Two or more different particle types sharing a space, NOT bonded. Separable by physical means.",items:[
+  {name:"Brass \u2014 copper and zinc",grid:[["cu","zn","cu","zn"],["zn","cu","zn","cu"]],
+   why:"Two different <b>elements</b> sitting together. No bonds between them, so the proportions can change.",
+   real:"Trumpets and trombones, door handles, and bullet casings."},
+  {name:"Salt water",grid:[["h2o","nacl","h2o"],["nacl","h2o","h2o"]],
+   why:"Two different <b>compounds</b> mixed together. Boil it off and you get the salt back unchanged \u2014 a physical separation.",
+   real:"Seawater, a saline drip in hospital, and brine for curing food."},
+  {name:"Air",grid:[["n2","o2","n2"],["o2","co2","n2"]],
+   why:"Several different molecules in one space. Each keeps its own identity.",
+   real:"The atmosphere. Industry separates it by distillation to get pure oxygen and nitrogen."}
+ ]},
+ homo:{title:"Homogeneous Mixture (a solution)",lead:"A mixture that is UNIFORM throughout. One phase \u2014 sample it anywhere and you get the same thing.",items:[
+  {name:"Salt water",grid:[["h2o","nacl","h2o","nacl"],["nacl","h2o","nacl","h2o"]],
+   why:"The salt is spread evenly through the water. Every spoonful looks and tastes the same.",
+   real:"Saline drips, seawater, and the brine in a pickle jar."},
+  {name:"Air",grid:[["n2","o2","n2","o2"],["o2","n2","o2","n2"]],
+   why:"Evenly mixed gases. The air at your feet matches the air at your head.",
+   real:"Breathing. You never get a pocket of pure nitrogen in a room."},
+  {name:"Brass",grid:[["cu","zn","cu","zn"],["zn","cu","zn","cu"]],
+   why:"The two metals are evenly distributed, which is why an alloy looks like a single material.",
+   real:"Instruments and fittings. Steel and bronze work the same way."}
+ ]},
+ hetero:{title:"Heterogeneous Mixture",lead:"Parts are EASILY DISTINGUISHABLE. Can show two or more phases \u2014 different depending on where you sample.",items:[
+  {name:"Sand in water",grid:[["h2o","h2o","h2o","h2o"],["sio2","sio2","sio2","sio2"]],
+   why:"The sand sinks and sits apart from the water instead of spreading through it. Two visible layers, two phases.",
+   real:"Shallow beach water. It is also why a filter works \u2014 a purely physical separation."},
+  {name:"Oil and water",grid:[["oil","oil","oil","oil"],["h2o","h2o","h2o","h2o"]],
+   why:"They refuse to mix and settle into separate layers, so where you sample decides what you get.",
+   real:"Salad dressing separating in the bottle, and oil floating on seawater after a spill."},
+  {name:"Granite",grid:[["qz","fd","mi","qz"],["fd","mi","qz","fd"]],
+   why:"Distinct mineral grains you can pick out with your eyes \u2014 quartz, feldspar and mica.",
+   real:"Kitchen countertops. The speckles are literally the separate minerals."}
+ ]}
+};
+const NODEMAP={"MATTER":"matter","MIXTURE":"mixture","PURE SUBSTANCE":"pure",
+ "HOMOGENEOUS":"homo","HETEROGENEOUS":"hetero","COMPOUND":"compound","ELEMENT":"element"};
+function wireFlow(){
+  const pre=document.querySelector('#ref .flow');
+  if(!pre)return;
+  const lines=pre.textContent.split('\n');
+  let prevHomo=false;
+  const out=lines.map(function(line){
+    let l=line.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]});
+    const thisHomo=line.indexOf('HOMOGENEOUS')>=0;
+    /* the wrapped "HOMOGENEOUS" / "MIXTURE" labels sit on two lines; the MIXTURE
+       directly beneath belongs to HOMOGENEOUS, not to the standalone MIXTURE node */
+    if(prevHomo&&line.indexOf('MIXTURE')>=0){
+      l=l.replace('MIXTURE','<b class="fnode" data-k="homo">MIXTURE</b>');
+      prevHomo=false;
+      return l;
+    }
+    prevHomo=thisHomo;
+    ["PURE SUBSTANCE","HETEROGENEOUS","HOMOGENEOUS","COMPOUND","ELEMENT","MATTER","MIXTURE"].forEach(function(tok){
+      if(l.indexOf('<')>=0&&l.indexOf(tok)<0)return;
+      l=l.replace(tok,'<b class="fnode" data-k="'+NODEMAP[tok]+'">'+tok+'</b>');
+    });
+    return l;
+  }).join('\n');
+  pre.innerHTML=out;
+  const panel=document.createElement('div');panel.id='flowdetail';
+  pre.parentNode.appendChild(panel);
+  const hint=document.createElement('p');hint.className='tiny';
+  hint.style.margin='10px 0 0';
+  hint.innerHTML='Tap any <b class="fnode">highlighted box</b> above for three worked examples.';
+  pre.parentNode.insertBefore(hint,panel);
+  [].forEach.call(pre.querySelectorAll('.fnode'),function(n){
+    n.onclick=function(){
+      [].forEach.call(pre.querySelectorAll('.fnode'),function(x){x.classList.toggle('sel',x===n)});
+      show(n.dataset.k);
+    };
+  });
+  function show(k){
+    const e=EX[k];if(!e)return;
+    panel.innerHTML='<div class="exwrap"><h3>'+e.title+'</h3><p class="exlead">'+e.lead+'</p>'
+      +'<div class="exgrid">'+e.items.map(function(it){
+        return '<div class="excard"><div class="exname">'+it.name+'</div>'
+         +drawBox(it.grid)
+         +'<div class="exwhy">'+it.why+'</div>'
+         +'<div class="exreal"><b>Where you meet it:</b> '+it.real+'</div></div>';
+      }).join('')+'</div></div>';
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+const FLOWCSS='.flow .fnode{color:var(--accent);cursor:pointer;border-bottom:1px dotted var(--accent);font-weight:700}'
++'.flow .fnode:hover{background:rgba(77,208,225,.14)}'
++'.flow .fnode.sel{background:var(--accent);color:var(--accent-ink);border-bottom-color:transparent}'
++'.exwrap{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}'
++'.exwrap h3{margin:0 0 4px;font-size:16px;color:var(--accent)}'
++'.exlead{margin:0 0 12px;font-size:13.5px;color:#cdd4e0}'
++'.exgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}'
++'.excard{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 13px}'
++'.exname{font-size:14px;font-weight:600;margin-bottom:8px}'
++'.pbox{display:block;margin:0 auto 9px}'
++'.exwhy{font-size:12.5px;color:#cdd4e0;line-height:1.5}'
++'.exreal{font-size:12px;color:var(--dim);margin-top:8px;border-top:1px solid var(--line);padding-top:7px;line-height:1.5}';
+(function(){var s=document.createElement('style');s.textContent=FLOWCSS;document.head.appendChild(s);})();
+wireFlow();
+
 document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
   document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
   document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
