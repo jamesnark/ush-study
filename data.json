@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29T13:16:59.333+00:00",
+  "generated": "2026-09-30T16:15:04.515Z",
   "classes": [
     {
       "id": "ODcxNTkwNTk0NjI5",
@@ -140,51 +140,11 @@
   ],
   "assignments": [
     {
-      "cls": "English 10",
-      "title": "STEAL Worksheet",
-      "due": "2026-09-29T09:35",
-      "kind": "worksheet",
-      "id": "c0",
-      "status": "assigned"
-    },
-    {
-      "cls": "Chemistry",
-      "title": "Unit 2 Exam",
-      "due": "2026-09-29T23:59",
-      "kind": "test",
-      "id": "c1",
-      "status": "assigned"
-    },
-    {
-      "cls": "English 10",
-      "title": "TGG Chapters 1-3 Quiz",
-      "due": "2026-09-29T23:59",
-      "kind": "test",
-      "id": "c2",
-      "status": "assigned"
-    },
-    {
-      "cls": "Algebra II",
-      "title": "2.1.5 CYU",
-      "due": "2026-09-29T23:59",
-      "kind": "cyu",
-      "id": "c3",
-      "status": "assigned"
-    },
-    {
-      "cls": "Chemistry",
-      "title": "Unit 3 Vocabulary",
-      "due": "2026-09-29T23:59",
-      "kind": "drill",
-      "id": "c4",
-      "status": "assigned"
-    },
-    {
       "cls": "Algebra II",
       "title": "Ch. 2 Quiz #1",
       "due": "2026-09-30T23:59",
       "kind": "test",
-      "id": "c5",
+      "id": "c0",
       "status": "assigned"
     },
     {
@@ -192,7 +152,87 @@
       "title": "Unit 2 Test",
       "due": "2026-09-30T23:59",
       "kind": "test",
+      "id": "c1",
+      "status": "assigned"
+    },
+    {
+      "cls": "Chemistry",
+      "title": "Introduction to Atomic Structure",
+      "due": "2026-09-30T23:59",
+      "kind": "worksheet",
+      "id": "c2",
+      "status": "assigned"
+    },
+    {
+      "cls": "English 10",
+      "title": "Read + annotate Ch. 4 + 5",
+      "due": "2026-10-01T11:10",
+      "kind": "reading",
+      "id": "c3",
+      "status": "assigned"
+    },
+    {
+      "cls": "US History",
+      "title": "HW - Nullification Crisis",
+      "due": "2026-10-01T23:59",
+      "kind": "worksheet",
+      "id": "c4",
+      "status": "assigned"
+    },
+    {
+      "cls": "Spanish II",
+      "title": "LINGCO UNIDAD 1: PRÁCTICA DE LOS PRONOMBRES DE OBJETO DIRECTO",
+      "due": "2026-10-01T23:59",
+      "kind": "worksheet",
+      "id": "c5",
+      "status": "assigned"
+    },
+    {
+      "cls": "Chemistry",
+      "title": "Isotopes POGIL",
+      "due": "2026-10-01T23:59",
+      "kind": "lab",
       "id": "c6",
+      "status": "assigned"
+    },
+    {
+      "cls": "English 10",
+      "title": "Read + Annotate Ch. 6",
+      "due": "2026-10-06T23:59",
+      "kind": "reading",
+      "id": "c7",
+      "status": "assigned"
+    },
+    {
+      "cls": "Algebra II",
+      "title": "2.2.1 CYU",
+      "due": "2026-10-06T23:59",
+      "kind": "cyu",
+      "id": "c8",
+      "status": "assigned"
+    },
+    {
+      "cls": "English 10",
+      "title": "TGG Ch. 4-6 Quiz",
+      "due": "2026-10-06T23:59",
+      "kind": "test",
+      "id": "c9",
+      "status": "assigned"
+    },
+    {
+      "cls": "English 10",
+      "title": "Cycle 5 Membean",
+      "due": "2026-10-09T23:59",
+      "kind": "drill",
+      "id": "c10",
+      "status": "assigned"
+    },
+    {
+      "cls": "English 10",
+      "title": "Cycle 5 GrammarFlip (1.19)",
+      "due": "2026-10-09T23:59",
+      "kind": "drill",
+      "id": "c11",
       "status": "assigned"
     },
     {
@@ -200,7 +240,7 @@
       "title": "Ch. 2 Quiz #2",
       "due": "2026-10-27T23:59",
       "kind": "test",
-      "id": "c7",
+      "id": "c12",
       "status": "assigned"
     },
     {
@@ -208,7 +248,7 @@
       "title": "Ch. 2 Test",
       "due": "2026-11-02T23:59",
       "kind": "test",
-      "id": "c8",
+      "id": "c13",
       "status": "assigned"
     },
     {
@@ -216,7 +256,7 @@
       "title": "Class Reflection",
       "due": "2026-11-30T23:59",
       "kind": "project",
-      "id": "c9",
+      "id": "c14",
       "status": "assigned"
     },
     {
@@ -224,7 +264,7 @@
       "title": "Membean and Grammar Flip",
       "due": "2028-08-02T23:59",
       "kind": "drill",
-      "id": "c10",
+      "id": "c15",
       "status": "assigned"
     },
     {
@@ -232,7 +272,7 @@
       "title": "Welcome Survey",
       "due": null,
       "kind": "worksheet",
-      "id": "c11",
+      "id": "c16",
       "status": "assigned"
     },
     {
@@ -240,7 +280,7 @@
       "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
       "due": null,
       "kind": "reading",
-      "id": "c12",
+      "id": "c17",
       "status": "assigned"
     },
     {
@@ -248,7 +288,7 @@
       "title": "Internet KWL chart",
       "due": null,
       "kind": "worksheet",
-      "id": "c13",
+      "id": "c18",
       "status": "assigned"
     },
     {
@@ -256,7 +296,15 @@
       "title": "Match My Parabola",
       "due": null,
       "kind": "worksheet",
-      "id": "c14",
+      "id": "c19",
+      "status": "assigned"
+    },
+    {
+      "cls": "AP CSP",
+      "title": "Internet test",
+      "due": null,
+      "kind": "test",
+      "id": "c20",
       "status": "assigned"
     }
   ],
@@ -306,14 +354,13 @@
     {
       "cls": "English 10",
       "letter": "C",
-      "pct": 73,
+      "pct": 75.5,
       "frn": "00450937",
       "scale": "percent"
     }
   ],
   "powerschool": [
     {
-      "id": "p0",
       "cls": "Chemistry",
       "title": "Matter and Change Video",
       "cat": "Practice",
@@ -323,10 +370,10 @@
       "pct": 50,
       "flag": false,
       "late": false,
-      "bucket": "lowscore"
+      "bucket": "lowscore",
+      "id": "p0"
     },
     {
-      "id": "p1",
       "cls": "Spanish II",
       "title": "Span II Quiz #2",
       "cat": "Learning Checks / Quizzes",
@@ -336,10 +383,10 @@
       "pct": 40,
       "flag": false,
       "late": false,
-      "bucket": "lowscore"
+      "bucket": "lowscore",
+      "id": "p1"
     },
     {
-      "id": "p2",
       "cls": "US History",
       "title": "Unit 1+2 Test",
       "cat": "Summative",
@@ -349,10 +396,10 @@
       "pct": null,
       "flag": false,
       "late": false,
-      "bucket": "ungraded"
+      "bucket": "ungraded",
+      "id": "p2"
     },
     {
-      "id": "p3",
       "cls": "US History",
       "title": "50 States Pre-Test",
       "cat": "Participation",
@@ -362,10 +409,10 @@
       "pct": null,
       "flag": false,
       "late": false,
-      "bucket": "ungraded"
+      "bucket": "ungraded",
+      "id": "p3"
     },
     {
-      "id": "p4",
       "cls": "US History",
       "title": "Museum of Me",
       "cat": "Participation",
@@ -375,10 +422,10 @@
       "pct": null,
       "flag": false,
       "late": false,
-      "bucket": "ungraded"
+      "bucket": "ungraded",
+      "id": "p4"
     },
     {
-      "id": "p5",
       "cls": "AP CSP",
       "title": "Video and Video notes",
       "cat": "Homework",
@@ -388,10 +435,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p5"
     },
     {
-      "id": "p6",
       "cls": "AP CSP",
       "title": "Khan - lossy compression",
       "cat": "Homework",
@@ -401,10 +448,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p6"
     },
     {
-      "id": "p7",
       "cls": "AP CSP",
       "title": "Digital actors - with article annotated in Kami",
       "cat": "Homework",
@@ -414,10 +461,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p7"
     },
     {
-      "id": "p8",
       "cls": "AP CSP",
       "title": "Khan - lossless",
       "cat": "Homework",
@@ -427,10 +474,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p8"
     },
     {
-      "id": "p9",
       "cls": "AP CSP",
       "title": "lossy compression in code.org",
       "cat": "Homework",
@@ -440,10 +487,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p9"
     },
     {
-      "id": "p10",
       "cls": "AP CSP",
       "title": "CB quiz - data compression quiz",
       "cat": "Homework",
@@ -453,10 +500,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p10"
     },
     {
-      "id": "p11",
       "cls": "AP CSP",
       "title": "lossless compression",
       "cat": "Homework",
@@ -466,10 +513,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p11"
     },
     {
-      "id": "p12",
       "cls": "AP CSP",
       "title": "code.org color images",
       "cat": "Homework",
@@ -479,10 +526,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p12"
     },
     {
-      "id": "p13",
       "cls": "AP CSP",
       "title": "2.2 daily video 1",
       "cat": "Homework",
@@ -492,10 +539,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p13"
     },
     {
-      "id": "p14",
       "cls": "AP CSP",
       "title": "code.org-  1.5 overflow and rounding bubbles done",
       "cat": "Homework",
@@ -505,10 +552,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p14"
     },
     {
-      "id": "p15",
       "cls": "AP CSP",
       "title": "binary worksheet ",
       "cat": "Homework",
@@ -518,10 +565,10 @@
       "pct": 100,
       "flag": true,
       "late": false,
-      "bucket": "falseflag"
+      "bucket": "falseflag",
+      "id": "p15"
     },
     {
-      "id": "p16",
       "cls": "Algebra II",
       "title": "Ch. 1 Test",
       "cat": "Standards",
@@ -531,10 +578,10 @@
       "pct": null,
       "flag": false,
       "late": false,
-      "bucket": "ungraded"
+      "bucket": "ungraded",
+      "id": "p16"
     },
     {
-      "id": "p17",
       "cls": "Algebra II",
       "title": "Ch. 1 Quiz",
       "cat": "Standards",
@@ -544,10 +591,10 @@
       "pct": null,
       "flag": false,
       "late": false,
-      "bucket": "ungraded"
+      "bucket": "ungraded",
+      "id": "p17"
     },
     {
-      "id": "p18",
       "cls": "English 10",
       "title": "GG Ch.1 annotations",
       "cat": "Formative",
@@ -557,10 +604,10 @@
       "pct": 33.333333,
       "flag": false,
       "late": false,
-      "bucket": "lowscore"
+      "bucket": "lowscore",
+      "id": "p18"
     },
     {
-      "id": "p19",
       "cls": "English 10",
       "title": "Book Check--GG",
       "cat": "Formative",
@@ -570,10 +617,10 @@
       "pct": 0,
       "flag": false,
       "late": false,
-      "bucket": "zero"
+      "bucket": "zero",
+      "id": "p19"
     },
     {
-      "id": "p20",
       "cls": "English 10",
       "title": "SR Annotations",
       "cat": "Formative",
@@ -583,10 +630,11 @@
       "pct": 40,
       "flag": false,
       "late": false,
-      "bucket": "lowscore"
+      "bucket": "lowscore",
+      "id": "p20"
     }
   ],
-  "psGenerated": "2026-09-29T07:23:57.189000-04:00",
+  "psGenerated": "2026-09-30T16:15:04.515Z",
   "trainers": [
     {
       "cls": "English 10",
