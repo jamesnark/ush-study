@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-03T20:37:55.334Z",
+  "generated": "2026-10-04T11:18:51.513Z",
   "classes": [
     {
       "id": "ODcxNTkwNTk0NjI5",
@@ -151,7 +151,7 @@
       "id": "c1",
       "cls": "English 10",
       "title": "Read + Annotate Ch. 6",
-      "due": "2026-10-06T23:59",
+      "due": "2026-10-06T14:20",
       "status": "assigned",
       "kind": "reading"
     },
@@ -159,7 +159,7 @@
       "id": "c2",
       "cls": "English 10",
       "title": "TGG One-Pager",
-      "due": "2026-10-06T23:59",
+      "due": "2026-10-06T15:20",
       "status": "assigned",
       "kind": "worksheet"
     },
@@ -643,7 +643,7 @@
       "id": "p25"
     }
   ],
-  "psGenerated": "2026-10-03T20:37:55.334Z",
+  "psGenerated": "2026-10-04T11:18:51.513Z",
   "trainers": [
     {
       "cls": "English 10",
