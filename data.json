@@ -1,784 +1,776 @@
 {
- "generated": "2026-10-08T16:16:18.200Z",
- "classes": [
-  {
-   "id": "ODcxNTkwNTk0NjI5",
-   "name": "US History",
-   "full": "US History - Sem 1",
-   "teacher": "Katie Wolf",
-   "period": 4,
-   "color": "#ff8a5b",
-   "aliases": [
-    "history",
-    "ush",
-    "us history",
-    "hist",
-    "wolf"
-   ],
-   "hints": []
-  },
-  {
-   "id": "ODU1NjYyNzExNDg5",
-   "name": "Algebra II",
-   "full": "Algebra II - Honors",
-   "teacher": "Mr. Kaplan",
-   "period": 6,
-   "color": "#5b8cff",
-   "aliases": [
-    "algebra",
-    "alg",
-    "math",
-    "alg2",
-    "algebra 2",
-    "kaplan"
-   ],
-   "hints": [
-    "cpm",
-    "cyu"
-   ]
-  },
-  {
-   "id": "ODcwODkxNTgzNjM0",
-   "name": "Spanish II",
-   "full": "Spanish II",
-   "teacher": "",
-   "period": 3,
-   "color": "#ffd166",
-   "aliases": [
-    "spanish",
-    "span",
-    "esp",
-    "espanol",
-    "español"
-   ],
-   "hints": [
-    "prueba",
-    "lingo",
-    "lingt",
-    "conjuguemos",
-    "duolingo"
-   ]
-  },
-  {
-   "id": "ODcwMjY4NTE2MjY1",
-   "name": "English 10",
-   "full": "English 10 Period 8",
-   "teacher": "",
-   "period": 8,
-   "color": "#a78bfa",
-   "aliases": [
-    "english",
-    "eng",
-    "lit"
-   ],
-   "hints": [
-    "gatsby",
-    "gg",
-    "membean",
-    "grammarflip",
-    "grammar flip",
-    "emerson",
-    "thoreau"
-   ]
-  },
-  {
-   "id": "ODU1MzQwMjg2ODE0",
-   "name": "AP CSP",
-   "full": "AP Computer Science: Principles",
-   "teacher": "",
-   "period": 5,
-   "color": "#3ecf8e",
-   "aliases": [
-    "csp",
-    "comp sci",
-    "computer science",
-    "apcsp",
-    "ap cs"
-   ],
-   "hints": [
-    "code.org",
-    "codeorg",
-    "khan",
-    "packets"
-   ]
-  },
-  {
-   "id": "ODcwMjc2MTU3MDI2",
-   "name": "Chemistry",
-   "full": "Chemistry I",
-   "teacher": "Jason Rott",
-   "period": 1,
-   "color": "#4dd0e1",
-   "aliases": [
-    "chem",
-    "chemistry",
-    "rott"
-   ],
-   "hints": [
-    "pogil"
-   ]
-  },
-  {
-   "id": "ODU1NDUzMjQ3MDIw",
-   "name": "Religion",
-   "full": "Life and Mission of Jesus",
-   "teacher": "",
-   "period": 7,
-   "color": "#f06292",
-   "aliases": [
-    "religion",
-    "rel",
-    "theo",
-    "theology",
-    "lmj"
-   ],
-   "hints": [
-    "jesus",
-    "blooket"
-   ]
-  }
- ],
- "assignments": [
-  {
-   "id": "c0",
-   "cls": "US History",
-   "title": "HW - Missouri Compromise",
-   "due": "2026-10-08T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c1",
-   "cls": "Religion",
-   "title": "The Mission Begins Exit Ticket",
-   "due": "2026-10-08T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c2",
-   "cls": "English 10",
-   "title": "Read + Annotate Chapters 7 and 8",
-   "due": "2026-10-09T08:30",
-   "status": "assigned",
-   "kind": "reading"
-  },
-  {
-   "id": "c3",
-   "cls": "English 10",
-   "title": "Cycle 5 Membean",
-   "due": "2026-10-09T23:59",
-   "status": "assigned",
-   "kind": "drill"
-  },
-  {
-   "id": "c4",
-   "cls": "English 10",
-   "title": "Cycle 5 GrammarFlip (1.19)",
-   "due": "2026-10-09T23:59",
-   "status": "assigned",
-   "kind": "drill"
-  },
-  {
-   "id": "c5",
-   "cls": "Chemistry",
-   "title": "Calculating Average Atomic Mass",
-   "due": "2026-10-09T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c6",
-   "cls": "US History",
-   "title": "Texas Annexation Activity",
-   "due": "2026-10-09T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c7",
-   "cls": "Algebra II",
-   "title": "2.2.2 CYU",
-   "due": "2026-10-19T23:59",
-   "status": "assigned",
-   "kind": "cyu"
-  },
-  {
-   "id": "c8",
-   "cls": "Algebra II",
-   "title": "Ch. 2 Quiz #2",
-   "due": "2026-10-27T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c9",
-   "cls": "Algebra II",
-   "title": "Ch. 2 Test",
-   "due": "2026-11-02T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c10",
-   "cls": "Religion",
-   "title": "Class Reflection",
-   "due": "2026-11-30T23:59",
-   "status": "assigned",
-   "kind": "project"
-  },
-  {
-   "id": "c11",
-   "cls": "English 10",
-   "title": "Membean and Grammar Flip",
-   "due": "2028-08-02T23:59",
-   "status": "assigned",
-   "kind": "drill"
-  },
-  {
-   "id": "c12",
-   "cls": "Spanish II",
-   "title": "Welcome Survey",
-   "due": null,
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c13",
-   "cls": "English 10",
-   "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
-   "due": null,
-   "status": "assigned",
-   "kind": "reading"
-  },
-  {
-   "id": "c14",
-   "cls": "Algebra II",
-   "title": "Match My Parabola",
-   "due": null,
-   "status": "assigned",
-   "kind": "worksheet"
-  }
- ],
- "grades": [
-  {
-   "cls": "Chemistry",
-   "letter": "B",
-   "pct": 83.9,
-   "frn": "00450938",
-   "scale": "percent"
-  },
-  {
-   "cls": "Spanish II",
-   "letter": "D+",
-   "pct": 68.8,
-   "frn": "00447215",
-   "scale": "percent"
-  },
-  {
-   "cls": "US History",
-   "letter": "B+",
-   "pct": 87.1,
-   "frn": "00447214",
-   "scale": "percent"
-  },
-  {
-   "cls": "AP CSP",
-   "letter": "A-",
-   "pct": 90.2,
-   "frn": "00450940",
-   "scale": "percent"
-  },
-  {
-   "cls": "Algebra II",
-   "letter": "A-",
-   "pct": 3.5,
-   "frn": "00447213",
-   "scale": "points"
-  },
-  {
-   "cls": "Religion",
-   "letter": "A",
-   "pct": 97,
-   "frn": "00447216",
-   "scale": "percent"
-  },
-  {
-   "cls": "English 10",
-   "letter": "C+",
-   "pct": 76.5,
-   "frn": "00450937",
-   "scale": "percent"
-  }
- ],
- "powerschool": [
-  {
-   "id": "p0",
-   "cls": "Chemistry",
-   "title": "Building Atoms and Isotopes",
-   "cat": "Practice",
-   "due": "2026-10-05",
-   "score": 0,
-   "possible": 10,
-   "pct": 0,
-   "flag": false,
-   "late": false,
-   "bucket": "zero"
-  },
-  {
-   "id": "p1",
-   "cls": "Chemistry",
-   "title": "Conservation of Mass Lab",
-   "cat": "Practice",
-   "due": "2026-09-24",
-   "score": 3,
-   "possible": 10,
-   "pct": 30,
-   "flag": false,
-   "late": false,
-   "bucket": "lowscore"
-  },
-  {
-   "id": "p2",
-   "cls": "Chemistry",
-   "title": "Matter and Change Video",
-   "cat": "Practice",
-   "due": "2026-09-08",
-   "score": 5,
-   "possible": 10,
-   "pct": 50,
-   "flag": false,
-   "late": false,
-   "bucket": "lowscore"
-  },
-  {
-   "id": "p3",
-   "cls": "Spanish II",
-   "title": "Span II Quiz #2",
-   "cat": "Learning Checks / Quizzes",
-   "due": "2026-09-22",
-   "score": 8,
-   "possible": 20,
-   "pct": 40,
-   "flag": false,
-   "late": false,
-   "bucket": "lowscore"
-  },
-  {
-   "id": "p4",
-   "cls": "US History",
-   "title": "Texas Annexation Activity",
-   "cat": "Formative",
-   "due": "2026-10-09",
-   "score": null,
-   "possible": 15,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p5",
-   "cls": "US History",
-   "title": "HW - Missouri Compromise",
-   "cat": "Formative",
-   "due": "2026-10-06",
-   "score": null,
-   "possible": 15,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p6",
-   "cls": "US History",
-   "title": "Nullification Crisis HW",
-   "cat": "Formative",
-   "due": "2026-10-01",
-   "score": 0,
-   "possible": 10,
-   "pct": 0,
-   "flag": true,
-   "late": false,
-   "bucket": "zero"
-  },
-  {
-   "id": "p7",
-   "cls": "US History",
-   "title": "50 States Pre-Test",
-   "cat": "Participation",
-   "due": "2026-08-14",
-   "score": null,
-   "possible": 10,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p8",
-   "cls": "US History",
-   "title": "Museum of Me",
-   "cat": "Participation",
-   "due": "2026-08-14",
-   "score": null,
-   "possible": 10,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p9",
-   "cls": "AP CSP",
-   "title": "Khan - The Internet",
-   "cat": "Homework",
-   "due": "2026-09-28",
-   "score": 0,
-   "possible": 50,
-   "pct": 0,
-   "flag": true,
-   "late": false,
-   "bucket": "zero"
-  },
-  {
-   "id": "p10",
-   "cls": "AP CSP",
-   "title": "Internet dilemmas",
-   "cat": "Homework",
-   "due": "2026-09-24",
-   "score": null,
-   "possible": 40,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p11",
-   "cls": "AP CSP",
-   "title": "Video and Video notes",
-   "cat": "Homework",
-   "due": "2026-09-23",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p12",
-   "cls": "AP CSP",
-   "title": "packets activity guide",
-   "cat": "Homework",
-   "due": "2026-09-18",
-   "score": null,
-   "possible": 20,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p13",
-   "cls": "AP CSP",
-   "title": "code.org lesson 4 (routers) last 2 bubbles done",
-   "cat": "Homework",
-   "due": "2026-09-16",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p14",
-   "cls": "AP CSP",
-   "title": "code.org lesson 3 bubbles - addressing",
-   "cat": "Homework",
-   "due": "2026-09-15",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p15",
-   "cls": "AP CSP",
-   "title": " understanding question on building a network",
-   "cat": "Homework",
-   "due": "2026-09-11",
-   "score": 10,
-   "possible": 10,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p16",
-   "cls": "AP CSP",
-   "title": "Khan - lossy compression",
-   "cat": "Homework",
-   "due": "2026-09-04",
-   "score": 10,
-   "possible": 10,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p17",
-   "cls": "AP CSP",
-   "title": "Digital actors - with article annotated in Kami",
-   "cat": "Homework",
-   "due": "2026-09-03",
-   "score": 10,
-   "possible": 10,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p18",
-   "cls": "AP CSP",
-   "title": "Khan - lossless",
-   "cat": "Homework",
-   "due": "2026-09-02",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p19",
-   "cls": "AP CSP",
-   "title": "lossy compression in code.org",
-   "cat": "Homework",
-   "due": "2026-09-02",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p20",
-   "cls": "AP CSP",
-   "title": "CB quiz - data compression quiz",
-   "cat": "Homework",
-   "due": "2026-09-02",
-   "score": 15,
-   "possible": 15,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p21",
-   "cls": "AP CSP",
-   "title": "lossless compression",
-   "cat": "Homework",
-   "due": "2026-08-31",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p22",
-   "cls": "AP CSP",
-   "title": "code.org color images",
-   "cat": "Homework",
-   "due": "2026-08-28",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p23",
-   "cls": "AP CSP",
-   "title": "2.2 daily video 1",
-   "cat": "Homework",
-   "due": "2026-08-26",
-   "score": 10,
-   "possible": 10,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p24",
-   "cls": "AP CSP",
-   "title": "code.org-  1.5 overflow and rounding bubbles done",
-   "cat": "Homework",
-   "due": "2026-08-20",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p25",
-   "cls": "AP CSP",
-   "title": "binary worksheet ",
-   "cat": "Homework",
-   "due": "2026-08-18",
-   "score": 20,
-   "possible": 20,
-   "pct": 100,
-   "flag": true,
-   "late": false,
-   "bucket": "falseflag"
-  },
-  {
-   "id": "p26",
-   "cls": "Algebra II",
-   "title": "Ch. 2 Quiz #1",
-   "cat": "Standards",
-   "due": "2026-10-05",
-   "score": null,
-   "possible": 10,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p27",
-   "cls": "Algebra II",
-   "title": "Ch. 1 Test",
-   "cat": "Standards",
-   "due": "2026-09-22",
-   "score": null,
-   "possible": 10,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p28",
-   "cls": "Algebra II",
-   "title": "Ch. 1 Quiz",
-   "cat": "Standards",
-   "due": "2026-09-04",
-   "score": null,
-   "possible": 10,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p29",
-   "cls": "Religion",
-   "title": "Unit 2 Test",
-   "cat": "Exams",
-   "due": "2026-10-01",
-   "score": null,
-   "possible": 74,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p30",
-   "cls": "English 10",
-   "title": "GG Ch.1 annotations",
-   "cat": "Formative",
-   "due": "2026-09-18",
-   "score": 1,
-   "possible": 3,
-   "pct": 33.333333,
-   "flag": false,
-   "late": false,
-   "bucket": "lowscore"
-  },
-  {
-   "id": "p31",
-   "cls": "English 10",
-   "title": "Book Check--GG",
-   "cat": "Formative",
-   "due": "2026-09-16",
-   "score": 0,
-   "possible": 3,
-   "pct": 0,
-   "flag": false,
-   "late": false,
-   "bucket": "zero"
-  },
-  {
-   "id": "p32",
-   "cls": "English 10",
-   "title": "SR Annotations",
-   "cat": "Formative",
-   "due": "2026-08-11",
-   "score": 2,
-   "possible": 5,
-   "pct": 40,
-   "flag": false,
-   "late": false,
-   "bucket": "lowscore"
-  }
- ],
- "psGenerated": "2026-10-08T16:16:18.200Z",
- "trainers": [
-  {
-   "cls": "English 10",
-   "title": "TGG Chapters 1-3 Quiz",
-   "file": "eng.html",
-   "label": "Gatsby · Chapters 1-3",
-   "terms": 31
-  },
-  {
-   "cls": "AP CSP",
-   "title": "The Internet - test",
-   "file": "csp.html",
-   "label": "Unit 2 · The Internet",
-   "terms": 22
-  },
-  {
-   "cls": "Chemistry",
-   "title": "Unit 2 Exam",
-   "file": "chem.html",
-   "label": "Unit 2 · Matter and Change",
-   "terms": 18
-  },
-  {
-   "cls": "Religion",
-   "title": "Unit 2 Test",
-   "file": "rel.html",
-   "label": "Unit 2 · Cultural Context",
-   "terms": 24
-  },
-  {
-   "cls": "US History",
-   "title": null,
-   "file": "ush.html",
-   "label": "Unit 1+2 · taken Sep 28",
-   "terms": 40,
-   "past": true
-  }
- ]
+  "generated": "2026-10-09T10:58:02.791Z",
+  "classes": [
+    {
+      "id": "ODcxNTkwNTk0NjI5",
+      "name": "US History",
+      "full": "US History - Sem 1",
+      "teacher": "Katie Wolf",
+      "period": 4,
+      "color": "#ff8a5b",
+      "aliases": [
+        "history",
+        "ush",
+        "us history",
+        "hist",
+        "wolf"
+      ],
+      "hints": []
+    },
+    {
+      "id": "ODU1NjYyNzExNDg5",
+      "name": "Algebra II",
+      "full": "Algebra II - Honors",
+      "teacher": "Mr. Kaplan",
+      "period": 6,
+      "color": "#5b8cff",
+      "aliases": [
+        "algebra",
+        "alg",
+        "math",
+        "alg2",
+        "algebra 2",
+        "kaplan"
+      ],
+      "hints": [
+        "cpm",
+        "cyu"
+      ]
+    },
+    {
+      "id": "ODcwODkxNTgzNjM0",
+      "name": "Spanish II",
+      "full": "Spanish II",
+      "teacher": "",
+      "period": 3,
+      "color": "#ffd166",
+      "aliases": [
+        "spanish",
+        "span",
+        "esp",
+        "espanol",
+        "español"
+      ],
+      "hints": [
+        "prueba",
+        "lingo",
+        "lingt",
+        "conjuguemos",
+        "duolingo"
+      ]
+    },
+    {
+      "id": "ODcwMjY4NTE2MjY1",
+      "name": "English 10",
+      "full": "English 10 Period 8",
+      "teacher": "",
+      "period": 8,
+      "color": "#a78bfa",
+      "aliases": [
+        "english",
+        "eng",
+        "lit"
+      ],
+      "hints": [
+        "gatsby",
+        "gg",
+        "membean",
+        "grammarflip",
+        "grammar flip",
+        "emerson",
+        "thoreau"
+      ]
+    },
+    {
+      "id": "ODU1MzQwMjg2ODE0",
+      "name": "AP CSP",
+      "full": "AP Computer Science: Principles",
+      "teacher": "",
+      "period": 5,
+      "color": "#3ecf8e",
+      "aliases": [
+        "csp",
+        "comp sci",
+        "computer science",
+        "apcsp",
+        "ap cs"
+      ],
+      "hints": [
+        "code.org",
+        "codeorg",
+        "khan",
+        "packets"
+      ]
+    },
+    {
+      "id": "ODcwMjc2MTU3MDI2",
+      "name": "Chemistry",
+      "full": "Chemistry I",
+      "teacher": "Jason Rott",
+      "period": 1,
+      "color": "#4dd0e1",
+      "aliases": [
+        "chem",
+        "chemistry",
+        "rott"
+      ],
+      "hints": [
+        "pogil"
+      ]
+    },
+    {
+      "id": "ODU1NDUzMjQ3MDIw",
+      "name": "Religion",
+      "full": "Life and Mission of Jesus",
+      "teacher": "",
+      "period": 7,
+      "color": "#f06292",
+      "aliases": [
+        "religion",
+        "rel",
+        "theo",
+        "theology",
+        "lmj"
+      ],
+      "hints": [
+        "jesus",
+        "blooket"
+      ]
+    }
+  ],
+  "assignments": [
+    {
+      "id": "c0",
+      "cls": "English 10",
+      "title": "Read + Annotate Chapters 7 and 8",
+      "due": "2026-10-09T08:30",
+      "status": "assigned",
+      "kind": "reading"
+    },
+    {
+      "id": "c1",
+      "cls": "English 10",
+      "title": "Cycle 5 Membean",
+      "due": "2026-10-09T23:59",
+      "status": "assigned",
+      "kind": "drill"
+    },
+    {
+      "id": "c2",
+      "cls": "English 10",
+      "title": "Cycle 5 GrammarFlip (1.19)",
+      "due": "2026-10-09T23:59",
+      "status": "assigned",
+      "kind": "drill"
+    },
+    {
+      "id": "c3",
+      "cls": "Chemistry",
+      "title": "Calculating Average Atomic Mass",
+      "due": "2026-10-09T23:59",
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c4",
+      "cls": "US History",
+      "title": "Texas Annexation Activity",
+      "due": "2026-10-09T23:59",
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c5",
+      "cls": "Algebra II",
+      "title": "2.2.2 CYU",
+      "due": "2026-10-19T23:59",
+      "status": "assigned",
+      "kind": "cyu"
+    },
+    {
+      "id": "c6",
+      "cls": "US History",
+      "title": "Mexican-American War Timeline",
+      "due": "2026-10-20T23:59",
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c7",
+      "cls": "Algebra II",
+      "title": "Ch. 2 Quiz #2",
+      "due": "2026-10-27T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c8",
+      "cls": "Algebra II",
+      "title": "Ch. 2 Test",
+      "due": "2026-11-02T23:59",
+      "status": "assigned",
+      "kind": "test"
+    },
+    {
+      "id": "c9",
+      "cls": "Religion",
+      "title": "Class Reflection",
+      "due": "2026-11-30T23:59",
+      "status": "assigned",
+      "kind": "project"
+    },
+    {
+      "id": "c10",
+      "cls": "English 10",
+      "title": "Membean and Grammar Flip",
+      "due": "2028-08-02T23:59",
+      "status": "assigned",
+      "kind": "drill"
+    },
+    {
+      "id": "c11",
+      "cls": "Spanish II",
+      "title": "Welcome Survey",
+      "due": null,
+      "status": "assigned",
+      "kind": "worksheet"
+    },
+    {
+      "id": "c12",
+      "cls": "English 10",
+      "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
+      "due": null,
+      "status": "assigned",
+      "kind": "reading"
+    },
+    {
+      "id": "c13",
+      "cls": "Algebra II",
+      "title": "Match My Parabola",
+      "due": null,
+      "status": "assigned",
+      "kind": "worksheet"
+    }
+  ],
+  "grades": [
+    {
+      "cls": "Chemistry",
+      "letter": "B",
+      "pct": 83.9,
+      "frn": "00450938",
+      "scale": "percent"
+    },
+    {
+      "cls": "Spanish II",
+      "letter": "D+",
+      "pct": 68.8,
+      "frn": "00447215",
+      "scale": "percent"
+    },
+    {
+      "cls": "US History",
+      "letter": "B+",
+      "pct": 87.1,
+      "frn": "00447214",
+      "scale": "percent"
+    },
+    {
+      "cls": "AP CSP",
+      "letter": "A-",
+      "pct": 90.2,
+      "frn": "00450940",
+      "scale": "percent"
+    },
+    {
+      "cls": "Algebra II",
+      "letter": "A-",
+      "pct": 3.5,
+      "frn": "00447213",
+      "scale": "points"
+    },
+    {
+      "cls": "Religion",
+      "letter": "A",
+      "pct": 97,
+      "frn": "00447216",
+      "scale": "percent"
+    },
+    {
+      "cls": "English 10",
+      "letter": "C+",
+      "pct": 76.5,
+      "frn": "00450937",
+      "scale": "percent"
+    }
+  ],
+  "powerschool": [
+    {
+      "id": "p0",
+      "cls": "Chemistry",
+      "title": "Building Atoms and Isotopes",
+      "cat": "Practice",
+      "due": "2026-10-05",
+      "score": 0,
+      "possible": 10,
+      "pct": 0,
+      "flag": false,
+      "late": false,
+      "bucket": "zero"
+    },
+    {
+      "id": "p1",
+      "cls": "Chemistry",
+      "title": "Conservation of Mass Lab",
+      "cat": "Practice",
+      "due": "2026-09-24",
+      "score": 3,
+      "possible": 10,
+      "pct": 30,
+      "flag": false,
+      "late": false,
+      "bucket": "lowscore"
+    },
+    {
+      "id": "p2",
+      "cls": "Chemistry",
+      "title": "Matter and Change Video",
+      "cat": "Practice",
+      "due": "2026-09-08",
+      "score": 5,
+      "possible": 10,
+      "pct": 50,
+      "flag": false,
+      "late": false,
+      "bucket": "lowscore"
+    },
+    {
+      "id": "p3",
+      "cls": "Spanish II",
+      "title": "Span II Quiz #2",
+      "cat": "Learning Checks / Quizzes",
+      "due": "2026-09-22",
+      "score": 8,
+      "possible": 20,
+      "pct": 40,
+      "flag": false,
+      "late": false,
+      "bucket": "lowscore"
+    },
+    {
+      "id": "p4",
+      "cls": "US History",
+      "title": "Texas Annexation Activity",
+      "cat": "Formative",
+      "due": "2026-10-09",
+      "score": null,
+      "possible": 15,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p5",
+      "cls": "US History",
+      "title": "HW - Missouri Compromise",
+      "cat": "Formative",
+      "due": "2026-10-06",
+      "score": null,
+      "possible": 15,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p6",
+      "cls": "US History",
+      "title": "Nullification Crisis HW",
+      "cat": "Formative",
+      "due": "2026-10-01",
+      "score": 0,
+      "possible": 10,
+      "pct": 0,
+      "flag": true,
+      "late": false,
+      "bucket": "zero"
+    },
+    {
+      "id": "p7",
+      "cls": "US History",
+      "title": "50 States Pre-Test",
+      "cat": "Participation",
+      "due": "2026-08-14",
+      "score": null,
+      "possible": 10,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p8",
+      "cls": "US History",
+      "title": "Museum of Me",
+      "cat": "Participation",
+      "due": "2026-08-14",
+      "score": null,
+      "possible": 10,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p9",
+      "cls": "AP CSP",
+      "title": "Khan - The Internet",
+      "cat": "Homework",
+      "due": "2026-09-28",
+      "score": 0,
+      "possible": 50,
+      "pct": 0,
+      "flag": true,
+      "late": false,
+      "bucket": "zero"
+    },
+    {
+      "id": "p10",
+      "cls": "AP CSP",
+      "title": "Internet dilemmas",
+      "cat": "Homework",
+      "due": "2026-09-24",
+      "score": null,
+      "possible": 40,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p11",
+      "cls": "AP CSP",
+      "title": "Video and Video notes",
+      "cat": "Homework",
+      "due": "2026-09-23",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p12",
+      "cls": "AP CSP",
+      "title": "packets activity guide",
+      "cat": "Homework",
+      "due": "2026-09-18",
+      "score": null,
+      "possible": 20,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p13",
+      "cls": "AP CSP",
+      "title": "code.org lesson 4 (routers) last 2 bubbles done",
+      "cat": "Homework",
+      "due": "2026-09-16",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p14",
+      "cls": "AP CSP",
+      "title": "code.org lesson 3 bubbles - addressing",
+      "cat": "Homework",
+      "due": "2026-09-15",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p15",
+      "cls": "AP CSP",
+      "title": " understanding question on building a network",
+      "cat": "Homework",
+      "due": "2026-09-11",
+      "score": 10,
+      "possible": 10,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p16",
+      "cls": "AP CSP",
+      "title": "Khan - lossy compression",
+      "cat": "Homework",
+      "due": "2026-09-04",
+      "score": 10,
+      "possible": 10,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p17",
+      "cls": "AP CSP",
+      "title": "Digital actors - with article annotated in Kami",
+      "cat": "Homework",
+      "due": "2026-09-03",
+      "score": 10,
+      "possible": 10,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p18",
+      "cls": "AP CSP",
+      "title": "Khan - lossless",
+      "cat": "Homework",
+      "due": "2026-09-02",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p19",
+      "cls": "AP CSP",
+      "title": "lossy compression in code.org",
+      "cat": "Homework",
+      "due": "2026-09-02",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p20",
+      "cls": "AP CSP",
+      "title": "CB quiz - data compression quiz",
+      "cat": "Homework",
+      "due": "2026-09-02",
+      "score": 15,
+      "possible": 15,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p21",
+      "cls": "AP CSP",
+      "title": "lossless compression",
+      "cat": "Homework",
+      "due": "2026-08-31",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p22",
+      "cls": "AP CSP",
+      "title": "code.org color images",
+      "cat": "Homework",
+      "due": "2026-08-28",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p23",
+      "cls": "AP CSP",
+      "title": "2.2 daily video 1",
+      "cat": "Homework",
+      "due": "2026-08-26",
+      "score": 10,
+      "possible": 10,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p24",
+      "cls": "AP CSP",
+      "title": "code.org-  1.5 overflow and rounding bubbles done",
+      "cat": "Homework",
+      "due": "2026-08-20",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p25",
+      "cls": "AP CSP",
+      "title": "binary worksheet ",
+      "cat": "Homework",
+      "due": "2026-08-18",
+      "score": 20,
+      "possible": 20,
+      "pct": 100,
+      "flag": true,
+      "late": false,
+      "bucket": "falseflag"
+    },
+    {
+      "id": "p26",
+      "cls": "Algebra II",
+      "title": "Ch. 2 Quiz #1",
+      "cat": "Standards",
+      "due": "2026-10-05",
+      "score": null,
+      "possible": 10,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p27",
+      "cls": "Algebra II",
+      "title": "Ch. 1 Test",
+      "cat": "Standards",
+      "due": "2026-09-22",
+      "score": null,
+      "possible": 10,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p28",
+      "cls": "Algebra II",
+      "title": "Ch. 1 Quiz",
+      "cat": "Standards",
+      "due": "2026-09-04",
+      "score": null,
+      "possible": 10,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p29",
+      "cls": "Religion",
+      "title": "Unit 2 Test",
+      "cat": "Exams",
+      "due": "2026-10-01",
+      "score": null,
+      "possible": 74,
+      "pct": null,
+      "flag": false,
+      "late": false,
+      "bucket": "ungraded"
+    },
+    {
+      "id": "p30",
+      "cls": "English 10",
+      "title": "GG Ch.1 annotations",
+      "cat": "Formative",
+      "due": "2026-09-18",
+      "score": 1,
+      "possible": 3,
+      "pct": 33.333333,
+      "flag": false,
+      "late": false,
+      "bucket": "lowscore"
+    },
+    {
+      "id": "p31",
+      "cls": "English 10",
+      "title": "Book Check--GG",
+      "cat": "Formative",
+      "due": "2026-09-16",
+      "score": 0,
+      "possible": 3,
+      "pct": 0,
+      "flag": false,
+      "late": false,
+      "bucket": "zero"
+    },
+    {
+      "id": "p32",
+      "cls": "English 10",
+      "title": "SR Annotations",
+      "cat": "Formative",
+      "due": "2026-08-11",
+      "score": 2,
+      "possible": 5,
+      "pct": 40,
+      "flag": false,
+      "late": false,
+      "bucket": "lowscore"
+    }
+  ],
+  "psGenerated": "2026-10-09T10:58:02.791Z",
+  "trainers": [
+    {
+      "cls": "English 10",
+      "title": "TGG Chapters 1-3 Quiz",
+      "file": "eng.html",
+      "label": "Gatsby · Chapters 1-3",
+      "terms": 31
+    },
+    {
+      "cls": "AP CSP",
+      "title": "The Internet - test",
+      "file": "csp.html",
+      "label": "Unit 2 · The Internet",
+      "terms": 22
+    },
+    {
+      "cls": "Chemistry",
+      "title": "Unit 2 Exam",
+      "file": "chem.html",
+      "label": "Unit 2 · Matter and Change",
+      "terms": 18
+    },
+    {
+      "cls": "Religion",
+      "title": "Unit 2 Test",
+      "file": "rel.html",
+      "label": "Unit 2 · Cultural Context",
+      "terms": 24
+    },
+    {
+      "cls": "US History",
+      "title": null,
+      "file": "ush.html",
+      "label": "Unit 1+2 · taken Sep 28",
+      "terms": 40,
+      "past": true
+    }
+  ]
 }
