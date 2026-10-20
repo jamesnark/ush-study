@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-19T10:31:57.686Z",
+ "generated": "2026-10-20T13:57:37.841Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -141,14 +141,6 @@
  "assignments": [
   {
    "id": "c0",
-   "cls": "Algebra II",
-   "title": "2.2.2 CYU",
-   "due": "2026-10-19T23:59",
-   "status": "assigned",
-   "kind": "cyu"
-  },
-  {
-   "id": "c1",
    "cls": "US History",
    "title": "Mexican-American War Timeline",
    "due": "2026-10-20T23:59",
@@ -156,7 +148,47 @@
    "kind": "worksheet"
   },
   {
+   "id": "c1",
+   "cls": "Algebra II",
+   "title": "2.2.3 CYU",
+   "due": "2026-10-20T23:59",
+   "status": "assigned",
+   "kind": "cyu"
+  },
+  {
    "id": "c2",
+   "cls": "Chemistry",
+   "title": "Atomic Mass of Candium Lab",
+   "due": "2026-10-20T23:59",
+   "status": "assigned",
+   "kind": "lab"
+  },
+  {
+   "id": "c3",
+   "cls": "Religion",
+   "title": "1) What is unusual, or paradoxical, about the Beatitudes? 2) Who is this teaching addressed to? 3) Why do you think that Jesus begins his public ministry and teaching with this sermon on the Beatitudes?",
+   "due": "2026-10-20T23:59",
+   "status": "assigned",
+   "kind": "worksheet"
+  },
+  {
+   "id": "c4",
+   "cls": "Chemistry",
+   "title": "4.5, 4.6, 4.7, 4.8 Work (+Chemistry)",
+   "due": "2026-10-20T23:59",
+   "status": "assigned",
+   "kind": "worksheet"
+  },
+  {
+   "id": "c5",
+   "cls": "English 10",
+   "title": "Read + Annotate Ch. 9",
+   "due": "2026-10-21T11:45",
+   "status": "assigned",
+   "kind": "reading"
+  },
+  {
+   "id": "c6",
    "cls": "Spanish II",
    "title": "SPANISH II ORAL QUIZ",
    "due": "2026-10-21T23:59",
@@ -164,7 +196,23 @@
    "kind": "test"
   },
   {
-   "id": "c3",
+   "id": "c7",
+   "cls": "English 10",
+   "title": "TGG Ch. 7-9 Quiz",
+   "due": "2026-10-26T23:59",
+   "status": "assigned",
+   "kind": "test"
+  },
+  {
+   "id": "c8",
+   "cls": "Algebra II",
+   "title": "2.2.4 CYU",
+   "due": "2026-10-26T23:59",
+   "status": "assigned",
+   "kind": "cyu"
+  },
+  {
+   "id": "c9",
    "cls": "Algebra II",
    "title": "Ch. 2 Quiz #2",
    "due": "2026-10-27T23:59",
@@ -172,7 +220,31 @@
    "kind": "test"
   },
   {
-   "id": "c4",
+   "id": "c10",
+   "cls": "US History",
+   "title": "Unit 3 Quiz",
+   "due": "2026-10-27T23:59",
+   "status": "assigned",
+   "kind": "test"
+  },
+  {
+   "id": "c11",
+   "cls": "English 10",
+   "title": "Cycle 6 Membean",
+   "due": "2026-10-28T23:59",
+   "status": "assigned",
+   "kind": "drill"
+  },
+  {
+   "id": "c12",
+   "cls": "English 10",
+   "title": "Cycle 6 GrammarFlip (2.05)",
+   "due": "2026-10-28T23:59",
+   "status": "assigned",
+   "kind": "drill"
+  },
+  {
+   "id": "c13",
    "cls": "Algebra II",
    "title": "Ch. 2 Test",
    "due": "2026-11-02T23:59",
@@ -180,7 +252,7 @@
    "kind": "test"
   },
   {
-   "id": "c5",
+   "id": "c14",
    "cls": "Religion",
    "title": "Class Reflection",
    "due": "2026-11-30T23:59",
@@ -188,7 +260,7 @@
    "kind": "project"
   },
   {
-   "id": "c6",
+   "id": "c15",
    "cls": "English 10",
    "title": "Membean and Grammar Flip",
    "due": "2028-08-02T23:59",
@@ -196,7 +268,7 @@
    "kind": "drill"
   },
   {
-   "id": "c7",
+   "id": "c16",
    "cls": "Spanish II",
    "title": "Welcome Survey",
    "due": null,
@@ -204,7 +276,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c8",
+   "id": "c17",
    "cls": "English 10",
    "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
    "due": null,
@@ -212,7 +284,7 @@
    "kind": "reading"
   },
   {
-   "id": "c9",
+   "id": "c18",
    "cls": "Algebra II",
    "title": "Match My Parabola",
    "due": null,
@@ -258,15 +330,15 @@
   },
   {
    "cls": "Religion",
-   "letter": "A",
-   "pct": 97,
+   "letter": "B",
+   "pct": 85.6,
    "frn": "00447216",
    "scale": "percent"
   },
   {
    "cls": "English 10",
    "letter": "B-",
-   "pct": 81,
+   "pct": 81.3,
    "frn": "00450937",
    "scale": "percent"
   }
@@ -638,19 +710,6 @@
   },
   {
    "id": "p28",
-   "cls": "Religion",
-   "title": "Unit 2 Test",
-   "cat": "Exams",
-   "due": "2026-10-01",
-   "score": null,
-   "possible": 74,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p29",
    "cls": "English 10",
    "title": "GG Ch.1 annotations",
    "cat": "Formative",
@@ -663,7 +722,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p30",
+   "id": "p29",
    "cls": "English 10",
    "title": "Book Check--GG",
    "cat": "Formative",
@@ -676,7 +735,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p31",
+   "id": "p30",
    "cls": "English 10",
    "title": "SR Annotations",
    "cat": "Formative",
@@ -689,7 +748,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-10-19T10:31:57.686Z",
+ "psGenerated": "2026-10-20T13:57:37.841Z",
  "trainers": [
   {
    "cls": "English 10",
