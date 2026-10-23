@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-21T10:31:59.656Z",
+ "generated": "2026-10-23T11:09:06.105Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -141,19 +141,19 @@
  "assignments": [
   {
    "id": "c0",
-   "cls": "English 10",
-   "title": "Read + Annotate Ch. 9",
-   "due": "2026-10-21T11:45",
+   "cls": "US History",
+   "title": "Primary Source Analysis - Indian Removal Act",
+   "due": "2026-10-23T23:59",
    "status": "assigned",
-   "kind": "reading"
+   "kind": "worksheet"
   },
   {
    "id": "c1",
-   "cls": "Spanish II",
-   "title": "SPANISH II ORAL QUIZ",
-   "due": "2026-10-21T23:59",
+   "cls": "English 10",
+   "title": "Draft 1 Body Paragraph of Gatsby Essay",
+   "due": "2026-10-26T23:59",
    "status": "assigned",
-   "kind": "test"
+   "kind": "project"
   },
   {
    "id": "c2",
@@ -173,6 +173,14 @@
   },
   {
    "id": "c4",
+   "cls": "US History",
+   "title": "Unit 3 Study Guide",
+   "due": "2026-10-26T23:59",
+   "status": "assigned",
+   "kind": "worksheet"
+  },
+  {
+   "id": "c5",
    "cls": "Algebra II",
    "title": "Ch. 2 Quiz #2",
    "due": "2026-10-27T23:59",
@@ -180,7 +188,7 @@
    "kind": "test"
   },
   {
-   "id": "c5",
+   "id": "c6",
    "cls": "US History",
    "title": "Unit 3 Quiz",
    "due": "2026-10-27T23:59",
@@ -188,7 +196,7 @@
    "kind": "test"
   },
   {
-   "id": "c6",
+   "id": "c7",
    "cls": "English 10",
    "title": "Cycle 6 Membean",
    "due": "2026-10-28T23:59",
@@ -196,7 +204,7 @@
    "kind": "drill"
   },
   {
-   "id": "c7",
+   "id": "c8",
    "cls": "English 10",
    "title": "Cycle 6 GrammarFlip (2.05)",
    "due": "2026-10-28T23:59",
@@ -204,7 +212,23 @@
    "kind": "drill"
   },
   {
-   "id": "c8",
+   "id": "c9",
+   "cls": "English 10",
+   "title": "TGG Theme Analysis Essay",
+   "due": "2026-10-30T23:59",
+   "status": "assigned",
+   "kind": "project"
+  },
+  {
+   "id": "c10",
+   "cls": "English 10",
+   "title": "TGG Unit Exam",
+   "due": "2026-10-30T23:59",
+   "status": "assigned",
+   "kind": "test"
+  },
+  {
+   "id": "c11",
    "cls": "Algebra II",
    "title": "Ch. 2 Test",
    "due": "2026-11-02T23:59",
@@ -212,7 +236,7 @@
    "kind": "test"
   },
   {
-   "id": "c9",
+   "id": "c12",
    "cls": "Religion",
    "title": "Class Reflection",
    "due": "2026-11-30T23:59",
@@ -220,7 +244,7 @@
    "kind": "project"
   },
   {
-   "id": "c10",
+   "id": "c13",
    "cls": "English 10",
    "title": "Membean and Grammar Flip",
    "due": "2028-08-02T23:59",
@@ -228,7 +252,7 @@
    "kind": "drill"
   },
   {
-   "id": "c11",
+   "id": "c14",
    "cls": "Spanish II",
    "title": "Welcome Survey",
    "due": null,
@@ -236,7 +260,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c12",
+   "id": "c15",
    "cls": "English 10",
    "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
    "due": null,
@@ -244,7 +268,7 @@
    "kind": "reading"
   },
   {
-   "id": "c13",
+   "id": "c16",
    "cls": "Algebra II",
    "title": "Match My Parabola",
    "due": null,
@@ -256,7 +280,7 @@
   {
    "cls": "Chemistry",
    "letter": "B",
-   "pct": 85.3,
+   "pct": 85.8,
    "frn": "00450938",
    "scale": "percent"
   },
@@ -297,8 +321,8 @@
   },
   {
    "cls": "English 10",
-   "letter": "B-",
-   "pct": 81.3,
+   "letter": "C+",
+   "pct": 77.7,
    "frn": "00450937",
    "scale": "percent"
   }
@@ -671,6 +695,19 @@
   {
    "id": "p28",
    "cls": "English 10",
+   "title": "TGG Ch. 4-6 Quiz",
+   "cat": "Summative",
+   "due": "2026-10-06",
+   "score": 5,
+   "possible": 11,
+   "pct": 45.454545,
+   "flag": false,
+   "late": false,
+   "bucket": "lowscore"
+  },
+  {
+   "id": "p29",
+   "cls": "English 10",
    "title": "GG Ch.1 annotations",
    "cat": "Formative",
    "due": "2026-09-18",
@@ -682,7 +719,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p29",
+   "id": "p30",
    "cls": "English 10",
    "title": "Book Check--GG",
    "cat": "Formative",
@@ -695,7 +732,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p30",
+   "id": "p31",
    "cls": "English 10",
    "title": "SR Annotations",
    "cat": "Formative",
@@ -708,7 +745,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-10-21T10:31:59.656Z",
+ "psGenerated": "2026-10-23T11:09:06.105Z",
  "trainers": [
   {
    "cls": "English 10",
