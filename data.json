@@ -748,32 +748,43 @@
  "psGenerated": "2026-10-23T11:09:06.105Z",
  "trainers": [
   {
+   "cls": "US History",
+   "title": "Unit 3 Quiz",
+   "file": "ush3.html",
+   "label": "Unit 3 · Westward Expansion",
+   "terms": 25
+  },
+  {
    "cls": "English 10",
    "title": "TGG Chapters 1-3 Quiz",
    "file": "eng.html",
    "label": "Gatsby · Chapters 1-3",
-   "terms": 31
+   "terms": 31,
+   "past": true
   },
   {
    "cls": "AP CSP",
    "title": "The Internet - test",
    "file": "csp.html",
    "label": "Unit 2 · The Internet",
-   "terms": 22
+   "terms": 22,
+   "past": true
   },
   {
    "cls": "Chemistry",
    "title": "Unit 2 Exam",
    "file": "chem.html",
    "label": "Unit 2 · Matter and Change",
-   "terms": 18
+   "terms": 18,
+   "past": true
   },
   {
    "cls": "Religion",
    "title": "Unit 2 Test",
    "file": "rel.html",
    "label": "Unit 2 · Cultural Context",
-   "terms": 24
+   "terms": 24,
+   "past": true
   },
   {
    "cls": "US History",

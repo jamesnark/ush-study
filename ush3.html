@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>US History Unit 3 - Westward Expansion</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>
+:root{--accent:#ff8a5b;--accent-ink:#2b1005}
+.mapwrap{position:relative;max-width:883px;margin:0 auto 12px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.mapwrap img{display:block;width:100%;height:auto}
+.hot{position:absolute;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;
+ border:2px solid var(--accent);background:rgba(255,138,91,.18);color:transparent;cursor:pointer;padding:0}
+.hot:hover,.hot.sel{background:rgba(255,138,91,.45)}
+.regbtns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.regbtns .btn.sel{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.rgrid{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;margin:6px 0 10px}
+.rgrid b{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding-top:2px}
+.src{font-size:10.5px;padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.src.deck{background:rgba(62,207,142,.14);color:var(--good)}
+.src.ext{background:rgba(255,176,32,.14);color:var(--warn)}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>US History &mdash; Unit 3: Westward Expansion</h1>
+  <div class="sub">Katie Wolf &middot; Period 4 &middot; Study guide due Mon Oct 26 &middot; Quiz Tue Oct 27</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="map">Map</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="map"></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=6"></script>
+<script>
+const $=id=>document.getElementById(id);
+const DECK='<span class="src deck">from the slides</span>';
+const EXT='<span class="src ext">not in the slides</span>';
+
+/* ================= MAP REGIONS (matches the lettered map on the study guide) ================= */
+const REG={
+ A:{name:"The Original Thirteen Colonies",from:"Great Britain (they were British colonies)",when:"1783",how:"Independence, won in the Revolution and recognized by the Treaty of Paris (1783)",
+  why:"These were the original British colonies, split into New England, Middle and Southern.",x:83.2,y:45.8,src:DECK},
+ B:{name:"The Ohio River Valley",from:"Great Britain",when:"1783",how:"Treaty of Paris (1783), which ended the American Revolution",
+  why:"Britain handed over its land between the Appalachians and the Mississippi River as part of the peace.",x:70.8,y:49,src:DECK},
+ C:{name:"The Louisiana Purchase",from:"France",when:"1803",how:"Purchased for $15 million (about 4 cents per acre)",
+  why:"Control of the Mississippi River and the port of New Orleans for trade, plus room to grow. France (Napoleon) needed money.",x:48.9,y:44.4,src:DECK+' <span class="src ext">\u201cwhy\u201d not in slides</span>'},
+ D:{name:"Florida",from:"Spain",when:"1819 (ratified 1821)",how:"Adams-On\u00eds Treaty, $5 million",
+  why:"The treaty also set the western edge of the Louisiana Purchase; Spain gave up claims to the Pacific Northwest and the US recognized Spain\u2019s claim to Texas.",x:80.4,y:86.6,src:DECK},
+ E:{name:"Texas",from:"The Republic of Texas (which had broken away from Mexico)",when:"Independence 1836, annexed 1845",how:"Annexation \u2014 Texas won its independence in a war, then asked to join the US. Not purchased.",
+  why:"Texans wanted to join; Manifest Destiny; the South wanted another slave state.",x:43,y:75.4,src:DECK},
+ F:{name:"The Oregon Territory",from:"Great Britain",when:"1846",how:"Treaty, dividing the land at the 49th parallel",
+  why:"American settlers arriving on the Oregon Trail wanted the fertile land and Pacific harbors.",x:14.7,y:19.4,src:DECK+' <span class="src ext">\u201cwhy\u201d not in slides</span>'},
+ G:{name:"The Mexican Cession",from:"Mexico",when:"1848",how:"Won in the Mexican-American War; Treaty of Guadalupe Hidalgo; US paid $15 million",
+  why:"Manifest Destiny and the Pacific coast. Includes California, Nevada, Utah and most of Arizona.",x:17.2,y:49,src:DECK},
+ H:{name:"The Gadsden Purchase",from:"Mexico",when:"1853",how:"Purchased for $10 million",
+  why:"Flat land for a southern transcontinental railroad route. Today\u2019s southern Arizona and southwestern New Mexico.",x:20.2,y:69.9,src:DECK}
+};
+
+/* ================= FLASHCARDS ================= */
+const T=[
+/* --- the guide's vocabulary list, in its order --- */
+{s:"Guide vocabulary",cat:"law",t:"Missouri Compromise (1820)",
+ a:["Whose plan was it?","What problem was it solving?","Its FOUR parts","How long did it keep the peace?"],
+ h:"Two states, one line, one rule. Henry Clay.",
+ d:"<b>Henry Clay\u2019s plan.</b> In 1819 there were <b>11 free and 11 slave states</b>; Missouri asked to join as a slave state, which would tip the balance.<br><b>The four parts:</b><ul>"
+ +"<li>Missouri joins as a <b>slave state</b></li><li>Maine joins as a <b>free state</b></li>"
+ +"<li>The <b>36\u00b030\u2032 line</b> divides the Louisiana Purchase: <b>north = free, south = slave</b></li>"
+ +"<li>States now enter the Union <b>in pairs</b></li></ul>"
+ +"Kept the peace for <b>nearly 30 years</b>; six states joined and the free/slave count stayed equal."},
+{s:"Guide vocabulary",cat:"concept",t:"Manifest Destiny",
+ a:["Define it in one sentence","Who or what is the famous painting of it?","Which war did it help cause?"],
+ h:"It was our \u201cduty.\u201d",
+ d:"The belief that it was America\u2019s <b>duty to settle the continent, conquer and prosper</b> \u2014 that expansion west was necessary and destined.<br>"
+ +"Pictured in <i>American Progress</i> by John Gast (1872). One of the <b>5 major factors</b> of western settlement and a <b>long-term cause of the Mexican-American War</b>."},
+{s:"Guide vocabulary",cat:"concept",t:"36\u00b030\u2032 line",
+ a:["What is it?","Which compromise created it?","What's free and what's slave?"],
+ h:"A latitude line through the Louisiana Purchase.",
+ d:"An imaginary line of latitude at <b>36 degrees, 30 minutes north</b>, drawn across the Louisiana Purchase by the <b>Missouri Compromise</b>.<br><b>North of the line = free. South = slave</b> (Missouri itself was the exception: slave state, but north of the line).<br>"
+ +"<span class=\"tiny\">Your guide writes it 36\u00b030\u201d and the slide writes 36\u201d 30\u2019. The correct notation is <b>36\u00b030\u2032</b>.</span>"},
+{s:"Guide vocabulary",cat:"concept",t:"Slave State",
+ a:["Define it","Why did the number matter?"],
+ h:"Legal slavery, and a vote in the Senate.",
+ d:"A state where <b>slavery was legal</b>. The count mattered because each state gets <b>two senators</b> \u2014 an equal number of slave and free states meant neither side controlled the Senate."},
+{s:"Guide vocabulary",cat:"concept",t:"Free State",
+ a:["Define it","What was the count in 1819?"],
+ h:"The opposite.",
+ d:"A state where <b>slavery was illegal</b>. In 1819 the Union was balanced at <b>11 free and 11 slave states</b>."},
+{s:"Guide vocabulary",cat:"concept",t:"Annexation",
+ a:["Define it","Best example from this unit, with year"],
+ h:"Adding land that asked to come in.",
+ d:"<b>Adding a territory to a country</b> and making it part of that country.<br><b>Key example:</b> the <b>annexation of Texas in 1845</b> \u2014 Texas wasn\u2019t bought; it won independence from Mexico and then asked to join."},
+{s:"Guide vocabulary",cat:"concept",t:"49th Parallel",
+ a:["What is it?","Which region did it divide, from whom, and when?"],
+ h:"Most of today\u2019s US\u2013Canada border.",
+ d:"A <b>line of latitude</b> that forms most of the border between the US and Canada.<br>The <b>1846 treaty with Britain</b> split the <b>Oregon Territory</b> at the 49th parallel. "
+ +"(The border east of the Rockies was set there earlier, in 1818 \u2014 the \u201cceded\u201d notes on your map.)"},
+{s:"Guide vocabulary",cat:"concept",t:"Westward Expansion",
+ a:["Define it","The 5 major factors behind it"],
+ h:"Five reasons people went.",
+ d:"The movement of American settlers and US territory west across the continent in the 1800s.<br><b>The 5 major factors:</b><ul>"
+ +"<li>Overpopulation in the East</li><li>Cheap land in the West</li><li>Economic opportunity</li>"
+ +"<li>Cheaper and faster transportation</li><li>Manifest Destiny</li></ul>"},
+{s:"Guide vocabulary",cat:"law",t:"Transcontinental Railroad",
+ a:["When was it finished, and where?","Which two companies built it?","Why was it built?","Three impacts on the West"],
+ h:"Golden spike, 1869. This one is not in the slides.",
+ d:"<span class=\"src ext\">not in the slides</span><br>A railroad linking the eastern rail network to the Pacific coast. Authorized by the <b>Pacific Railway Act (1862)</b>; the <b>Union Pacific</b> built west from Nebraska and the <b>Central Pacific</b> built east from California. They met at <b>Promontory Summit, Utah, on May 10, 1869</b> (the golden spike).<br>"
+ +"<b>Why:</b> connect the East to California and the West Coast after the Gold Rush, speed travel and trade, and bind the country together.<br>"
+ +"<b>Impacts:</b> cross-country travel dropped from months to about a week; a <b>flood of settlers</b> and new towns; a national market for goods; it relied heavily on <b>Chinese and Irish immigrant labor</b>; and it sped the destruction of the <b>buffalo herds</b> and the <b>displacement of Plains Native nations</b>."},
+{s:"Guide vocabulary",cat:"law",t:"Indian Removal Act (1830)",
+ a:["Exact date and president","What did it authorize?","Which five nations?","Where were they sent?"],
+ h:"May 28, 1830. Jackson.",
+ d:"Passed <b>May 28, 1830</b> under <b>Andrew Jackson</b>. It authorized the president to give Native nations <b>land west of the Mississippi</b> in exchange for their <b>ancestral homelands</b> in the South.<br>"
+ +"<b>Five nations affected:</b> Cherokee, Choctaw, Chickasaw, Creek and Seminole.<br>"
+ +"Sent to the \u201c<b>Indian colonization zone</b>\u201d \u2014 present-day <b>Oklahoma</b>, land from the Louisiana Purchase.<br>"
+ +"<b>Why:</b> Southern whites wanted the land for <b>cotton</b> and <b>gold</b>."},
+
+/* --- regions --- */
+].concat(Object.keys(REG).map(function(k){const r=REG[k];return {
+  s:"Map regions",cat:"region",t:"Region "+k+": "+r.name,
+  a:["From whom?","When?","How?","Why?"],
+  h:"Look at where letter "+k+" sits on the map.",
+  d:"<b>From:</b> "+r.from+"<br><b>When:</b> "+r.when+"<br><b>How:</b> "+r.how+"<br><b>Why:</b> "+r.why};})).concat([
+
+/* --- other details the guide lists --- */
+{s:"Other details",cat:"event",t:"North vs. South response to the Missouri Compromise",
+ a:["How did the South react?","How did the North react?"],
+ h:"Both sides saw a problem coming.",
+ d:"<b>South</b> <span class=\"src deck\">from the slides</span>: realized the compromise threatened the balance, because slavery could only expand south of 36\u00b030\u2032 \u2014 so the US would need <b>territory from Mexico</b> for slavery to keep growing.<br>"
+ +"<b>North</b> <span class=\"src ext\">not in the slides</span>: many Northerners opposed admitting <i>any</i> new slave state and resented letting Missouri in with slavery. They accepted it because slavery was banned in most of the Louisiana Territory, but it left lasting anger. Thomas Jefferson called the crisis \u201ca fire bell in the night.\u201d"},
+{s:"Other details",cat:"event",t:"Conditions for Americans settling in Texas",
+ a:["Who controlled Texas then?","Three conditions settlers had to accept","Did they follow them?"],
+ h:"Citizenship, religion, law.",
+ d:"Mexico became independent from Spain in <b>1821</b> and invited Americans to settle Texas <i>with conditions</i>. <span class=\"src ext\">conditions not listed in the slides</span><ul>"
+ +"<li><b>Become Mexican citizens</b></li><li><b>Convert to Roman Catholicism</b></li><li><b>Obey Mexican law</b> \u2014 including Mexico\u2019s ban on slavery (1829)</li></ul>"
+ +"The slides\u2019 point: <b>Texan-Americans did not follow the conditions.</b> They stayed Protestant, kept enslaved people and kept arriving, so Mexico banned further US immigration in 1830. That tension led to the Texas Revolution."},
+{s:"Other details",cat:"event",t:"Texas Revolution (1836)",
+ a:["The two battles, in order","Who won each?","Key numbers"],
+ h:"Lost at the Alamo, won at San Jacinto.",
+ d:"Texans declared independence from Mexico in <b>1836</b>.<ul>"
+ +"<li><b>The Alamo</b> (Feb\u2013March 1836): about <b>6,000 Mexicans vs. 187 Texans</b>. <b>Mexico won.</b></li>"
+ +"<li><b>San Jacinto</b> (April 21, 1836): the decisive battle, only <b>18 minutes</b>. <b>Texas won</b> and <b>Santa Anna surrendered</b>.</li></ul>"},
+{s:"Other details",cat:"event",t:"Annexation of Texas",
+ a:["When?","How did the North, South, Britain and Mexico react?","Why did Mexico care so much?"],
+ h:"Four reactions. Only one side was happy.",
+ d:"After independence Texas <b>wanted to be annexed</b> by the US; it joined in <b>1845</b>.<ul>"
+ +"<li><b>North:</b> against \u2014 it would add a slave state</li><li><b>South:</b> wholeheartedly for it</li>"
+ +"<li><b>Britain:</b> against (slavery)</li>"
+ +"<li><b>Mexico:</b> never recognized Texas, withdrew its ambassador and said annexation was basically a <b>declaration of war</b>. It feared a <b>domino effect</b> \u2014 losing Texas would lead to losing its other northern lands.</li></ul>"},
+{s:"Other details",cat:"event",t:"Mexican-American War (1846\u20131848)",
+ a:["Three long-term causes","The immediate cause","Who won, and the US advantage","The treaty and what it did"],
+ h:"Polk, the Rio Grande, and $15 million.",
+ d:"<b>Long-term causes:</b> Manifest Destiny; Mexican anger over Texas; the <b>border dispute</b> \u2014 the Rio Grande (US claim) vs. the Nueces River (Mexico\u2019s claim).<br>"
+ +"<b>Immediate cause:</b> President <b>James K. Polk sent troops</b> into the disputed land to provoke war. Mexico saw it as an invasion.<br>"
+ +"<b>Result:</b> the US won; its big advantage was <b>West Point</b>-trained officers.<br>"
+ +"<b>Treaty of Guadalupe Hidalgo (1848):</b> border set at the <b>Rio Grande</b>; Mexico recognized the annexation of Texas and gave up California and its land north of the Rio Grande (<b>the Mexican Cession</b>); the US paid <b>$15 million</b>.<br>"
+ +"<b>Impacts:</b> huge new territory, and the slavery debate got far worse over whether the new land would be slave or free. <span class=\"src ext\">that last point is general, not a slide quote</span>"},
+{s:"Other details",cat:"event",t:"Effects of the Indian Removal Act",
+ a:["The court case, year and ruling","What did Jackson do about the ruling?","The Trail of Tears: years and conditions"],
+ h:"The Supreme Court ruled one way; Jackson ignored it.",
+ d:"<b>Worcester v. Georgia (1832):</b> the Supreme Court ruled 5\u20131 that <b>states could not regulate Native land</b>. <b>Jackson refused to enforce it.</b><br>"
+ +"<b>Trail of Tears (1831\u20131838):</b> forced marches west through nine states; <b>disease and starvation</b>; brutal conditions. The Cherokee were divided over whether to resist or go. The Florida Seminoles went to war instead.<br>"
+ +"Wolf\u2019s slide calls it <b>ethnic cleansing and genocide</b>.<br>"
+ +"<span class=\"tiny\">The slide lists 17,000 people and 40,000 deaths, which can\u2019t both be one count. Commonly cited figures: about 100,000 people removed across all five nations, and roughly 4,000 of about 16,000 Cherokee died. If a number comes up, the 1830 date and \u201cOklahoma\u201d are the safer facts.</span>"},
+{s:"Other details",cat:"event",t:"Effects of Westward Expansion",
+ a:["Name all six effects from the wrap-up slide"],
+ h:"Three good, three costly.",
+ d:"From Wolf\u2019s Day 5 wrap-up:<ul>"
+ +"<li>Increase in <b>land</b> for the US</li><li>Increase in <b>economic growth and power</b></li>"
+ +"<li><b>Debates over slavery intensified</b></li><li><b>Destruction and displacement of Native populations</b></li>"
+ +"<li>Increase in <b>multicultural populations</b> in the West</li><li>Continued rise in <b>immigration</b></li></ul>"}
+]);
+const CARDS=T.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat}});
+
+/* ================= GENERATED QUESTIONS ================= */
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
+const KEYS=Object.keys(REG);
+function qLetter(){
+  const k=shuf(KEYS)[0],wrong=shuf(KEYS.filter(function(x){return x!==k})).slice(0,3);
+  return {topic:"Map: which letter",q:"On the study-guide map, which letter is <b>"+REG[k].name+"</b>?",
+    choices:shuf([{label:"Region "+k,right:true}].concat(wrong.map(function(w){return{label:"Region "+w,right:false}}))),
+    why:"<b>Region "+k+"</b> is "+REG[k].name+"."};
+}
+function qFromWhom(){
+  const k=shuf(KEYS)[0],ans=REG[k].from.split(" (")[0];
+  const pool=["Great Britain","France","Spain","Mexico","The Republic of Texas"].filter(function(x){return x!==ans});
+  return {topic:"Map: from whom",q:"Who did the US get <b>"+REG[k].name+"</b> from?",
+    choices:shuf([{label:ans,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:w,right:false}}))),
+    why:"<b>"+REG[k].name+"</b>: from "+REG[k].from+", "+REG[k].when+"."};
+}
+function qWhen(){
+  const k=shuf(KEYS.filter(function(x){return x!=="A"}))[0];
+  const ans=REG[k].when,pool=KEYS.filter(function(x){return x!==k&&x!=="A"}).map(function(x){return REG[x].when}).filter(function(v,i,s){return s.indexOf(v)===i&&v!==ans});
+  return {topic:"Map: when",q:"When did the US gain <b>"+REG[k].name+"</b>?",
+    choices:shuf([{label:ans,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:w,right:false}}))),
+    why:"<b>"+REG[k].name+"</b>: "+ans+", "+REG[k].how+"."};
+}
+function qHow(){
+  const k=shuf(KEYS.filter(function(x){return x!=="A"}))[0];
+  const pool=KEYS.filter(function(x){return x!==k&&x!=="A"});
+  return {topic:"Map: how",q:"How did the US gain <b>"+REG[k].name+"</b>?",
+    choices:shuf([{label:REG[k].how,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:REG[w].how,right:false}}))),
+    why:"<b>"+REG[k].name+"</b>: "+REG[k].how+"."};
+}
+function qMissouri(){
+  const right="Missouri slave, Maine free, 36\u00b030\u2032 line (north free, south slave), states enter in pairs";
+  return {topic:"Missouri Compromise parts",q:"Which list gives the <b>four parts</b> of the Missouri Compromise?",
+    choices:shuf([{label:right,right:true},
+      {label:"Missouri free, Maine slave, 36\u00b030\u2032 line (north slave, south free), states enter in pairs",right:false},
+      {label:"Missouri slave, Maine free, 49th parallel divides the territory, states enter in pairs",right:false},
+      {label:"Missouri slave, Texas free, 36\u00b030\u2032 line (north free, south slave), popular sovereignty decides",right:false}]),
+    why:"Henry Clay\u2019s plan: <b>"+right+"</b>."};
+}
+function qReaction(){
+  const R=[["the North","Against it, because it added a slave state"],["the South","Wholeheartedly supported it"],
+    ["Mexico","Withdrew its ambassador and treated it as a declaration of war"],["Britain","Against it, because of slavery"]];
+  const p=shuf(R)[0];
+  return {topic:"Texas annexation reactions",q:"How did <b>"+p[0]+"</b> react to the annexation of Texas?",
+    choices:shuf(R.map(function(r){return{label:r[1],right:r[0]===p[0]}})),
+    why:"<b>"+p[0]+"</b>: "+p[1]+"."};
+}
+function extras(){return shuf([qLetter(),qLetter(),qFromWhom(),qWhen(),qHow(),qMissouri(),qReaction()])}
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"ush3"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"ush3",count:20,extras:extras});
+
+/* ================= MAP TAB ================= */
+$("map").innerHTML='<div class="card"><h3>The study-guide map</h3><p>Tap a circle on the map, or a letter below. The guide says to know each region\u2019s <b>name, how it was claimed, why, and who it came from</b>.</p>'
+ +'<div class="mapwrap" id="mw"><img src="u3-map.jpg" alt="Lettered map of US territorial expansion">'
+ +KEYS.map(function(k){return '<button class="hot" data-k="'+k+'" style="left:'+REG[k].x+'%;top:'+REG[k].y+'%" aria-label="Region '+k+'"></button>'}).join('')+'</div>'
+ +'<div class="regbtns">'+KEYS.map(function(k){return '<button class="btn sm" data-k="'+k+'">'+k+'</button>'}).join('')+'</div>'
+ +'<div id="regdetail"><p class="tiny">Nothing selected yet.</p></div>'
+ +'<p class="tiny" style="margin-top:10px">The two handwritten \u201c1818\u201d notes are the Convention of 1818 with Britain, which set the border at the 49th parallel east of the Rockies and swapped small strips of land.</p></div>'
+ +'<div class="card"><h3>All eight at a glance</h3><table><tr><th></th><th>Region</th><th>From</th><th>When</th><th>How</th></tr>'
+ +KEYS.map(function(k){const r=REG[k];return '<tr><td><b>'+k+'</b></td><td>'+r.name+'</td><td>'+r.from.split(" (")[0]+'</td><td>'+r.when+'</td><td>'+r.how+'</td></tr>'}).join('')
+ +'</table><p class="tiny">Memory hook, east to west in time order: <b>A</b>ll <b>B</b>ritish, <b>C</b>ash to France, <b>D</b>eal with Spain, <b>E</b>xit from Mexico (Texas), <b>F</b>orty-ninth parallel, <b>G</b>uadalupe Hidalgo, <b>H</b>ad to have a railroad.</p></div>';
+function pick(k){
+  const r=REG[k];
+  [].forEach.call(document.querySelectorAll('#map [data-k]'),function(b){b.classList.toggle('sel',b.dataset.k===k)});
+  $("regdetail").innerHTML='<h3 style="margin:4px 0 6px">Region '+k+': '+r.name+' '+r.src+'</h3>'
+   +'<div class="rgrid"><b>From</b><span>'+r.from+'</span><b>When</b><span>'+r.when+'</span><b>How</b><span>'+r.how+'</span><b>Why</b><span>'+r.why+'</span></div>';
+}
+[].forEach.call(document.querySelectorAll('#map [data-k]'),function(b){b.onclick=function(){pick(b.dataset.k)}});
+
+/* ================= REFERENCE ================= */
+$("ref").innerHTML=
+ '<div class="note">Built from Wolf\u2019s Unit 3 slides and the Unit 3 Study Guide. Anything marked '+EXT+' isn\u2019t in her slides and comes from standard sources. Everything else is hers.</div>'
++'<div class="card"><h3>Quiz format</h3><p>From Wolf\u2019s Day 5 slide: a <b>16-question quiz on Westward Expansion</b> &mdash; <b>9 multiple choice and 7 short answer</b>. She says to study with the <b>blank map</b> and your notes on each section. Her two sample questions:</p>'
+ +'<ul style="margin:4px 0 0;padding-left:18px;color:#cdd4e0;font-size:14px"><li>Which section was bought from France in 1803? (Louisiana Purchase)</li><li>What are the four main parts of the Missouri Compromise?</li></ul></div>'
++'<div class="card"><h3>Timeline</h3><div class="tl">'
+ +[["1783","Treaty of Paris: Regions A and B"],["1803","Louisiana Purchase from France, $15 million (C)"],
+   ["1819","Adams-On\u00eds Treaty, Florida from Spain (D); ratified 1821"],["1820","<b>Missouri Compromise</b>"],
+   ["1821","Mexico independent from Spain; invites American settlers to Texas"],["1830","<b>Indian Removal Act</b> (May 28)"],
+   ["1831\u20131838","Trail of Tears"],["1832","Worcester v. Georgia"],
+   ["1836","Texas Revolution: the Alamo (lost), San Jacinto (won, April 21)"],["1845","<b>Texas annexed</b> (E)"],
+   ["1846","Oregon split with Britain at the 49th parallel (F)"],["1846\u20131848","<b>Mexican-American War</b>"],
+   ["1848","Treaty of Guadalupe Hidalgo: the Mexican Cession (G)"],["1853","Gadsden Purchase from Mexico, $10 million (H)"],
+   ["1869","Transcontinental Railroad completed "+EXT]]
+  .map(function(r){return '<div><b>'+r[0]+'</b>'+r[1]+'</div>'}).join('')+'</div></div>'
++'<div class="card"><h3>Mexican-American War: causes and effects</h3><table><tr><th>Causes</th><th>Effects</th></tr>'
+ +'<tr><td><b>Long-term:</b> Manifest Destiny, Mexican anger over Texas, the Rio Grande vs. Nueces border dispute<br><b>Immediate:</b> Polk sent troops into the disputed land</td>'
+ +'<td>US victory (West Point officers); Treaty of Guadalupe Hidalgo; border at the Rio Grande; Mexican Cession for $15 million; slavery debate intensifies</td></tr></table></div>'
++'<div class="card"><h3>Indian Removal Act in three questions</h3><table>'
+ +'<tr><th>What was it?</th><td>An 1830 law under Jackson authorizing the president to trade land west of the Mississippi for Native homelands in the South.</td></tr>'
+ +'<tr><th>What did it do?</th><td>Forced the Cherokee, Choctaw, Chickasaw, Creek and Seminole west to Indian Territory (Oklahoma).</td></tr>'
+ +'<tr><th>Impacts?</th><td>Worcester v. Georgia (1832), ignored by Jackson; the Trail of Tears; thousands of deaths from disease and starvation; destruction of Native cultures. Wolf\u2019s slide: ethnic cleansing and genocide.</td></tr></table></div>'
++'<div class="card"><h3>Transcontinental Railroad '+EXT+'</h3><table>'
+ +'<tr><th>Why built?</th><td>Connect the East to California and the West Coast (after the Gold Rush), speed up travel and trade, unite the country.</td></tr>'
+ +'<tr><th>Built by</th><td>Union Pacific (west from Nebraska) and Central Pacific (east from California), largely by Chinese and Irish immigrant workers. Pacific Railway Act, 1862.</td></tr>'
+ +'<tr><th>Finished</th><td>Promontory Summit, Utah, May 10, 1869 (golden spike).</td></tr>'
+ +'<tr><th>Impacts on expansion</th><td>Months of travel became about a week; huge waves of settlers and new towns; national markets; the buffalo hunted nearly to extinction; Plains Native nations pushed off their land.</td></tr>'
+ +'<tr><th>Link to the map</th><td>The <b>Gadsden Purchase (H)</b> was bought specifically for a southern railroad route.</td></tr></table></div>'
++'<div class="card"><h3>Your short-answer question</h3><p>The guide asks which region is <b>the most important or influential addition</b>, and to explain. That\u2019s your opinion, so it\u2019s yours to write. Here\u2019s the evidence each strong choice gives you:</p>'
+ +'<details><summary>Region C: Louisiana Purchase</summary><p>Doubled the size of the country; gave control of the Mississippi and New Orleans; cheap ($15M, 4\u00a2/acre); it\u2019s the land the Missouri Compromise was fighting over, and the destination of Indian Removal.</p></details>'
+ +'<details><summary>Region G: Mexican Cession</summary><p>Gave the US the Pacific coast and California; result of the Mexican-American War; reignited the slavery debate on the road to the Civil War.</p></details>'
+ +'<details><summary>Region E: Texas</summary><p>Its annexation triggered the Mexican-American War, which led to the Mexican Cession; a major slave state that tilted the balance.</p></details>'
+ +'<details><summary>Region F: Oregon</summary><p>Set the 49th parallel border with Britain peacefully; Pacific harbors; fulfilled Manifest Destiny without a war.</p></details>'
+ +'<p class="tiny" style="margin-top:8px">A strong answer picks one, names two specific effects, and connects them to a theme from the unit (Manifest Destiny, the slavery debate, or the cost to Native peoples).</p></div>'
++'<div class="card"><h3>Also in the deck (not on your study guide)</h3><p class="tiny">The first day of Wolf\u2019s slides covers the Age of Jackson. The quiz is described as Westward Expansion, so this is lower priority.</p>'
+ +'<details><summary>Show</summary><p><b>Hamilton\u2019s plan:</b> bonds, federal taxes (excise and tariffs), a national bank. <b>Election of 1800:</b> Jefferson beats Adams after a tie with Burr; first peaceful transfer of power between parties. <b>War of 1812:</b> over British impressment; \u201csecond war for independence\u201d; the Star-Spangled Banner. <b>Election of 1824:</b> Jackson won the popular vote, but the House picked John Quincy Adams, who made Henry Clay Secretary of State \u2014 the \u201cCorrupt Bargain.\u201d <b>Jackson as president:</b> spoils system, kitchen cabinet, Tariff of Abominations, the Nullification Crisis (Calhoun), and the Bank War. <b>Monroe Doctrine (1823):</b> no new European colonies in the Western Hemisphere; the US stays out of European affairs.</p></details></div>';
+
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>
