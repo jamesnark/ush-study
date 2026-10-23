@@ -169,7 +169,7 @@ function mount(opts){
    +'<span class="stat">Known <b class="fk">0</b> &middot; Left <b class="fl">0</b></span></div>'
    +'<div class="prog"><i class="fbar"></i></div>'
    +'<div class="fcard"><div class="tag"><span class="ftag"></span><span class="fgap"></span></div>'
-     +'<div class="term fterm"></div><div class="fask"></div>'
+     +'<div class="term fterm"></div><div class="ffig"></div><div class="fask"></div>'
      +'<div class="hint hidden fhint"></div><div class="defn hidden fdef"></div>'
      +'<div class="ftapnote">tap the card to flip</div></div>'
    +'<div class="row"><button class="btn fhintb">Hint</button>'
@@ -196,6 +196,7 @@ function mount(opts){
     q('.ftag').textContent=c.s+'  —  '+(pos+1)+' / '+list.length;
     q('.fgap').innerHTML=g?' <span class="gapbadge">flagged</span>':'';
     q('.fterm').innerHTML=c.t;
+    q('.ffig').innerHTML=c.fig||'';
     q('.fask').innerHTML=c.a?'<div class="asklabel">Say out loud:</div><ul class="asklist">'
       +(Array.isArray(c.a)?c.a:[c.a]).map(x=>'<li>'+x+'</li>').join('')+'</ul>':'';
     q('.fhint').innerHTML=c.h||'';q('.fdef').innerHTML=c.d;
@@ -301,7 +302,7 @@ function quiz(opts){
       let optEls,why,flagCard=null,sk,lbl;
       if(it.kind==='custom'){
         sk=deck+'|#'+(it.x.topic||'custom');lbl=it.x.topic||'Custom question';
-        div.innerHTML='<h4>'+(i+1)+'. '+it.x.q+'</h4>';
+        div.innerHTML='<h4>'+(i+1)+'. '+it.x.q+'</h4>'+(it.x.fig?'<div class="qfig">'+it.x.fig+'</div>':'');
         optEls=it.x.choices.map(o=>({label:o.label,right:!!o.right}));
         why=it.x.why;
       }else{
@@ -309,10 +310,10 @@ function quiz(opts){
         const c=it.card;flagCard=c;
         const wrong=pickDistractors(c,pool.length>=5?pool:cards,3);
         if(!it.reverse){
-          div.innerHTML='<h4>'+(i+1)+'. '+esc(scrub(snippet(c.d,110,260),c.t))+'</h4>';
+          div.innerHTML='<h4>'+(i+1)+'. '+esc(scrub(snippet(c.d,110,260),c.t))+'</h4>'+(c.figFwd?'<div class="qfig">'+c.figFwd+'</div>':'');
           optEls=[c].concat(wrong).sort(()=>Math.random()-.5).map(o=>({label:esc(o.t),right:o.t===c.t}));
         }else{
-          div.innerHTML='<h4>'+(i+1)+'. Which of these is true of <b>'+esc(c.t)+'</b>?</h4>';
+          div.innerHTML='<h4>'+(i+1)+'. Which of these is true of <b>'+esc(c.t)+'</b>?</h4>'+(c.fig?'<div class="qfig">'+c.fig+'</div>':'');
           optEls=[c].concat(wrong).sort(()=>Math.random()-.5)
             .map(o=>({label:esc(scrub(snippet(o.d,95,200),o.t,true)),right:o.t===c.t}));
         }
@@ -379,6 +380,8 @@ const CSS='.fcard{background:var(--panel);border:1px solid var(--line);border-ra
 +'.frow2{display:flex;gap:7px;align-items:center;margin-top:7px}'
 +'.btn.sm{padding:4px 10px;font-size:12px}'
 +'.tiny{font-size:11px;color:var(--dim)}'
++'.ffig:empty,.qfig:empty{display:none}.ffig{margin:12px 0 2px}.qfig{margin:-2px 0 12px}'
++'.ffig svg,.qfig svg{display:block;width:100%;max-width:560px;height:auto;margin:0 auto}'
 +'.q{position:relative}'
 +'.qstatbtn{position:absolute;top:8px;right:8px;background:none;border:1px solid var(--line);color:var(--dim);'
 +'border-radius:7px;width:26px;height:26px;cursor:pointer;font-size:13px;line-height:1;padding:0}'

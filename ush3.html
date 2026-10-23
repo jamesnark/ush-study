@@ -41,7 +41,8 @@
 <section class="view" id="map"></section>
 <section class="view" id="ref"></section>
 </main>
-<script src="flash.js?v=6"></script>
+<script src="u3map.js?v=1"></script>
+<script src="flash.js?v=7"></script>
 <script>
 const $=id=>document.getElementById(id);
 const DECK='<span class="src deck">from the slides</span>';
@@ -127,7 +128,7 @@ const T=[
 
 /* --- regions --- */
 ].concat(Object.keys(REG).map(function(k){const r=REG[k];return {
-  s:"Map regions",cat:"region",t:"Region "+k+": "+r.name,
+  s:"Map regions",cat:"region",rk:k,t:"Region "+k+": "+r.name,
   a:["From whom?","When?","How?","Why?"],
   h:"Look at where letter "+k+" sits on the map.",
   d:"<b>From:</b> "+r.from+"<br><b>When:</b> "+r.when+"<br><b>How:</b> "+r.how+"<br><b>Why:</b> "+r.why};})).concat([
@@ -180,35 +181,45 @@ const T=[
  +"<li><b>Debates over slavery intensified</b></li><li><b>Destruction and displacement of Native populations</b></li>"
  +"<li>Increase in <b>multicultural populations</b> in the West</li><li>Continued rise in <b>immigration</b></li></ul>"}
 ]);
-const CARDS=T.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat}});
+const CARDS=T.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat,
+  fig:x.rk?U3Map.render({mode:'highlight',hi:x.rk,letters:'hi'}):null,
+  figFwd:x.rk?U3Map.render({mode:'color'}):null}});
 
 /* ================= GENERATED QUESTIONS ================= */
 function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
 const KEYS=Object.keys(REG);
 function qLetter(){
   const k=shuf(KEYS)[0],wrong=shuf(KEYS.filter(function(x){return x!==k})).slice(0,3);
-  return {topic:"Map: which letter",q:"On the study-guide map, which letter is <b>"+REG[k].name+"</b>?",
+  return {topic:"Map: which letter",q:"Which letter is <b>"+REG[k].name+"</b>? <span class=\"tiny\">Tap the map or a button.</span>",
+    fig:U3Map.render({mode:'color'}),
     choices:shuf([{label:"Region "+k,right:true}].concat(wrong.map(function(w){return{label:"Region "+w,right:false}}))),
     why:"<b>Region "+k+"</b> is "+REG[k].name+"."};
+}
+function qWhich(){
+  const k=shuf(KEYS)[0],wrong=shuf(KEYS.filter(function(x){return x!==k})).slice(0,3);
+  return {topic:"Map: name the highlighted region",q:"What is the <b>highlighted region</b> called?",
+    fig:U3Map.render({mode:'highlight',hi:k,letters:false}),
+    choices:shuf([{label:REG[k].name,right:true}].concat(wrong.map(function(w){return{label:REG[w].name,right:false}}))),
+    why:"That\u2019s <b>Region "+k+": "+REG[k].name+"</b> \u2014 from "+REG[k].from+", "+REG[k].when+"."};
 }
 function qFromWhom(){
   const k=shuf(KEYS)[0],ans=REG[k].from.split(" (")[0];
   const pool=["Great Britain","France","Spain","Mexico","The Republic of Texas"].filter(function(x){return x!==ans});
-  return {topic:"Map: from whom",q:"Who did the US get <b>"+REG[k].name+"</b> from?",
+  return {topic:"Map: from whom",q:"Who did the US get <b>"+REG[k].name+"</b> (highlighted) from?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
     choices:shuf([{label:ans,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:w,right:false}}))),
     why:"<b>"+REG[k].name+"</b>: from "+REG[k].from+", "+REG[k].when+"."};
 }
 function qWhen(){
   const k=shuf(KEYS.filter(function(x){return x!=="A"}))[0];
   const ans=REG[k].when,pool=KEYS.filter(function(x){return x!==k&&x!=="A"}).map(function(x){return REG[x].when}).filter(function(v,i,s){return s.indexOf(v)===i&&v!==ans});
-  return {topic:"Map: when",q:"When did the US gain <b>"+REG[k].name+"</b>?",
+  return {topic:"Map: when",q:"When did the US gain <b>"+REG[k].name+"</b> (highlighted)?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
     choices:shuf([{label:ans,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:w,right:false}}))),
     why:"<b>"+REG[k].name+"</b>: "+ans+", "+REG[k].how+"."};
 }
 function qHow(){
   const k=shuf(KEYS.filter(function(x){return x!=="A"}))[0];
   const pool=KEYS.filter(function(x){return x!==k&&x!=="A"});
-  return {topic:"Map: how",q:"How did the US gain <b>"+REG[k].name+"</b>?",
+  return {topic:"Map: how",q:"How did the US gain <b>"+REG[k].name+"</b> (highlighted)?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
     choices:shuf([{label:REG[k].how,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:REG[w].how,right:false}}))),
     why:"<b>"+REG[k].name+"</b>: "+REG[k].how+"."};
 }
@@ -229,28 +240,96 @@ function qReaction(){
     choices:shuf(R.map(function(r){return{label:r[1],right:r[0]===p[0]}})),
     why:"<b>"+p[0]+"</b>: "+p[1]+"."};
 }
-function extras(){return shuf([qLetter(),qLetter(),qFromWhom(),qWhen(),qHow(),qMissouri(),qReaction()])}
+function extras(){return shuf([qLetter(),qLetter(),qWhich(),qWhich(),qFromWhom(),qWhen(),qHow(),qMissouri(),qReaction()])}
+/* tapping a region on a quiz map answers "Region X" questions */
+document.addEventListener('click',function(e){
+  const r=e.target.closest&&e.target.closest('.qfig [data-u3k]');if(!r)return;
+  const q=r.closest('.q');if(!q)return;
+  const k=r.getAttribute('data-u3k');
+  const b=[].find.call(q.querySelectorAll('.opt'),function(o){const t=o.textContent.trim();return t==='Region '+k||t.indexOf('Region '+k+':')===0});
+  if(b&&!b.disabled)b.click();
+});
 
 Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"ush3"});
 Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"ush3",count:20,extras:extras});
 
 /* ================= MAP TAB ================= */
-$("map").innerHTML='<div class="card"><h3>The study-guide map</h3><p>Tap a circle on the map, or a letter below. The guide says to know each region\u2019s <b>name, how it was claimed, why, and who it came from</b>.</p>'
- +'<div class="mapwrap" id="mw"><img src="u3-map.jpg" alt="Lettered map of US territorial expansion">'
- +KEYS.map(function(k){return '<button class="hot" data-k="'+k+'" style="left:'+REG[k].x+'%;top:'+REG[k].y+'%" aria-label="Region '+k+'"></button>'}).join('')+'</div>'
- +'<div class="regbtns">'+KEYS.map(function(k){return '<button class="btn sm" data-k="'+k+'">'+k+'</button>'}).join('')+'</div>'
- +'<div id="regdetail"><p class="tiny">Nothing selected yet.</p></div>'
- +'<p class="tiny" style="margin-top:10px">The two handwritten \u201c1818\u201d notes are the Convention of 1818 with Britain, which set the border at the 49th parallel east of the Rockies and swapped small strips of land.</p></div>'
+const MAPCSS='.u3map{display:block;width:100%;height:auto}'
+ +'.u3map .u3reg{cursor:pointer;transition:filter .12s}'
+ +'.u3map .u3reg:hover{filter:brightness(1.18)}'
+ +'.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:6px 12px;margin:12px 0 4px}'
+ +'.legend button{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);color:var(--ink);'
+ +'border-radius:8px;padding:6px 9px;font:inherit;font-size:12.5px;cursor:pointer;text-align:left}'
+ +'.legend button.sel{border-color:var(--accent)}'
+ +'.sw{display:inline-flex;vertical-align:-3px;width:16px;height:16px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;'
+ +'font-size:10px;font-weight:800;color:#0f1115}'
+ +'.mapbox{background:#12151b;border:1px solid var(--line);border-radius:10px;padding:8px}'
+ +'.findq{font-size:17px;font-weight:600;margin:4px 0 10px}.findq b{color:var(--accent)}'
+ +'.findfb{min-height:22px;font-size:13.5px;margin-top:8px}';
+(function(){var st=document.createElement('style');st.textContent=MAPCSS;document.head.appendChild(st);})();
+
+$("map").innerHTML=
+ '<div class="card"><h3>Explore the map</h3><p>A digital version of the map on your study guide. <b>Tap any region</b> (or the legend) to see where it came from, when, how and why.</p>'
+ +'<div class="mapbox" id="exploreMap"></div>'
+ +'<div class="legend" id="legend"></div>'
+ +'<div id="regdetail" style="margin-top:10px"><p class="tiny">Nothing selected yet.</p></div></div>'
+ +'<div class="card"><h3>Find it on a blank map</h3><p>Wolf says to study with the <b>blank map</b>, so this one has no colours or letters. Tap the region that matches the prompt.</p>'
+ +'<div class="bar"><select id="findMode" style="width:auto"><option value="name">Prompt: region name</option><option value="clue">Prompt: a clue (from/when/how)</option><option value="letter">Prompt: the letter</option></select>'
+ +'<button class="btn" id="findSkip">Skip</button><span class="stat">Score <b id="findScore">0 / 0</b></span></div>'
+ +'<div class="findq" id="findQ"></div><div class="mapbox" id="findMap"></div><div class="findfb" id="findFb"></div></div>'
  +'<div class="card"><h3>All eight at a glance</h3><table><tr><th></th><th>Region</th><th>From</th><th>When</th><th>How</th></tr>'
- +KEYS.map(function(k){const r=REG[k];return '<tr><td><b>'+k+'</b></td><td>'+r.name+'</td><td>'+r.from.split(" (")[0]+'</td><td>'+r.when+'</td><td>'+r.how+'</td></tr>'}).join('')
- +'</table><p class="tiny">Memory hook, east to west in time order: <b>A</b>ll <b>B</b>ritish, <b>C</b>ash to France, <b>D</b>eal with Spain, <b>E</b>xit from Mexico (Texas), <b>F</b>orty-ninth parallel, <b>G</b>uadalupe Hidalgo, <b>H</b>ad to have a railroad.</p></div>';
-function pick(k){
-  const r=REG[k];
-  [].forEach.call(document.querySelectorAll('#map [data-k]'),function(b){b.classList.toggle('sel',b.dataset.k===k)});
-  $("regdetail").innerHTML='<h3 style="margin:4px 0 6px">Region '+k+': '+r.name+' '+r.src+'</h3>'
-   +'<div class="rgrid"><b>From</b><span>'+r.from+'</span><b>When</b><span>'+r.when+'</span><b>How</b><span>'+r.how+'</span><b>Why</b><span>'+r.why+'</span></div>';
+ +KEYS.map(function(k){const r=REG[k];return '<tr><td><span class="sw" style="background:'+U3Map.COL[k]+'">'+k+'</span></td><td>'+r.name+'</td><td>'+r.from.split(" (")[0]+'</td><td>'+r.when+'</td><td>'+r.how+'</td></tr>'}).join('')
+ +'</table><p class="tiny">Memory hook in time order: <b>A</b>ll <b>B</b>ritish, <b>C</b>ash to France, <b>D</b>eal with Spain, <b>E</b>xit from Mexico (Texas), <b>F</b>orty-ninth parallel, <b>G</b>uadalupe Hidalgo, <b>H</b>ad to have a railroad.</p></div>'
+ +'<div class="card"><details><summary>Show Wolf\u2019s original paper map</summary><img src="u3-map.jpg" alt="Original lettered map" style="display:block;width:100%;height:auto;border-radius:8px;margin-top:10px">'
+ +'<p class="tiny" style="margin-top:8px">The two handwritten \u201c1818\u201d notes are the Convention of 1818 with Britain, which set the border at the 49th parallel east of the Rockies and swapped small strips of land.</p></details></div>';
+
+let selK=null;
+function drawExplore(){
+  $("exploreMap").innerHTML=U3Map.render({mode:'color'});
+  if(selK){const u=$("exploreMap").querySelector('use[data-u3k="'+selK+'"]');}
 }
-[].forEach.call(document.querySelectorAll('#map [data-k]'),function(b){b.onclick=function(){pick(b.dataset.k)}});
+function pick(k){
+  selK=k;const r=REG[k];
+  $("exploreMap").innerHTML=U3Map.render({mode:'highlight',hi:k});
+  [].forEach.call(document.querySelectorAll('#legend button'),function(b){b.classList.toggle('sel',b.dataset.k===k)});
+  $("regdetail").innerHTML='<h3 style="margin:4px 0 6px"><span class="sw" style="background:'+U3Map.COL[k]+'">'+k+'</span> '+r.name+' '+r.src+'</h3>'
+   +'<div class="rgrid"><b>From</b><span>'+r.from+'</span><b>When</b><span>'+r.when+'</span><b>How</b><span>'+r.how+'</span><b>Why</b><span>'+r.why+'</span></div>'
+   +'<button class="btn sm" id="showAll">Show all colours</button>';
+  $("showAll").onclick=function(){selK=null;drawExplore();$("regdetail").innerHTML='<p class="tiny">Nothing selected.</p>';
+    [].forEach.call(document.querySelectorAll('#legend button'),function(b){b.classList.remove('sel')});};
+}
+$("legend").innerHTML=KEYS.map(function(k){return '<button data-k="'+k+'"><span class="sw" style="background:'+U3Map.COL[k]+'">'+k+'</span>'+REG[k].name+'</button>'}).join('');
+[].forEach.call(document.querySelectorAll('#legend button'),function(b){b.onclick=function(){pick(b.dataset.k)}});
+$("exploreMap").addEventListener('click',function(e){const u=e.target.closest('[data-u3k]');if(u)pick(u.getAttribute('data-u3k'))});
+drawExplore();
+
+/* ---- blank-map drill ---- */
+let fTarget=null,fRight=0,fDone=0,fLocked=false,fBag=[];
+function clueFor(k){const r=REG[k];
+  const opts=['From '+r.from.split(' (')[0]+', '+r.when,r.how,'Gained '+r.when+(k==='A'?' (independence)':'')];
+  return opts[Math.floor(Math.random()*opts.length)];}
+function nextFind(){
+  if(!fBag.length)fBag=KEYS.slice().sort(function(){return Math.random()-.5});
+  fTarget=fBag.pop();fLocked=false;
+  const m=$("findMode").value;
+  $("findQ").innerHTML=m==='letter'?'Tap <b>Region '+fTarget+'</b>'
+    :m==='clue'?'Tap the region: <b>'+clueFor(fTarget)+'</b>':'Tap <b>'+REG[fTarget].name+'</b>';
+  $("findMap").innerHTML=U3Map.render({mode:'blank',letters:false});
+  $("findFb").innerHTML='';
+}
+$("findMap").addEventListener('click',function(e){
+  const u=e.target.closest('[data-u3k]');if(!u||fLocked)return;
+  const k=u.getAttribute('data-u3k');fLocked=true;fDone++;
+  const marks={};marks[fTarget]='good';
+  if(k===fTarget){fRight++;$("findFb").innerHTML='<span style="color:var(--good)"><b>Correct.</b></span> '+REG[k].name+' \u2014 '+REG[k].from.split(' (')[0]+', '+REG[k].when+'.';}
+  else{marks[k]='bad';$("findFb").innerHTML='<span style="color:var(--bad)"><b>Not quite.</b></span> You tapped '+REG[k].name+' (red). '+REG[fTarget].name+' is in green.';}
+  $("findMap").innerHTML=U3Map.render({mode:'blank',marks:marks,letters:false});
+  $("findScore").textContent=fRight+' / '+fDone;
+  setTimeout(nextFind,1700);
+});
+$("findSkip").onclick=nextFind;
+$("findMode").onchange=nextFind;
+nextFind();
 
 /* ================= REFERENCE ================= */
 $("ref").innerHTML=
