@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-23T11:09:06.105Z",
+ "generated": "2026-10-24T10:32:31.260Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -141,14 +141,6 @@
  "assignments": [
   {
    "id": "c0",
-   "cls": "US History",
-   "title": "Primary Source Analysis - Indian Removal Act",
-   "due": "2026-10-23T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c1",
    "cls": "English 10",
    "title": "Draft 1 Body Paragraph of Gatsby Essay",
    "due": "2026-10-26T23:59",
@@ -156,7 +148,7 @@
    "kind": "project"
   },
   {
-   "id": "c2",
+   "id": "c1",
    "cls": "English 10",
    "title": "TGG Ch. 7-9 Quiz",
    "due": "2026-10-26T23:59",
@@ -164,7 +156,7 @@
    "kind": "test"
   },
   {
-   "id": "c3",
+   "id": "c2",
    "cls": "Algebra II",
    "title": "2.2.4 CYU",
    "due": "2026-10-26T23:59",
@@ -172,7 +164,7 @@
    "kind": "cyu"
   },
   {
-   "id": "c4",
+   "id": "c3",
    "cls": "US History",
    "title": "Unit 3 Study Guide",
    "due": "2026-10-26T23:59",
@@ -180,7 +172,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c5",
+   "id": "c4",
    "cls": "Algebra II",
    "title": "Ch. 2 Quiz #2",
    "due": "2026-10-27T23:59",
@@ -188,7 +180,7 @@
    "kind": "test"
   },
   {
-   "id": "c6",
+   "id": "c5",
    "cls": "US History",
    "title": "Unit 3 Quiz",
    "due": "2026-10-27T23:59",
@@ -196,7 +188,7 @@
    "kind": "test"
   },
   {
-   "id": "c7",
+   "id": "c6",
    "cls": "English 10",
    "title": "Cycle 6 Membean",
    "due": "2026-10-28T23:59",
@@ -204,7 +196,7 @@
    "kind": "drill"
   },
   {
-   "id": "c8",
+   "id": "c7",
    "cls": "English 10",
    "title": "Cycle 6 GrammarFlip (2.05)",
    "due": "2026-10-28T23:59",
@@ -212,7 +204,7 @@
    "kind": "drill"
   },
   {
-   "id": "c9",
+   "id": "c8",
    "cls": "English 10",
    "title": "TGG Theme Analysis Essay",
    "due": "2026-10-30T23:59",
@@ -220,7 +212,7 @@
    "kind": "project"
   },
   {
-   "id": "c10",
+   "id": "c9",
    "cls": "English 10",
    "title": "TGG Unit Exam",
    "due": "2026-10-30T23:59",
@@ -228,7 +220,7 @@
    "kind": "test"
   },
   {
-   "id": "c11",
+   "id": "c10",
    "cls": "Algebra II",
    "title": "Ch. 2 Test",
    "due": "2026-11-02T23:59",
@@ -236,7 +228,7 @@
    "kind": "test"
   },
   {
-   "id": "c12",
+   "id": "c11",
    "cls": "Religion",
    "title": "Class Reflection",
    "due": "2026-11-30T23:59",
@@ -244,7 +236,7 @@
    "kind": "project"
   },
   {
-   "id": "c13",
+   "id": "c12",
    "cls": "English 10",
    "title": "Membean and Grammar Flip",
    "due": "2028-08-02T23:59",
@@ -252,7 +244,7 @@
    "kind": "drill"
   },
   {
-   "id": "c14",
+   "id": "c13",
    "cls": "Spanish II",
    "title": "Welcome Survey",
    "due": null,
@@ -260,7 +252,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c15",
+   "id": "c14",
    "cls": "English 10",
    "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
    "due": null,
@@ -268,7 +260,7 @@
    "kind": "reading"
   },
   {
-   "id": "c16",
+   "id": "c15",
    "cls": "Algebra II",
    "title": "Match My Parabola",
    "due": null,
@@ -294,7 +286,7 @@
   {
    "cls": "US History",
    "letter": "A",
-   "pct": 97.5,
+   "pct": 97.6,
    "frn": "00447214",
    "scale": "percent"
   },
@@ -315,7 +307,7 @@
   {
    "cls": "Religion",
    "letter": "B",
-   "pct": 85.6,
+   "pct": 85.8,
    "frn": "00447216",
    "scale": "percent"
   },
@@ -396,11 +388,11 @@
   {
    "id": "p5",
    "cls": "US History",
-   "title": "Texas Annexation Activity",
+   "title": "Primary Source Analysis",
    "cat": "Formative",
-   "due": "2026-10-09",
+   "due": "2026-10-23",
    "score": null,
-   "possible": 15,
+   "possible": 20,
    "pct": null,
    "flag": false,
    "late": false,
@@ -745,7 +737,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-10-23T11:09:06.105Z",
+ "psGenerated": "2026-10-24T10:32:31.260Z",
  "trainers": [
   {
    "cls": "US History",
