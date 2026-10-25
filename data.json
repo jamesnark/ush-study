@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-24T20:34:54.016Z",
+ "generated": "2026-10-25T20:56:18.328Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -143,7 +143,7 @@
    "id": "c0",
    "cls": "English 10",
    "title": "Draft 1 Body Paragraph of Gatsby Essay",
-   "due": "2026-10-26T23:59",
+   "due": "2026-10-26T14:20",
    "status": "assigned",
    "kind": "project"
   },
@@ -207,7 +207,7 @@
    "id": "c8",
    "cls": "English 10",
    "title": "TGG Theme Analysis Essay",
-   "due": "2026-10-30T23:59",
+   "due": "2026-10-30T15:45",
    "status": "assigned",
    "kind": "project"
   },
@@ -737,7 +737,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-10-24T20:34:54.016Z",
+ "psGenerated": "2026-10-25T20:56:18.328Z",
  "trainers": [
   {
    "cls": "US History",
