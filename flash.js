@@ -261,6 +261,25 @@ function quiz(opts){
     let items=[];
     N=parseInt(q('.qcount').value,10)||20;
     localStorage.setItem('flash.qcount',String(N));
+    if(opts.bankOnly){
+      /* Hand-written question bank only: no auto-generated questions from flashcard text. */
+      const allInB=q('.qallin').checked;
+      const bank=extrasFn?extrasFn():[];
+      const skB=function(x){return deck+'|#'+(x.topic||'custom')};
+      const masteredB=bank.filter(function(x){return statusOf(skB(x)).k==='mastered'});
+      let usableB=allInB?bank:bank.filter(function(x){return statusOf(skB(x)).k!=='mastered'});
+      const exhaustedB=(!allInB&&usableB.length===0&&bank.length>0);
+      if(exhaustedB)usableB=bank;
+      const targetB=(N>=999)?usableB.length:Math.min(N,usableB.length);
+      const pickedB=allInB?usableB.slice().sort(function(){return Math.random()-.5}).slice(0,targetB)
+        :weightedPick(usableB,skB,targetB);
+      pickedB.forEach(function(x){items.push({kind:'custom',x:x})});
+      const shortB=(N<999&&N>items.length)?(' Short test: only '+items.length+' question'+(items.length===1?'':'s')+' left that you have not mastered.'):'';
+      q('.qmeta').innerHTML=exhaustedB?'You have mastered every question in this deck, so it is showing them all again.'
+        :((allInB?'Showing everything, mastered included ('+masteredB.length+' mastered).'
+          :(masteredB.length?masteredB.length+' question'+(masteredB.length===1?'':'s')+' held back because you keep getting them right. Tick \u201cinclude mastered\u201d to see them.'
+            :'Questions you miss come back more often; ones you keep getting right fade out.'))+shortB);
+    } else {
     const allInEarly=q('.qallin').checked;
     let extras=(extrasFn&&!q('.qgapsonly').checked)?extrasFn():[];
     /* generated questions have stat keys too, so respect mastery for them as well */
@@ -296,6 +315,7 @@ function quiz(opts){
         : (retired
           ? retired+' question'+(retired===1?'':'s')+' held back because you keep getting them right. Tick “include mastered” to see them.'
           : 'Questions you miss come back more often; ones you keep getting right fade out.'))+short);
+    }
     if(items.length<1){b.innerHTML='<div class="empty">Not enough cards for a test.</div>';return}
     items.forEach((it,i)=>{
       const div=document.createElement('div');div.className='q';
