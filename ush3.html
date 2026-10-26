@@ -42,7 +42,7 @@
 <section class="view" id="ref"></section>
 </main>
 <script src="u3map.js?v=1"></script>
-<script src="flash.js?v=7"></script>
+<script src="flash.js?v=8"></script>
 <script>
 const $=id=>document.getElementById(id);
 const DECK='<span class="src deck">from the slides</span>';
@@ -190,14 +190,14 @@ function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
 const KEYS=Object.keys(REG);
 function qLetter(){
   const k=shuf(KEYS)[0],wrong=shuf(KEYS.filter(function(x){return x!==k})).slice(0,3);
-  return {topic:"Map: which letter",q:"Which letter is <b>"+REG[k].name+"</b>? <span class=\"tiny\">Tap the map or a button.</span>",
+  return {topic:"Map: which letter "+k,q:"Which letter is <b>"+REG[k].name+"</b>? <span class=\"tiny\">Tap the map or a button.</span>",
     fig:U3Map.render({mode:'color'}),
     choices:shuf([{label:"Region "+k,right:true}].concat(wrong.map(function(w){return{label:"Region "+w,right:false}}))),
     why:"<b>Region "+k+"</b> is "+REG[k].name+"."};
 }
 function qWhich(){
   const k=shuf(KEYS)[0],wrong=shuf(KEYS.filter(function(x){return x!==k})).slice(0,3);
-  return {topic:"Map: name the highlighted region",q:"What is the <b>highlighted region</b> called?",
+  return {topic:"Map: name highlighted "+k,q:"What is the <b>highlighted region</b> called?",
     fig:U3Map.render({mode:'highlight',hi:k,letters:false}),
     choices:shuf([{label:REG[k].name,right:true}].concat(wrong.map(function(w){return{label:REG[w].name,right:false}}))),
     why:"That\u2019s <b>Region "+k+": "+REG[k].name+"</b> \u2014 from "+REG[k].from+", "+REG[k].when+"."};
@@ -205,21 +205,21 @@ function qWhich(){
 function qFromWhom(){
   const k=shuf(KEYS)[0],ans=REG[k].from.split(" (")[0];
   const pool=["Great Britain","France","Spain","Mexico","The Republic of Texas"].filter(function(x){return x!==ans});
-  return {topic:"Map: from whom",q:"Who did the US get <b>"+REG[k].name+"</b> (highlighted) from?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
+  return {topic:"Map: from whom "+k,q:"Who did the US get <b>"+REG[k].name+"</b> (highlighted) from?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
     choices:shuf([{label:ans,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:w,right:false}}))),
     why:"<b>"+REG[k].name+"</b>: from "+REG[k].from+", "+REG[k].when+"."};
 }
 function qWhen(){
   const k=shuf(KEYS.filter(function(x){return x!=="A"}))[0];
   const ans=REG[k].when,pool=KEYS.filter(function(x){return x!==k&&x!=="A"}).map(function(x){return REG[x].when}).filter(function(v,i,s){return s.indexOf(v)===i&&v!==ans});
-  return {topic:"Map: when",q:"When did the US gain <b>"+REG[k].name+"</b> (highlighted)?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
+  return {topic:"Map: when "+k,q:"When did the US gain <b>"+REG[k].name+"</b> (highlighted)?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
     choices:shuf([{label:ans,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:w,right:false}}))),
     why:"<b>"+REG[k].name+"</b>: "+ans+", "+REG[k].how+"."};
 }
 function qHow(){
   const k=shuf(KEYS.filter(function(x){return x!=="A"}))[0];
   const pool=KEYS.filter(function(x){return x!==k&&x!=="A"});
-  return {topic:"Map: how",q:"How did the US gain <b>"+REG[k].name+"</b> (highlighted)?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
+  return {topic:"Map: how "+k,q:"How did the US gain <b>"+REG[k].name+"</b> (highlighted)?",fig:U3Map.render({mode:'highlight',hi:k,letters:'hi'}),
     choices:shuf([{label:REG[k].how,right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:REG[w].how,right:false}}))),
     why:"<b>"+REG[k].name+"</b>: "+REG[k].how+"."};
 }
@@ -240,7 +240,66 @@ function qReaction(){
     choices:shuf(R.map(function(r){return{label:r[1],right:r[0]===p[0]}})),
     why:"<b>"+p[0]+"</b>: "+p[1]+"."};
 }
-function extras(){return shuf([qLetter(),qLetter(),qWhich(),qWhich(),qFromWhom(),qWhen(),qHow(),qMissouri(),qReaction()])}
+/* ---------- hand-written question bank ---------- */
+const BANK=[
+["mc-why","What problem was the Missouri Compromise solving?","Missouri joining as a slave state would break the 11\u201311 free/slave balance",["Missouri was threatening to leave the Union","Texas wanted to join as a free state","Britain still claimed Missouri"],"In 1819 there were 11 free and 11 slave states."],
+["mc-who","Whose plan was the Missouri Compromise?","Henry Clay",["Andrew Jackson","John C. Calhoun","James K. Polk"],"Henry Clay \u2014 he also helped end the Nullification Crisis."],
+["mc-maine","Which state joined the Union as a FREE state under the Missouri Compromise?","Maine",["Missouri","Texas","Ohio"],"Missouri entered as a slave state, Maine as a free state."],
+["mc-line","What did the 36\u00b030\u2032 line do?","Split the Louisiana Purchase: north free, south slave",["Split the Louisiana Purchase: north slave, south free","Set the border with Canada","Divided Texas from Mexico"],"Missouri was the one exception \u2014 slave, but north of the line."],
+["mc-balance","What was the free/slave state count in 1819?","11 free and 11 slave",["13 free and 13 slave","11 free and 9 slave","15 free and 7 slave"],"Adding Missouri as a slave state would have tipped it."],
+["mc-pairs","After the Missouri Compromise, new states would enter the Union\u2026","In pairs, one free and one slave",["Only as free states","Only by popular vote","Only after 1850"],"That kept the Senate balanced."],
+["mc-peace","About how long did the Missouri Compromise keep the peace?","Nearly 30 years",["About 5 years","About 100 years","It failed immediately"],"Six new states joined and the count stayed equal; it held until about 1848."],
+["mc-south","How did the South respond to the Missouri Compromise?","Worried it limited slavery\u2019s growth \u2014 the US would need Mexican land for slavery to expand",["Celebrated it as a total victory","Seceded from the Union in protest","Demanded Maine become a slave state"],"From Wolf\u2019s slide on the South\u2019s response."],
+["mc-north","Why did many Northerners object to the Missouri Compromise? (not in slides)","It let Missouri in as a slave state",["It banned slavery everywhere","It gave land back to Mexico","It raised tariffs on Northern goods"],"Many Northerners opposed adding any new slave state."],
+["md-def","Manifest Destiny was the belief that\u2026","It was America\u2019s duty to settle the continent",["The US should stay out of European affairs","States could cancel federal laws","Native nations should keep their land"],"The Monroe Doctrine is the \u201cstay out of Europe\u201d one."],
+["md-painting","John Gast\u2019s painting American Progress (1872) illustrates\u2026","Manifest Destiny",["The Trail of Tears","The Missouri Compromise","The Monroe Doctrine"],"Wolf used it on Day 2."],
+["md-cause","Manifest Destiny was a long-term cause of which war?","The Mexican-American War",["The War of 1812","The French and Indian War","The American Revolution"],"Along with Mexican anger over Texas and the border dispute."],
+["wf-not","Which was NOT one of Wolf\u2019s five factors behind western settlement?","Gold discovered in Florida",["Cheap land in the West","Overpopulation in the East","Cheaper and faster transportation"],"The five: overpopulation in the East, cheap land, economic opportunity, cheaper/faster transportation, Manifest Destiny."],
+["v-annex","What does annexation mean?","Adding a territory to a country",["Buying land from another nation","Splitting a territory in two","Giving up land in a treaty"],"Texas (1845) is the key example."],
+["v-49","The 49th parallel became\u2026","Much of the border between the US and Canada",["The line between free and slave states","The border between Texas and Mexico","The western edge of the Louisiana Purchase"],"The Oregon Territory was split there in 1846."],
+["v-senate","Why did the balance of free and slave states matter so much?","Each state gets two senators, so the balance controlled the Senate",["It alone decided presidential elections","It set the tariff rate","It decided where the capital would be"],"Whoever had more states controlled the Senate."],
+["la-price","The Louisiana Purchase cost $15 million. About how much per acre?","4 cents",["4 dollars","40 cents","1 dollar"],"One of the best deals in history."],
+["tx-cond","Which was a condition Mexico set for Americans settling in Texas?","Convert to Roman Catholicism",["Bring enslaved workers","Stay US citizens","Pay taxes to the United States"],"Also: become Mexican citizens and obey Mexican law, including its 1829 ban on slavery."],
+["tx-follow","Did American settlers in Texas follow Mexico\u2019s conditions?","No \u2014 many stayed Protestant and kept enslaved people",["Yes, completely","Only in East Texas","Mexico never checked"],"That tension led to the Texas Revolution."],
+["tx-mexind","When did Mexico become independent from Spain?","1821",["1803","1836","1846"],"Then it invited American settlers into Texas."],
+["tx-alamo","Who won the Battle of the Alamo?","Mexico",["Texas","The US Army","Neither side"],"About 6,000 Mexican troops vs. 187 Texans."],
+["tx-sanj","What happened at the Battle of San Jacinto?","Texas won and Santa Anna surrendered",["Mexico won and retook Texas","The US Army stepped in","Britain stopped the fighting"],"April 21, 1836 \u2014 the decisive battle."],
+["tx-sanjlen","About how long did the Battle of San Jacinto last?","18 minutes",["18 days","3 months","2 years"],"Short battle, huge result."],
+["tx-annex","When was Texas annexed by the US?","1845",["1836","1848","1820"],"1836 is when it won independence from Mexico."],
+["tx-mexico","Why did Mexico oppose the annexation of Texas?","It never recognized Texas\u2019s independence and feared losing more land",["It wanted Texas to be a free state","It wanted Britain to buy Texas","It actually supported annexation"],"Mexico withdrew its ambassador and treated annexation as close to a declaration of war."],
+["maw-imm","What was the immediate cause of the Mexican-American War?","President Polk sent troops into the disputed border land",["Mexico attacked Washington, D.C.","Santa Anna invaded Louisiana","The US bought California"],"Mexico saw it as an invasion."],
+["maw-border","The border dispute was over which two rivers?","The Rio Grande and the Nueces",["The Mississippi and the Missouri","The Ohio and the Mississippi","The Colorado and the Columbia"],"The US claimed the Rio Grande; Mexico claimed the Nueces."],
+["maw-adv","What was a major US advantage in the Mexican-American War?","West Point-trained officers",["Fighting on its home ground","Help from the British Navy","A larger army of Native allies"],"Straight from Wolf\u2019s slide."],
+["maw-treaty","Which treaty ended the Mexican-American War?","Treaty of Guadalupe Hidalgo",["Treaty of Paris","Adams-On\u00eds Treaty","Gadsden Treaty"],"1848: Rio Grande border, Mexican Cession, $15 million."],
+["maw-paid","How much did the US pay Mexico in the Treaty of Guadalupe Hidalgo?","$15 million",["$10 million","$5 million","Nothing"],"$10 million was the Gadsden Purchase; $5 million was Florida."],
+["maw-impact","What was a major impact of the Mexican-American War?","The slavery debate grew worse over the new land",["Slavery was abolished","Texas was returned to Mexico","Canada joined the US"],"Would the Mexican Cession be slave or free?"],
+["rr-done","When and where was the Transcontinental Railroad completed? (not in slides)","1869, Promontory Summit, Utah",["1848, Sutter\u2019s Mill, California","1830, Indian Territory","1853, southern Arizona"],"The \u201cgolden spike.\u201d"],
+["rr-why","Why was the Transcontinental Railroad built? (not in slides)","To connect the East with California and the West Coast",["To move Native nations west","To supply the Mexican-American War","To reach Canada"],"Faster travel and trade after the Gold Rush."],
+["rr-impact","Which was an effect of the Transcontinental Railroad? (not in slides)","Cross-country travel dropped from months to about a week",["Fewer settlers moved West","The buffalo herds grew","Immigration stopped"],"It also sped the destruction of the buffalo and the displacement of Plains nations."],
+["rr-gadsden","Which acquisition was bought specifically for a railroad route?","The Gadsden Purchase",["The Louisiana Purchase","Florida","The Oregon Territory"],"1853, $10 million, from Mexico."],
+["rr-labor","Who did much of the work building the Transcontinental Railroad? (not in slides)","Chinese and Irish immigrant workers",["Union Army soldiers only","Mexican army engineers","British contractors"],"The Central Pacific relied heavily on Chinese labour."],
+["ira-year","When was the Indian Removal Act passed?","1830",["1803","1845","1862"],"May 28, 1830."],
+["ira-pres","Which president pushed the Indian Removal Act?","Andrew Jackson",["James Monroe","James K. Polk","Thomas Jefferson"],"\u201cOld Hickory.\u201d"],
+["ira-what","What did the Indian Removal Act do?","Let the president trade Native homelands in the South for land west of the Mississippi",["Made Native Americans US citizens","Created reservations in Florida","Banned white settlers from Georgia"],"In practice, it forced removal."],
+["ira-where","Where were the removed nations sent?","Indian Territory \u2014 present-day Oklahoma",["Florida","The Oregon Territory","Canada"],"Land from the Louisiana Purchase."],
+["ira-wantland","Why did Southern whites want Native land?","To grow cotton and mine gold",["To drill for oil","To build railroads","To cut timber for ships"],"Straight from Wolf\u2019s slide."],
+["ira-tribe","Which was NOT one of the five nations affected by the Indian Removal Act?","Sioux",["Cherokee","Seminole","Choctaw"],"The five: Cherokee, Choctaw, Chickasaw, Creek, Seminole."],
+["ira-worc","What did the Supreme Court rule in Worcester v. Georgia (1832)?","States could not regulate Native land",["Removal was fully legal","Georgia owned all Cherokee land","The Cherokee had to move within a year"],"A 5\u20131 ruling for the Cherokee."],
+["ira-jackson","What did Andrew Jackson do about Worcester v. Georgia?","Refused to enforce it",["Sent troops to enforce it","Resigned in protest","Asked Congress to overturn it"],"Removal went ahead anyway."],
+["ira-trail","What is the forced march of Native nations west called?","The Trail of Tears",["The Oregon Trail","The Santa Fe Trail","The Lewis and Clark route"],"1831\u20131838."],
+["eff-not","Which was NOT one of Wolf\u2019s effects of westward expansion?","Slavery was abolished",["Debates over slavery intensified","Native populations were destroyed and displaced","Economic growth and power increased"],"Slavery wasn\u2019t abolished until after the Civil War."],
+["md-monroe","Which says no new European colonies in the Western Hemisphere?","The Monroe Doctrine (1823)",["Manifest Destiny","The Missouri Compromise","The Adams-On\u00eds Treaty"],"From Day 2 of the slides."]
+];
+function bankQ(b){return {topic:b[0],q:b[1],choices:shuf([{label:b[2],right:true}].concat(b[3].map(function(w){return{label:w,right:false}}))),why:b[4]};}
+function extras(){
+  const gen=[];
+  for(let i=0;i<8;i++){gen.push(qLetter());gen.push(qWhich());gen.push(qFromWhom());gen.push(qWhen());gen.push(qHow());}
+  for(let i=0;i<3;i++)gen.push(qReaction());
+  gen.push(qMissouri());
+  const seen={};
+  return shuf(BANK.map(bankQ).concat(gen.filter(function(x){if(seen[x.topic])return false;seen[x.topic]=1;return true})));
+}
+
 /* tapping a region on a quiz map answers "Region X" questions */
 document.addEventListener('click',function(e){
   const r=e.target.closest&&e.target.closest('.qfig [data-u3k]');if(!r)return;
@@ -251,7 +310,7 @@ document.addEventListener('click',function(e){
 });
 
 Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"ush3"});
-Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"ush3",count:20,extras:extras});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"ush3",count:20,extras:extras,bankOnly:true});
 
 /* ================= MAP TAB ================= */
 const MAPCSS='.u3map{display:block;width:100%;height:auto}'
