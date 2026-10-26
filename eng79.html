@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>English 10 - Gatsby Ch. 7-9</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>:root{--accent:#a78bfa;--accent-ink:#17082e}
+.cars{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:8px}
+.car{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13.5px}
+.car h4{margin:0 0 6px;font-size:13px;color:var(--accent)}
+.car .yl{color:#ffd166;font-weight:700}.car .bl{color:#6f9bff;font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>The Great Gatsby &mdash; Chapters 7&ndash;9</h1>
+  <div class="sub">Mrs. Beresford &middot; Period 8 &middot; Ch. 7-9 Quiz due Mon Oct 26 &middot; Unit Exam Fri Oct 30</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="sum">Chapter Summaries</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="sum"></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=7"></script>
+<script>
+const $=id=>document.getElementById(id);
+const T=[
+/* ---------- CHAPTER 7 ---------- */
+{s:"Chapter 7",cat:"event",t:"Gatsby\u2019s new behaviour (start of Ch. 7)",
+ a:["What stops?","What happens to his staff, and why?","What does he ask Nick to do?"],
+ h:"The lights go out at the mansion.",
+ d:"Gatsby <b>stops throwing parties</b>. He <b>fires his servants</b> and replaces them with people sent by <b>Wolfsheim</b> \u2014 so nobody will gossip about Daisy, who now visits in the afternoons.<br>He calls Nick to invite him to <b>lunch at Daisy\u2019s with Jordan</b>. Nick: \u201cSomething was up. And yet I couldn\u2019t believe that they would choose this occasion for a scene\u201d (114)."},
+{s:"Chapter 7",cat:"symbol",t:"The heat",
+ a:["What kind of day is it?","What does heat represent in this chapter?","One line that shows it"],
+ h:"\u201cAlmost the last, certainly the warmest, of the summer.\u201d",
+ d:"The lunch is on \u201cbroiling, almost the last, certainly the warmest, of the summer\u201d (114). Even train seats \u201chovered on the edge of combustion\u201d (115).<br><b>What it does:</b> the heat builds <b>tension</b> \u2014 tempers are short, everyone is uncomfortable, and things are about to boil over. Daisy, \u201con the verge of tears\u201d: \u201cBut it\u2019s so hot\u2026 and everything\u2019s so confused\u201d (118). <b>Heat imagery</b> is one of Mrs. Beresford\u2019s Ch. 7 annotation focuses."},
+{s:"Chapter 7",cat:"character",t:"Pammy",
+ a:["Who is she?","How does Gatsby react to her?","What might she symbolize?"],
+ h:"The only time we see her.",
+ d:"<b>Daisy and Tom\u2019s daughter</b>, who appears for the only time in the novel.<br>\u201cAfterward he kept looking at the child with surprise. I don\u2019t think he had ever really believed in its existence before\u201d (117).<br><b>Symbolism:</b> she is living proof of Daisy\u2019s life with Tom \u2014 the past Gatsby wants to erase can\u2019t be erased."},
+{s:"Chapter 7",cat:"event",t:"\u201cYou always look so cool\u201d",
+ a:["Who says it, to whom?","What does it reveal?","How does Tom react?"],
+ h:"It\u2019s a confession in disguise.",
+ d:"<b>Daisy to Gatsby</b>. \u201c\u2018You always look so cool,\u2019 she repeated. She had told him that she loved him, and Tom Buchanan saw. He was astounded\u201d (119).<br>It\u2019s the moment <b>Tom realizes</b> the affair. Then he realizes Nick and Jordan \u201cmust have known all along\u201d (121)."},
+{s:"Chapter 7",cat:"symbol",t:"\u201cHer voice is full of money\u201d",
+ a:["Who says it?","What does it mean?"],
+ h:"Gatsby finally names it.",
+ d:"<b>Gatsby</b>, about Daisy (120). Nick realizes that\u2019s exactly the charm of her voice \u2014 the jingle of wealth.<br><b>Why it matters:</b> what Gatsby loves about Daisy is tangled up with money and status. <b>Daisy\u2019s voice</b> is on the exam study guide\u2019s list of symbols."},
+{s:"Chapter 7",cat:"event",t:"Carpooling into the city",
+ a:["Who drives Gatsby\u2019s yellow car, and who rides with him?","Who rides in Tom\u2019s blue coupe?","Why does Tom take Gatsby\u2019s car?"],
+ h:"Tom takes the yellow car.",
+ d:"<b>Going in:</b> <b>Tom drives Gatsby\u2019s yellow car</b> with <b>Nick and Jordan</b>. <b>Gatsby drives Daisy</b> in Tom\u2019s <b>blue coupe</b>.<br>Tom grabs the yellow car partly to show he\u2019s in control. This swap is why <b>Myrtle and George see Tom in the yellow car</b> at the garage \u2014 which matters later. \u201cCarpooling (who is in what car and when)\u201d is a Ch. 7 annotation focus."},
+{s:"Chapter 7",cat:"event",t:"Wilson\u2019s garage (Ch. 7)",
+ a:["Why does Wilson need money?","What has he found out?","Who does Myrtle think Jordan is?"],
+ h:"He wants to take Myrtle West.",
+ d:"Wilson looks sick. \u201cI need money pretty bad\u201d (123) \u2014 he and Myrtle are <b>moving West</b>.<br>\u201cI just got wised up to something funny the last two days\u201d (124): he\u2019s found out Myrtle has <b>a lover, but not who</b>. Meanwhile Tom realizes he\u2019s about to lose both his wife and his mistress.<br>Myrtle, watching from upstairs, <b>mistakes Jordan for Daisy</b>.<br>Nick on Tom: \u201cThere is no confusion like the confusion of a simple mind\u201d (125)."},
+{s:"Chapter 7",cat:"event",t:"The Plaza Hotel confrontation",
+ a:["What does Gatsby claim about Daisy?","What does Daisy finally say?","What does Tom expose about Gatsby?","Who \u2018wins\u2019?"],
+ h:"\u201cPlease, Tom! I can\u2019t stand this any more.\u201d",
+ d:"In a stifling suite at the Plaza (\u201cOpen up another window,\u201d Daisy commands, 126), Gatsby insists <b>Daisy never loved Tom</b>.<br>Daisy: \u201cI did love him once \u2014 but I loved you too.\u201d Then: \u201c<b>Please, Tom! I can\u2019t stand this any more</b>\u201d (134).<br>Tom exposes Gatsby\u2019s business: <b>bootlegging</b> through drugstores, with Wolfsheim. \u201cHer frightened eyes told that whatever intentions, whatever courage she had had, were definitely gone\u201d (135) \u2014 <b>Daisy pulls back toward Tom</b>.<br>Tom, confident he\u2019s won, sends Daisy home <b>with Gatsby</b>, to show Gatsby is no threat. It\u2019s also <b>Nick\u2019s 30th birthday</b>."},
+{s:"Chapter 7",cat:"event",t:"Myrtle\u2019s death",
+ a:["Whose car hits her?","Who was driving?","Did they stop?","Who witnessed it?"],
+ h:"The \u201cdeath car.\u201d",
+ d:"On the way back, Myrtle runs out into the road toward the yellow car (thinking it\u2019s Tom) and is <b>killed by Gatsby\u2019s yellow car</b>, which <b>doesn\u2019t stop</b>. <b>Michaelis</b>, the neighbour, is the witness.<br><b>Daisy was driving.</b> Gatsby tells Nick he\u2019ll take the blame.<br><b>Going home:</b> Gatsby and Daisy in the yellow car; Tom, Nick and Jordan in Tom\u2019s blue coupe."},
+{s:"Chapter 7",cat:"event",t:"End of Ch. 7: the kitchen window",
+ a:["Where is Gatsby, and why?","What does Nick see through the window?"],
+ h:"Gatsby keeps watch for nothing.",
+ d:"Gatsby waits outside the Buchanans\u2019 house all night, \u201cwatching over nothing,\u201d in case Tom hurts Daisy.<br>Nick sees <b>Tom and Daisy at the kitchen table</b> over cold chicken, talking intimately \u2014 they look like they\u2019re <b>conspiring together</b>. Daisy has chosen Tom."},
+
+/* ---------- CHAPTER 8 ---------- */
+{s:"Chapter 8",cat:"event",t:"Gatsby tells Nick the truth (Ch. 8)",
+ a:["Where and when did he meet Daisy?","What was his situation then?","What happened while he was at war and Oxford?"],
+ h:"\u201cJay Gatsby had broken up like glass against Tom\u2019s hard malice\u201d (148).",
+ d:"Gatsby stayed up <b>until 4 a.m.</b> watching Daisy\u2019s house. Nick urges him to <b>leave before the police</b> trace the car (148). Instead he tells Nick the real story, because \u201c\u2018Jay Gatsby\u2019 had broken up like glass against Tom\u2019s hard malice\u201d (148).<br>He met Daisy in <b>Louisville in 1917</b> as a <b>penniless young officer</b> \u2014 she was the first \u201cnice\u201d girl he\u2019d known, wealthy, \u201cgleaming like silver, safe and proud above the hot struggles of the poor\u201d (150).<br>While he was at <b>war and then Oxford</b>, Daisy wanted her life settled <i>now</i> and <b>married Tom</b>."},
+{s:"Chapter 8",cat:"event",t:"What Gatsby can\u2019t admit",
+ a:["What does he struggle to believe about Daisy and Tom?","What is he still waiting for?"],
+ h:"\u201cIn any case, it was just personal.\u201d",
+ d:"He has a hard time admitting Daisy <b>ever really loved Tom</b> (152) \u2014 \u201cit was just personal.\u201d<br>He\u2019s still waiting for <b>Daisy to call</b>: \u201cI suppose Daisy\u2019ll call too.\u201d He looked at Nick anxiously, hoping Nick would agree (154). She never calls."},
+{s:"Chapter 8",cat:"event",t:"Nick\u2019s last words to Gatsby",
+ a:["What does Nick shout?","Why is it significant?"],
+ h:"The only compliment he ever pays him.",
+ d:"\u201c<b>They\u2019re a rotten crowd. You\u2019re worth the whole damn bunch put together</b>\u201d (154).<br><b>Significance:</b> it\u2019s the only compliment Nick ever gives Gatsby, even though he \u201cdisapproved of him from beginning to end\u201d \u2014 and it\u2019s the last time they speak. Nick has chosen a side."},
+{s:"Chapter 8",cat:"event",t:"Nick and Jordan (Ch. 8)",
+ a:["Who calls whom?","How does it go?"],
+ h:"A phone call that ends badly.",
+ d:"<b>Jordan calls Nick at work</b> (155). He\u2019s curt and distracted, and the call ends with them basically hanging up on each other. Their relationship is effectively over \u2014 it\u2019s formally ended in Ch. 9."},
+{s:"Chapter 8",cat:"symbol",t:"Wilson and the eyes (\u201cGod sees everything\u201d)",
+ a:["Who stays with Wilson?","What does Wilson stare at, and what does he say?","What does Michaelis tell him?"],
+ h:"The symbolism at the bottom of 159.",
+ d:"<b>Michaelis</b> stays up all night with grieving Wilson. Wilson stares at the <b>eyes of Dr. T. J. Eckleburg</b> and says \u201c<b>God sees everything</b>.\u201d Michaelis tells him, \u201cThat\u2019s an advertisement.\u201d<br>This is the clearest moment the eyes act as a <b>God figure</b> \u2014 and the point is that there\u2019s no real God watching, only a billboard."},
+{s:"Chapter 8",cat:"event",t:"Gatsby\u2019s death",
+ a:["How does Wilson find Gatsby?","Where is Gatsby when he dies?","What does Wilson do after?"],
+ h:"The first time all summer he uses the pool.",
+ d:"Wilson goes looking for the owner of the yellow car, <b>garage to garage</b> (159) \u2014 and in Ch. 9 we learn <b>Tom told him it was Gatsby\u2019s</b>.<br>Gatsby goes into his <b>pool</b> for the first time all summer, still waiting for Daisy\u2019s call. <b>Wilson shoots Gatsby, then himself.</b> Nick: \u201cthe holocaust was complete.\u201d"},
+
+/* ---------- CHAPTER 9 ---------- */
+{s:"Chapter 9",cat:"event",t:"Funeral prep",
+ a:["Who comes?","Who refuses, and his reason?","What did Tom and Daisy do?"],
+ h:"The whiteboard: Gatz and Owl Eyes show.",
+ d:"Nick tries to gather mourners and almost nobody comes. <b>Only Henry Gatz and Owl Eyes show</b> (plus servants and a minister).<br><b>Wolfsheim</b> refuses: he \u201ccan\u2019t get mixed up in this.\u201d His line: \u201cLet us learn to show our friendship for a man when he is alive and not after he is dead.\u201d<br><b>Klipspringer</b> calls only to ask about his <b>tennis shoes</b>.<br><b>Tom and Daisy</b> left town <b>right after all the deaths</b>, leaving no address."},
+{s:"Chapter 9",cat:"character",t:"Henry Gatz",
+ a:["Who is he?","What does he show Nick?","What does it reveal about Gatsby?"],
+ h:"\u201cGatsby always had a plan.\u201d",
+ d:"<b>Gatsby\u2019s father</b>, from Minnesota. He\u2019s proud of the house and shows Nick a photo of it.<br>He shows Nick young Jimmy\u2019s <b>schedule</b> written in the back of a <i>Hopalong Cassidy</i> book \u2014 rise at 6:00, exercise, study, practise elocution, \u201cread one improving book or magazine per week.\u201d<br><b>Reveals:</b> Gatsby <b>always had a plan</b> to reinvent himself. Nick\u2019s interaction with him characterizes Gatsby as someone who built himself from nothing."},
+{s:"Chapter 9",cat:"character",t:"Owl Eyes at the funeral",
+ a:["What does he say?","Why does it matter?"],
+ h:"The only party guest who shows.",
+ d:"The only person from <b>all those parties</b> who comes. At the grave: \u201c<b>The poor son-of-a-bitch.</b>\u201d<br><b>Point (whiteboard):</b> <b>no one cared about Gatsby</b>. Hundreds came to drink his champagne; one came to bury him."},
+{s:"Chapter 9",cat:"event",t:"Nick and Jordan end it",
+ a:["What does Jordan tell Nick?","What does she throw back at him?"],
+ h:"The bad driver line returns.",
+ d:"Nick goes to see Jordan to end things. She says she\u2019s <b>engaged to another man</b> (Nick isn\u2019t sure it\u2019s true).<br>She reminds him of their talk about careless driving: she thought he was an honest, straightforward person \u2014 \u201ca <b>bad driver</b>\u201d meeting another bad driver. She\u2019s saying <b>he</b> was careless with her too."},
+{s:"Chapter 9",cat:"event",t:"Nick sees Tom",
+ a:["Where do they meet?","What does Tom admit?","How does Tom justify it?"],
+ h:"Tom told George.",
+ d:"Nick runs into Tom on <b>Fifth Avenue</b>. Tom admits <b>he told Wilson the yellow car was Gatsby\u2019s</b>. He says Gatsby \u201chad it coming to him\u201d and that he \u201cran over Myrtle like you\u2019d run over a dog\u201d \u2014 he never learns Daisy was driving.<br>Nick shakes his hand anyway, feeling like he\u2019s talking to a child."},
+{s:"Chapter 9",cat:"event",t:"\u201cThey were careless people\u201d",
+ a:["Finish the quote","Who is it about?","What theme does it state?"],
+ h:"They retreated back into their money.",
+ d:"\u201c<b>They were careless people, Tom and Daisy \u2014 they smashed up things and creatures and then retreated back into their money</b> or their vast carelessness\u2026 and let other people clean up the mess they had made.\u201d<br><b>Theme:</b> moral carelessness of the rich, and money as protection from consequences."},
+{s:"Chapter 9",cat:"event",t:"Where everyone ends up",
+ a:["Gatsby","Myrtle and George","Tom and Daisy","Jordan","Nick"],
+ h:"\u201cWhere do the characters end up?\u201d is an annotation focus.",
+ d:"<ul><li><b>Gatsby:</b> murdered in his pool</li><li><b>Myrtle:</b> killed by the car; <b>George:</b> murder-suicide</li>"
+ +"<li><b>Tom and Daisy:</b> leave town together, untouched</li><li><b>Jordan:</b> claims she\u2019s engaged</li>"
+ +"<li><b>Nick:</b> decides <b>New York is haunted</b> and <b>goes home to the Midwest</b></li></ul>"},
+{s:"Chapter 9",cat:"event",t:"Nick\u2019s opinion of New York / the East",
+ a:["How does he see the East now?","Where does he go?","What does he decide the story was about?"],
+ h:"\u201cAfter Gatsby\u2019s death the East was haunted for me.\u201d",
+ d:"After Gatsby\u2019s death, the <b>East is haunted</b> for him, distorted beyond his eyes\u2019 power of correction. He goes <b>home to the Midwest</b>.<br>He decides \u201cthis has been a story of the <b>West</b>, after all\u201d \u2014 Tom, Gatsby, Daisy, Jordan and Nick were all Westerners who didn\u2019t fit the East."},
+{s:"Chapter 9",cat:"symbol",t:"The ending: the green light",
+ a:["Where is Nick on the last night?","What does he think about?","The last line"],
+ h:"Boats against the current.",
+ d:"On his last night, Nick lies on Gatsby\u2019s beach. He imagines the <b>Dutch sailors</b> first seeing the \u201cfresh, green breast of the new world\u201d and connects it to Gatsby\u2019s wonder at the <b>green light</b> on Daisy\u2019s dock.<br>Gatsby didn\u2019t know his dream was already behind him.<br>Last line: \u201c<b>So we beat on, boats against the current, borne back ceaselessly into the past.</b>\u201d"},
+
+/* ---------- SYMBOLS & TERMS (exam study guide) ---------- */
+{s:"Symbols & terms",cat:"symbol",t:"Cars",
+ a:["Two car moments in Ch. 7-9","What do cars represent?"],
+ h:"Careless driving, again and again.",
+ d:"Cars are on the exam study guide\u2019s symbol list. Carelessness behind the wheel runs the whole novel: the wreck outside Gatsby\u2019s party (Ch. 3), Jordan\u2019s \u201cbad driver\u201d line, and finally the <b>yellow \u201cdeath car\u201d</b> that kills Myrtle while Daisy drives.<br>They stand for <b>wealth, status and carelessness</b> \u2014 rich people moving fast and leaving damage behind."},
+{s:"Symbols & terms",cat:"symbol",t:"Colors: white and yellow/gold",
+ a:["What does white suggest, and who wears it?","What does yellow/gold suggest?"],
+ h:"Daisy and Jordan in white again in Ch. 7.",
+ d:"<b>White</b> (Daisy and Jordan, again at lunch in Ch. 7): <b>purity and innocence on the surface</b>, which the novel shows is false.<br><b>Yellow/gold</b>: <b>wealth and money</b> \u2014 and in Ch. 7, the yellow car becomes the instrument of death, so gold also shades into <b>corruption</b>."},
+{s:"Symbols & terms",cat:"litterm",t:"Mood vs. Tone",
+ a:["Define each","Which one is what the READER feels?","In Gatsby, tone is whose attitude?"],
+ h:"Mood = reader. Tone = narrator.",
+ d:"<b>Mood:</b> the feeling created by the author\u2019s word choice and imagery \u2014 <b>what the reader feels</b> (tense, ominous, joyful).<br><b>Tone:</b> the <b>attitude of the author or narrator toward the subject</b>. In Gatsby, that\u2019s <b>Nick\u2019s attitude</b> toward what he\u2019s describing."},
+{s:"Symbols & terms",cat:"litterm",t:"Theme vs. Topic",
+ a:["Define each","Give a topic and a theme from Gatsby"],
+ h:"One word vs. a full statement.",
+ d:"<b>Topic:</b> an idea the book discusses, about <b>one word</b> \u2014 disillusionment, wealth, marriage, ambition.<br><b>Theme:</b> the <b>message</b> about that topic \u2014 e.g. \u201cWealth does not bring true happiness,\u201d \u201cThe American Dream is not fully attainable,\u201d \u201cMoral carelessness leads to corruption,\u201d \u201cAppearances often defy reality.\u201d"},
+{s:"Symbols & terms",cat:"litterm",t:"Irony (three kinds)",
+ a:["Verbal","Dramatic","Situational","One example from Ch. 7-9"],
+ h:"She says you only need to RECOGNIZE it.",
+ d:"<ul><li><b>Verbal:</b> saying the opposite of what you mean (sarcasm)</li><li><b>Dramatic:</b> the reader knows something characters don\u2019t</li>"
+ +"<li><b>Situational:</b> what happens is the opposite of what was expected</li></ul>"
+ +"<b>Ch. 7-9 examples:</b> Tom never learns Daisy was driving (<b>dramatic</b>); hundreds went to Gatsby\u2019s parties but almost no one comes to his funeral (<b>situational</b>); Gatsby finally uses his pool on the day he dies (<b>situational</b>)."},
+{s:"Symbols & terms",cat:"litterm",t:"Plot diagram for the novel",
+ a:["Name the five parts","Where is the climax?","What\u2019s the resolution?"],
+ h:"Some argue Ch. 7 has two climaxes.",
+ d:"<b>Exposition</b> (Ch. 1: meet everyone) &rarr; <b>Rising action</b> (the parties, the reunion, the affair) &rarr; <b>Climax</b> (Ch. 7: the <b>Plaza confrontation</b> and/or <b>Myrtle\u2019s death</b> \u2014 Mrs. Beresford noted some argue there are two) &rarr; <b>Falling action</b> (Ch. 8: Gatsby\u2019s death) &rarr; <b>Resolution</b> (Ch. 9: the funeral, Nick goes home)."}
+];
+const CARDS=T.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat}});
+
+/* ---------- generated questions ---------- */
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
+const PEOPLE=["Jay Gatsby","Nick Carraway","Daisy Buchanan","Tom Buchanan","Jordan Baker","George Wilson","Meyer Wolfsheim","Owl Eyes"];
+const QUOTES=[
+ ["You always look so cool.","Daisy Buchanan"],
+ ["Her voice is full of money.","Jay Gatsby"],
+ ["Please, Tom! I can't stand this any more.","Daisy Buchanan"],
+ ["I need money pretty bad.","George Wilson"],
+ ["I just got wised up to something funny the last two days.","George Wilson"],
+ ["They're a rotten crowd. You're worth the whole damn bunch put together.","Nick Carraway"],
+ ["I suppose Daisy'll call too.","Jay Gatsby"],
+ ["God sees everything.","George Wilson"],
+ ["Let us learn to show our friendship for a man when he is alive and not after he is dead.","Meyer Wolfsheim"],
+ ["The poor son-of-a-bitch.","Owl Eyes"],
+ ["They were careless people\u2026 they smashed up things and creatures and then retreated back into their money.","Nick Carraway"],
+ ["So we beat on, boats against the current, borne back ceaselessly into the past.","Nick Carraway"]
+];
+function qQuote(){
+  const p=shuf(QUOTES)[0];
+  const wrong=shuf(PEOPLE.filter(function(n){return n!==p[1]})).slice(0,3);
+  return {topic:"Who said it (Ch. 7-9)",q:"Who says this? &mdash; \u201c"+p[0]+"\u201d",
+   choices:shuf([{label:p[1],right:true}].concat(wrong.map(function(w){return{label:w,right:false}}))),
+   why:"<b>"+p[1]+"</b>."};
+}
+function qChapter(){
+  const EV=[["Gatsby fires his servants and stops the parties","Chapter 7"],["Daisy says \u201cYou always look so cool\u201d","Chapter 7"],
+   ["The confrontation at the Plaza Hotel","Chapter 7"],["Myrtle is killed by the yellow car","Chapter 7"],
+   ["Gatsby tells Nick how he met Daisy in Louisville","Chapter 8"],["Wilson says \u201cGod sees everything\u201d","Chapter 8"],
+   ["Wilson shoots Gatsby in the pool","Chapter 8"],["Henry Gatz shows Nick the schedule","Chapter 9"],
+   ["Owl Eyes comes to the funeral","Chapter 9"],["Tom admits he told Wilson whose car it was","Chapter 9"],
+   ["Nick goes home to the Midwest","Chapter 9"]];
+  const p=shuf(EV)[0];
+  return {topic:"Which chapter (7-9)",q:"Which chapter? &mdash; <b>"+p[0]+"</b>",
+   choices:shuf(["Chapter 7","Chapter 8","Chapter 9"].map(function(c){return{label:c,right:c===p[1]}})),
+   why:"<b>"+p[1]+"</b>."};
+}
+function qCar(){
+  const Q=[["Who drives Gatsby\u2019s yellow car INTO the city?","Tom"],["Who is driving the yellow car when it hits Myrtle?","Daisy"],
+   ["Who drives Tom\u2019s blue coupe into the city?","Gatsby"],["Who rides with Tom in the yellow car into the city?","Nick and Jordan"]];
+  const p=shuf(Q)[0];
+  const pool=["Tom","Daisy","Gatsby","Nick","Nick and Jordan","Jordan"].filter(function(x){return x!==p[1]});
+  return {topic:"Carpooling",q:p[0],
+   choices:shuf([{label:p[1],right:true}].concat(shuf(pool).slice(0,3).map(function(w){return{label:w,right:false}}))),
+   why:"Into the city: <b>Tom</b> drives the yellow car with Nick and Jordan; <b>Gatsby</b> drives Daisy in Tom\u2019s blue coupe. Coming back: Gatsby and Daisy in the yellow car, with <b>Daisy driving</b> when it hits Myrtle."};
+}
+function qEnd(){
+  const E=[["Tom and Daisy","Leave town right after the deaths, with no address"],["Nick","Goes home to the Midwest"],
+   ["Jordan","Says she is engaged to someone else"],["George Wilson","Kills Gatsby, then himself"]];
+  const p=shuf(E)[0];
+  return {topic:"Where they end up",q:"Where does <b>"+p[0]+"</b> end up?",
+   choices:shuf(E.map(function(e){return{label:e[1],right:e[0]===p[0]}})),why:"<b>"+p[0]+"</b>: "+p[1]+"."};
+}
+function extras(){return shuf([qQuote(),qQuote(),qQuote(),qChapter(),qChapter(),qCar(),qEnd()])}
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"eng79"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"eng79",count:20,extras:extras});
+
+$("sum").innerHTML=
+ '<div class="note">Beat-by-beat, using the page numbers Mrs. Beresford put on her slides. The quiz is <b>short answer and multiple choice</b>. Her Ch. 7 focuses: <b>heat imagery, carpooling, conflict, reactions to conflict, responsibility, \u201cthe hotel and beyond.\u201d</b> Ch. 8: <b>disillusionment, who\u2019s responsible, how Gatsby feels the next morning.</b> Ch. 9: <b>Henry Gatz, where everyone ends up, Nick\u2019s opinion of New York.</b></div>'
++'<div class="card"><h3>Chapter 7 &mdash; The hottest day</h3>'
++'<p><b>The lights go out.</b> Gatsby stops the parties and replaces his servants with Wolfsheim\u2019s people so nobody gossips about Daisy\u2019s visits. He invites Nick to lunch at the Buchanans\u2019 (114).</p>'
++'<p><b>The heat</b> (114-115). \u201cBroiling, almost the last, certainly the warmest, of the summer.\u201d Everyone is irritable. Daisy and Jordan are in <b>white</b> again.</p>'
++'<p><b>Pammy</b> appears (117) and Gatsby stares at her \u2014 he never really believed she existed.</p>'
++'<p><b>\u201cYou always look so cool\u201d</b> (119). Daisy says it to Gatsby and Tom sees what it means. Gatsby: \u201c<b>Her voice is full of money</b>\u201d (120). Tom realizes Nick and Jordan knew (121). Daisy: \u201cLet\u2019s all go to town!\u201d (118).</p>'
++'<p><b>The car swap.</b> Tom drives Gatsby\u2019s <b>yellow</b> car with Nick and Jordan; Gatsby drives Daisy in Tom\u2019s <b>blue</b> coupe.</p>'
++'<p><b>Wilson\u2019s garage</b> (123-125). Wilson needs money to take Myrtle West; he\u2019s found out about an affair, not who. Myrtle sees Tom with Jordan and thinks she\u2019s Daisy.</p>'
++'<p><b>The Plaza</b> (126-135). Stifling suite. Gatsby claims Daisy never loved Tom; Daisy can\u2019t say that. Tom exposes the bootlegging. \u201cPlease, Tom! I can\u2019t stand this any more\u201d (134). Daisy\u2019s courage is gone (135). Tom sends her home with Gatsby. It\u2019s Nick\u2019s 30th birthday.</p>'
++'<p><b>Myrtle dies.</b> The yellow car hits her and doesn\u2019t stop. Michaelis witnesses it. <b>Daisy was driving</b>; Gatsby will take the blame.</p>'
++'<p><b>That night.</b> Gatsby keeps watch outside; through the window Tom and Daisy look like they\u2019re conspiring over cold chicken.</p></div>'
++'<div class="card"><h3>Chapter 8 &mdash; The truth, then the pool</h3>'
++'<p><b>4 a.m.</b> Gatsby has stayed up watching Daisy\u2019s house. Nick urges him to leave town (148). Instead he tells Nick the truth, because \u201cJay Gatsby had broken up like glass against Tom\u2019s hard malice.\u201d</p>'
++'<p><b>Louisville, 1917.</b> A penniless officer falls for a rich girl \u201cgleaming like silver\u201d (150). He goes to war and Oxford; Daisy wants her life decided now and marries Tom.</p>'
++'<p><b>Denial.</b> He can\u2019t accept she loved Tom (152). He waits for her call: \u201cI suppose Daisy\u2019ll call too\u201d (154).</p>'
++'<p><b>Nick\u2019s last words</b> to him: \u201cThey\u2019re a rotten crowd. You\u2019re worth the whole damn bunch put together\u201d (154). <b>Jordan</b> calls Nick at work and it goes badly (155).</p>'
++'<p><b>Wilson.</b> Michaelis sits up with him. Wilson stares at Eckleburg\u2019s eyes: \u201cGod sees everything.\u201d \u201cThat\u2019s an advertisement.\u201d He hunts the yellow car garage to garage (159).</p>'
++'<p><b>The pool.</b> Gatsby swims for the first time all summer. Wilson shoots him, then himself.</p></div>'
++'<div class="card"><h3>Chapter 9 &mdash; Resolution</h3>'
++'<p><b>Funeral prep.</b> Nick can\u2019t find mourners. Wolfsheim can\u2019t \u201cget mixed up in this.\u201d Klipspringer only wants his tennis shoes. <b>Tom and Daisy left right after the deaths</b>, no address.</p>'
++'<p><b>Henry Gatz</b>, Gatsby\u2019s father, arrives with a photo of the house and Jimmy\u2019s boyhood <b>schedule</b> \u2014 <b>Gatsby always had a plan</b>.</p>'
++'<p><b>The funeral.</b> Rain. Only Henry Gatz and <b>Owl Eyes</b> from the parties: \u201cThe poor son-of-a-bitch.\u201d <b>No one cared about Gatsby.</b></p>'
++'<p><b>Jordan</b> says she\u2019s engaged and calls Nick a \u201cbad driver\u201d too. <b>Tom</b> on Fifth Avenue admits he told George. \u201c<b>They were careless people</b>.\u201d</p>'
++'<p><b>Nick goes home.</b> New York is haunted. Last night on Gatsby\u2019s beach: the Dutch sailors, the green light, \u201c<b>boats against the current, borne back ceaselessly into the past</b>.\u201d</p></div>';
+
+$("ref").innerHTML=
+ '<div class="card"><h3>Who rode in which car</h3><div class="cars">'
++'<div class="car"><h4>Into the city</h4><span class="yl">Yellow car (Gatsby\u2019s):</span> Tom driving, Nick, Jordan<br><span class="bl">Blue coupe (Tom\u2019s):</span> Gatsby driving, Daisy</div>'
++'<div class="car"><h4>Back from the city</h4><span class="yl">Yellow car:</span> <b>Daisy driving</b>, Gatsby \u2014 hits Myrtle<br><span class="bl">Blue coupe:</span> Tom, Nick, Jordan</div></div></div>'
++'<div class="card"><h3>Who is responsible for what?</h3><p class="tiny">\u201cWho feels responsible? Who do you think is responsible?\u201d is a Ch. 8 focus. A short-answer gift.</p><table>'
++'<tr><th>Death</th><th>Directly</th><th>Also responsible</th></tr>'
++'<tr><td>Myrtle</td><td>Daisy, driving</td><td>Gatsby (covers for her); Tom (the affair, the car swap)</td></tr>'
++'<tr><td>Gatsby</td><td>George Wilson</td><td><b>Tom</b>, who pointed Wilson at him; Daisy, who let him take the blame</td></tr>'
++'<tr><td>George</td><td>Himself</td><td>Tom, Daisy \u2014 \u201ccareless people\u201d</td></tr></table></div>'
++'<div class="card"><h3>Quotes worth knowing</h3><table><tr><th>Quote</th><th>Who</th><th>Why it matters</th></tr>'
++'<tr><td>\u201cYou always look so cool\u201d (119)</td><td>Daisy</td><td>Reveals the affair to Tom</td></tr>'
++'<tr><td>\u201cHer voice is full of money\u201d (120)</td><td>Gatsby</td><td>His love for Daisy is tied to wealth</td></tr>'
++'<tr><td>\u201cThere is no confusion like the confusion of a simple mind\u201d (125)</td><td>Nick, on Tom</td><td>Tom losing control of both women</td></tr>'
++'<tr><td>\u201cPlease, Tom! I can\u2019t stand this any more\u201d (134)</td><td>Daisy</td><td>She turns back to Tom</td></tr>'
++'<tr><td>\u201cJay Gatsby had broken up like glass\u2026\u201d (148)</td><td>Nick</td><td>The persona collapses</td></tr>'
++'<tr><td>\u201cYou\u2019re worth the whole damn bunch put together\u201d (154)</td><td>Nick</td><td>His only compliment, last words to Gatsby</td></tr>'
++'<tr><td>\u201cGod sees everything\u201d</td><td>George Wilson</td><td>Eckleburg as God, a billboard</td></tr>'
++'<tr><td>\u201cThe poor son-of-a-bitch\u201d</td><td>Owl Eyes</td><td>No one cared about Gatsby</td></tr>'
++'<tr><td>\u201cThey were careless people\u2026\u201d</td><td>Nick</td><td>Central theme of the novel</td></tr>'
++'<tr><td>\u201cBoats against the current\u2026\u201d</td><td>Nick, last line</td><td>You can\u2019t repeat the past</td></tr></table></div>'
++'<div class="card"><h3>Theme statements from the essay prompt</h3><p>Any of these makes a strong short answer. Tie one to a specific Ch. 7-9 moment:</p>'
++'<ul style="margin:4px 0 0;padding-left:18px;color:#cdd4e0;font-size:14px">'
++'<li><b>Wealth does not bring true happiness</b> \u2014 Gatsby\u2019s mansion, empty at his funeral</li>'
++'<li><b>The American Dream is not fully attainable</b> \u2014 Henry Gatz\u2019s schedule vs. the ending</li>'
++'<li><b>Greed leads to loneliness</b> \u2014 Gatsby waiting by the pool for a call that never comes</li>'
++'<li><b>Moral carelessness leads to corruption</b> \u2014 \u201cThey were careless people\u201d</li>'
++'<li><b>Appearances often defy reality</b> \u2014 Daisy in white; Tom thinking Gatsby killed Myrtle</li></ul></div>'
++'<div class="card"><h3>For Friday\u2019s Unit Exam</h3><p>Her study guide: <b>35 multiple choice</b> (22 passage-based, 13 general). Know Gatsby, Nick, Daisy, Tom, Jordan, Myrtle, George and <b>Meyer Wolfsheim</b>; the symbols (green light, white and yellow/gold, cars, Daisy\u2019s voice, Gatsby\u2019s books, Eckleburg\u2019s eyes); the terms (tone, mood, symbolism, irony, topic, theme, protagonist, antagonist, point of view, characterization); and the plot diagram. The <a href="eng.html">Ch. 1-3 trainer</a> covers the start of the book.</p></div>';
+
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>

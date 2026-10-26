@@ -740,6 +740,20 @@
  "psGenerated": "2026-10-26T11:47:55.159Z",
  "trainers": [
   {
+   "cls": "English 10",
+   "title": "TGG Ch. 7-9 Quiz",
+   "file": "eng79.html",
+   "label": "Gatsby · Chapters 7-9",
+   "terms": 31
+  },
+  {
+   "cls": "English 10",
+   "title": "TGG Unit Exam",
+   "file": "eng79.html",
+   "label": "Gatsby · Ch. 7-9 + exam terms",
+   "terms": 31
+  },
+  {
    "cls": "US History",
    "title": "Unit 3 Quiz",
    "file": "ush3.html",
