@@ -41,7 +41,7 @@
 <section class="view" id="map"></section>
 <section class="view" id="ref"></section>
 </main>
-<script src="u3map.js?v=1"></script>
+<script src="u3map.js?v=2"></script>
 <script src="flash.js?v=8"></script>
 <script>
 const $=id=>document.getElementById(id);
@@ -340,7 +340,7 @@ $("map").innerHTML=
  +KEYS.map(function(k){const r=REG[k];return '<tr><td><span class="sw" style="background:'+U3Map.COL[k]+'">'+k+'</span></td><td>'+r.name+'</td><td>'+r.from.split(" (")[0]+'</td><td>'+r.when+'</td><td>'+r.how+'</td></tr>'}).join('')
  +'</table><p class="tiny">Memory hook in time order: <b>A</b>ll <b>B</b>ritish, <b>C</b>ash to France, <b>D</b>eal with Spain, <b>E</b>xit from Mexico (Texas), <b>F</b>orty-ninth parallel, <b>G</b>uadalupe Hidalgo, <b>H</b>ad to have a railroad.</p></div>'
  +'<div class="card"><details><summary>Show Wolf\u2019s original paper map</summary><img src="u3-map.jpg" alt="Original lettered map" style="display:block;width:100%;height:auto;border-radius:8px;margin-top:10px">'
- +'<p class="tiny" style="margin-top:8px">The two handwritten \u201c1818\u201d notes are the Convention of 1818 with Britain, which set the border at the 49th parallel east of the Rockies and swapped small strips of land.</p></details></div>';
+ +'<p class="tiny" style="margin-top:8px">The two handwritten \u201c1818\u201d notes are the Convention of 1818 with Britain, which set the border at the 49th parallel east of the Rockies and swapped small strips of land. On the digital map, the gray striped patch in North Dakota/Minnesota is that 1818 land (the Red River basin, from Britain), so it is not part of C.</p><p class="tiny">How the digital lines were checked: the A/B line follows the 1763 Proclamation Line along the Appalachians, the way Wolf drew it (so western PA, most of WV, and the western parts of VA, NC and Georgia are B, not A). The strip of Mississippi/Alabama coast below 31°N counts as Florida (D), since it was Spanish West Florida until 1819. Other lines match the National Atlas “Territorial Acquisitions” map.</p></details></div>';
 
 let selK=null;
 function drawExplore(){
