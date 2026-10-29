@@ -172,14 +172,6 @@
    "kind": "test"
   },
   {
-   "id": "c4",
-   "cls": "Algebra II",
-   "title": "2.2.5 CYU",
-   "due": "2026-10-30T23:59",
-   "status": "assigned",
-   "kind": "cyu"
-  },
-  {
    "id": "c5",
    "cls": "Chemistry",
    "title": "Unit 3 Exam",
@@ -188,9 +180,17 @@
    "kind": "test"
   },
   {
-   "id": "c6",
-   "cls": "English 10",
-   "title": "Bring Your Copy of Their Eyes Were Watching God to School",
+   "id": "c4",
+   "cls": "Algebra II",
+   "title": "2.2.5 CYU",
+   "due": "2026-10-30T23:59",
+   "status": "assigned",
+   "kind": "cyu"
+  },
+  {
+   "id": "c9",
+   "cls": "US History",
+   "title": "Intro to Compromise of 1850",
    "due": "2026-11-02T23:59",
    "status": "assigned",
    "kind": "worksheet"
@@ -204,20 +204,20 @@
    "kind": "test"
   },
   {
+   "id": "c6",
+   "cls": "English 10",
+   "title": "Bring Your Copy of Their Eyes Were Watching God to School",
+   "due": "2026-11-02T23:59",
+   "status": "assigned",
+   "kind": "worksheet"
+  },
+  {
    "id": "c8",
    "cls": "Religion",
    "title": "Unit 3 Test",
    "due": "2026-11-02T23:59",
    "status": "assigned",
    "kind": "test"
-  },
-  {
-   "id": "c9",
-   "cls": "US History",
-   "title": "Intro to Compromise of 1850",
-   "due": "2026-11-02T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
   },
   {
    "id": "c10",
@@ -252,9 +252,9 @@
    "kind": "drill"
   },
   {
-   "id": "c14",
-   "cls": "Spanish II",
-   "title": "Welcome Survey",
+   "id": "c17",
+   "cls": "Religion",
+   "title": "10/29 Asynchronous Assignment",
    "due": null,
    "status": "assigned",
    "kind": "worksheet"
@@ -268,17 +268,17 @@
    "kind": "reading"
   },
   {
-   "id": "c16",
-   "cls": "Algebra II",
-   "title": "Match My Parabola",
+   "id": "c14",
+   "cls": "Spanish II",
+   "title": "Welcome Survey",
    "due": null,
    "status": "assigned",
    "kind": "worksheet"
   },
   {
-   "id": "c17",
-   "cls": "Religion",
-   "title": "10/29 Asynchronous Assignment",
+   "id": "c16",
+   "cls": "Algebra II",
+   "title": "Match My Parabola",
    "due": null,
    "status": "assigned",
    "kind": "worksheet"
@@ -872,6 +872,20 @@
  ],
  "psGenerated": "2026-10-29T20:31:55.336Z",
  "trainers": [
+  {
+   "cls": "Chemistry",
+   "title": "Unit 3 Exam",
+   "file": "chem3.html",
+   "label": "Unit 3 · Atomic Structure",
+   "terms": 34
+  },
+  {
+   "cls": "Religion",
+   "title": "Unit 3 Test",
+   "file": "rel3.html",
+   "label": "Unit 3 · Mission and Beatitudes",
+   "terms": 35
+  },
   {
    "cls": "English 10",
    "title": "TGG Ch. 7-9 Quiz",

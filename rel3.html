@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Religion - Unit 3 Mission and Beatitudes</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>:root{--accent:#f06292;--accent-ink:#33030f}
+.bt td:first-child{white-space:nowrap;color:var(--accent);font-weight:700}
+.src{font-size:12px;opacity:.75}
+.flag{background:rgba(255,209,102,.12);border-left:3px solid #ffd166;padding:8px 11px;border-radius:6px;font-size:13.5px;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>Religion &middot; Unit 3: Mission and Beatitudes</h1>
+  <div class="sub">Hannah Rao &middot; Period 7 &middot; Life and Mission of Jesus &middot; Unit 3 Test Mon Nov 2</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div class="note" style="margin-bottom:12px">Ms. Rao’s test covers <b>Jesus’ baptism, the desert, the return to Nazareth, and the Sermon on the Mount / Beatitudes</b>. Her Beatitudes notes and group work aren’t posted in Classroom, so the Beatitudes cards come from Matthew 5 and the class video. They’ll be updated once you get the sheet.</div><div id="fcHost"></div></section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=8"></script>
+<script>
+const $=id=>document.getElementById(id);
+/* The eight Beatitudes, Matthew 5:3-10 */
+const BEAT=[
+ {k:"poor",who:"the poor in spirit",prom:"theirs is the kingdom of heaven",
+  mean:"People who know they need God. Humble, not self-sufficient.",ex:"Admitting you can\u2019t do it alone; praying honestly instead of acting like you have it all together."},
+ {k:"mourn",who:"they who mourn",prom:"they will be comforted",
+  mean:"People who grieve, over their own losses and over the suffering and sin in the world. God promises to turn sorrow into joy.",ex:"Sitting with a friend whose grandparent just died instead of avoiding them."},
+ {k:"meek",who:"the meek",prom:"they will inherit the land (the earth)",
+  mean:"Gentle, humble people who don\u2019t grab for power. The BibleProject video translates it \u201cthe unimportant.\u201d",ex:"Not getting revenge when someone disrespects you; letting someone else get the credit."},
+ {k:"hunger",who:"they who hunger and thirst for righteousness",prom:"they will be satisfied",
+  mean:"People who want what is right and just as badly as food and water.",ex:"Speaking up for a kid who\u2019s being picked on; volunteering to fix something unfair."},
+ {k:"merciful",who:"the merciful",prom:"they will be shown mercy",
+  mean:"People who forgive and show compassion, even when it isn\u2019t deserved.",ex:"Forgiving a friend who hurt you; helping someone who can\u2019t pay you back."},
+ {k:"pure",who:"the clean (pure) of heart",prom:"they will see God",
+  mean:"People with honest, undivided motives, who do good for the right reasons.",ex:"Helping someone when nobody will ever know you did it."},
+ {k:"peace",who:"the peacemakers",prom:"they will be called children of God",
+  mean:"People who actively make peace, stepping into other people\u2019s conflicts to help resolve them, not just avoiding fights.",ex:"Helping two friends who are fighting talk it out."},
+ {k:"persecuted",who:"they who are persecuted for the sake of righteousness",prom:"theirs is the kingdom of heaven",
+  mean:"People who suffer for doing what is right. Following Jesus\u2019 way has a cost.",ex:"Getting mocked for standing up for someone, or for your faith."}
+];
+const T=[
+/* ---------- BAPTISM ---------- */
+{s:"Baptism",cat:"baptism",t:"Jesus\u2019 baptism: who and where",
+ a:["Who baptized Jesus?","Where?","How are they related?"],
+ h:"A river and a cousin.",
+ d:"<b>John the Baptist</b> baptized Jesus in the <b>Jordan River</b>. John is Jesus\u2019 <b>cousin</b> (son of Elizabeth, Mary\u2019s relative). John was calling people to repent and be baptized."},
+{s:"Baptism",cat:"baptism",t:"The three things that happen at the baptism",
+ a:["Name all three"],
+ h:"Sky, bird, voice.",
+ d:"1. <b>The heavens open.</b><br>2. <b>The Spirit of God descends like a dove</b> and rests on him.<br>3. <b>A voice from heaven:</b> \u201cYou are my beloved Son; with you I am well pleased.\u201d<br><span class=\"tiny\">All three persons of the Trinity show up: the Father (voice), the Son, the Spirit (dove).</span>"},
+{s:"Baptism",cat:"baptism",t:"Why would Jesus be baptized?",
+ a:["He had no sin, so why accept baptism?"],
+ h:"Solidarity.",
+ d:"He wasn\u2019t washing away sin. He chose to <b>immerse himself completely in the life of the people and live as they lived</b>, standing in line with ordinary sinners.<br><span class=\"tiny\">Matthew 3:15: John objects, and Jesus says it is \u201cto fulfill all righteousness.\u201d</span>"},
+{s:"Baptism",cat:"baptism",t:"What the baptism starts",
+ a:["What does the baptism mark the beginning of?","What comes right after?"],
+ h:"Ministry, then wilderness.",
+ d:"The start of Jesus\u2019 <b>public ministry</b>. Right after, the Spirit leads him <b>into the desert</b> for 40 days.<br><span class=\"tiny\">Luke 3:23 says he was about 30 (not from class materials).</span>"},
+{s:"Baptism",cat:"spirit",t:"Ruakh",
+ a:["What is the Hebrew word for spirit?","What else does it mean?","What do they have in common?"],
+ h:"Clear your throat at the end.",
+ d:"<b>Ruakh</b> = spirit, but also <b>wind</b> and <b>breath</b>. What they share is <b>energy</b>: invisible, powerful, and life-giving. The Bible uses it for <b>God\u2019s personal presence</b>.<br><span class=\"src\">Source: BibleProject \u201cHoly Spirit\u201d video (class video, Oct 5).</span>"},
+{s:"Baptism",cat:"spirit",t:"What God\u2019s Spirit does in Scripture",
+ a:["Genesis 1?","Joseph?","Bezalel?","The prophets?"],
+ h:"Creation, then special jobs.",
+ d:"<b>Genesis 1:</b> hovers over the dark chaos, ready to bring life and order.<br><b>Joseph:</b> empowered to interpret dreams.<br><b>Bezalel:</b> an artist given wisdom and skill to make the tabernacle beautiful.<br><b>Prophets:</b> see history from God\u2019s point of view; promise the Spirit will one day transform human hearts.<br><span class=\"src\">BibleProject video.</span>"},
+{s:"Baptism",cat:"spirit",t:"\u201cThe Spirit of God descended upon Jesus\u201d",
+ a:["What does the video say it means?"],
+ h:"New creation.",
+ d:"Like the Spirit hovering over the waters in Genesis 1, the Spirit resting on Jesus means God is <b>empowering Jesus to begin a new creation</b>. You see it when he heals and forgives. Later the Spirit raises Jesus, Jesus breathes it on his disciples, and it comes on all of them at Pentecost.<br><span class=\"src\">BibleProject video.</span>"},
+/* ---------- DESERT ---------- */
+{s:"The desert",cat:"desert",t:"Into the desert",
+ a:["How long?","What does he do there?","Who tempts him?"],
+ h:"A number that shows up all over the Bible.",
+ d:"<b>40 days</b> in the desert (wilderness), <b>fasting</b>. At the end he is tempted three times by <b>Satan</b>, \u201cthe evil one.\u201d<br><span class=\"tiny\">Not from class materials: 40 echoes Israel\u2019s 40 years in the wilderness and Moses\u2019 40 days on Sinai.</span>"},
+{s:"The desert",cat:"desert",t:"Metanoia",
+ a:["Define it"],
+ h:"Greek, usually translated \u201crepentance.\u201d",
+ d:"<b>A transformative experience leading to a new way of life</b>: a complete change of heart and mind, not just feeling sorry."},
+{s:"The desert",cat:"temptation",t:"Temptation 1: bread",
+ a:["What is the temptation?","How does Jesus answer?"],
+ h:"He\u2019s starving.",
+ d:"\u201cIf you are the Son of God, command these <b>stones to become bread</b>.\u201d<br>Jesus: \u201c<b>One does not live by bread alone</b>, but by every word that comes forth from the mouth of God.\u201d"},
+{s:"The desert",cat:"temptation",t:"Temptation 2: the Temple",
+ a:["What is the temptation?","How does Jesus answer?"],
+ h:"Jump, and let the angels catch you.",
+ d:"Satan sets him on the top of the <b>Temple</b>: \u201c<b>Throw yourself down</b>,\u201d since angels will catch you.<br>Jesus: \u201c<b>You shall not put the Lord, your God, to the test.</b>\u201d<br><span class=\"tiny\">Matthew\u2019s order. Luke swaps temptations 2 and 3.</span>"},
+{s:"The desert",cat:"temptation",t:"Temptation 3: the kingdoms",
+ a:["What is the temptation?","How does Jesus answer?"],
+ h:"Power over everything.",
+ d:"Satan shows him <b>all the kingdoms of the world</b>: \u201cAll these I shall give to you, if you will <b>worship me</b>.\u201d<br>Jesus: \u201cGet away, Satan! <b>The Lord, your God, shall you worship and him alone shall you serve.</b>\u201d"},
+{s:"The desert",cat:"temptation",t:"How Jesus resists",
+ a:["When do the temptations come?","Why are they tempting?","What does he answer with?","Where does his strength come from?"],
+ h:"Ideas for the short answer. Put it in your own words.",
+ d:"They come at the <b>end</b> of 40 days, when he is weakest, and offer things he really wants: <b>food</b>, <b>proof/safety</b>, <b>power</b>. Each would be a shortcut around trusting the Father.<br>He answers <b>every one with Scripture</b> (all from Deuteronomy). His strength: the <b>Spirit</b> he received at baptism, <b>prayer and fasting</b>, and knowing who he is: the Father\u2019s beloved Son."},
+/* ---------- NAZARETH ---------- */
+{s:"Nazareth",cat:"nazareth",t:"Back in Nazareth: the setting",
+ a:["Where is he?","What does he read?"],
+ h:"His hometown, on the Sabbath.",
+ d:"In the <b>synagogue in Nazareth</b>, his hometown, on the <b>Sabbath</b>. He reads from the <b>scroll of the prophet Isaiah</b> (Luke 4)."},
+{s:"Nazareth",cat:"nazareth",t:"The Isaiah reading",
+ a:["Quote it as best you can","Why is it called his mission statement?"],
+ h:"\u201cThe Spirit of the Lord is upon me\u2026\u201d",
+ d:"\u201cThe Spirit of the Lord is upon me, because he has anointed me <b>to bring good news to the poor</b>. He has sent me to proclaim <b>liberty to captives</b> and <b>recovery of sight to the blind</b>, to <b>let the oppressed go free</b>, and to proclaim a <b>year of the Lord\u2019s favor</b>.\u201d<br>It\u2019s Jesus\u2019 <b>mission statement</b>: who he came for."},
+{s:"Nazareth",cat:"nazareth",t:"\u201cToday this Scripture is fulfilled\u201d",
+ a:["What does Jesus say after reading?","What is he claiming?"],
+ h:"Not someday. Today.",
+ d:"\u201c<b>Today this Scripture passage is fulfilled in your hearing.</b>\u201d He is claiming <b>he is the one</b> Isaiah was talking about, the anointed one (Messiah)."},
+{s:"Nazareth",cat:"nazareth",t:"How Nazareth receives him",
+ a:["First reaction?","What proverb does he use?","How does it end?"],
+ h:"From skepticism to violence.",
+ d:"<b>Skepticism and violence.</b> \u201cIsn\u2019t this the son of Joseph?\u201d Jesus: \u201c<b>No prophet is accepted in his own native place.</b>\u201d The crowd gets furious and drives him to the edge of a hill to <b>throw him off</b>, but he <b>passes through the middle of them</b> and goes away (on to Capernaum)."},
+{s:"Nazareth",cat:"nazareth",t:"Elijah and Elisha",
+ a:["Which two examples does Jesus give?","Why do they make the crowd angry?"],
+ h:"Both helped outsiders.",
+ d:"<b>Elijah</b> was sent to a <b>widow in Zarephath (Sidon)</b>, a Gentile, during the famine. <b>Elisha</b> cleansed <b>Naaman the Syrian</b>, a foreign soldier, not any Israelite leper.<br>Point: outsiders who <b>knew they needed God</b> received his help. Being \u201cchosen\u201d isn\u2019t enough if you won\u2019t admit you need saving. That\u2019s what infuriates them."},
+{s:"Nazareth",cat:"nazareth",t:"The Chosen: \u201cI Am the Law of Moses\u201d",
+ a:["Where does Jesus stop reading, and why?","What is the Year of Jubilee about here?","What does \u201cI am the law of Moses\u201d claim?"],
+ h:"Class video, Oct 9.",
+ d:"He stops before Isaiah\u2019s \u201cday of vengeance\u201d: \u201c<b>I\u2019m not here for vengeance, I\u2019m here for salvation.</b>\u201d The Year of Jubilee isn\u2019t about money debts: he offers <b>release from spiritual debt</b>.<br>Rabbi Benjamin threatens the law against false prophets (death). Jesus answers \u201c<b>I am the law of Moses</b>\u201d: he isn\u2019t under the Law, he is its source, which is a claim to be God. They sentence him to death; he walks away: \u201cnot today.\u201d"},
+/* ---------- SERMON ON THE MOUNT ---------- */
+{s:"Beatitudes",cat:"sermon",t:"Beatitudes: the basics",
+ a:["What does \u201cbeatitude\u201d mean?","Where are they?","How many?"],
+ h:"Latin beatus.",
+ d:"From Latin <b>beatus</b>, \u201c<b>blessed</b>\u201d or \u201chappy.\u201d They open the <b>Sermon on the Mount</b>, <b>Matthew 5:3-12</b> (the sermon runs Matthew 5-7). Usually counted as <b>8</b>; verse 11 (\u201cBlessed are you when they insult you\u2026\u201d) is sometimes counted as a 9th. Luke has a shorter version, the <b>Sermon on the Plain</b> (Luke 6)."},
+{s:"Beatitudes",cat:"sermon",t:"What is paradoxical about the Beatitudes?",
+ a:["What is unusual about who gets called blessed?"],
+ h:"Upside down.",
+ d:"They call <b>blessed</b> the people the world sees as <b>losers</b>: the poor, the grieving, the powerless, the persecuted. They flip the world\u2019s values. In God\u2019s kingdom, the last are first."},
+{s:"Beatitudes",cat:"sermon",t:"Who Jesus is talking to",
+ a:["Who is the crowd?"],
+ h:"A \u201cragtag group.\u201d",
+ d:"His <b>disciples and a big crowd of ordinary people</b>: poor, sick, nobodies, living under <b>Roman occupation</b> with heavy taxes. Jesus says God\u2019s new reality starts <b>with them</b>.<br><span class=\"src\">BibleProject Beatitudes video (class video, Oct 20).</span>"},
+{s:"Beatitudes",cat:"sermon",t:"Why start his teaching with the Beatitudes?",
+ a:["Ideas to think about (answer in your own words)"],
+ h:"Think about where he is standing.",
+ d:"Some ideas: they lay out the <b>values of the Kingdom of God</b>, like a blueprint or mission statement. He teaches on a <b>mountain</b>, the way <b>Moses</b> received the Law on Sinai (Matthew presents Jesus as a new Moses). And they tell his listeners who God is <b>for</b>, matching the Isaiah \u201cgood news to the poor\u201d reading."},
+{s:"Beatitudes",cat:"sermon",t:"The Kingdom of heaven",
+ a:["What does Jesus mean by it?"],
+ h:"BibleProject says \u201ckingdom of the skies.\u201d",
+ d:"God\u2019s reality, where <b>generosity, justice, peace and love</b> rule instead of violence and \u201cmight makes right.\u201d Jesus says it is <b>coming to earth now</b>, starting with these people."},
+{s:"Beatitudes",cat:"sermon",t:"Salt, light, city on a hill",
+ a:["What comes right after the Beatitudes?","What do the images mean?"],
+ h:"Matthew 5:13-16.",
+ d:"\u201cYou are the <b>salt of the earth</b>\u201d (salt preserves, a symbol of God\u2019s lasting covenant). \u201cYou are the <b>light of the world</b>\u201d; \u201ca <b>city on a hill</b> cannot be hidden\u201d (like God\u2019s presence shining from Jerusalem). His ordinary followers are meant to <b>show God\u2019s Kingdom to the world</b>.<br><span class=\"src\">BibleProject video.</span>"}
+].concat(BEAT.map(function(b,i){return {s:"The eight Beatitudes",cat:"beat",t:"Beatitude "+(i+1)+": "+b.who,
+ a:["Finish the Beatitude","What does it mean?","What does it look like in real life?"],
+ h:"Blessed are "+b.who+", for\u2026",
+ d:"\u201cBlessed are <b>"+b.who+"</b>, for <b>"+b.prom+"</b>.\u201d<br><b>Meaning:</b> "+b.mean+"<br><b>In practice:</b> "+b.ex}})).concat([
+/* ---------- REVIEW ---------- */
+{s:"Review: Matthew and Luke",cat:"gospel",t:"Matthew\u2019s Gospel",
+ a:["Who was it written for?","Main theme?","Infancy details that support it"],
+ h:"Very Jewish.",
+ d:"Written for <b>Jewish Christians</b>. Jesus <b>fulfills the Hebrew Scriptures</b>: the promised Messiah and King, a new Moses. Infancy narrative: genealogy back to <b>Abraham</b>, Joseph\u2019s dreams, the <b>Magi (kings) visit</b>, flight to Egypt.<br><span class=\"tiny\">Review topic from the exit ticket. Check against your Unit 1 notes.</span>"},
+{s:"Review: Matthew and Luke",cat:"gospel",t:"Luke\u2019s Gospel",
+ a:["Who was it written for?","Main theme?","Infancy details that support it"],
+ h:"Good news for the lowly.",
+ d:"Written for <b>Gentiles</b>. Jesus brings salvation to <b>everyone, especially the poor, outcasts and women</b>; lots of mercy, joy and the Holy Spirit. Infancy narrative: the angel visits <b>Mary</b>, Mary visits <b>Elizabeth</b>, Jesus is born <b>among animals</b> in a manger, <b>shepherds</b> visit, genealogy back to <b>Adam</b>.<br><span class=\"tiny\">Review topic from the exit ticket. Check against your Unit 1 notes.</span>"}
+]);
+const CARDS=T.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat}});
+
+/* ---------- generated questions ---------- */
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function mcq(topic,q,ans,wrong,why){return {topic:topic,q:q,choices:shuf([{label:ans,right:true}].concat(wrong.map(function(w){return{label:w,right:false}}))),why:why}}
+function qBeatFinish(){
+  const b=pick(BEAT),proms=[];shuf(BEAT).forEach(function(x){if(x.prom!==b.prom&&proms.indexOf(x.prom)<0)proms.push(x.prom)});
+  return mcq("Beatitude: "+b.k,"Finish it: \u201cBlessed are <b>"+b.who+"</b>, for\u2026\u201d",b.prom,proms.slice(0,3),
+   "\u201cBlessed are "+b.who+", for <b>"+b.prom+"</b>.\u201d "+b.mean);
+}
+function qBeatWho(){
+  const b=pick(BEAT.filter(function(x){return x.k!=="poor"&&x.k!=="persecuted"}));
+  const others=shuf(BEAT.filter(function(x){return x!==b})).slice(0,3);
+  return mcq("Beatitude: "+b.k,"Who is promised that <b>"+b.prom+"</b>?","Blessed are "+b.who,others.map(function(o){return "Blessed are "+o.who}),
+   "\u201cBlessed are "+b.who+", for "+b.prom+".\u201d");
+}
+const NEAR={poor:["meek","pure"],mourn:[],meek:["merciful","poor","peace"],hunger:["peace","persecuted"],merciful:["meek","peace"],pure:["poor"],peace:["hunger","merciful","meek"],persecuted:["hunger"]};
+function qBeatPractice(){
+  const b=pick(BEAT),others=shuf(BEAT.filter(function(x){return x!==b&&NEAR[b.k].indexOf(x.k)<0&&NEAR[x.k].indexOf(b.k)<0})).slice(0,3);
+  return mcq("Beatitude in practice: "+b.k,"Which Beatitude does this live out? <b>"+b.ex+"</b>","Blessed are "+b.who,others.map(function(o){return "Blessed are "+o.who}),
+   "<b>"+b.who+"</b>: "+b.mean);
+}
+const TEMPT=[["Turn these stones into bread","One does not live by bread alone, but by every word that comes from the mouth of God"],
+ ["Throw yourself down from the Temple; the angels will catch you","You shall not put the Lord, your God, to the test"],
+ ["All the kingdoms of the world are yours if you worship me","The Lord, your God, shall you worship and him alone shall you serve"]];
+function qTempt(){
+  const i=Math.floor(Math.random()*3),p=TEMPT[i];
+  const wrong=TEMPT.filter(function(x,j){return j!==i}).map(function(x){return x[1]}).concat(["Blessed are the merciful, for they will be shown mercy"]);
+  return mcq("Temptation reply "+(i+1),"Satan: \u201c<b>"+p[0]+"</b>.\u201d How does Jesus answer?",p[1],wrong,"Every answer is a quote from Scripture (Deuteronomy).");
+}
+
+/* ---------- hand-written question bank ---------- */
+const BANK=[
+["bap-who","Who baptized Jesus?","John the Baptist",["Peter","Zechariah","Rabbi Benjamin"],"John the Baptist, Jesus\u2019 cousin."],
+["bap-where","Where was Jesus baptized?","The Jordan River",["The Sea of Galilee","The Temple in Jerusalem","The synagogue in Nazareth"],"In the Jordan River."],
+["bap-three","Which three things happen when Jesus is baptized?","The heavens open, a dove descends, God\u2019s voice says \u201cYou are my beloved\u201d",["He speaks in tongues, baptizes John, and runs into the desert","He calls disciples, works a miracle, and preaches on the mountain","An earthquake hits, the Temple curtain tears, and the sky goes dark"],"Heavens open, Spirit like a dove, the Father\u2019s voice."],
+["bap-voice","What does the voice from heaven say at the baptism?","\u201cYou are my beloved Son; with you I am well pleased\u201d",["\u201cThis is the Lamb of God\u201d","\u201cRepent, for the kingdom is at hand\u201d","\u201cToday this Scripture is fulfilled\u201d"],"The Father speaks."],
+["bap-dove","At the baptism, the Spirit comes down like a\u2026","Dove",["Flame","Strong wind","Cloud"],"Like a dove."],
+["bap-trinity","How is the Trinity present at the baptism?","Father as the voice, the Son being baptized, the Spirit as the dove",["Three angels appear","John, Jesus and Mary are all there","It isn\u2019t; the Trinity first appears at Pentecost"],"All three persons appear at once."],
+["bap-why","Jesus had no sin. Why does he accept baptism?","To immerse himself completely in the life of the people",["To be purified from sin","So he wouldn\u2019t embarrass his cousin","Because the Law of Moses required it"],"Solidarity: he chose to live as they lived."],
+["bap-after","What does Jesus do right after his baptism?","Goes into the desert",["Calls his first disciples","Performs his first miracle","Preaches the Sermon on the Mount"],"The Spirit leads him into the desert for 40 days."],
+["ruakh","The Hebrew word for spirit, ruakh, also means\u2026","Wind and breath",["Fire and light","Water and blood","Word and law"],"Wind and breath: invisible energy."],
+["ruakh-common","According to the BibleProject video, what do all the meanings of ruakh have in common?","Energy",["Water","Light","Silence"],"Invisible, powerful, life-giving energy."],
+["spirit-gen","In Genesis 1, what is God\u2019s Spirit doing?","Hovering over the dark chaos, ready to bring life and order",["Speaking to Adam in the garden","Leading Israel out of Egypt","Coming down on the prophets"],"The first page of the Bible."],
+["spirit-bez","In the video, the Spirit gives Bezalel the skill to\u2026","Make beautiful things for the tabernacle",["Interpret dreams","Lead Israel in battle","Write the Psalms"],"Bezalel was an artist. Joseph got dream interpretation."],
+["spirit-jesus","According to the video, the Spirit resting on Jesus at his baptism means God is\u2026","Empowering him to begin a new creation",["Testing whether he is ready","Ending the age of the prophets","Choosing him to be king of Israel"],"Like Genesis 1, a fresh start."],
+["desert-len","How long is Jesus in the desert?","40 days",["7 days","3 years","40 years"],"40 days, fasting."],
+["desert-when","When does Satan tempt Jesus?","At the end of the 40 days, when he is weakest",["On the first day, when he is strongest","Before his baptism","On the way back to Nazareth"],"He\u2019s starving when the bread temptation comes."],
+["metanoia","What does \u201cmetanoia\u201d mean?","A transformative experience leading to a new way of life",["Changing from human to divine","Moving to a new town","Fasting for 40 days"],"Complete change of heart."],
+["t-bread","How does Jesus answer the temptation to turn stones into bread?","\u201cOne does not live by bread alone\u201d",["\u201cYou shall not put the Lord your God to the test\u201d","\u201cGet away, Satan!\u201d","\u201cToday this Scripture is fulfilled\u201d"],"Bread: not by bread alone."],
+["t-temple","Which temptation does \u201cYou shall not put the Lord your God to the test\u201d answer?","Throwing himself off the Temple",["Turning stones into bread","Worshiping Satan for the kingdoms of the world","Leaving the desert early"],"Jumping would force God to prove himself."],
+["t-kingdoms","What does Satan offer if Jesus will worship him?","All the kingdoms of the world",["Bread for the hungry","A place in the Temple","A legion of angels"],"Power and glory."],
+["t-scripture","How does Jesus answer each temptation?","With a quote from Scripture",["With a miracle","By running away","By staying silent"],"All three answers quote Deuteronomy."],
+["t-strength","According to the class focus, what gives Jesus strength to say no?","The Spirit, prayer and fasting, and knowing he is God\u2019s beloved Son",["The angels who fight Satan for him","His disciples encouraging him","John the Baptist\u2019s advice"],"Ties back to the baptism: \u201cYou are my beloved.\u201d"],
+["naz-where","Where does Jesus read from the scroll of Isaiah?","In the synagogue in Nazareth",["In the Temple in Jerusalem","On a mountain in Galilee","By the Jordan River"],"His hometown synagogue, on the Sabbath."],
+["naz-book","Which prophet\u2019s scroll does Jesus read in Nazareth?","Isaiah",["Jeremiah","Elijah","Moses"],"Isaiah 61."],
+["naz-quote","Jesus reads: \u201cThe Spirit of the Lord is upon me, because he has anointed me to\u2026\u201d","Bring good news to the poor",["Rebuild the Temple","Defeat the Romans","Judge the nations"],"Good news to the poor, liberty to captives, sight to the blind."],
+["naz-today","What does Jesus say after reading Isaiah?","\u201cToday this Scripture passage is fulfilled in your hearing\u201d",["\u201cThis will happen at the end of time\u201d","\u201cLet us pray for the Messiah to come\u201d","\u201cThe prophet Isaiah was wrong\u201d"],"He\u2019s claiming to be the one Isaiah meant."],
+["naz-recv","How is Jesus received when he returns to Nazareth?","With skepticism and violence",["With celebration and welcome","With curiosity and openness","With patience and kindness"],"They try to throw him off a cliff."],
+["naz-proverb","What proverb does Jesus say in Nazareth?","No prophet is accepted in his own native place",["A city on a hill cannot be hidden","Man does not live by bread alone","The last will be first"],"His hometown can\u2019t accept him."],
+["naz-end","How does the scene in Nazareth end in Luke?","The crowd tries to throw him off a cliff, but he walks through them",["He is arrested and sent to Pilate","He heals everyone in the synagogue","He is made the rabbi of Nazareth"],"He passes through the middle of them and goes on."],
+["naz-elijah","Why do the stories of Elijah and Elisha anger the Nazareth crowd?","God\u2019s help went to Gentile outsiders, not Israelites",["They show Jesus is better than the prophets","They prove Jesus can do miracles","They are about Nazareth\u2019s enemies being destroyed"],"A widow in Sidon and Naaman the Syrian."],
+["naz-naaman","Who was Naaman?","A foreign soldier healed of leprosy through Elisha",["A widow fed by Elijah","The rabbi of Nazareth","A disciple of John the Baptist"],"An enemy outsider who trusted God."],
+["chosen-stop","In The Chosen, why does Jesus stop reading before Isaiah\u2019s \u201cday of vengeance\u201d?","He came for salvation, not vengeance",["He forgot the words","The rabbi interrupted him","That part wasn\u2019t in the scroll"],"\u201cI\u2019m not here for vengeance, I\u2019m here for salvation.\u201d"],
+["chosen-jubilee","In The Chosen, what kind of release does Jesus say the Year of Jubilee brings?","Release from spiritual debt",["Forgiveness of money debts","Freedom from the Romans","Freedom from the Law of Moses"],"He\u2019s talking about sin, not money."],
+["chosen-law","What is Jesus claiming when he says \u201cI am the law of Moses\u201d?","That he is the source of the Law, which is a claim to be God",["That he will obey the Law perfectly","That he wrote the books of Moses","That the Law no longer matters"],"They call it blasphemy and sentence him to death."],
+["beat-word","\u201cBeatitude\u201d comes from a Latin word meaning\u2026","Blessed (or happy)",["Commandment","Mountain","Teaching"],"Latin beatus."],
+["beat-where","Where are the Beatitudes in the Bible?","Matthew 5, the start of the Sermon on the Mount",["Luke 4, in the synagogue in Nazareth","Exodus 20, with the Ten Commandments","Mark 1, at Jesus\u2019 baptism"],"Matthew 5:3-12. Luke 6 has a shorter Sermon on the Plain."],
+["beat-count","How many Beatitudes are usually counted in Matthew?","8",["10","3","12"],"Eight (some count a 9th, \u201cBlessed are you when they insult you\u2026\u201d)."],
+["beat-paradox","What is paradoxical about the Beatitudes?","They call blessed the people the world sees as unfortunate",["They contradict the Ten Commandments","They promise riches to the faithful","They are addressed only to priests"],"The poor, the grieving, the persecuted are the blessed ones."],
+["beat-crowd","Who is Jesus talking to in the Sermon on the Mount?","His disciples and a crowd of poor, ordinary people",["The chief priests and scribes","Roman officials","Only the twelve apostles"],"The BibleProject calls it a \u201cragtag group\u201d under Roman occupation."],
+["beat-moses","Why does Matthew put Jesus on a mountain to teach?","It echoes Moses receiving the Law on Mount Sinai",["It was the only place the crowd could hear","To escape the Romans","Because the synagogue had thrown him out"],"Matthew presents Jesus as a new Moses."],
+["beat-kingdom","In the Beatitudes, \u201cthe kingdom of heaven\u201d means\u2026","God\u2019s reality of justice, peace and love, coming to earth now",["The place you go only after you die","The Roman Empire","The Temple in Jerusalem"],"The BibleProject: Heaven coming to earth, starting with these people."],
+["beat-two","Which two Beatitudes share the promise \u201ctheirs is the kingdom of heaven\u201d?","The poor in spirit and the persecuted",["The meek and the merciful","The peacemakers and the pure of heart","Those who mourn and those who hunger"],"The first and the eighth: the list starts and ends with the kingdom."],
+["beat-peace","What does it mean to be a peacemaker?","Actively working to resolve conflicts",["Avoiding every argument","Never disagreeing with anyone","Staying out of other people\u2019s problems"],"Making peace takes action, not just avoiding fights."],
+["beat-meek","\u201cMeek\u201d in the Beatitudes means\u2026","Gentle and humble, not grabbing for power",["Weak and afraid","Quiet and shy","Poor and hungry"],"Humble strength. The video says \u201cthe unimportant.\u201d"],
+["beat-poor","\u201cPoor in spirit\u201d means people who\u2026","Know they need God",["Have no money","Are sad all the time","Don\u2019t believe in God"],"Humble dependence on God."],
+["salt","What comes right after the Beatitudes in Matthew 5?","\u201cYou are the salt of the earth\u2026 the light of the world\u201d",["The Our Father","The temptation in the desert","The calling of the disciples"],"Salt, light, a city on a hill."],
+["order","Put these in order:","Baptism, desert, Nazareth, Sermon on the Mount",["Desert, baptism, Nazareth, Sermon on the Mount","Nazareth, baptism, desert, Sermon on the Mount","Baptism, Nazareth, desert, Sermon on the Mount"],"The order on Ms. Rao\u2019s test list."],
+["mt-theme","Which detail fits Matthew\u2019s infancy narrative?","Jesus is visited by kings (the Magi)",["Shepherds visit the baby","Mary visits Elizabeth","Jesus\u2019 family tree goes back to Adam"],"Matthew: Jesus as King and Messiah. The others are Luke."],
+["lk-theme","Which detail fits Luke\u2019s infancy narrative?","Shepherds visit the baby Jesus",["Kings visit with gifts","The family flees to Egypt","Joseph is warned in dreams"],"Luke: good news for the lowly."]
+];
+function bankQ(b){return {topic:b[0],q:b[1],choices:shuf([{label:b[2],right:true}].concat(b[3].map(function(w){return{label:w,right:false}}))),why:b[4]};}
+function extras(){return shuf(BANK.map(bankQ).concat([qBeatFinish(),qBeatFinish(),qBeatFinish(),qBeatWho(),qBeatPractice(),qBeatPractice(),qTempt()]))}
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"rel3"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"rel3",count:20,extras:extras,bankOnly:true});
+
+$("ref").innerHTML=
+ '<div class="card"><h3>What\u2019s on the test</h3><p>Ms. Rao\u2019s Unit 3 Test post: review <b>notes on significant events in Jesus\u2019 life (baptism, desert experience, start of ministry)</b> and <b>Beatitudes notes and group work</b>. Her 10/29 post adds: the <b>Blooket review</b> and the <b>Mission Begins exit ticket</b>.</p>'
++'<div class="flag">Her Beatitudes notes and the group work sheet are <b>not posted</b> in Classroom or the class Drive, so the Beatitudes section here is from Matthew 5 and the BibleProject video. If her sheet uses different wording, go with hers.</div></div>'
++'<div class="card"><h3>The eight Beatitudes (Matthew 5:3-10)</h3><table class="bt"><tr><th>#</th><th>Blessed are\u2026</th><th>for\u2026</th></tr>'
++BEAT.map(function(b,i){return '<tr><td>'+(i+1)+'</td><td>'+b.who+'</td><td>'+b.prom+'</td></tr>'}).join('')
++'</table><p class="tiny">Wording follows the Catholic NABRE translation. Other versions say \u201cpure in heart,\u201d \u201cinherit the earth,\u201d \u201cbe filled.\u201d Verse 11, \u201cBlessed are you when they insult you and persecute you\u2026 rejoice and be glad, for your reward will be great in heaven,\u201d is sometimes counted as a 9th.</p></div>'
++'<div class="card"><h3>The three temptations (Matthew 4)</h3><table><tr><th>Satan offers</th><th>Really about</th><th>Jesus answers</th></tr>'
++'<tr><td>Turn stones into bread</td><td>his hunger, comfort</td><td>\u201cOne does not live by bread alone\u2026\u201d</td></tr>'
++'<tr><td>Jump from the Temple; angels will catch you</td><td>proof, making God perform</td><td>\u201cYou shall not put the Lord, your God, to the test.\u201d</td></tr>'
++'<tr><td>All the kingdoms, if you worship me</td><td>power and glory</td><td>\u201cThe Lord, your God, shall you worship and him alone shall you serve.\u201d</td></tr></table>'
++'<p class="tiny">Luke 4 has the same three with the last two swapped.</p></div>'
++'<div class="card"><h3>The story in order</h3><table>'
++'<tr><td>1</td><td><b>Baptism</b> in the Jordan by John. Heavens open, Spirit like a dove, \u201cYou are my beloved Son.\u201d</td></tr>'
++'<tr><td>2</td><td><b>Desert</b>: 40 days of fasting, three temptations.</td></tr>'
++'<tr><td>3</td><td><b>Nazareth</b>: reads Isaiah in the synagogue, \u201cToday this Scripture is fulfilled.\u201d Rejected, nearly thrown off a cliff.</td></tr>'
++'<tr><td>4</td><td><b>Sermon on the Mount</b>: the Beatitudes, then salt and light.</td></tr></table></div>'
++'<div class="card"><h3>Class videos</h3><p><a href="https://www.youtube.com/watch?v=oNNZO9i1Gjc" target="_blank">BibleProject: the Holy Spirit (ruakh)</a> (Oct 5)<br>'
++'<a href="https://www.youtube.com/watch?v=JAHSuW95tX0" target="_blank">The Chosen: \u201cI Am the Law of Moses\u201d</a> (Nazareth, Oct 9)<br>'
++'<a href="https://www.youtube.com/watch?v=s9246LGlngs" target="_blank">BibleProject: the Beatitudes</a> (Oct 20)<br>'
++'<a href="https://play.blooket.com/play?hwId=6ae33af825dea1c2b4533ce2" target="_blank">Blooket: LMJ Unit 3 Mission and Beatitudes HW</a> (homework, due Nov 6, goal 20 correct)</p></div>'
++'<div class="note">Short-answer questions on this test will probably look like the exit ticket and the Oct 20 discussion question (what\u2019s paradoxical, who it\u2019s for, why he starts with it, one Beatitude with meaning and example). The cards give you the facts. Practice saying the answers in your own words.</div>';
+
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>

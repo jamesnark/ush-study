@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Chemistry - Unit 3 Atomic Structure</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>:root{--accent:#4dd0e1;--accent-ink:#062a30}
+.nz{display:inline-flex;flex-direction:column;line-height:1;font-size:.68em;vertical-align:-.35em;text-align:right;margin-right:1px}
+.nz sup,.nz sub{position:static;font-size:1em;line-height:1.05}
+.el{font-weight:700}
+.bat{list-style:none;padding:0;margin:6px 0 0}
+.bat li{padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.bat li b{color:var(--accent)}
+.bat .q{color:var(--mut,#9aa3b2);font-size:12.5px}
+.flag{background:rgba(255,209,102,.12);border-left:3px solid #ffd166;padding:8px 11px;border-radius:6px;font-size:13.5px;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>Chemistry &middot; Unit 3: Atomic Structure</h1>
+  <div class="sub">Mr. Rott &middot; Period 1 &middot; Unit 3 Exam Fri Oct 30 (Mastery) &middot; built from the Unit 3 BAT Sheet Key</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
+<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=8"></script>
+<script>
+const $=id=>document.getElementById(id);
+function nuc(A,Z,sym,ch){
+  let c='';
+  if(ch){c='<sup>'+(Math.abs(ch)===1?'':Math.abs(ch))+(ch>0?'+':'\u2212')+'</sup>';}
+  return '<span class="nz"><sup>'+A+'</sup><sub>'+Z+'</sub></span><span class="el">'+sym+'</span>'+c;
+}
+const T=[
+/* ---------- SUBATOMIC PARTICLES ---------- */
+{s:"Subatomic particles",cat:"particle",t:"Proton",
+ a:["Symbol","Relative mass","Charge","Location","What it tells you"],
+ h:"It decides which element you have.",
+ d:"Symbol <b>p\u207a</b> &middot; mass <b>1 amu</b> &middot; charge <b>+1</b> &middot; in the <b>nucleus</b>.<br><b>Identifies the element</b>: atomic number = number of protons."},
+{s:"Subatomic particles",cat:"particle",t:"Neutron",
+ a:["Symbol","Relative mass","Charge","Location","What it does"],
+ h:"Neutral, and heavy.",
+ d:"Symbol <b>n\u2070</b> &middot; mass <b>1 amu</b> &middot; charge <b>0</b> &middot; in the <b>nucleus</b>.<br><b>Determines the atom\u2019s stability and adds mass.</b> Changing it makes a different isotope, not a different element."},
+{s:"Subatomic particles",cat:"particle",t:"Electron",
+ a:["Symbol","Relative mass","Charge","Location","What it does"],
+ h:"Almost no mass, but it runs the chemistry.",
+ d:"Symbol <b>e\u207b</b> &middot; mass <b>almost nothing</b> (about 1/1840 of a proton) &middot; charge <b>\u22121</b> &middot; in the <b>electron cloud around the nucleus</b>.<br><b>Determines the chemical properties</b> of an element."},
+{s:"Subatomic particles",cat:"particle",t:"Structure of an atom",
+ a:["What is in the center?","Where is almost all the mass?","Where are the electrons?"],
+ h:"Tiny dense center, huge empty cloud.",
+ d:"A tiny, dense, <b>positive nucleus</b> (protons + neutrons) holds almost all the mass. <b>Electrons</b> move in a cloud around it. Most of the atom is <b>empty space</b>."},
+/* ---------- IONS ---------- */
+{s:"Neutral atoms and ions",cat:"ion",t:"Neutral atom",
+ a:["What does neutral mean?"],
+ h:"Charges cancel.",
+ d:"The <b>number of electrons equals the number of protons</b>, so there is no overall charge."},
+{s:"Neutral atoms and ions",cat:"ion",t:"Ion",
+ a:["What is an ion?","How does one form?","Lose electrons = ?","Gain electrons = ?"],
+ h:"Only electrons move.",
+ d:"An ion is an atom that has <b>gained or lost electrons</b>. Protons never change.<br><b>Lose</b> electrons &rarr; <b>positive</b> ion (e.g. lose 2 &rarr; 2+).<br><b>Gain</b> electrons &rarr; <b>negative</b> ion (e.g. gain 3 &rarr; 3\u2212).<br><span class=\"tiny\">The words cation (+) and anion (\u2212) are not on the BAT sheet.</span>"},
+/* ---------- ISOTOPES AND NUMBERS ---------- */
+{s:"Isotopes and numbers",cat:"number",t:"Isotope",
+ a:["Define it","How are isotopes of an element alike?","How are they different?"],
+ h:"Same element, different weight.",
+ d:"Isotopes are versions of the same element with a <b>different number of neutrons</b>.<br><b>Alike:</b> same number of <b>protons</b> (same element, same chemistry).<br><b>Different:</b> number of neutrons, so different <b>mass numbers</b>. Example: carbon-12 and carbon-14."},
+{s:"Isotopes and numbers",cat:"number",t:"Atomic number",
+ a:["What does it count?","Where do you see it?"],
+ h:"Z",
+ d:"The <b>number of protons</b>. It is the bottom number in nuclear notation and it is <b>on the periodic table</b>."},
+{s:"Isotopes and numbers",cat:"number",t:"Mass number",
+ a:["What does it count?","Is it on the periodic table?"],
+ h:"A",
+ d:"<b>Protons + neutrons</b> added together. Always a whole number. It is the top number in nuclear notation and the number in hyphen notation. It is <b>not</b> on the periodic table, because each isotope has its own."},
+{s:"Isotopes and numbers",cat:"number",t:"Average atomic mass",
+ a:["Define it","Why is it a decimal?","Where do you see it?"],
+ h:"Weighted.",
+ d:"The <b>weighted average of the masses of all the isotopes</b> of an element, in amu. It is a decimal because it mixes isotopes by how common each one is. It is <b>on the periodic table</b>."},
+{s:"Isotopes and numbers",cat:"number",t:"What is on the periodic table?",
+ a:["Which of atomic number, mass number, average atomic mass?"],
+ h:"Two of the three.",
+ d:"<b>Atomic number</b> and <b>average atomic mass</b>. Mass number is not there."},
+{s:"Isotopes and numbers",cat:"notation",t:"Nuclear notation",
+ a:["What goes top-left?","Bottom-left?","Top-right?"],
+ h:"Mass on top.",
+ d:"Example: "+nuc(56,26,"Fe",3)+"<br><b>Top-left:</b> mass number (56). <b>Bottom-left:</b> atomic number (26). <b>Top-right:</b> charge, only if it is an ion."},
+{s:"Isotopes and numbers",cat:"notation",t:"Hyphen notation",
+ a:["Format","Example"],
+ h:"Name dash number.",
+ d:"<b>element name &ndash; mass number</b>. Example: <b>iron-56</b>, <b>sulfur-33</b>. No atomic number and no charge in the name, so say \u201cion\u201d if it has one."},
+{s:"Isotopes and numbers",cat:"notation",t:"Counting protons, neutrons, electrons",
+ a:["Protons = ?","Neutrons = ?","Electrons = ?"],
+ h:"Three formulas.",
+ d:"<b>Protons</b> = atomic number<br><b>Neutrons</b> = mass number &minus; atomic number<br><b>Electrons</b> = protons &minus; charge (a 2+ ion has 2 fewer; a 3\u2212 ion has 3 more). Neutral: electrons = protons."},
+{s:"Isotopes and numbers",cat:"notation",t:"Worked examples from the key (#7-8)",
+ a:["Atomic number 16 with 17 neutrons","Manganese-55 2+ ion: p, n, e","Arsenic-75 3+ ion: p, n, e"],
+ h:"Use the three formulas.",
+ d:"Z=16, 17 n &rarr; "+nuc(33,16,"S")+" <b>sulfur-33</b>.<br>"+nuc(55,25,"Mn",2)+" &rarr; <b>25 p, 30 n, 23 e</b>.<br>"+nuc(75,33,"As",3)+" &rarr; <b>33 p, 42 n, 30 e</b>.<br>Iron with 30 neutrons &rarr; "+nuc(56,26,"Fe")+" <b>iron-56</b>."},
+/* ---------- AVERAGE ATOMIC MASS ---------- */
+{s:"Average atomic mass",cat:"calc",t:"How to calculate average atomic mass",
+ a:["Step 1","Step 2","Step 3"],
+ h:"Multiply, add, divide by 100.",
+ d:"1. Multiply each isotope\u2019s mass by its <b>percent abundance</b>.<br>2. <b>Add</b> the products.<br>3. <b>Divide by 100</b>.<br>(Or turn the percents into decimals first and skip the \u00f7100.)"},
+{s:"Average atomic mass",cat:"calc",t:"Rubidium (key #9)",
+ a:["Rb-85 is 72.2%, Rb-87 is 27.8%. Average atomic mass?"],
+ h:"(85 \u00d7 72.2) + (87 \u00d7 27.8)",
+ d:"(85 \u00d7 72.2) + (87 \u00d7 27.8) = 6137 + 2418.6 = 8555.6 &divide; 100 = <b>85.556 amu</b>.<br>To two decimal places: <b>85.56 amu</b>.<div class=\"flag\">The key circles <b>85.6 amu</b> (rounded for sig figs) even though the question says two decimal places. Show your work, then round the way the question asks.</div>"},
+{s:"Average atomic mass",cat:"calc",t:"Mystery element from a graph (key #10)",
+ a:["Masses 64, 66, 67, 68, 70 at 49.17%, 27.73%, 4.04%, 18.45%, 0.61%","Average atomic mass?","Which element?"],
+ h:"Five products, then \u00f7100.",
+ d:"(64\u00d749.17)+(66\u00d727.73)+(67\u00d74.04)+(68\u00d718.45)+(70\u00d70.61) = 6545.04 &divide; 100 = <b>65.45 amu</b>.<br>Find 65.45 on the periodic table: <b>zinc (Zn)</b>."},
+{s:"Average atomic mass",cat:"calc",t:"Inferring which isotope is more abundant",
+ a:["Boron: B-10 and B-11, average 10.81. Which is more common? Why?"],
+ h:"Which whole number is it closer to?",
+ d:"<b>Boron-11</b> is more abundant, because the average atomic mass (10.81) is <b>closer to 11</b> than to 10. The average is always pulled toward the most common isotope."},
+/* ---------- RADIOACTIVITY ---------- */
+{s:"Radioactivity",cat:"radio",t:"Why some isotopes are radioactive",
+ a:["Why?"],
+ h:"Unstable nucleus.",
+ d:"Their <b>nucleus has too much energy to stay stable</b>.<br><span class=\"tiny\">Extra detail, not on the key: usually because the balance of neutrons to protons is off.</span>"},
+{s:"Radioactivity",cat:"radio",t:"Radioactive decay",
+ a:["Define it"],
+ h:"The nucleus lets something go.",
+ d:"The process where an <b>unstable nucleus ejects radiation to become stable</b>."},
+{s:"Radioactivity",cat:"radio",t:"Alpha (\u03b1)",
+ a:["Charge","Mass","Symbol","Penetrating power"],
+ h:"Big and slow.",
+ d:"Charge <b>2+</b> &middot; mass <b>4 amu</b> &middot; symbol <b>\u03b1</b> &middot; penetrating power <b>low</b>.<br><span class=\"tiny\">Not on the key: it is 2 protons + 2 neutrons (a helium nucleus), and paper stops it.</span>"},
+{s:"Radioactivity",cat:"radio",t:"Beta (\u03b2)",
+ a:["Charge","Mass","Symbol","Penetrating power"],
+ h:"A fast electron.",
+ d:"Charge <b>1\u2212</b> &middot; mass <b>almost nothing</b> &middot; symbol <b>\u03b2</b> &middot; penetrating power <b>moderate</b>.<br><span class=\"tiny\">Not on the key: it is a high-speed electron; thin metal like aluminum stops it.</span>"},
+{s:"Radioactivity",cat:"radio",t:"Gamma (\u03b3)",
+ a:["Charge","Mass","Symbol","Penetrating power"],
+ h:"Pure energy.",
+ d:"Charge <b>0</b> &middot; mass <b>0</b> &middot; symbol <b>\u03b3</b> &middot; penetrating power <b>high</b>.<br><span class=\"tiny\">Not on the key: it is energy (a ray), not a particle; it takes thick lead or concrete to stop it.</span>"},
+/* ---------- ATOMIC MODELS ---------- */
+{s:"History of the atom",cat:"model",t:"John Dalton",
+ a:["Contribution","What did his model look like?"],
+ h:"Model #1.",
+ d:"<b>First atomic theory.</b> Atoms are <b>tiny solid spheres</b>."},
+{s:"History of the atom",cat:"model",t:"J.J. Thomson",
+ a:["Contribution","Name of his model","What did it look like?"],
+ h:"Dessert.",
+ d:"<b>Discovered the electron.</b> <b>Plum pudding model</b>: a ball of <b>positively charged material</b> with electrons scattered through it."},
+{s:"History of the atom",cat:"model",t:"Ernest Rutherford",
+ a:["Contribution","Experiment","What did his model look like?"],
+ h:"Gold foil.",
+ d:"<b>Discovered the nucleus</b> with the <b>gold foil experiment</b>. Model: a small positive nucleus with electrons around it.<br><span class=\"tiny\">Not on the key: most particles went straight through (atom is mostly empty space), and a few bounced back (small, dense, positive center).</span>"},
+{s:"History of the atom",cat:"model",t:"Niels Bohr",
+ a:["Contribution","What did his model look like?"],
+ h:"Like planets.",
+ d:"Electrons travel in fixed <b>shells</b> (the \u201corbital model\u201d on the BAT sheet) around the nucleus."},
+{s:"History of the atom",cat:"model",t:"James Chadwick",
+ a:["Contribution"],
+ h:"The last particle.",
+ d:"<b>Discovered the neutron.</b> His model adds neutrons to the nucleus."},
+{s:"History of the atom",cat:"model",t:"Erwin Schr\u00f6dinger",
+ a:["Contribution","Name of the model"],
+ h:"Fuzzy.",
+ d:"<b>Electrons exist in a cloud</b>: the <b>electron cloud model</b>, the modern one."},
+{s:"History of the atom",cat:"model",t:"The six models in order (key #16)",
+ a:["Name all six in class order"],
+ h:"D, T, R, B, C, cloud",
+ d:"<b>Dalton</b> (solid sphere) &rarr; <b>Thomson</b> (plum pudding) &rarr; <b>Rutherford</b> (nucleus) &rarr; <b>Bohr</b> (shells) &rarr; <b>Chadwick</b> (neutrons in the nucleus) &rarr; <b>Schr\u00f6dinger</b> (electron cloud).<br>Hook: <b>D</b>on\u2019t <b>T</b>ouch <b>R</b>ed <b>B</b>uttons, <b>C</b>hemistry <b>C</b>louds.<div class=\"flag\">This is the order on Mr. Rott\u2019s key. In real dates, Schr\u00f6dinger (1926) was before Chadwick (1932), so use the class order on his test.</div>"},
+{s:"History of the atom",cat:"model",t:"First and last particle discovered (key #17)",
+ a:["First?","Last?","Why?"],
+ h:"Easy to free vs. hidden and neutral.",
+ d:"<b>First: the electron.</b> It is relatively easy to produce free electrons.<br><b>Last: the neutron.</b> It is in the nucleus and has no charge, so it is hard to remove and doesn\u2019t interact electrically."},
+/* ---------- REVIEW ---------- */
+{s:"Review (earlier units)",cat:"measure",t:"Reading a meniscus (key #18)",
+ a:["Where do you read it?","How many digits do you record?"],
+ h:"Bottom of the curve.",
+ d:"Read at the <b>bottom of the meniscus</b>, at eye level. Record every certain digit <b>plus one estimated digit</b>, one place past the smallest marking."},
+{s:"Review (earlier units)",cat:"measure",t:"Precision of an instrument",
+ a:["Why can\u2019t you read 27.65 mL on the key\u2019s cylinder (c)?"],
+ h:"One estimated digit only.",
+ d:"You can only estimate <b>one digit past the smallest marking</b>. The key says 27.65 mL is <b>not possible to measure on that cylinder</b>, so it reads 27.7 mL. The BAT sheet says to expect earlier units on the test, too."}
+];
+const CARDS=T.map(function(x){return {s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat}});
+
+/* ---------- generated questions ---------- */
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+const ELN=["","hydrogen","helium","lithium","beryllium","boron","carbon","nitrogen","oxygen","fluorine","neon","sodium","magnesium","aluminum","silicon","phosphorus","sulfur","chlorine","argon","potassium","calcium","scandium","titanium","vanadium","chromium","manganese","iron","cobalt","nickel","copper","zinc","gallium","germanium","arsenic","selenium","bromine","krypton","rubidium","strontium","yttrium","zirconium","niobium","molybdenum","technetium","ruthenium","rhodium","palladium","silver","cadmium","indium","tin","antimony","tellurium","iodine","xenon","cesium","barium"];
+const ELS=["","H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba"];
+/* [Z, A, charge] */
+const SPECIES=[[6,12,0],[6,14,0],[7,14,0],[7,15,-3],[8,16,0],[8,18,-2],[9,19,-1],[10,21,0],[11,23,1],[12,24,2],[13,27,3],[15,31,0],[16,32,-2],[16,33,0],[17,35,-1],[17,37,0],[19,39,1],[20,40,2],[25,55,2],[26,54,0],[26,56,3],[26,56,2],[28,59,0],[29,63,2],[30,64,2],[33,75,3],[33,75,0],[35,79,-1],[37,85,1],[47,107,1],[4,9,0],[3,7,1],[38,88,2],[53,127,-1]];
+function uniq3(ans,cands){const out=[];cands.forEach(function(c){c=String(c);if(c!==String(ans)&&out.indexOf(c)<0&&!/^-/.test(c))out.push(c)});
+  if(!isNaN(+ans)){const a=+ans,dec=String(ans).indexOf('.')>=0;[1,2,3,4].forEach(function(k){[a+k,a-k].forEach(function(v){const c=dec?f2(v):String(v);if(out.length<3&&v>=0&&c!==String(ans)&&out.indexOf(c)<0)out.push(c)})})}
+  return out.slice(0,3)}
+function mcq(topic,q,ans,wrong,why){return {topic:topic,q:q,choices:shuf([{label:String(ans),right:true}].concat(wrong.map(function(w){return{label:w,right:false}}))),why:why}}
+function qCount(){
+  const s=pick(SPECIES),Z=s[0],A=s[1],ch=s[2],N=A-Z,E=Z-ch,sym=ELS[Z];
+  const mode=pick(ch?["n","e","e","p"]:["n","n","p","e"]);
+  const label=nuc(A,Z,sym,ch);
+  const how="Protons = atomic number = <b>"+Z+"</b>. Neutrons = "+A+" &minus; "+Z+" = <b>"+N+"</b>. Electrons = "+Z+(ch?(ch>0?" &minus; "+ch:" + "+(-ch)):"")+" = <b>"+E+"</b>.";
+  if(mode==="n")return mcq("Count neutrons","How many <b>neutrons</b> are in "+label+"?",N,uniq3(N,[Z,A,A+Z,N+1,N-1]),how);
+  if(mode==="e")return mcq("Count electrons","How many <b>electrons</b> are in "+label+"?",E,uniq3(E,[Z,ch?Z+ch:Z+1,N,E+1,E-1]),how);
+  return mcq("Count protons","How many <b>protons</b> are in "+label+"?",Z,uniq3(Z,[A,N,E,Z+1]),how);
+}
+function qHyphen(){
+  const s=pick(SPECIES.filter(function(x){return x[2]===0})),Z=s[0],A=s[1],N=A-Z;
+  const ans=ELN[Z]+"-"+A;
+  const c=[ELN[Z]+"-"+N,ELN[Z]+"-"+Z,(ELN[N]||ELN[Z+1])+"-"+A,ELN[Z+1]+"-"+A,ELN[Z-1]+"-"+A,ELN[Z]+"-"+(A+1)];
+  return mcq("Hyphen notation","A neutral atom has <b>"+Z+" protons</b> and <b>"+N+" neutrons</b>. What is its hyphen notation?",ans,uniq3(ans,c),
+   "The protons make it <b>"+ELN[Z]+"</b> (atomic number "+Z+"). Mass number = "+Z+" + "+N+" = "+A+", so <b>"+ans+"</b>.");
+}
+function qNuclear(){
+  const s=pick(SPECIES),Z=s[0],A=s[1],ch=s[2],sym=ELS[Z];
+  const ans=nuc(A,Z,sym,ch);
+  const c=[nuc(Z,A,sym,ch),nuc(A,A-Z,sym,ch),ch?nuc(A,Z,sym,-ch):nuc(A+1,Z,sym,0),nuc(A,Z,sym,ch?0:2)];
+  const out=[];c.forEach(function(x){if(x!==ans&&out.indexOf(x)<0)out.push(x)});
+  const desc=(ch?"a "+(ch>0?"":"")+Math.abs(ch)+(ch>0?"+":"\u2212")+" ion of ":"a neutral atom of ")+"<b>"+ELN[Z]+"-"+A+"</b>";
+  return {topic:"Nuclear notation",q:"Which nuclear notation shows "+desc+"?",
+   choices:shuf([{label:ans,right:true}].concat(out.slice(0,3).map(function(w){return{label:w,right:false}}))),
+   why:"Mass number ("+A+") on top, atomic number ("+Z+") on the bottom"+(ch?", charge top-right":"")+": "+ans+"."};
+}
+/* real two-isotope elements, masses as mass numbers (the way the key does it) */
+const AVG=[["chlorine",35,75.76,37,24.24],["copper",63,69.15,65,30.85],["boron",10,19.9,11,80.1],["lithium",6,7.59,7,92.41],
+ ["gallium",69,60.11,71,39.89],["silver",107,51.84,109,48.16],["rubidium",85,72.2,87,27.8],["bromine",79,50.69,81,49.31]];
+function f2(x){return (Math.round(x*100)/100).toFixed(2)}
+function qAvg(){
+  const e=pick(AVG),ans=f2((e[1]*e[2]+e[3]*e[4])/100);
+  const swapped=f2((e[1]*e[4]+e[3]*e[2])/100),simple=f2((e[1]+e[3])/2),most=f2(e[2]>e[4]?e[1]:e[3]);
+  let c=[swapped,simple,most,f2(+ans+0.5),f2(+ans-0.5)];
+  return mcq("Average atomic mass (calc)","<b>"+e[0][0].toUpperCase()+e[0].slice(1)+"-"+e[1]+"</b> is "+e[2]+"% and <b>"+e[0]+"-"+e[3]+"</b> is "+e[4]+"%. What is the average atomic mass (two decimal places)?",
+   ans+" amu",uniq3(ans,c).map(function(x){return x+" amu"}),
+   "("+e[1]+" &times; "+e[2]+") + ("+e[3]+" &times; "+e[4]+") = "+(Math.round((e[1]*e[2]+e[3]*e[4])*100)/100)+" &divide; 100 = <b>"+ans+" amu</b>. Check: it should be closer to the more common isotope.");
+}
+const ABUND=[["boron",10,11,10.81],["chlorine",35,37,35.45],["copper",63,65,63.55],["lithium",6,7,6.94],["gallium",69,71,69.72],["bromine",79,81,79.90],["silver",107,109,107.87],["rubidium",85,87,85.47],["antimony",121,123,121.76]];
+function qAbund(){
+  const e=pick(ABUND),mid=(e[1]+e[2])/2,more=e[3]<mid?e[1]:e[2];
+  const ans=e[0]+"-"+more,other=e[0]+"-"+(more===e[1]?e[2]:e[1]);
+  return mcq("Infer abundance","<b>"+e[0][0].toUpperCase()+e[0].slice(1)+"</b> has two isotopes, "+e[0]+"-"+e[1]+" and "+e[0]+"-"+e[2]+". Its average atomic mass is <b>"+e[3]+" amu</b>. Which isotope is more abundant?",
+   ans,[other,"They are equally abundant","You can\u2019t tell without the percents"],
+   e[3]+" is closer to <b>"+more+"</b> than to "+(more===e[1]?e[2]:e[1])+" (halfway is "+mid+"), so <b>"+ans+"</b> is more common.");
+}
+const SCI=[["John Dalton","First atomic theory: tiny solid spheres"],["J.J. Thomson","Discovered the electron (plum pudding model)"],
+ ["Ernest Rutherford","Discovered the nucleus (gold foil experiment)"],["Niels Bohr","Electrons in shells (orbital model)"],
+ ["James Chadwick","Discovered the neutron"],["Erwin Schr\u00f6dinger","Electrons exist in a cloud"]];
+function qSci(){
+  const p=pick(SCI),others=shuf(SCI.filter(function(x){return x!==p})).slice(0,3);
+  if(Math.random()<.5)return mcq("Scientist: "+p[0],"What was <b>"+p[0]+"</b>\u2019s major contribution?",p[1],others.map(function(o){return o[1]}),"<b>"+p[0]+"</b>: "+p[1]+".");
+  return mcq("Scientist: "+p[0],"Who is known for this? <b>"+p[1]+"</b>",p[0],others.map(function(o){return o[0]}),"<b>"+p[0]+"</b>: "+p[1]+".");
+}
+
+/* ---------- hand-written question bank ---------- */
+const BANK=[
+["p-charge","What is the charge of a proton?","+1",["\u22121","0","+2"],"Protons are positive: +1."],
+["n-charge","What is the charge of a neutron?","0",["+1","\u22121","+2"],"Neutrons are neutral."],
+["e-charge","What is the charge of an electron?","\u22121",["+1","0","\u22122"],"Electrons are negative: \u22121."],
+["e-mass","What is the relative mass of an electron?","Almost nothing",["1 amu","4 amu","The same as a neutron"],"About 1/1840 of a proton. The key just says \u201calmost nothing.\u201d"],
+["pn-mass","What are the relative masses of a proton and a neutron?","Both about 1 amu",["Proton 1 amu, neutron 0","Proton 0, neutron 1 amu","Both almost nothing"],"Protons and neutrons are each about 1 amu."],
+["pn-where","Where are protons and neutrons found?","In the nucleus",["In the electron cloud","Spread evenly through the atom","Orbiting the nucleus"],"Both are in the nucleus."],
+["e-where","Where are electrons found?","In the electron cloud around the nucleus",["Inside the nucleus","Stuck to the protons","Only in ions"],"Electrons are in the cloud around the nucleus."],
+["p-identity","Which particle identifies which element an atom is?","Proton",["Neutron","Electron","Whichever there is the most of"],"Atomic number = number of protons, and that decides the element."],
+["e-chem","Which particle mostly determines an element\u2019s chemical properties?","Electron",["Proton","Neutron","The nucleus as a whole"],"Electrons decide how an element reacts."],
+["n-role","What do neutrons mainly do?","Affect the atom\u2019s stability and add mass",["Give the atom its charge","Decide which element it is","Decide the chemical properties"],"Key: neutrons \u201cdetermine atom stability and contribute to mass.\u201d"],
+["mass-where","Where is almost all of an atom\u2019s mass?","In the nucleus",["In the electron cloud","Split evenly between nucleus and cloud","In the empty space"],"Protons and neutrons (1 amu each) are in the nucleus; electrons weigh almost nothing."],
+["neutral","What makes an atom neutral?","Its number of electrons equals its number of protons",["Its number of neutrons equals its number of protons","It has no neutrons","It has no electrons"],"Equal + and \u2212, so no overall charge."],
+["ion-form","How does an ion form?","An atom gains or loses electrons",["An atom gains or loses protons","An atom gains or loses neutrons","Two atoms share one nucleus"],"Only electrons change. Changing protons would make a different element."],
+["ion-lose","An atom loses 2 electrons. What is its charge?","2+",["2\u2212","0","It depends on its neutrons"],"Losing negative charges leaves it positive: 2+."],
+["ion-gain","An atom gains 3 electrons. What is its charge?","3\u2212",["3+","0","1\u2212"],"Gaining negative charges makes it negative: 3\u2212."],
+["ion-protons","When an atom becomes an ion, what happens to its protons?","Nothing; protons don\u2019t change",["It gains protons","It loses protons","They turn into neutrons"],"Change the protons and it\u2019s a different element."],
+["iso-def","What are isotopes?","Atoms of the same element with different numbers of neutrons",["Atoms with different numbers of protons","Atoms with different numbers of electrons","Different elements with the same mass number"],"Same protons, different neutrons."],
+["iso-same","Isotopes of the same element always have the same number of\u2026","Protons",["Neutrons","Protons + neutrons","Mass number"],"Same element means same number of protons."],
+["iso-diff","Carbon-12 and carbon-14 differ in their number of\u2026","Neutrons",["Protons","Electrons (when neutral)","Atomic number"],"12 \u2212 6 = 6 neutrons vs. 14 \u2212 6 = 8 neutrons."],
+["z-def","Atomic number is the number of\u2026","Protons",["Protons + neutrons","Neutrons","Electrons in an ion"],"Atomic number = protons."],
+["a-def","Mass number is the number of\u2026","Protons + neutrons",["Protons only","Neutrons only","Protons + electrons"],"Mass number = protons + neutrons."],
+["avg-def","Average atomic mass is\u2026","The weighted average of the masses of an element\u2019s isotopes",["The mass of the most common isotope","Protons + neutrons in one atom","The simple average of the isotopes\u2019 mass numbers"],"Weighted by how common each isotope is."],
+["ptable","Which two are shown on a typical periodic table?","Atomic number and average atomic mass",["Mass number and atomic number","Mass number and number of neutrons","Average atomic mass and mass number"],"Mass number isn\u2019t there, because each isotope has its own."],
+["avg-decimal","Why is the atomic mass on the periodic table usually a decimal?","It\u2019s a weighted average of the isotopes",["Electrons add a fraction of an amu","Scientists can\u2019t measure it exactly","Neutrons weigh a little less than 1 amu"],"Mixing isotopes by abundance gives a decimal."],
+["nuc-top","In nuclear notation, what is the top number?","Mass number",["Atomic number","Charge","Number of neutrons"],"Mass on top, atomic number on the bottom."],
+["nuc-bottom","In nuclear notation, what is the bottom number?","Atomic number",["Mass number","Number of neutrons","Charge"],"Atomic number on the bottom."],
+["hyph-num","In \u201ciron-56\u201d, what does 56 tell you?","The mass number",["The atomic number","The number of neutrons","The average atomic mass"],"Hyphen notation is name-mass number."],
+["k7a","An atom has atomic number 16 and 17 neutrons. What is it?","sulfur-33",["sulfur-17","chlorine-33","sulfur-16"],"Z = 16 is sulfur; 16 + 17 = 33."],
+["k7e","Which is the isotope of iron with 30 neutrons?","iron-56",["iron-30","iron-26","zinc-30"],"Iron is 26; 26 + 30 = 56."],
+["kn15","A nitrogen-15 particle has 7 protons and 10 electrons. What is it?","A 3\u2212 ion",["A neutral atom","A 3+ ion","A different isotope of nitrogen"],"7 protons, 10 electrons: 3 extra electrons, so 3\u2212. (Key #8 lists it as just \u201cnitrogen-15\u201d with 10 electrons.)"],
+["kmn","How many electrons does a manganese-55 2+ ion have?","23",["25","27","30"],"25 protons \u2212 2 = 23 electrons. (Key #8.)"],
+["boron","Boron\u2019s average atomic mass is 10.81. Which isotope is more common?","Boron-11",["Boron-10","They are equally common","You can\u2019t tell without percents"],"10.81 is closer to 11. (Key #11.)"],
+["avg-closer","The average atomic mass is always closest to the mass of\u2026","The most abundant isotope",["The lightest isotope","The heaviest isotope","The middle isotope"],"The common isotope pulls the average toward itself."],
+["rb","Rb-85 is 72.2% and Rb-87 is 27.8%. What is the average atomic mass?","85.56 amu",["86.00 amu","86.44 amu","85.00 amu"],"(85\u00d772.2 + 87\u00d727.8) \u00f7 100 = 85.556 \u2248 85.56. 86.00 is the plain average; 86.44 swaps the percents. (Key #9; the key circles 85.6.)"],
+["zn","The key\u2019s graph gives masses 64, 66, 67, 68, 70 at 49.17%, 27.73%, 4.04%, 18.45%, 0.61%. What is the element?","Zinc (65.45 amu)",["Copper (63.55 amu)","Gallium (69.72 amu)","Germanium (72.63 amu)"],"Weighted average = 65.45 amu, which is zinc. (Key #10.)"],
+["avg-step","With percent abundances, what is the first step for average atomic mass?","Multiply each isotope\u2019s mass by its percent",["Add the masses and divide by how many isotopes","Divide each mass by its percent","Subtract the smallest mass from the largest"],"Multiply, add, then divide by 100."],
+["radio-why","Why are some isotopes radioactive?","Their nucleus has too much energy to stay stable",["They have extra electrons","They are ions","They have no neutrons"],"Key #12: the energy in the nucleus is too high to remain stable."],
+["decay-def","What is radioactive decay?","A nucleus ejects radiation to become stable",["An atom loses electrons to form an ion","An atom splits into two equal halves","Electrons jump between shells"],"Key #13."],
+["alpha","Which emission has a 2+ charge and a mass of 4 amu?","Alpha",["Beta","Gamma","Neutron"],"Alpha: 2+, 4 amu, low penetrating power."],
+["beta","Which emission has a 1\u2212 charge and almost no mass?","Beta",["Alpha","Gamma","Proton"],"Beta: 1\u2212, almost no mass, moderate penetrating power."],
+["gamma","Which emission has no charge and no mass?","Gamma",["Alpha","Beta","Neutron"],"Gamma: 0 charge, 0 mass, high penetrating power."],
+["pen-high","Which emission has the highest penetrating power?","Gamma",["Alpha","Beta","They are all the same"],"Gamma: high. Beta: moderate. Alpha: low."],
+["pen-low","Which emission has the lowest penetrating power?","Alpha",["Beta","Gamma","They are all the same"],"Alpha: low."],
+["pen-beta","How strong is beta\u2019s penetrating power?","Moderate",["Low","High","None"],"Alpha low, beta moderate, gamma high."],
+["sym-g","What is the symbol for gamma radiation?","\u03b3",["\u03b1","\u03b2","n\u2070"],"\u03b1 alpha, \u03b2 beta, \u03b3 gamma."],
+["dalton","Dalton\u2019s model pictured atoms as\u2026","Tiny solid spheres",["A positive ball with electrons scattered in it","A nucleus with electrons in shells","An electron cloud"],"Dalton: first atomic theory."],
+["thomson","What did J.J. Thomson discover?","The electron",["The nucleus","The neutron","Electron shells"],"Thomson: electron, plum pudding model."],
+["plum","The plum pudding model belongs to\u2026","J.J. Thomson",["Ernest Rutherford","John Dalton","Niels Bohr"],"Positive material with electrons scattered in it."],
+["ruth","What did Rutherford\u2019s gold foil experiment discover?","The nucleus",["The electron","The neutron","Electron shells"],"Rutherford: nucleus."],
+["gold-empty","In the gold foil experiment, most particles went straight through the foil. What did that show?","Atoms are mostly empty space",["Gold atoms have no nucleus","Atoms are solid spheres","Electrons are heavy"],"A few bounced back, which showed a small, dense, positive nucleus. (Not on the key, but it\u2019s the classic follow-up.)"],
+["bohr","Bohr\u2019s model put electrons\u2026","In fixed shells around the nucleus",["In a cloud","Scattered through positive material","Inside the nucleus"],"Bohr: shells (the \u201corbital model\u201d on the BAT sheet)."],
+["chad","Who discovered the neutron?","James Chadwick",["J.J. Thomson","Ernest Rutherford","Erwin Schr\u00f6dinger"],"Chadwick: neutron."],
+["schro","The electron cloud model came from\u2026","Erwin Schr\u00f6dinger",["Niels Bohr","John Dalton","James Chadwick"],"Schr\u00f6dinger: electrons exist in a cloud."],
+["order","Which order matches the six models on the key?","Dalton, Thomson, Rutherford, Bohr, Chadwick, cloud model",["Thomson, Dalton, Rutherford, Bohr, cloud model, Chadwick","Dalton, Rutherford, Thomson, Bohr, Chadwick, cloud model","Dalton, Thomson, Bohr, Rutherford, Chadwick, cloud model"],"Key #16."],
+["first","Which subatomic particle was discovered first?","The electron",["The proton","The neutron","All three at once"],"It is relatively easy to produce free electrons."],
+["last","Which particle was discovered last, and why?","The neutron, because it\u2019s in the nucleus and has no charge",["The electron, because it\u2019s so small","The proton, because electrons hide it","The neutron, because it\u2019s the lightest"],"No charge means it doesn\u2019t interact electrically, and it\u2019s hard to remove from the nucleus."],
+["menisc","Where do you read a meniscus?","At the bottom of the curve, at eye level",["At the top edge of the curve","Where the liquid touches the glass","Wherever is easiest to see"],"Bottom of the meniscus."],
+["sigdig","When reading a graduated cylinder, you record\u2026","All certain digits plus one estimated digit",["Only the digits printed on the scale","Two estimated digits","The nearest whole mL"],"One digit past the smallest marking. That\u2019s why 27.65 mL was \u201cnot possible\u201d on cylinder (c)."]
+];
+function bankQ(b){return {topic:b[0],q:b[1],choices:shuf([{label:b[2],right:true}].concat(b[3].map(function(w){return{label:w,right:false}}))),why:b[4]};}
+function extras(){return shuf(BANK.map(bankQ).concat([qCount(),qCount(),qCount(),qCount(),qHyphen(),qHyphen(),qNuclear(),qAvg(),qAvg(),qAbund(),qSci(),qSci()]))}
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"chem3"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"chem3",count:20,extras:extras,bankOnly:true});
+
+$("ref").innerHTML=
+ '<div class="card"><h3>BAT checklist (Be Able To\u2026)</h3><p class="tiny">Straight from the Unit 3 BAT Sheet. If you can do every line without looking, you\u2019re ready.</p><ul class="bat">'
++'<li><b>Name the 3 subatomic particles</b> with their relative mass and charge. <span class="q">#1</span></li>'
++'<li><b>Describe the structure</b> of an atom. <span class="q">#1</span></li>'
++'<li><b>Describe how an ion forms.</b> <span class="q">#2-3</span></li>'
++'<li><b>Define isotopes</b> and how isotopes of an element differ. <span class="q">#4</span></li>'
++'<li><b>Tell apart</b> atomic number, mass number, and average atomic mass. <span class="q">#5-6</span></li>'
++'<li><b>Calculate neutrons</b> from atomic number and mass number. <span class="q">#7-8</span></li>'
++'<li><b>Find mass number, atomic number, p, n, e</b> from partial info, including ions. <span class="q">#7-8</span></li>'
++'<li><b>Calculate average atomic mass</b> from percent abundances or a graph. <span class="q">#9-10</span></li>'
++'<li><b>Infer which isotope is more abundant</b> from the average atomic mass. <span class="q">#11</span></li>'
++'<li><b>Describe why some isotopes are radioactive.</b> <span class="q">#12-13</span></li>'
++'<li><b>Tell apart alpha, beta, and gamma.</b> <span class="q">#14</span></li>'
++'<li><b>Describe the evolution of the atomic model.</b> <span class="q">#15-17</span></li>'
++'<li><b>Review:</b> read a meniscus to the right precision. <span class="q">#18</span></li></ul></div>'
++'<div class="card"><h3>The three particles</h3><table><tr><th>Name</th><th>Symbol</th><th>Mass</th><th>Charge</th><th>Location</th><th>Job</th></tr>'
++'<tr><td>proton</td><td>p\u207a</td><td>1 amu</td><td>+1</td><td>nucleus</td><td>identifies the element (atomic number)</td></tr>'
++'<tr><td>neutron</td><td>n\u2070</td><td>1 amu</td><td>0</td><td>nucleus</td><td>stability, adds mass</td></tr>'
++'<tr><td>electron</td><td>e\u207b</td><td>almost nothing</td><td>\u22121</td><td>electron cloud</td><td>chemical properties</td></tr></table></div>'
++'<div class="card"><h3>The formulas</h3><table>'
++'<tr><td>Protons</td><td>= atomic number</td></tr>'
++'<tr><td>Neutrons</td><td>= mass number &minus; atomic number</td></tr>'
++'<tr><td>Electrons</td><td>= protons &minus; charge &nbsp;(neutral: = protons)</td></tr>'
++'<tr><td>Mass number</td><td>= protons + neutrons</td></tr>'
++'<tr><td>Average atomic mass</td><td>= (mass\u2081 \u00d7 %\u2081 + mass\u2082 \u00d7 %\u2082 + \u2026) \u00f7 100</td></tr></table>'
++'<p style="margin-top:10px">Nuclear notation: '+nuc(75,33,"As",3)+' = mass number on top, atomic number on the bottom, charge top-right. Hyphen notation: <b>arsenic-75</b>.</p></div>'
++'<div class="card"><h3>Key #8, filled in</h3><table><tr><th>Isotope</th><th>Symbol</th><th>Z</th><th>A</th><th>n</th><th>p</th><th>e</th></tr>'
++'<tr><td>nitrogen-15 (3\u2212 ion)</td><td>'+nuc(15,7,"N",-3)+'</td><td>7</td><td>15</td><td>8</td><td>7</td><td>10</td></tr>'
++'<tr><td>neon-21</td><td>'+nuc(21,10,"Ne")+'</td><td>10</td><td>21</td><td>11</td><td>10</td><td>10</td></tr>'
++'<tr><td>beryllium-9</td><td>'+nuc(9,4,"Be")+'</td><td>4</td><td>9</td><td>5</td><td>4</td><td>4</td></tr>'
++'<tr><td>manganese-55 ion</td><td>'+nuc(55,25,"Mn",2)+'</td><td>25</td><td>55</td><td>30</td><td>25</td><td>23</td></tr>'
++'<tr><td>arsenic-75 ion</td><td>'+nuc(75,33,"As",3)+'</td><td>33</td><td>75</td><td>42</td><td>33</td><td>30</td></tr></table>'
++'<p class="tiny">The key labels the first row just \u201cnitrogen-15,\u201d but 7 protons with 10 electrons is a 3\u2212 ion. The table says \u201cDo NOT assume all isotopes are neutral.\u201d</p></div>'
++'<div class="card"><h3>Alpha, beta, gamma</h3><table><tr><th>Name</th><th>Charge</th><th>Mass</th><th>Symbol</th><th>Penetrating power</th></tr>'
++'<tr><td>alpha</td><td>2+</td><td>4 amu</td><td>\u03b1</td><td>low</td></tr>'
++'<tr><td>beta</td><td>1\u2212</td><td>almost nothing</td><td>\u03b2</td><td>moderate</td></tr>'
++'<tr><td>gamma</td><td>0</td><td>0</td><td>\u03b3</td><td>high</td></tr></table></div>'
++'<div class="card"><h3>Atomic models, in class order</h3><table><tr><th>#</th><th>Scientist</th><th>Contribution</th><th>Model</th></tr>'
++'<tr><td>1</td><td>John Dalton</td><td>First atomic theory</td><td>tiny solid sphere</td></tr>'
++'<tr><td>2</td><td>J.J. Thomson</td><td>Discovered electrons</td><td>plum pudding (positive material, electrons scattered in)</td></tr>'
++'<tr><td>3</td><td>Ernest Rutherford</td><td>Discovered the nucleus (gold foil)</td><td>positive nucleus, electrons around it</td></tr>'
++'<tr><td>4</td><td>Niels Bohr</td><td>Electron shells</td><td>electrons in rings around the nucleus</td></tr>'
++'<tr><td>5</td><td>James Chadwick</td><td>Discovered neutrons</td><td>shells, with neutrons in the nucleus</td></tr>'
++'<tr><td>6</td><td>Erwin Schr\u00f6dinger</td><td>Electrons exist in a cloud</td><td>electron cloud</td></tr></table>'
++'<p class="tiny">First particle found: electron (easy to produce free electrons). Last: neutron (in the nucleus, no charge).</p></div>'
++'<div class="card"><h3>Worked calculations from the key</h3>'
++'<p><b>#9 Rubidium:</b> (85 \u00d7 72.2) + (87 \u00d7 27.8) = 6137 + 2418.6 = 8555.6 \u00f7 100 = 85.556 &rarr; <b>85.56 amu</b> (two decimal places). The key circles 85.6 amu.</p>'
++'<p><b>#10 Graph:</b> (64\u00d749.17) + (66\u00d727.73) + (67\u00d74.04) + (68\u00d718.45) + (70\u00d70.61) = 6545.04 \u00f7 100 = <b>65.45 amu &rarr; zinc</b>.</p>'
++'<p><b>#11 Boron:</b> 10.81 is closer to 11, so <b>boron-11</b> is more abundant.</p></div>'
++'<div class="note">The BAT sheet says to expect earlier topics too. The <a href="chem.html">Unit 2 trainer</a> (Matter and Change) is still there for review.</div>';
+
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>
