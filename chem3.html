@@ -354,7 +354,8 @@ function qRad(){
     return mcq("Rad: "+em+" "+pr,"What is the <b>"+PROPN[pr]+"</b> of <b>"+em+"</b> radiation?",ans,wrong,why);
   }
   const wrong=["alpha","beta","gamma"].filter(function(x){return x!==em}).concat(["neutron"]);
-  return mcq("Rad: "+em+" "+pr,"Which emission has a "+PROPN[pr]+" of <b>"+ans+"</b>?",em,wrong,why);
+  const qtxt=pr==="power"?"Which emission has <b>"+ans+"</b> penetrating power?":pr==="symbol"?"Which emission has the symbol <b>"+ans+"</b>?":"Which emission has a "+PROPN[pr]+" of <b>"+ans+"</b>?";
+  return mcq("Rad: "+em+" "+pr,qtxt,em,wrong,why);
 }
 const MODELS=["Dalton\u2019s solid sphere","Thomson\u2019s plum pudding","Rutherford\u2019s nuclear model","Bohr\u2019s shells","Chadwick\u2019s neutrons in the nucleus","Schr\u00f6dinger\u2019s electron cloud"];
 function qModelNext(){
@@ -386,7 +387,7 @@ function extras(){
     if(all&&g.k==="g14")qs=qs.slice(0,1);
     if(all&&g.k==="g15")qs=qs.slice(0,2);
     out.push.apply(out,qs)});
-  return shuf(out);
+  const seen={};return shuf(out.filter(function(q){if(seen[q.q])return false;seen[q.q]=1;return true}));
 }
 
 Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"chem3"});
