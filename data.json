@@ -891,14 +891,15 @@
    "title": "TGG Ch. 7-9 Quiz",
    "file": "eng79.html",
    "label": "Gatsby · Chapters 7-9",
-   "terms": 31
+   "terms": 31,
+   "past": true
   },
   {
    "cls": "English 10",
    "title": "TGG Unit Exam",
-   "file": "eng79.html",
-   "label": "Gatsby · Ch. 7-9 + exam terms",
-   "terms": 31
+   "file": "eng19.html",
+   "label": "Gatsby · Unit Exam Ch. 1-9",
+   "terms": 79
   },
   {
    "cls": "US History",
