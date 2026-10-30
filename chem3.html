@@ -15,6 +15,10 @@
 .bat li{padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
 .bat li b{color:var(--accent)}
 .bat .q{color:var(--mut,#9aa3b2);font-size:12.5px}
+.fbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fchip{background:var(--panel2);border:1px solid var(--line);color:inherit;border-radius:999px;padding:6px 11px;font-size:13px;cursor:pointer}
+.fchip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.fcount{font-size:12.5px;opacity:.8;margin-top:8px}
 .flag{background:rgba(255,209,102,.12);border-left:3px solid #ffd166;padding:8px 11px;border-radius:6px;font-size:13.5px;margin-top:8px}
 </style>
 </head>
@@ -31,7 +35,7 @@
 </header>
 <main>
 <section class="view on" id="fc"><div id="fcHost"></div></section>
-<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="qz"><div class="card" id="focusCard"></div><div id="qzHost"></div></section>
 <section class="view" id="ref"></section>
 </main>
 <script src="flash.js?v=8"></script>
@@ -314,13 +318,103 @@ const BANK=[
 ["first","Which subatomic particle was discovered first?","The electron",["The proton","The neutron","All three at once"],"It is relatively easy to produce free electrons."],
 ["last","Which particle was discovered last, and why?","The neutron, because it\u2019s in the nucleus and has no charge",["The electron, because it\u2019s so small","The proton, because electrons hide it","The neutron, because it\u2019s the lightest"],"No charge means it doesn\u2019t interact electrically, and it\u2019s hard to remove from the nucleus."],
 ["menisc","Where do you read a meniscus?","At the bottom of the curve, at eye level",["At the top edge of the curve","Where the liquid touches the glass","Wherever is easiest to see"],"Bottom of the meniscus."],
+["abg-amass","What is the mass of an alpha particle?","4 amu",["Almost nothing","0","1 amu"],"Alpha: 4 amu, the heaviest of the three."],
+["abg-bsym","Which symbol stands for beta?","\u03b2",["\u03b1","\u03b3","n\u2070"],"\u03b1 alpha, \u03b2 beta, \u03b3 gamma."],
+["abg-asym","Which symbol stands for alpha?","\u03b1",["\u03b2","\u03b3","p\u207a"],"\u03b1 alpha, \u03b2 beta, \u03b3 gamma."],
+["abg-rank","Rank alpha, beta and gamma from LEAST to MOST penetrating.","Alpha, beta, gamma",["Gamma, beta, alpha","Beta, alpha, gamma","Alpha, gamma, beta"],"Low, moderate, high."],
+["abg-heavy","Which emission is the heaviest?","Alpha",["Beta","Gamma","They all weigh the same"],"Alpha is 4 amu; beta is almost nothing; gamma is 0."],
+["abg-neg","Which emission is negatively charged?","Beta",["Alpha","Gamma","None of them"],"Beta is 1\u2212."],
+["abg-pos","Which emission is positively charged?","Alpha",["Beta","Gamma","None of them"],"Alpha is 2+."],
+["abg-why-low","Why does alpha have the lowest penetrating power?","It is the heaviest and most charged, so it gets stopped quickly",["It has no charge","It has no mass","It is pure energy"],"Follows from the table: 4 amu and 2+. (The reasoning isn\u2019t written on the key.)"],
+["abg-paper","A sheet of paper stops one type of radiation. Which one?","Alpha",["Beta","Gamma","All three"],"Not on the key: paper stops alpha, thin metal stops beta, thick lead or concrete stops gamma."],
+["abg-he","An alpha particle is the same as\u2026","A helium nucleus (2 protons + 2 neutrons)",["A fast electron","A ray of pure energy","A single neutron"],"Not on the key, but it explains why alpha is 2+ and 4 amu."],
+["abg-e","A beta particle is really a fast\u2026","Electron",["Proton","Neutron","Helium nucleus"],"Not on the key, but it explains why beta is 1\u2212 with almost no mass."],
+["mod-pud","Which model is a ball of positively charged material with electrons scattered through it?","Plum pudding (Thomson)",["Solid sphere (Dalton)","Nuclear model (Rutherford)","Electron cloud (Schr\u00f6dinger)"],"That\u2019s Thomson\u2019s sketch on the key."],
+["mod-pudding","In the plum pudding model, what is the \u201cpudding\u201d?","Positively charged material",["Neutrons","Electrons","Empty space"],"The electrons are the \u201cplums\u201d scattered in it."],
+["mod-ruth-chg","What did Rutherford\u2019s model change about Thomson\u2019s?","Put the positive charge in a small central nucleus",["Added electron shells","Added neutrons","Turned the electrons into a cloud"],"Gold foil showed a dense positive center."],
+["mod-bohr-chg","What did Bohr add to Rutherford\u2019s model?","Electrons in fixed shells",["A nucleus","Neutrons","The electron"],"Bohr: electron shells (the \u201corbital model\u201d)."],
+["mod-chad-chg","What did Chadwick\u2019s discovery add to the model?","Neutrons in the nucleus",["Electron shells","The electron cloud","The nucleus itself"],"Chadwick discovered the neutron."],
+["mod-modern","Which is the modern model of the atom?","The electron cloud (Schr\u00f6dinger)",["Bohr\u2019s shell model","Plum pudding","Solid sphere"],"Model #6 on the key."],
+["mod-fifth","On the key\u2019s timeline, which model is 5th?","Chadwick\u2019s (neutrons in the nucleus)",["Bohr\u2019s shells","Rutherford\u2019s nucleus","The electron cloud"],"Dalton, Thomson, Rutherford, Bohr, Chadwick, cloud."],
+["mod-first","Whose model came first?","John Dalton",["J.J. Thomson","Niels Bohr","Ernest Rutherford"],"Dalton: first atomic theory."],
+["first-why","Why was the electron the first particle discovered?","It is relatively easy to produce free electrons",["It is the heaviest particle","It sits in the nucleus","It has no charge"],"Key #17."],
+["last-why","Why was the neutron so hard to discover?","It\u2019s in the nucleus and has no charge, so it doesn\u2019t interact electrically",["It is the smallest particle","It only exists in radioactive atoms","It is always moving too fast"],"Key #17."],
 ["sigdig","When reading a graduated cylinder, you record\u2026","All certain digits plus one estimated digit",["Only the digits printed on the scale","Two estimated digits","The nearest whole mL"],"One digit past the smallest marking. That\u2019s why 27.65 mL was \u201cnot possible\u201d on cylinder (c)."]
 ];
 function bankQ(b){return {topic:b[0],q:b[1],choices:shuf([{label:b[2],right:true}].concat(b[3].map(function(w){return{label:w,right:false}}))),why:b[4]};}
-function extras(){return shuf(BANK.map(bankQ).concat([qCount(),qCount(),qCount(),qCount(),qHyphen(),qHyphen(),qNuclear(),qAvg(),qAvg(),qAbund(),qSci(),qSci()]))}
+/* alpha / beta / gamma table, both directions */
+const RAD={alpha:{charge:"2+",mass:"4 amu",symbol:"\u03b1",power:"low"},beta:{charge:"1\u2212",mass:"almost nothing",symbol:"\u03b2",power:"moderate"},gamma:{charge:"0",mass:"0",symbol:"\u03b3",power:"high"}};
+const RADX={charge:"1+",mass:"1 amu",symbol:"n\u2070",power:"none"};
+const PROPN={charge:"charge",mass:"mass",symbol:"symbol",power:"penetrating power"};
+function qRad(){
+  const em=pick(["alpha","beta","gamma"]),pr=pick(["charge","mass","symbol","power"]),ans=RAD[em][pr];
+  const why="<b>"+em+"</b>: charge "+RAD[em].charge+", mass "+RAD[em].mass+", symbol "+RAD[em].symbol+", penetrating power "+RAD[em].power+".";
+  if(Math.random()<.5){
+    const wrong=["alpha","beta","gamma"].filter(function(x){return x!==em}).map(function(x){return RAD[x][pr]}).concat([RADX[pr]]);
+    return mcq("Rad: "+em+" "+pr,"What is the <b>"+PROPN[pr]+"</b> of <b>"+em+"</b> radiation?",ans,wrong,why);
+  }
+  const wrong=["alpha","beta","gamma"].filter(function(x){return x!==em}).concat(["neutron"]);
+  return mcq("Rad: "+em+" "+pr,"Which emission has a "+PROPN[pr]+" of <b>"+ans+"</b>?",em,wrong,why);
+}
+const MODELS=["Dalton\u2019s solid sphere","Thomson\u2019s plum pudding","Rutherford\u2019s nuclear model","Bohr\u2019s shells","Chadwick\u2019s neutrons in the nucleus","Schr\u00f6dinger\u2019s electron cloud"];
+function qModelNext(){
+  const i=Math.floor(Math.random()*5),ans=MODELS[i+1];
+  const wrong=shuf(MODELS.filter(function(x,j){return j!==i&&j!==i+1})).slice(0,3);
+  return mcq("Model order","On the key\u2019s timeline, which model comes right after <b>"+MODELS[i]+"</b>?",ans,wrong,
+   "Order: "+MODELS.join(" &rarr; ")+".");
+}
+/* BAT sections, for the practice-test topic picker */
+const GROUPS=[
+ {k:"g1",label:"#1 Particles",keys:"p-charge n-charge e-charge e-mass pn-mass pn-where e-where p-identity e-chem n-role mass-where"},
+ {k:"g2",label:"#2-3 Ions",keys:"neutral ion-form ion-lose ion-gain ion-protons"},
+ {k:"g4",label:"#4-6 Isotopes & numbers",keys:"iso-def iso-same iso-diff z-def a-def avg-def ptable avg-decimal"},
+ {k:"g7",label:"#7-8 Counting & notation",keys:"nuc-top nuc-bottom hyph-num k7a k7e kn15 kmn",gen:function(){return [qCount(),qCount(),qCount(),qCount(),qHyphen(),qHyphen(),qNuclear()]}},
+ {k:"g9",label:"#9-11 Avg atomic mass",keys:"boron avg-closer rb zn avg-step",gen:function(){return [qAvg(),qAvg(),qAbund()]}},
+ {k:"g12",label:"#12-13 Radioactivity",keys:"radio-why decay-def"},
+ {k:"g14",label:"#14 Alpha, beta, gamma",keys:"alpha beta gamma pen-high pen-low pen-beta sym-g abg-amass abg-bsym abg-asym abg-rank abg-heavy abg-neg abg-pos abg-why-low abg-paper abg-he abg-e",gen:function(){return [qRad(),qRad(),qRad(),qRad()]},genFocus:4},
+ {k:"g15",label:"#15-17 Atomic models",keys:"dalton thomson plum ruth gold-empty bohr chad schro order first last mod-pud mod-pudding mod-ruth-chg mod-bohr-chg mod-chad-chg mod-modern mod-fifth mod-first first-why last-why",gen:function(){return [qSci(),qSci(),qModelNext()]},genFocus:3},
+ {k:"g18",label:"#18 Meniscus",keys:"menisc sigdig"}
+];
+const KEY2G={};GROUPS.forEach(function(g){g.keys.split(" ").forEach(function(k){KEY2G[k]=g.k})});
+function focusSel(){try{const v=JSON.parse(localStorage.getItem("chem3.focus")||"[]");return Array.isArray(v)?v:[]}catch(e){return []}}
+function extras(){
+  const sel=focusSel(),all=!sel.length,out=[];
+  BANK.forEach(function(b){if(all||sel.indexOf(KEY2G[b[0]])>=0)out.push(bankQ(b))});
+  GROUPS.forEach(function(g){if(!g.gen||!(all||sel.indexOf(g.k)>=0))return;
+    let qs=g.gen();
+    if(!all&&g.genFocus)for(let i=0;i<g.genFocus;i++)qs=qs.concat(g.gen().slice(0,1));
+    if(all&&g.k==="g14")qs=qs.slice(0,1);
+    if(all&&g.k==="g15")qs=qs.slice(0,2);
+    out.push.apply(out,qs)});
+  return shuf(out);
+}
 
 Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"chem3"});
 Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"chem3",count:20,extras:extras,bankOnly:true});
+function drawFocus(){
+  const sel=focusSel(),all=!sel.length;
+  const nBank=BANK.filter(function(b){return all||sel.indexOf(KEY2G[b[0]])>=0}).length;
+  $("focusCard").innerHTML='<h3 style="margin:0">Pick topics</h3><p class="tiny" style="margin:4px 0 0">Tap the BAT sections you want questions from. Nothing picked = everything. Your pick is remembered.</p>'
+   +'<div class="fbar"><button class="fchip'+(all?' on':'')+'" data-g="__all">Everything</button>'
+   +'<button class="fchip'+(sel.length===2&&sel.indexOf("g14")>=0&&sel.indexOf("g15")>=0?' on':'')+'" data-g="__mine">My focus: #14 + #15-17</button></div>'
+   +'<div class="fbar">'+GROUPS.map(function(g){return '<button class="fchip'+(sel.indexOf(g.k)>=0?' on':'')+'" data-g="'+g.k+'">'+g.label+'</button>'}).join('')+'</div>'
+   +'<div class="fcount">'+(all?'All sections':'Only: '+GROUPS.filter(function(g){return sel.indexOf(g.k)>=0}).map(function(g){return g.label}).join(', '))
+   +' &middot; '+nBank+' written questions'+(GROUPS.some(function(g){return g.gen&&(all||sel.indexOf(g.k)>=0)})?' + freshly generated ones each test':'')+'</div>';
+  [].forEach.call($("focusCard").querySelectorAll('.fchip'),function(b){b.onclick=function(){
+    let cur=focusSel();const g=b.dataset.g;
+    if(g==="__all")cur=[];else if(g==="__mine")cur=["g14","g15"];
+    else{const i=cur.indexOf(g);if(i>=0)cur.splice(i,1);else cur.push(g);}
+    localStorage.setItem("chem3.focus",JSON.stringify(cur));drawFocus();
+    const nb=$("qzHost").querySelector('.qnew');if(nb)nb.click();
+  }});
+}
+drawFocus();
+/* keep the engine's status line honest when only some topics are picked */
+(function(){const meta=$("qzHost").querySelector('.qmeta');if(!meta)return;
+  new MutationObserver(function(){if(!focusSel().length)return;const h=meta.innerHTML;
+    const n=h.replace('every question in this deck','every question in the topics you picked').replace('left that you have not mastered','in the topics you picked that you have not mastered yet');
+    if(n!==h)meta.innerHTML=n;}).observe(meta,{childList:true,subtree:true,characterData:true});
+})();
 
 $("ref").innerHTML=
  '<div class="card"><h3>BAT checklist (Be Able To\u2026)</h3><p class="tiny">Straight from the Unit 3 BAT Sheet. If you can do every line without looking, you\u2019re ready.</p><ul class="bat">'
