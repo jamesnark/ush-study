@@ -51,6 +51,17 @@ const BEAT=[
  {k:"persecuted",who:"they who are persecuted for the sake of righteousness",prom:"theirs is the kingdom of heaven",
   mean:"People who suffer for doing what is right. Following Jesus\u2019 way has a cost.",ex:"Getting mocked for standing up for someone, or for your faith."}
 ];
+/* Plain-English meanings for the "What does ___ mean?" cards and questions */
+const SIMPLE={
+ poor:["\u201cBlessed are the poor in spirit\u201d","Be humble and know you need God. You don\u2019t have it all figured out."],
+ mourn:["\u201cBlessed are those who mourn\u201d","When you\u2019re hurting or grieving, God cares about you and promises comfort."],
+ meek:["\u201cBlessed are the meek\u201d","Be gentle instead of using power to hurt others. Meek doesn\u2019t mean weak."],
+ hunger:["\u201cBlessed are those who hunger and thirst for righteousness\u201d","Want to do what\u2019s right and see people treated fairly as badly as food when you\u2019re hungry."],
+ merciful:["\u201cBlessed are the merciful\u201d","Show compassion and forgive people instead of going straight for punishment or revenge."],
+ pure:["\u201cBlessed are the pure in heart\u201d","Be genuine with good intentions, not just acting good so people will praise you."],
+ peace:["\u201cBlessed are the peacemakers\u201d","Help people settle conflicts instead of starting fights or spreading drama."],
+ persecuted:["\u201cBlessed are those persecuted for righteousness\u201d","Keep doing what\u2019s right, even when people mock you or treat you badly for it."]
+};
 const T=[
 /* ---------- BAPTISM ---------- */
 {s:"Baptism",cat:"baptism",t:"Jesus\u2019 baptism: who and where",
@@ -159,7 +170,10 @@ const T=[
 ].concat(BEAT.map(function(b,i){return {s:"The eight Beatitudes",cat:"beat",t:"Beatitude "+(i+1)+": "+b.who,
  a:["Finish the Beatitude","What does it mean?","What does it look like in real life?"],
  h:"Blessed are "+b.who+", for\u2026",
- d:"\u201cBlessed are <b>"+b.who+"</b>, for <b>"+b.prom+"</b>.\u201d<br><b>Meaning:</b> "+b.mean+"<br><b>In practice:</b> "+b.ex}})).concat([
+ d:"\u201cBlessed are <b>"+b.who+"</b>, for <b>"+b.prom+"</b>.\u201d<br><b>Meaning:</b> "+b.mean+"<br><b>In practice:</b> "+b.ex}})).concat(BEAT.map(function(b){return {s:"What each Beatitude means",cat:"mean",t:"What does "+SIMPLE[b.k][0]+" mean?",
+ a:["Say what it means in plain words"],
+ h:"Full line: Blessed are "+b.who+", for "+b.prom+".",
+ d:"<b>"+SIMPLE[b.k][1]+"</b><br><span class=\"tiny\">Full line: \u201cBlessed are "+b.who+", for "+b.prom+".\u201d</span>"}})).concat([
 /* ---------- REVIEW ---------- */
 {s:"Review: Matthew and Luke",cat:"gospel",t:"Matthew\u2019s Gospel",
  a:["Who was it written for?","Main theme?","Infancy details that support it"],
@@ -245,14 +259,17 @@ const BANK=[
 ["beat-moses","Why does Matthew put Jesus on a mountain to teach?","It echoes Moses receiving the Law on Mount Sinai",["It was the only place the crowd could hear","To escape the Romans","Because the synagogue had thrown him out"],"Matthew presents Jesus as a new Moses."],
 ["beat-kingdom","In the Beatitudes, \u201cthe kingdom of heaven\u201d means\u2026","God\u2019s reality of justice, peace and love, coming to earth now",["The place you go only after you die","The Roman Empire","The Temple in Jerusalem"],"The BibleProject: Heaven coming to earth, starting with these people."],
 ["beat-two","Which two Beatitudes share the promise \u201ctheirs is the kingdom of heaven\u201d?","The poor in spirit and the persecuted",["The meek and the merciful","The peacemakers and the pure of heart","Those who mourn and those who hunger"],"The first and the eighth: the list starts and ends with the kingdom."],
-["beat-peace","What does it mean to be a peacemaker?","Actively working to resolve conflicts",["Avoiding every argument","Never disagreeing with anyone","Staying out of other people\u2019s problems"],"Making peace takes action, not just avoiding fights."],
-["beat-meek","\u201cMeek\u201d in the Beatitudes means\u2026","Gentle and humble, not grabbing for power",["Weak and afraid","Quiet and shy","Poor and hungry"],"Humble strength. The video says \u201cthe unimportant.\u201d"],
-["beat-poor","\u201cPoor in spirit\u201d means people who\u2026","Know they need God",["Have no money","Are sad all the time","Don\u2019t believe in God"],"Humble dependence on God."],
 ["salt","What comes right after the Beatitudes in Matthew 5?","\u201cYou are the salt of the earth\u2026 the light of the world\u201d",["The Our Father","The temptation in the desert","The calling of the disciples"],"Salt, light, a city on a hill."],
 ["order","Put these in order:","Baptism, desert, Nazareth, Sermon on the Mount",["Desert, baptism, Nazareth, Sermon on the Mount","Nazareth, baptism, desert, Sermon on the Mount","Baptism, Nazareth, desert, Sermon on the Mount"],"The order on Ms. Rao\u2019s test list."],
 ["mt-theme","Which detail fits Matthew\u2019s infancy narrative?","Jesus is visited by kings (the Magi)",["Shepherds visit the baby","Mary visits Elizabeth","Jesus\u2019 family tree goes back to Adam"],"Matthew: Jesus as King and Messiah. The others are Luke."],
 ["lk-theme","Which detail fits Luke\u2019s infancy narrative?","Shepherds visit the baby Jesus",["Kings visit with gifts","The family flees to Egypt","Joseph is warned in dreams"],"Luke: good news for the lowly."]
 ];
+/* "What does ___ mean?" questions, one per Beatitude; wrong answers are other Beatitudes' meanings (skipping look-alikes) */
+BEAT.forEach(function(b){
+  const others=shuf(BEAT.filter(function(x){return x!==b&&NEAR[b.k].indexOf(x.k)<0&&NEAR[x.k].indexOf(b.k)<0})).slice(0,3);
+  BANK.push(["beat-mean-"+b.k,"What does "+SIMPLE[b.k][0]+" mean?",SIMPLE[b.k][1],others.map(function(o){return SIMPLE[o.k][1]}),
+   "Full line: \u201cBlessed are "+b.who+", for "+b.prom+".\u201d"]);
+});
 function bankQ(b){return {topic:b[0],q:b[1],choices:shuf([{label:b[2],right:true}].concat(b[3].map(function(w){return{label:w,right:false}}))),why:b[4]};}
 function extras(){return shuf(BANK.map(bankQ).concat([qBeatFinish(),qBeatFinish(),qBeatFinish(),qBeatWho(),qBeatPractice(),qBeatPractice(),qTempt()]))}
 
