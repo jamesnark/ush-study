@@ -11,6 +11,10 @@
 .bt td:first-child{white-space:nowrap;color:var(--accent);font-weight:700}
 .src{font-size:12px;opacity:.75}
 .flag{background:rgba(255,209,102,.12);border-left:3px solid #ffd166;padding:8px 11px;border-radius:6px;font-size:13.5px;margin-top:8px}
+.fbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.fchip{background:var(--panel2);border:1px solid var(--line);color:inherit;border-radius:999px;padding:6px 11px;font-size:13px;cursor:pointer}
+.fchip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.fcount{font-size:12.5px;opacity:.8;margin-top:10px}
 </style>
 </head>
 <body>
@@ -26,7 +30,7 @@
 </header>
 <main>
 <section class="view on" id="fc"><div class="note" style="margin-bottom:12px">Ms. Rao’s test covers <b>Jesus’ baptism, the desert, the return to Nazareth, and the Sermon on the Mount / Beatitudes</b>. Her Beatitudes notes and group work aren’t posted in Classroom, so the Beatitudes cards come from Matthew 5 and the class video. They’ll be updated once you get the sheet.</div><div id="fcHost"></div></section>
-<section class="view" id="qz"><div id="qzHost"></div></section>
+<section class="view" id="qz"><div class="card" id="focusCard"></div><div id="qzHost"></div></section>
 <section class="view" id="ref"></section>
 </main>
 <script src="flash.js?v=8"></script>
@@ -271,10 +275,57 @@ BEAT.forEach(function(b){
    "Full line: \u201cBlessed are "+b.who+", for "+b.prom+".\u201d"]);
 });
 function bankQ(b){return {topic:b[0],q:b[1],choices:shuf([{label:b[2],right:true}].concat(b[3].map(function(w){return{label:w,right:false}}))),why:b[4]};}
-function extras(){return shuf(BANK.map(bankQ).concat([qBeatFinish(),qBeatFinish(),qBeatFinish(),qBeatWho(),qBeatPractice(),qBeatPractice(),qTempt()]))}
+/* Reverse direction: given the plain meaning, pick the Beatitude */
+function qMeanRev(b){
+  const others=shuf(BEAT.filter(function(x){return x!==b&&NEAR[b.k].indexOf(x.k)<0&&NEAR[x.k].indexOf(b.k)<0})).slice(0,3);
+  return mcq("beat-mean-rev-"+b.k,"Which Beatitude means: <b>"+SIMPLE[b.k][1]+"</b>",SIMPLE[b.k][0],others.map(function(o){return SIMPLE[o.k][0]}),
+   "Full line: \u201cBlessed are "+b.who+", for "+b.prom+".\u201d");
+}
+/* Topics for the practice-test picker */
+const GROUPS=[
+ {k:"bap",label:"Baptism",pre:["bap-","ruakh","ruakh-","spirit-"]},
+ {k:"des",label:"The desert",pre:["desert-","metanoia","t-"],gen:function(){return [qTempt()]}},
+ {k:"naz",label:"Nazareth",pre:["naz-","chosen-"]},
+ {k:"beat",label:"Beatitudes basics",pre:["beat-word","beat-where","beat-count","beat-paradox","beat-crowd","beat-moses","beat-kingdom","beat-two","salt"],gen:function(){return [qBeatFinish(),qBeatFinish(),qBeatFinish(),qBeatWho(),qBeatPractice(),qBeatPractice()]}},
+ {k:"mean",label:"What each Beatitude means",pre:["beat-mean-"],gen:function(){return BEAT.map(qMeanRev)}},
+ {k:"rev",label:"Review: order, Matthew & Luke",pre:["order","mt-theme","lk-theme"]}
+];
+function groupOf(key){for(let i=0;i<GROUPS.length;i++){const g=GROUPS[i];for(let j=0;j<g.pre.length;j++){const p=g.pre[j];if(p.slice(-1)==="-"?key.indexOf(p)===0:key===p)return g.k}}return null}
+function focusSel(){try{const v=JSON.parse(localStorage.getItem("rel3.focus")||"[]");return Array.isArray(v)?v:[]}catch(e){return []}}
+function extras(){
+  const sel=focusSel(),all=!sel.length,out=[];
+  BANK.forEach(function(b){if(all||sel.indexOf(groupOf(b[0]))>=0)out.push(bankQ(b))});
+  GROUPS.forEach(function(g){if(g.gen&&(all||sel.indexOf(g.k)>=0))out.push.apply(out,g.gen())});
+  const seen={};return shuf(out.filter(function(q){if(seen[q.q])return false;seen[q.q]=1;return true}));
+}
 
 Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"rel3"});
 Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"rel3",count:20,extras:extras,bankOnly:true});
+function drawFocus(){
+  const sel=focusSel(),all=!sel.length;
+  const nBank=BANK.filter(function(b){return all||sel.indexOf(groupOf(b[0]))>=0}).length;
+  const nGen=GROUPS.reduce(function(n,g){return n+(g.gen&&(all||sel.indexOf(g.k)>=0)?g.gen().length:0)},0);
+  $("focusCard").innerHTML='<h3 style="margin:0">Pick topics</h3><p class="tiny" style="margin:4px 0 0">Tap the topics you want questions from. Nothing picked = everything. Your pick is remembered.</p>'
+   +'<div class="fbar"><button class="fchip'+(all?' on':'')+'" data-g="__all">Everything</button>'
+   +'<button class="fchip'+(sel.length===1&&sel[0]==="mean"?' on':'')+'" data-g="__mean">Just what each one means</button></div>'
+   +'<div class="fbar">'+GROUPS.map(function(g){return '<button class="fchip'+(sel.indexOf(g.k)>=0?' on':'')+'" data-g="'+g.k+'">'+g.label+'</button>'}).join('')+'</div>'
+   +'<div class="fcount">'+(all?'All topics':'Only: '+GROUPS.filter(function(g){return sel.indexOf(g.k)>=0}).map(function(g){return g.label}).join(', '))
+   +' &middot; '+(nBank+nGen)+' questions to draw from</div>';
+  [].forEach.call($("focusCard").querySelectorAll('.fchip'),function(b){b.onclick=function(){
+    let cur=focusSel();const g=b.dataset.g;
+    if(g==="__all")cur=[];else if(g==="__mean")cur=["mean"];
+    else{const i=cur.indexOf(g);if(i>=0)cur.splice(i,1);else cur.push(g);}
+    localStorage.setItem("rel3.focus",JSON.stringify(cur));drawFocus();
+    const nb=$("qzHost").querySelector('.qnew');if(nb)nb.click();
+  }});
+}
+drawFocus();
+/* keep the engine's status line honest when only some topics are picked */
+(function(){const meta=$("qzHost").querySelector('.qmeta');if(!meta)return;
+  new MutationObserver(function(){if(!focusSel().length)return;const h=meta.innerHTML;
+    const n=h.replace('every question in this deck','every question in the topics you picked').replace('left that you have not mastered','in the topics you picked that you have not mastered yet');
+    if(n!==h)meta.innerHTML=n;}).observe(meta,{childList:true,subtree:true,characterData:true});
+})();
 
 $("ref").innerHTML=
  '<div class="card"><h3>What\u2019s on the test</h3><p>Ms. Rao\u2019s Unit 3 Test post: review <b>notes on significant events in Jesus\u2019 life (baptism, desert experience, start of ministry)</b> and <b>Beatitudes notes and group work</b>. Her 10/29 post adds: the <b>Blooket review</b> and the <b>Mission Begins exit ticket</b>.</p>'
