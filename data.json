@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04T21:31:56.500Z",
+ "generated": "2026-11-05T11:53:57.278Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -141,14 +141,6 @@
  "assignments": [
   {
    "id": "c0",
-   "cls": "US History",
-   "title": "Fugitive Slave Act Analysis",
-   "due": "2026-11-04T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c1",
    "cls": "Religion",
    "title": "The Kingdom of God Intro and Reflection",
    "due": "2026-11-05T23:59",
@@ -156,7 +148,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c2",
+   "id": "c1",
    "cls": "English 10",
    "title": "Read + Annotate TEWWG Chapters 1-3",
    "due": "2026-11-06T14:20",
@@ -164,7 +156,7 @@
    "kind": "reading"
   },
   {
-   "id": "c3",
+   "id": "c2",
    "cls": "English 10",
    "title": "TGG UNIT END (no late work accepted after this point)",
    "due": "2026-11-06T23:59",
@@ -172,7 +164,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c4",
+   "id": "c3",
    "cls": "Algebra II",
    "title": "3.1.1/3.1.2 CYU",
    "due": "2026-11-09T23:59",
@@ -180,7 +172,7 @@
    "kind": "cyu"
   },
   {
-   "id": "c5",
+   "id": "c4",
    "cls": "English 10",
    "title": "Cycle 7 GrammarFlip (2.06)",
    "due": "2026-11-10T23:59",
@@ -188,7 +180,7 @@
    "kind": "drill"
   },
   {
-   "id": "c6",
+   "id": "c5",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #1",
    "due": "2026-11-24T23:59",
@@ -196,7 +188,7 @@
    "kind": "test"
   },
   {
-   "id": "c7",
+   "id": "c6",
    "cls": "Religion",
    "title": "Class Reflection",
    "due": "2026-11-30T23:59",
@@ -204,7 +196,7 @@
    "kind": "project"
   },
   {
-   "id": "c8",
+   "id": "c7",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #2",
    "due": "2026-12-04T23:59",
@@ -212,7 +204,7 @@
    "kind": "test"
   },
   {
-   "id": "c9",
+   "id": "c8",
    "cls": "Algebra II",
    "title": "Ch. 3 Test",
    "due": "2026-12-11T23:59",
@@ -220,7 +212,7 @@
    "kind": "test"
   },
   {
-   "id": "c10",
+   "id": "c9",
    "cls": "English 10",
    "title": "Membean and Grammar Flip",
    "due": "2028-08-02T23:59",
@@ -228,7 +220,7 @@
    "kind": "drill"
   },
   {
-   "id": "c11",
+   "id": "c10",
    "cls": "Spanish II",
    "title": "Welcome Survey",
    "due": null,
@@ -236,7 +228,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c12",
+   "id": "c11",
    "cls": "English 10",
    "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
    "due": null,
@@ -244,7 +236,7 @@
    "kind": "reading"
   },
   {
-   "id": "c13",
+   "id": "c12",
    "cls": "Algebra II",
    "title": "Match My Parabola",
    "due": null,
@@ -252,7 +244,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c14",
+   "id": "c13",
    "cls": "English 10",
    "title": "Harlem Renaissance Escape Room",
    "due": null,
@@ -285,7 +277,7 @@
   {
    "cls": "AP CSP",
    "letter": "A-",
-   "pct": 91.3,
+   "pct": 91.5,
    "frn": "00450940",
    "scale": "percent"
   },
@@ -432,6 +424,19 @@
   {
    "id": "p9",
    "cls": "AP CSP",
+   "title": "variables practice",
+   "cat": "Homework",
+   "due": "2026-10-28",
+   "score": 30,
+   "possible": 30,
+   "pct": 100,
+   "flag": true,
+   "late": false,
+   "bucket": "falseflag"
+  },
+  {
+   "id": "p10",
+   "cls": "AP CSP",
    "title": "v, c and f.  bubbles 1 and 2",
    "cat": "Homework",
    "due": "2026-10-26",
@@ -443,7 +448,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p10",
+   "id": "p11",
    "cls": "AP CSP",
    "title": "lesson 6 - debugging",
    "cat": "Homework",
@@ -456,7 +461,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p11",
+   "id": "p12",
    "cls": "AP CSP",
    "title": "lesson 5 - intro to programming",
    "cat": "Homework",
@@ -469,7 +474,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p12",
+   "id": "p13",
    "cls": "AP CSP",
    "title": "built screens in lesson 3 ",
    "cat": "Homework",
@@ -482,7 +487,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p13",
+   "id": "p14",
    "cls": "AP CSP",
    "title": "completed app design packet with partner",
    "cat": "Homework",
@@ -495,7 +500,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p14",
+   "id": "p15",
    "cls": "AP CSP",
    "title": "intro to design mode ",
    "cat": "Homework",
@@ -508,7 +513,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p15",
+   "id": "p16",
    "cls": "AP CSP",
    "title": "Unit 3 - lesson 1 bubbles  intro to App design",
    "cat": "Homework",
@@ -521,7 +526,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p16",
+   "id": "p17",
    "cls": "AP CSP",
    "title": "Khan - The Internet",
    "cat": "Homework",
@@ -534,7 +539,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p17",
+   "id": "p18",
    "cls": "AP CSP",
    "title": "Internet dilemmas",
    "cat": "Homework",
@@ -547,7 +552,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p18",
+   "id": "p19",
    "cls": "AP CSP",
    "title": "Video and Video notes",
    "cat": "Homework",
@@ -560,7 +565,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p19",
+   "id": "p20",
    "cls": "AP CSP",
    "title": "packets activity guide",
    "cat": "Homework",
@@ -573,7 +578,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p20",
+   "id": "p21",
    "cls": "AP CSP",
    "title": "code.org lesson 4 (routers) last 2 bubbles done",
    "cat": "Homework",
@@ -586,7 +591,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p21",
+   "id": "p22",
    "cls": "AP CSP",
    "title": "code.org lesson 3 bubbles - addressing",
    "cat": "Homework",
@@ -599,7 +604,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p22",
+   "id": "p23",
    "cls": "AP CSP",
    "title": " understanding question on building a network",
    "cat": "Homework",
@@ -612,7 +617,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p23",
+   "id": "p24",
    "cls": "AP CSP",
    "title": "Khan - lossy compression",
    "cat": "Homework",
@@ -625,7 +630,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p24",
+   "id": "p25",
    "cls": "AP CSP",
    "title": "Digital actors - with article annotated in Kami",
    "cat": "Homework",
@@ -638,7 +643,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p25",
+   "id": "p26",
    "cls": "AP CSP",
    "title": "Khan - lossless",
    "cat": "Homework",
@@ -651,7 +656,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p26",
+   "id": "p27",
    "cls": "AP CSP",
    "title": "lossy compression in code.org",
    "cat": "Homework",
@@ -664,7 +669,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p27",
+   "id": "p28",
    "cls": "AP CSP",
    "title": "CB quiz - data compression quiz",
    "cat": "Homework",
@@ -677,7 +682,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p28",
+   "id": "p29",
    "cls": "AP CSP",
    "title": "lossless compression",
    "cat": "Homework",
@@ -690,7 +695,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p29",
+   "id": "p30",
    "cls": "AP CSP",
    "title": "code.org color images",
    "cat": "Homework",
@@ -703,7 +708,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p30",
+   "id": "p31",
    "cls": "AP CSP",
    "title": "2.2 daily video 1",
    "cat": "Homework",
@@ -716,7 +721,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p31",
+   "id": "p32",
    "cls": "AP CSP",
    "title": "code.org-  1.5 overflow and rounding bubbles done",
    "cat": "Homework",
@@ -729,7 +734,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p32",
+   "id": "p33",
    "cls": "AP CSP",
    "title": "binary worksheet ",
    "cat": "Homework",
@@ -742,7 +747,7 @@
    "bucket": "falseflag"
   },
   {
-   "id": "p33",
+   "id": "p34",
    "cls": "Algebra II",
    "title": "Ch. 2 Quiz #1",
    "cat": "Standards",
@@ -755,7 +760,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p34",
+   "id": "p35",
    "cls": "Algebra II",
    "title": "Ch. 1 Test",
    "cat": "Standards",
@@ -768,7 +773,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p35",
+   "id": "p36",
    "cls": "Algebra II",
    "title": "Ch. 1 Quiz",
    "cat": "Standards",
@@ -781,7 +786,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p36",
+   "id": "p37",
    "cls": "Religion",
    "title": "Beatitudes Video Questions",
    "cat": "Classwork",
@@ -794,7 +799,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p37",
+   "id": "p38",
    "cls": "English 10",
    "title": "TGG Ch. 4-6 Quiz",
    "cat": "Summative",
@@ -807,7 +812,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p38",
+   "id": "p39",
    "cls": "English 10",
    "title": "GG Ch.1 annotations",
    "cat": "Formative",
@@ -820,7 +825,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p39",
+   "id": "p40",
    "cls": "English 10",
    "title": "Book Check--GG",
    "cat": "Formative",
@@ -833,7 +838,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p40",
+   "id": "p41",
    "cls": "English 10",
    "title": "SR Annotations",
    "cat": "Formative",
@@ -846,7 +851,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-11-04T21:31:56.500Z",
+ "psGenerated": "2026-11-05T11:53:57.278Z",
  "trainers": [
   {
    "cls": "Chemistry",
