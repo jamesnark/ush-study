@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11T22:43:02.426Z",
+ "generated": "2026-11-12T13:09:34.673Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -142,29 +142,13 @@
   {
    "id": "c0",
    "cls": "Algebra II",
-   "title": "3.1.3 CYU",
-   "due": "2026-11-11T23:59",
-   "status": "assigned",
-   "kind": "cyu"
-  },
-  {
-   "id": "c1",
-   "cls": "Chemistry",
-   "title": "Formative Assessment #5- Electrons in Atoms",
-   "due": "2026-11-11T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c2",
-   "cls": "Algebra II",
    "title": "3.2.1 CYU",
    "due": "2026-11-12T23:59",
    "status": "assigned",
    "kind": "cyu"
   },
   {
-   "id": "c3",
+   "id": "c1",
    "cls": "Chemistry",
    "title": "Lewis Dot Diagrams",
    "due": "2026-11-12T23:59",
@@ -172,7 +156,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c4",
+   "id": "c2",
    "cls": "Spanish II",
    "title": "LingCo Unidad 2 (La vivienda): Los adjetivos demostrativos",
    "due": "2026-11-13T08:30",
@@ -180,7 +164,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c5",
+   "id": "c3",
    "cls": "English 10",
    "title": "Read + Annotate TEWWG Ch. 6",
    "due": "2026-11-13T11:10",
@@ -188,7 +172,7 @@
    "kind": "reading"
   },
   {
-   "id": "c6",
+   "id": "c4",
    "cls": "English 10",
    "title": "TEWWG Ch. 1-6 Quiz",
    "due": "2026-11-13T23:59",
@@ -196,7 +180,7 @@
    "kind": "test"
   },
   {
-   "id": "c7",
+   "id": "c5",
    "cls": "US History",
    "title": "Research Essay Sources Check",
    "due": "2026-11-13T23:59",
@@ -204,7 +188,7 @@
    "kind": "project"
   },
   {
-   "id": "c8",
+   "id": "c6",
    "cls": "AP CSP",
    "title": "functions practice",
    "due": "2026-11-13T23:59",
@@ -212,7 +196,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c9",
+   "id": "c7",
    "cls": "US History",
    "title": "Civil War Research Essay - OUTLINE",
    "due": "2026-11-18T23:59",
@@ -220,7 +204,7 @@
    "kind": "project"
   },
   {
-   "id": "c10",
+   "id": "c8",
    "cls": "English 10",
    "title": "Cycle 8 GrammarFlip (2.12)",
    "due": "2026-11-20T23:59",
@@ -228,7 +212,7 @@
    "kind": "drill"
   },
   {
-   "id": "c11",
+   "id": "c9",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #1",
    "due": "2026-11-24T23:59",
@@ -236,7 +220,7 @@
    "kind": "test"
   },
   {
-   "id": "c12",
+   "id": "c10",
    "cls": "Religion",
    "title": "Class Reflection",
    "due": "2026-11-30T23:59",
@@ -244,7 +228,7 @@
    "kind": "project"
   },
   {
-   "id": "c13",
+   "id": "c11",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #2",
    "due": "2026-12-04T23:59",
@@ -252,7 +236,7 @@
    "kind": "test"
   },
   {
-   "id": "c14",
+   "id": "c12",
    "cls": "Algebra II",
    "title": "Ch. 3 Test",
    "due": "2026-12-11T23:59",
@@ -260,7 +244,7 @@
    "kind": "test"
   },
   {
-   "id": "c15",
+   "id": "c13",
    "cls": "English 10",
    "title": "TEWWG Diction Scavenger Hunt",
    "due": "2026-12-11T23:59",
@@ -268,7 +252,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c16",
+   "id": "c14",
    "cls": "English 10",
    "title": "Membean and Grammar Flip",
    "due": "2028-08-02T23:59",
@@ -276,7 +260,7 @@
    "kind": "drill"
   },
   {
-   "id": "c17",
+   "id": "c15",
    "cls": "Spanish II",
    "title": "Welcome Survey",
    "due": null,
@@ -284,7 +268,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c18",
+   "id": "c16",
    "cls": "English 10",
    "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
    "due": null,
@@ -292,7 +276,7 @@
    "kind": "reading"
   },
   {
-   "id": "c19",
+   "id": "c17",
    "cls": "Algebra II",
    "title": "Match My Parabola",
    "due": null,
@@ -300,7 +284,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c20",
+   "id": "c18",
    "cls": "English 10",
    "title": "Harlem Renaissance Escape Room",
    "due": null,
@@ -805,6 +789,19 @@
   {
    "id": "p34",
    "cls": "Algebra II",
+   "title": "Ch. 2 Test",
+   "cat": "Standards",
+   "due": "2026-11-12",
+   "score": null,
+   "possible": 10,
+   "pct": null,
+   "flag": false,
+   "late": false,
+   "bucket": "ungraded"
+  },
+  {
+   "id": "p35",
+   "cls": "Algebra II",
    "title": "Ch. 2 Quiz #1",
    "cat": "Standards",
    "due": "2026-10-05",
@@ -816,7 +813,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p35",
+   "id": "p36",
    "cls": "Algebra II",
    "title": "Ch. 1 Test",
    "cat": "Standards",
@@ -829,7 +826,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p36",
+   "id": "p37",
    "cls": "Algebra II",
    "title": "Ch. 1 Quiz",
    "cat": "Standards",
@@ -842,7 +839,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p37",
+   "id": "p38",
    "cls": "Religion",
    "title": "The Kingdom of God Intro",
    "cat": "Classwork",
@@ -855,7 +852,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p38",
+   "id": "p39",
    "cls": "Religion",
    "title": "Beatitudes Video Questions",
    "cat": "Classwork",
@@ -868,7 +865,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p39",
+   "id": "p40",
    "cls": "English 10",
    "title": "Cycle 7 GrammarFlip (2.06)",
    "cat": "Membean/GrammarFlip",
@@ -881,7 +878,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p40",
+   "id": "p41",
    "cls": "English 10",
    "title": "TGG Ch. 4-6 Quiz",
    "cat": "Summative",
@@ -894,7 +891,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p41",
+   "id": "p42",
    "cls": "English 10",
    "title": "GG Ch.1 annotations",
    "cat": "Formative",
@@ -907,7 +904,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p42",
+   "id": "p43",
    "cls": "English 10",
    "title": "Book Check--GG",
    "cat": "Formative",
@@ -920,7 +917,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p43",
+   "id": "p44",
    "cls": "English 10",
    "title": "SR Annotations",
    "cat": "Formative",
@@ -933,7 +930,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-11-11T22:43:02.426Z",
+ "psGenerated": "2026-11-12T13:09:34.673Z",
  "trainers": [
   {
    "cls": "Chemistry",
