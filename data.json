@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12T21:31:27.649Z",
+ "generated": "2026-11-13T12:36:20.591Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -141,14 +141,6 @@
  "assignments": [
   {
    "id": "c0",
-   "cls": "Algebra II",
-   "title": "3.2.1 CYU",
-   "due": "2026-11-12T23:59",
-   "status": "assigned",
-   "kind": "cyu"
-  },
-  {
-   "id": "c1",
    "cls": "Spanish II",
    "title": "LingCo Unidad 2 (La vivienda): Los adjetivos demostrativos",
    "due": "2026-11-13T08:30",
@@ -156,7 +148,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c2",
+   "id": "c1",
    "cls": "English 10",
    "title": "Read + Annotate TEWWG Ch. 6",
    "due": "2026-11-13T11:10",
@@ -164,7 +156,7 @@
    "kind": "reading"
   },
   {
-   "id": "c3",
+   "id": "c2",
    "cls": "English 10",
    "title": "TEWWG Ch. 1-6 Quiz",
    "due": "2026-11-13T23:59",
@@ -172,7 +164,7 @@
    "kind": "test"
   },
   {
-   "id": "c4",
+   "id": "c3",
    "cls": "US History",
    "title": "Research Essay Sources Check",
    "due": "2026-11-13T23:59",
@@ -180,7 +172,7 @@
    "kind": "project"
   },
   {
-   "id": "c5",
+   "id": "c4",
    "cls": "AP CSP",
    "title": "functions practice",
    "due": "2026-11-13T23:59",
@@ -188,7 +180,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c6",
+   "id": "c5",
    "cls": "Algebra II",
    "title": "3.2.2 CYU",
    "due": "2026-11-16T23:59",
@@ -196,7 +188,7 @@
    "kind": "cyu"
   },
   {
-   "id": "c7",
+   "id": "c6",
    "cls": "US History",
    "title": "HW due 11/16",
    "due": "2026-11-16T23:59",
@@ -204,7 +196,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c8",
+   "id": "c7",
    "cls": "US History",
    "title": "Civil War Research Essay - OUTLINE",
    "due": "2026-11-18T23:59",
@@ -212,7 +204,7 @@
    "kind": "project"
   },
   {
-   "id": "c9",
+   "id": "c8",
    "cls": "English 10",
    "title": "Cycle 8 GrammarFlip (2.12)",
    "due": "2026-11-20T23:59",
@@ -220,7 +212,7 @@
    "kind": "drill"
   },
   {
-   "id": "c10",
+   "id": "c9",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #1",
    "due": "2026-11-24T23:59",
@@ -228,7 +220,7 @@
    "kind": "test"
   },
   {
-   "id": "c11",
+   "id": "c10",
    "cls": "Religion",
    "title": "Class Reflection",
    "due": "2026-11-30T23:59",
@@ -236,7 +228,7 @@
    "kind": "project"
   },
   {
-   "id": "c12",
+   "id": "c11",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #2",
    "due": "2026-12-04T23:59",
@@ -244,7 +236,7 @@
    "kind": "test"
   },
   {
-   "id": "c13",
+   "id": "c12",
    "cls": "Algebra II",
    "title": "Ch. 3 Test",
    "due": "2026-12-11T23:59",
@@ -252,7 +244,7 @@
    "kind": "test"
   },
   {
-   "id": "c14",
+   "id": "c13",
    "cls": "English 10",
    "title": "TEWWG Diction Scavenger Hunt",
    "due": "2026-12-11T23:59",
@@ -260,7 +252,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c15",
+   "id": "c14",
    "cls": "English 10",
    "title": "Membean and Grammar Flip",
    "due": "2028-08-02T23:59",
@@ -268,7 +260,7 @@
    "kind": "drill"
   },
   {
-   "id": "c16",
+   "id": "c15",
    "cls": "Spanish II",
    "title": "Welcome Survey",
    "due": null,
@@ -276,7 +268,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c17",
+   "id": "c16",
    "cls": "English 10",
    "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
    "due": null,
@@ -284,7 +276,7 @@
    "kind": "reading"
   },
   {
-   "id": "c18",
+   "id": "c17",
    "cls": "Algebra II",
    "title": "Match My Parabola",
    "due": null,
@@ -292,7 +284,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c19",
+   "id": "c18",
    "cls": "English 10",
    "title": "Harlem Renaissance Escape Room",
    "due": null,
@@ -310,8 +302,8 @@
   },
   {
    "cls": "Spanish II",
-   "letter": "B-",
-   "pct": 80.5,
+   "letter": "C+",
+   "pct": 78.3,
    "frn": "00447215",
    "scale": "percent"
   },
@@ -423,12 +415,12 @@
    "title": "Wksheet: IR+inf, inform commands, dir obj pronouns",
    "cat": "Hmwrk, Participation, Products",
    "due": "2026-11-11",
-   "score": null,
+   "score": 0,
    "possible": 20,
-   "pct": null,
+   "pct": 0,
    "flag": false,
    "late": false,
-   "bucket": "ungraded"
+   "bucket": "zero"
   },
   {
    "id": "p6",
@@ -951,7 +943,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-11-12T21:31:27.649Z",
+ "psGenerated": "2026-11-13T12:36:20.591Z",
  "trainers": [
   {
    "cls": "Chemistry",
