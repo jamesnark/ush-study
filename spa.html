@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Spanish II - Everything So Far</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>:root{--accent:#ffd166;--accent-ink:#2b2100}
+.fbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fchip{background:var(--panel2);border:1px solid var(--line);color:inherit;border-radius:999px;padding:6px 11px;font-size:13px;cursor:pointer}
+.fchip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.fchip.soon{border-style:dashed;opacity:.8}
+.fchip.soon.on{opacity:1}
+.fhead{font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--dim);margin-top:12px}
+.fcount{font-size:12.5px;opacity:.8;margin-top:8px}
+.flag{background:rgba(255,209,102,.12);border-left:3px solid #ffd166;padding:8px 11px;border-radius:6px;font-size:13.5px;margin-top:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{background:var(--panel2);border:0;color:var(--dim);padding:7px 13px;font-size:13px;cursor:pointer;font-family:inherit}
+.seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:700}
+.wq{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:18px}
+.wprompt{font-size:19px;font-weight:600;line-height:1.35;margin:6px 0 14px}
+.wprompt .tiny{font-weight:400}
+.winput{width:100%;font-size:18px;padding:11px 13px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-family:inherit}
+.winput:focus{outline:none;border-color:var(--accent)}
+.keys{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.keys button{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:5px 10px;font-size:15px;cursor:pointer;min-width:34px}
+.wres{margin-top:12px;padding:11px 13px;border-radius:9px;font-size:14.5px}
+.wres.ok{background:rgba(62,207,142,.12);border:1px solid var(--good)}
+.wres.no{background:rgba(255,92,92,.1);border:1px solid var(--bad)}
+.wres.half{background:rgba(255,176,32,.1);border:1px solid var(--warn)}
+.wres .ans{font-size:17px;font-weight:600;margin-top:4px}
+.wres .why2{color:var(--dim);font-size:13px;margin-top:6px}
+.wtop{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--dim)}
+.wsum li{margin:6px 0;font-size:14px}
+.opts{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:13px}
+.opts label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.opts input{width:auto}
+td.es{font-weight:600}
+.soonTag{font-size:10.5px;border:1px dashed var(--dim);border-radius:5px;padding:1px 5px;margin-left:6px;color:var(--dim);font-weight:400}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>Spanish II &middot; Everything so far (Unidad 1 + 2)</h1>
+  <div class="sub">Sra. Dishong / Sra. Anker &middot; Period 3 &middot; built from LingCo Units 1&ndash;2 and every Classroom slide deck (Aug 11 &ndash; Nov 13) &middot; <b>Final exam Thu Dec 17</b></div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="wr">Write It</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div class="card" id="fcDir"></div><div id="fcHostEs"></div><div id="fcHostEn" style="display:none"></div></section>
+<section class="view" id="wr"><div class="card" id="wrSetup"></div><div id="wrBody"></div></section>
+<section class="view" id="qz"><div class="card" id="focusCard"></div><div id="qzHost"></div></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=8"></script>
+<script>
+const $=id=>document.getElementById(id);
+function shuf(a){return a.slice().sort(function(){return Math.random()-.5})}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+/* =====================================================================
+   VOCAB SEGMENTS
+   item: [spanish, english, pos, acceptedAnswers(optional), note(optional)]
+   pos: n noun, v verb, adj, adv, ph phrase, q question word
+   w:1 in the note slot is not used; notes are plain strings.
+   ===================================================================== */
+const SECS=[
+{k:"tec",s:"U1 · La tecnología",src:"LingCo Vocabulario: La tecnología + the Aug 19 vocab worksheet",items:[
+ ["el celular","cell phone","n",["el celular","el teléfono celular","el móvil","el teléfono"],"LingCo: Latin America. In Spain: el móvil. The class worksheet just says el teléfono."],
+ ["la tableta","tablet","n"],
+ ["el teléfono inteligente","smartphone","n"],
+ ["la computadora portátil","laptop","n"],
+ ["el altavoz","speaker","n"],
+ ["el teclado","keyboard","n"],
+ ["la pantalla (táctil)","(touch) screen","n",["la pantalla táctil","la pantalla"]],
+ ["el cargador","charger","n"],
+ ["la aplicación","app","n",["la aplicación","la app"],"The class worksheet uses la app."],
+ ["la red social","social media","n",["la red social","las redes sociales"]],
+ ["la cuenta","account","n"],
+ ["el mensaje","message","n",null,"From the class worksheet (Aug 19)."],
+ ["textear","to text","v",null,"From the class worksheet."],
+ ["el chat","chat","n",null,"From the class worksheet."],
+ ["la contraseña","password","n",null,"From the class worksheet; also all over the Sep 16-24 seguridad slides."],
+ ["los audífonos","headphones","n",["los audífonos","los auriculares"],"Slides accept both: los auriculares / los audífonos."],
+ ["el ratón","mouse","n",null,"From the class worksheet."],
+ ["la impresora","printer","n",null,"From the class worksheet."]
+]},
+{k:"act",s:"U1 · Actividades en línea",src:"LingCo Vocabulario: Actividades en línea + worksheet",items:[
+ ["llamar","to call","v"],
+ ["enviar mensajes","to send messages","v",["enviar mensajes","mandar mensajes"],"The worksheet says mandar mensajes. Both are right."],
+ ["enviar correos","to send emails","v",["enviar correos","mandar correos","enviar correos electrónicos","mandar correos electrónicos"],"Worksheet: mandar correos electrónicos."],
+ ["descargar","to download","v"],
+ ["subir","to upload","v",null,"Also means to climb (subir una montaña)."],
+ ["iniciar sesión","to log in","v"],
+ ["buscar información","to search for information","v"],
+ ["abrir","to open","v"],
+ ["cerrar","to close","v"],
+ ["compartir","to share","v"],
+ ["chatear","to chat","v"],
+ ["grabar videos","to record videos","v"],
+ ["seguir","to follow","v"],
+ ["comentar","to comment","v"],
+ ["navegar en la red","to browse the web","v",["navegar en la red","navegar el internet","navegar en internet","navegar la red","navegar en el internet"],"Worksheet: navegar en la red. Aug 21 slides: navegar el Internet."]
+]},
+{k:"cua",s:"U1 · ¿Cuándo?",src:"LingCo Vocabulario: ¿Cuándo? + worksheet + Aug 27/31 slides",items:[
+ ["ahora","now","adv"],
+ ["después (de)","later / after","adv",["después","después de"],"LingCo: después = later, después de = after. Después de cenar = after eating dinner."],
+ ["antes (de)","before / beforehand","adv",["antes","antes de"],"LingCo: antes = beforehand, antes de = before. Antes de acostarme = before going to bed."],
+ ["a menudo","often","adv"],
+ ["cada","every","adj"],
+ ["normalmente","usually","adv"],
+ ["por lo general","in general","adv",["por lo general","generalmente"]],
+ ["frecuentemente","frequently","adv"],
+ ["siempre","always","adv"],
+ ["a veces","sometimes","adv"],
+ ["nunca","never","adv"],
+ ["generalmente","generally","adv",["generalmente","por lo general"],"From the class worksheet."],
+ ["más tarde","later (on)","adv",["más tarde","después"],"From the class worksheet."],
+ ["de antemano","in advance","adv",null,"The worksheet lists de antemano for beforehand."],
+ ["de vez en cuando","from time to time","adv",null,"Aug 31 slides."],
+ ["cada día","every day","adv",null,"Aug 31 slides."],
+ ["casi nunca","almost never","adv",null,"Aug 27 slides."]
+]},
+{k:"seg",s:"U1 · La seguridad digital",src:"LingCo Vocabulario: La seguridad digital + Sep 16-24 slides",items:[
+ ["la privacidad","privacy","n"],
+ ["actualizar","to update","v"],
+ ["mantener","to maintain","v",null,"Conjugates like tener: mantengo, mantienes..."],
+ ["proteger","to protect","v"],
+ ["ajustar","to adjust","v"],
+ ["revisar","to review","v"],
+ ["evitar","to avoid","v"],
+ ["la autenticación de dos factores","two-factor authentication","n",null,"Sep 16 slides: activar la autenticación de dos factores."],
+ ["el wifi público","public wifi","n",null,"Sep 16 slides: evitar el wifi público."],
+ ["desconocido/a","unknown","adj",["desconocido","desconocida","desconocidos","desconocidas"],"Sep 16 reading: enlaces desconocidos = unknown links."]
+]},
+{k:"red",s:"U1 · Las redes sociales",src:"LingCo Vocabulario: Las redes sociales",items:[
+ ["publicar","to publish / post","v"],
+ ["borrar","to delete / erase","v"],
+ ["etiquetar","to tag","v"],
+ ["añadir","to add","v"],
+ ["el contenido","content","n"],
+ ["el comentario","comment","n"],
+ ["el perfil","profile","n"],
+ ["el filtro","filter","n"],
+ ["el enlace","link","n"],
+ ["el anuncio","ad","n"],
+ ["la búsqueda","search","n"],
+ ["el acoso en línea","cyberbullying","n"],
+ ["seguro/a","safe","adj",["seguro","segura"]]
+]},
+{k:"cas",s:"U2 · Las partes de la casa",src:"Nov 13 slides (LingCo Las partes de la casa) + LingCo Cuarto por cuarto, Parts 1-2",items:[
+ ["la terraza","terrace / patio","n",null,"The Nov 13 slide translates it as Patio; the LingCo book says terrace."],
+ ["el sótano","basement","n"],
+ ["el jardín","garden / yard","n"],
+ ["el garaje","garage","n"],
+ ["el balcón","balcony","n"],
+ ["el ático","attic","n",["el ático","la buhardilla"],"The book also gives la buhardilla."],
+ ["la sala de estar","living room","n",["la sala de estar","la sala"]],
+ ["el comedor","dining room","n"],
+ ["la cocina","kitchen","n",null,"Also means cooking."],
+ ["el pasillo","hallway","n"],
+ ["el espacio","space / room","n",["el espacio","el cuarto"],"Book: el cuarto, el espacio = room."],
+ ["la habitación","bedroom","n",["la habitación","el dormitorio","el cuarto"],"Nota cultural: la habitación = el dormitorio = el cuarto."],
+ ["el despacho","study / office","n"],
+ ["la lavandería","laundry room","n"],
+ ["el baño","bathroom","n",null,"Cuarto por cuarto, Parte 1."],
+ ["el apartamento","apartment","n",["el apartamento","el departamento","el piso"],"Nota cultural: el apartamento = el departamento = el piso (Spain)."],
+ ["la casa","house","n"],
+ ["la planta baja","ground floor","n",null,"Nota cultural: the ground level is la planta baja."],
+ ["el primer piso","first floor above ground","n",null,"El primer piso is what we call the second floor in the US."],
+ ["la piscina","swimming pool","n",["la piscina","la alberca"],"Mexico: la alberca."],
+ ["el patio","patio","n"],
+ ["el estacionamiento","parking / car spot","n",null,"Book: el garaje/estacionamiento."]
+]},
+{k:"mue",s:"U2 · Los muebles",soon:1,src:"LingCo Unidad 2 book, Lección 2 + Vocabulary Summary",items:[
+ ["los muebles","furniture","n"],
+ ["el sofá","sofa","n"],
+ ["la cama","bed","n"],
+ ["la mesa","table","n"],
+ ["la cómoda","dresser","n"],
+ ["el estante","bookshelf","n"],
+ ["el armario","wardrobe / closet","n"],
+ ["la lámpara","lamp","n"],
+ ["la mesita de noche","nightstand","n"],
+ ["el espejo","mirror","n"],
+ ["la televisión","television","n"],
+ ["la silla","chair","n",null,"From the Lección 2 word bank."],
+ ["el escritorio","desk","n",null,"From the Lección 2 word bank."]
+]},
+{k:"coc",s:"U2 · En la cocina",soon:1,src:"LingCo Unidad 2 book, Lección 2 + Vocabulary Summary",items:[
+ ["la batidora","blender","n"],
+ ["el lavaplatos","dishwasher","n"],
+ ["el refrigerador","refrigerator","n",["el refrigerador","la nevera"]],
+ ["el microondas","microwave","n"],
+ ["el horno","oven","n"],
+ ["la estufa","stove","n"],
+ ["el fregadero","sink","n"],
+ ["la lavadora","washing machine","n"],
+ ["la cafetera","coffee maker","n",null,"From the Lección 2 reading."]
+]},
+{k:"otr",s:"U2 · Otras partes de la casa",soon:1,src:"LingCo Unidad 2 Vocabulary Summary",items:[
+ ["la puerta","door","n"],
+ ["la ventana","window","n"],
+ ["el techo","roof","n"],
+ ["el suelo","floor (the ground you walk on)","n"],
+ ["la pared","wall","n",null,"Used in the Nov 11 slides: No dibujes en la pared."],
+ ["el azulejo","tile","n"],
+ ["el ascensor","elevator","n"]
+]},
+{k:"hog",s:"U2 · Los hogares",soon:1,src:"LingCo Unidad 2 Vocabulary Summary",items:[
+ ["la granja","farm","n"],
+ ["la casa de campo","cottage / country house","n"],
+ ["la mansión","mansion","n"]
+]},
+{k:"com",s:"U2 · ¿Cómo es la casa?",soon:1,src:"LingCo Unidad 2 Vocabulary Summary (book lists feminine forms, for la casa)",items:[
+ ["espaciosa","spacious","adj",["espaciosa","espacioso"]],
+ ["acogedora","cozy","adj",["acogedora","acogedor"]],
+ ["luminosa","bright","adj",["luminosa","luminoso"]],
+ ["oscura","dark","adj",["oscura","oscuro"]],
+ ["moderna","modern","adj",["moderna","moderno"]],
+ ["antigua","antique / old","adj",["antigua","antiguo"]],
+ ["nueva","new","adj",["nueva","nuevo"]],
+ ["vieja","old","adj",["vieja","viejo"]],
+ ["pequeña","small","adj",["pequeña","pequeño"]],
+ ["grande","large / big","adj"],
+ ["cómoda","comfortable","adj",["cómoda","cómodo"]],
+ ["limpia","clean","adj",["limpia","limpio"]],
+ ["sucia","dirty","adj",["sucia","sucio"]]
+]},
+{k:"que",s:"U2 · Los quehaceres",soon:1,src:"LingCo Unidad 2 Vocabulary Summary",items:[
+ ["limpiar","to clean","v"],
+ ["hacer la cama","to make the bed","v"],
+ ["pasar la aspiradora","to vacuum","v",["pasar la aspiradora","aspirar"],"The Sep 9 slides used aspirar la alfombra = to vacuum the rug."],
+ ["barrer","to sweep","v"],
+ ["sacar la basura","to take out the trash","v"],
+ ["lavar los platos","to wash the dishes","v"],
+ ["lavar la ropa","to wash the clothes","v"],
+ ["poner la mesa","to set the table","v"],
+ ["dar de comer a la mascota","to feed the pet","v",["dar de comer a la mascota","dar de comer"]],
+ ["sacar el perro","to walk the dog","v",["sacar el perro","sacar al perro","pasear con el perro"]]
+]},
+{k:"adj",s:"¿Cómo eres? (adjetivos)",src:"Sep 9 slides: ¿Cómo eres tú? Yo soy...",items:[
+ ["chistoso/a","funny","adj",["chistoso","chistosa"]],
+ ["serio/a","serious","adj",["serio","seria"]],
+ ["fuerte","strong","adj"],
+ ["relajado/a","relaxed","adj",["relajado","relajada"]],
+ ["inteligente","intelligent","adj"],
+ ["cariñoso/a","loving / affectionate","adj",["cariñoso","cariñosa"]],
+ ["capaz","capable","adj"],
+ ["ambicioso/a","ambitious","adj",["ambicioso","ambiciosa"]],
+ ["estudioso/a","studious","adj",["estudioso","estudiosa"]],
+ ["misterioso/a","mysterious","adj",["misterioso","misteriosa"]],
+ ["trabajador/a","hard-working","adj",["trabajador","trabajadora"]],
+ ["feliz","happy","adj"],
+ ["interesante","interesting","adj"],
+ ["amable","kind","adj"],
+ ["talentoso/a","talented","adj",["talentoso","talentosa"]],
+ ["curioso/a","curious","adj",["curioso","curiosa"]],
+ ["atlético/a","athletic","adj",["atlético","atlética"]]
+]},
+{k:"mue2",s:"Día de los Muertos",src:"Nov 4 and Nov 9 slides",items:[
+ ["la vida y la muerte","life and death","n"],
+ ["los ancestros","ancestors","n"],
+ ["el cementerio","cemetery","n"],
+ ["las tumbas","graves","n"],
+ ["los alebrijes","fantastical animals that guide spirits","n"],
+ ["la ofrenda","altar (offering)","n"],
+ ["las catrinas","elegantly dressed skeleton figurines","n"],
+ ["las velas","candles","n"],
+ ["los dulces","candy","n"],
+ ["el pan de muerto","bread of the dead","n"],
+ ["las calaveritas de azúcar","sugar skulls","n"],
+ ["los cempasúchil","marigolds","n",["los cempasúchil","el cempasúchil","las cempasúchil"],"The slides write los cempasúchil."],
+ ["el papel picado","decorative cut paper","n"],
+ ["las canciones","songs","n"],
+ ["el disfraz","costume","n"],
+ ["los esqueletos","skeletons","n",null,"Nov 9 slides."]
+]},
+{k:"qw",s:"Palabras interrogativas",src:"Nov 11 slides + the Question Words handout (Nov 12)",items:[
+ ["¿quién? / ¿quiénes?","who?","q",["quién","quiénes"],"Quiénes when you expect more than one: ¿Quiénes son tus padres?"],
+ ["¿qué?","what?","q",["qué"]],
+ ["¿cuándo?","when?","q",["cuándo"]],
+ ["¿dónde?","where?","q",["dónde"]],
+ ["¿adónde?","to where?","q",["adónde"],"¿Adónde caminas ahora?"],
+ ["¿por qué?","why?","q",["por qué"],"Two words with an accent. Porque (one word, no accent) = because."],
+ ["¿cómo?","how?","q",["cómo"]],
+ ["¿cuál? / ¿cuáles?","which?","q",["cuál","cuáles"],"¿Cuál es tu color favorito? ¿Cuáles son tus clases favoritas?"],
+ ["¿cuánto? / ¿cuánta?","how much?","q",["cuánto","cuánta"],"Agrees with the noun: ¿Cuánta limonada? ¿Cuánto dinero?"],
+ ["¿cuántos? / ¿cuántas?","how many?","q",["cuántos","cuántas"],"¿Cuántas hermanas tienes? ¿Cuántos libros tienes?"]
+]},
+{k:"dia",s:"Días, fechas y estaciones",src:"Daily slide openers (¿Qué día es hoy?) + Nov 13 seasons",items:[
+ ["lunes","Monday","n"],["martes","Tuesday","n"],["miércoles","Wednesday","n"],["jueves","Thursday","n"],
+ ["viernes","Friday","n"],["sábado","Saturday","n"],["domingo","Sunday","n"],
+ ["el invierno","winter","n"],["la primavera","spring","n"],["el verano","summer","n"],["el otoño","autumn / fall","n"],
+ ["ayer fue...","yesterday was...","ph",["ayer fue"]],
+ ["hoy es...","today is...","ph",["hoy es"]],
+ ["mañana será...","tomorrow will be...","ph",["mañana será"]],
+ ["¿Cuál es la fecha?","What is the date?","ph",["cuál es la fecha"]],
+ ["el primero de octubre","October 1st","ph",["el primero de octubre","el 1 de octubre"],"The 1st is el primero; every other date uses the plain number: el dos de octubre."]
+]}
+];
+SECS.forEach(function(S){S.items=S.items.map(function(x){return {es:x[0],en:x[1],pos:x[2],acc:x[3]||null,note:x[4]||"",sec:S}})});
+const VOC=[].concat.apply([],SECS.map(function(S){return S.items}));
+const POSL={n:"noun",v:"verb",adj:"adjective",adv:"adverb",ph:"phrase",q:"question word"};
+function accOf(it){
+  if(it.acc)return it.acc;
+  const m=it.es.match(/^(.*?)o\/a$/);if(m)return [m[1]+"o",m[1]+"a"];
+  return [it.es.replace(/\s*\(.*?\)\s*/g," ").trim()];
+}
+
+/* =====================================================================
+   VERBS
+   ===================================================================== */
+const PERS=["yo","tú","él / ella / usted","nosotros/as","vosotros/as","ellos / ellas / ustedes"];
+const PSUB=[["yo"],["tú"],["él","ella","usted","Elena","mi hermano"],["nosotros","nosotras","mis amigos y yo"],["vosotros","vosotras"],["ellos","ellas","ustedes","mis padres"]];
+const END={ar:["o","as","a","amos","áis","an"],er:["o","es","e","emos","éis","en"],ir:["o","es","e","imos","ís","en"]};
+function chg(stem,c){
+  const from=c.split(">")[0],to=c.split(">")[1],i=stem.lastIndexOf(from);
+  return stem.slice(0,i)+to+stem.slice(i+from.length);
+}
+function conj(inf,c,yo){
+  const st=inf.slice(0,-2),ty=inf.slice(-2);
+  return END[ty].map(function(e,i){
+    if(i===0&&yo)return yo;
+    return ((c&&[0,1,2,5].indexOf(i)>=0)?chg(st,c):st)+e;
+  });
+}
+/* [infinitive, english, stem change, irregular yo] */
+const STEMV=[
+ ["pensar","to think","e>ie"],["querer","to want / to love","e>ie"],["empezar","to begin","e>ie"],
+ ["entender","to understand","e>ie"],["preferir","to prefer","e>ie"],["recomendar","to recommend","e>ie"],
+ ["tener","to have","e>ie","tengo"],["cerrar","to close","e>ie"],
+ ["poder","to be able to / can","o>ue"],["dormir","to sleep","o>ue"],["volar","to fly","o>ue"],
+ ["pedir","to ask for / to order","e>i"],["repetir","to repeat","e>i"],["decir","to say / to tell","e>i","digo"],
+ ["jugar","to play (a game or sport)","u>ue"]
+];
+const REGV=[["estudiar","to study"],["depender","to depend"],["existir","to exist"],["bailar","to dance"],["celebrar","to celebrate"],
+ ["cantar","to sing"],["asistir","to attend"],["aprender","to learn"],["hablar","to speak"],["comer","to eat"],["vivir","to live"],
+ ["escuchar","to listen"],["correr","to run"],["beber","to drink"],["compartir","to share"],["descargar","to download"],["borrar","to delete"]];
+const IRRV={ser:["soy","eres","es","somos","sois","son"],estar:["estoy","estás","está","estamos","estáis","están"],ir:["voy","vas","va","vamos","vais","van"]};
+const VT={};
+STEMV.forEach(function(v){VT[v[0]]={inf:v[0],en:v[1],c:v[2],f:conj(v[0],v[2],v[3]),g:"stem"}});
+REGV.forEach(function(v){VT[v[0]]={inf:v[0],en:v[1],c:null,f:conj(v[0]),g:"pres"}});
+VT.ser={inf:"ser",en:"to be (DOCTOR)",f:IRRV.ser,g:"se"};
+VT.estar={inf:"estar",en:"to be (PLACE)",f:IRRV.estar,g:"se"};
+VT.ir={inf:"ir",en:"to go",f:IRRV.ir,g:"ir"};
+function part(inf){
+  if(inf==="leer")return "leyendo";if(inf==="dormir")return "durmiendo";
+  const st=inf.slice(0,-2);return inf.slice(-2)==="ar"?st+"ando":st+"iendo";
+}
+const PROGV=["estudiar","escuchar","correr","beber","salir","subir","hablar","comer","vivir","bailar","cantar","imaginar","entender","presumir",
+ "celebrar","decorar","preparar","jugar","lavar","leer","dormir","montar","saltar","chatear","descargar","compartir","grabar","buscar","publicar","escribir"];
+/* affirmative tú, negative tú, english */
+const CMDS=[["bailar","baila","no bailes","dance"],["hablar","habla","no hables","speak / talk"],["saltar","salta","no saltes","jump"],
+ ["cantar","canta","no cantes","sing"],["dibujar","dibuja","no dibujes","draw"],["gritar","grita","no grites","yell"],["girar","gira","no gires","turn / spin"],
+ ["llorar","llora","no llores","cry"],["estudiar","estudia","no estudies","study"],["caminar","camina","no camines","walk"],["mirar","mira","no mires","watch / look"],
+ ["comer","come","no comas","eat"],["correr","corre","no corras","run"],["escribir","escribe","no escribas","write"],["subir","sube","no subas","climb / go up"],
+ ["volar","vuela","no vueles","fly"],["dormir","duerme","no duermas","sleep"],["beber","bebe","no bebas","drink"],["leer","lee","no leas","read"],
+ ["abrir","abre","no abras","open"],["cerrar","cierra","no cierres","close"],["compartir","comparte","no compartas","share"],["llamar","llama","no llames","call"],
+ ["borrar","borra","no borres","delete"]];
+/* english, affirmative with pronoun, negative with pronoun, object */
+const CMDP=[["Write it! (el mensaje)","escríbelo","no lo escribas"],["Eat it! (la pizza)","cómela","no la comas"],["Climb them! (las escaleras)","súbelas","no las subas"],
+ ["Draw it! (el árbol)","dibújalo","no lo dibujes"],["Watch it! (la película)","mírala","no la mires"],["Cook them! (los espaguetis)","cocínalos","no los cocines"],
+ ["Call her! (a tu mamá)","llámala","no la llames"],["Finish it! (la tarea)","complétala","no la completes"],["Talk to me!","háblame","no me hables"],
+ ["Yell at me!","grítame","no me grites"],["Delete them! (las fotos)","bórralas","no las borres"],["Share it! (el enlace)","compártelo","no lo compartas"],
+ ["Open it! (la aplicación)","ábrela","no la abras"]];
+
+/* direct object pronoun sentences, mostly straight from the slides: [original, subject part, pronoun+verb part, extra accepted] */
+const DOP=[
+ ["Yo tengo el lápiz.","Yo","lo tengo"],["Mi mamá hace una ensalada.","Mi mamá","la hace"],["Mi hermano llama a su amigo.","Mi hermano","lo llama"],
+ ["Nosotros comemos una pizza.","Nosotros","la comemos"],["Yo invito a vosotros.","Yo","os invito"],["Mi abuela abraza a mis padres y a mí.","Mi abuela","nos abraza"],
+ ["Mis amigos y yo miramos unos vídeos.","Nosotros","los miramos",["mis amigos y yo los miramos"]],["Yo tomo un selfie.","Yo","lo tomo"],
+ ["Mi hermana publica unas fotos chistosas.","Ella","las publica",["mi hermana las publica"]],
+ ["Tú y tu hermano actualizan las aplicaciones.","Ustedes","las actualizan",["tú y tu hermano las actualizan"]],
+ ["Samuel tiene mi bicicleta.","Samuel","la tiene"],["Vosotros jugáis muchos videojuegos.","Vosotros","los jugáis"],["Isabel quiere mucho a Mario.","Isabel","lo quiere",["isabel lo quiere mucho"]],
+ ["Yo prefiero las pizzas vegetarianas.","Yo","las prefiero"],["Tú tienes mis libros.","Tú","los tienes"],["Ella quiere la mochila roja.","Ella","la quiere"],
+ ["Yo como el espagueti.","Yo","lo como"],["Ella prefiere la pizza vegetariana.","Ella","la prefiere"],["Ella compra la mochila.","Ella","la compra"],
+ ["Tú invitas a Mateo.","Tú","lo invitas"],["Nosotros bebemos la limonada.","Nosotros","la bebemos"],["Mis hermanas miran la película.","Mis hermanas","la miran"],
+ ["Vosotros coméis las manzanas.","Vosotros","las coméis"],["Juan estudia la biología.","Juan","la estudia"],["Yo necesito la dirección.","Yo","la necesito"],
+ ["Nosotros pedimos la pizza con cebollas y jamón.","Nosotros","la pedimos"],["Tú comes los espaguetis.","Tú","los comes"],
+ ["Mis hermanos juegan un partido de fútbol.","Mis hermanos","lo juegan"],["Ustedes quieren las flores amarillas.","Ustedes","las quieren"],
+ ["Pedro me habla a mí.","Él","me habla",["pedro me habla"]],
+ ["Ellos quieren invitar a mis amigos y a mí.","Ellos","nos quieren invitar",["ellos quieren invitarnos","quieren invitarnos"]],
+ ["Nosotros estamos comiendo manzanas.","Nosotros","las estamos comiendo",["nosotros estamos comiéndolas","estamos comiéndolas"]],
+ ["Ellos están jugando al fútbol.","Ellos","lo están jugando",["ellos están jugándolo","están jugándolo"]],
+ ["Yo estoy preparando la cena.","Yo","la estoy preparando",["yo estoy preparándola","estoy preparándola"]],
+ ["Tú estás subiendo la montaña.","Tú","la estás subiendo",["tú estás subiéndola","estás subiéndola"]],
+ ["Ella está usando la computadora.","Ella","la está usando",["ella está usándola","está usándola"]],
+ ["Yo voy a subir el árbol.","Yo","lo voy a subir",["yo voy a subirlo","voy a subirlo"]],
+ ["No voy a comer la cena.","","no la voy a comer",["no voy a comerla"]]
+];
+const OBJP=["me","te","lo","la","nos","os","los","las"];
+
+/* ser / estar fill-ins from the slides: [sentence, answer, why, person index or -1 for infinitive] */
+const SE=[
+ ["¿Dónde ___ mi celular?","está","Location → ESTAR (PLACE).",2],["Mi tableta ___ rota.","está","Condition (broken right now) → ESTAR.",2],
+ ["___ necesario tener un cargador.","Es","Description / characteristic → SER.",2],["Yo pienso que mi teléfono no ___ muy inteligente.","es","Characteristic → SER.",2],
+ ["La red social puede ___ negativa o positiva.","ser","Characteristic → SER, and after puede you keep the infinitive.",-1],
+ ["Yo ___ harto/a de chatear con Ricardo.","estoy","Emotion / condition → ESTAR.",0],["Ricardo ___ molestón (annoying).","es","Characteristic → SER.",2],
+ ["Mi gato ___ chateando con mi hermana.","está","Action in progress (-ando) → ESTAR.",2],["Mis hermanos ___ bajo del sofá.","están","Position → ESTAR.",5],
+ ["Textear con mis amigos ___ aburrido.","es","Description → SER.",2],["El cargador ___ en la mesa.","está","Location → ESTAR.",2],
+ ["El cargador ___ blanco.","es","Description (color) → SER.",2],["Yo ___ buscando el ratón.","estoy","Action (-ando) → ESTAR.",0],
+ ["Ella ___ feliz hoy.","está","Emotion → ESTAR.",2],["Ellos ___ inteligentes.","son","Characteristic → SER.",5],["Nosotras ___ atléticas.","somos","Characteristic → SER.",3],
+ ["¿Ustedes ___ en la biblioteca?","están","Location → ESTAR.",5],["Tú ___ estudiando mucho hoy.","estás","Action (-ando) → ESTAR.",1],
+ ["El perro ___ grande.","es","Description → SER.",2],["Ella ___ médica.","es","Occupation → SER.",2],["___ las diez y media.","Son","Time → SER.",5],
+ ["Mi papá ___ enfermo.","está","Condition → ESTAR.",2],["Ellos ___ de Puerto Rico.","son","Origin → SER.",5],["Él ___ mi hermano.","es","Relationship → SER.",2],
+ ["Nosotros ___ en clase.","estamos","Location → ESTAR.",3],["Tú ___ inteligente.","eres","Characteristic → SER.",1],
+ ["Elena ___ lista para salir (she is ready).","está","estar listo/a = to be ready. ser listo/a = to be clever.",2],
+ ["Elena ___ muy lista (she is clever).","es","ser listo/a = clever. estar listo/a = ready.",2],
+ ["¡Mmm! La sopa ___ deliciosa (it tastes delicious).","está","estar + taste adjective = how it tastes right now.",2]
+];
+const SEADJ=[["listo/a","to be clever","to be ready"],["rico/a","to be rich","to taste good"],["orgulloso/a","to be arrogant","to be proud"],
+ ["malo/a","to be bad","to feel ill"],["seguro/a","to be safe / confident","to be certain"],["inquieto/a","to be a nervous person","to feel restless"],
+ ["aburrido/a","to be boring","to be bored"],["guapo/a","to be handsome","to look handsome (today)"],["casado/a","to be married","to be (recently) married"]];
+
+/* IR + a: [english, person index, part after "a", accepted extra] */
+const IRS=[["I'm going to study for the exam.",0,"estudiar para el examen"],["You are going to visit your grandparents.",1,"visitar a tus abuelos"],
+ ["We are going to travel to Costa Rica.",3,"viajar a Costa Rica"],["I am going to play volleyball this afternoon.",0,"jugar al vóleibol esta tarde",["voy a jugar a vóleibol esta tarde","voy a jugar vóleibol esta tarde","voy a jugar al voleibol esta tarde","voy a jugar voleibol esta tarde"]],
+ ["We are going to buy a new car.",3,"comprar un carro nuevo",["vamos a comprar un coche nuevo","vamos a comprar un nuevo carro"]],
+ ["You are going to be a doctor in the future.",1,"ser doctor en el futuro",["vas a ser un doctor en el futuro","vas a ser médico en el futuro","vas a ser un médico en el futuro","vas a ser doctora en el futuro"]],
+ ["They are going to have a good break.",5,"tener un buen descanso",["van a tener un descanso bueno"]],
+ ["We are going to eat pizza.",3,"comer pizza"],["They are going to play soccer.",5,"jugar al fútbol",["van a jugar a fútbol","van a jugar fútbol"]],
+ ["You all are going to celebrate my birthday with me.",5,"celebrar mi cumpleaños conmigo",["vosotros vais a celebrar mi cumpleaños conmigo","vais a celebrar mi cumpleaños conmigo"]],
+ ["I'm going to call your mom!",0,"llamar a tu mamá"]];
+/* IR + a + place */
+const IRP=[["We are going to school.","vamos a la escuela","vamos al escuela"],["I am going to the park.","voy al parque","voy a el parque"],
+ ["They are going to Spanish class.","van a la clase de español","van al clase de español"],["You are going to the gym.","vas al gimnasio","vas a el gimnasio"],
+ ["She is going to the supermarket.","va al supermercado","va a el supermercado"]];
+
+/* demonstratives: sentences from the Nov 13 slides */
+const DEMS=[["That dog is tired.","ese perro está cansado"],["That house over there is blue.","aquella casa es azul"],["This car is red.","este carro es rojo",["este coche es rojo"]],
+ ["Those are my books.","esos son mis libros"],["Those bears over there are dancing.","aquellos osos están bailando"],["This giraffe is eating.","esta jirafa está comiendo"],
+ ["Those cows are running.","esas vacas están corriendo"],["These penguins are walking.","estos pingüinos están caminando"],
+ ["This dog","este perro"],["That house","esa casa"],["These books","estos libros"],["Those shoes","esos zapatos"],["That school over there","aquella escuela"],["Those cars over there","aquellos carros"]];
+const DEMF={this:{ms:"este",fs:"esta",mp:"estos",fp:"estas"},that:{ms:"ese",fs:"esa",mp:"esos",fp:"esas"},over:{ms:"aquel",fs:"aquella",mp:"aquellos",fp:"aquellas"}};
+const DEMEN={this:["this","these"],that:["that","those"],over:["that (over there)","those (over there)"]};
+
+/* numbers */
+const U30=["cero","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve","diez","once","doce","trece","catorce","quince","dieciséis","diecisiete","dieciocho","diecinueve",
+ "veinte","veintiuno","veintidós","veintitrés","veinticuatro","veinticinco","veintiséis","veintisiete","veintiocho","veintinueve"];
+const TENS={3:"treinta",4:"cuarenta",5:"cincuenta",6:"sesenta",7:"setenta",8:"ochenta",9:"noventa"};
+const HUN={1:"ciento",2:"doscientos",3:"trescientos",4:"cuatrocientos",5:"quinientos",6:"seiscientos",7:"setecientos",8:"ochocientos",9:"novecientos"};
+function numEs(n){
+  if(n<30)return U30[n];
+  if(n<100){const t=Math.floor(n/10),u=n%10;return TENS[t]+(u?" y "+U30[u]:"")}
+  if(n===100)return "cien";
+  if(n<1000){const h=Math.floor(n/100),r=n%100;return HUN[h]+(r?" "+numEs(r):"")}
+  const th=Math.floor(n/1000),r=n%1000;return (th===1?"mil":numEs(th)+" mil")+(r?" "+numEs(r):"");
+}
+const NUMS=[0,7,11,12,13,14,15,16,17,19,20,21,22,23,26,30,31,38,41,44,57,65,73,82,84,91,99,100,101,133,200,350,476,500,545,672,700,815,900,999,1000,1999,2026,2726];
+const DAYS=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
+
+/* =====================================================================
+   GRAMMAR / CULTURE FLASHCARDS
+   ===================================================================== */
+const GC=[
+{s:"Gramática · Ser y estar",t:"SER vs ESTAR: when do you use each?",a:["What word helps you remember SER?","What word helps you remember ESTAR?"],h:"DOCTOR and PLACE.",
+ d:"<b>SER = DOCTOR</b>: Description, Occupation, Characteristic, Time, Origin, Relationship. Long-term or permanent.<br><b>ESTAR = PLACE</b>: Position, Location, Action (-ando/-iendo), Condition, Emotion. Temporary or changing. Also when something just changed and you're surprised (¡Rubén y Mariela están casados!)."},
+{s:"Gramática · Ser y estar",t:"Conjugate SER and ESTAR",a:["All six forms of each"],h:"soy / estoy",
+ d:"<b>SER:</b> soy, eres, es, somos, sois, son<br><b>ESTAR:</b> estoy, estás, está, estamos, estáis, están"},
+{s:"Gramática · Ser y estar",t:"Adjectives that change meaning with ser / estar",a:["listo","rico","orgulloso","malo","seguro","aburrido"],h:"Elena es lista vs Elena está lista.",
+ d:SEADJ.map(function(x){return "<b>"+x[0]+"</b>: ser = "+x[1]+" &middot; estar = "+x[2]}).join("<br>")},
+{s:"Gramática · Presente",t:"Regular present tense endings",a:["-ar endings","-er endings","-ir endings"],h:"o, as, a, amos, áis, an",
+ d:"<b>-ar</b> (estudiar): estudio, estudias, estudia, estudiamos, estudiáis, estudian<br><b>-er</b> (depender): dependo, dependes, depende, dependemos, dependéis, dependen<br><b>-ir</b> (existir): existo, existes, existe, existimos, existís, existen<br>-er and -ir only differ in nosotros and vosotros."},
+{s:"Gramática · Presente progresivo",t:"How do you form the present progressive?",a:["Which verb do you conjugate?","What goes on -ar verbs?","What goes on -er / -ir verbs?","When do you use it?"],h:"ESTAR + participle",
+ d:"<b>ESTAR</b> (conjugated for the subject) + <b>present participle</b>.<br>-ar &rarr; drop -ar, add <b>-ando</b> (hablando). -er/-ir &rarr; drop the ending, add <b>-iendo</b> (comiendo, viviendo).<br>Use it to stress that something is happening <b>right now</b>: Yo estoy hablando = I am speaking NOW. (Yo hablo = I speak / I am speaking.)"},
+{s:"Gramática · Presente progresivo",t:"Odd participles: leer and dormir",a:["leer → ?","dormir → ?","Why the y?"],h:"No EIE in Spanish.",
+ d:"<b>leer &rarr; leyendo</b>: Spanish doesn't write e-i-e, so the i becomes y (same sound).<br><b>dormir &rarr; durmiendo</b> (Estos perritos están durmiendo).<br><span class=\"tiny\">Not in the slides but same pattern: pedir &rarr; pidiendo, decir &rarr; diciendo.</span>"},
+{s:"Gramática · Verbos con cambio de raíz",t:"The 4 types of stem-changing verbs",a:["Name all 4 with an example verb"],h:"e>ie, o>ue, e>i, u>ue",
+ d:"<b>E &gt; IE</b>: pensar (pienso), querer, empezar, entender, preferir, recomendar, tener, cerrar<br><b>O &gt; UE</b>: poder (puedo), dormir, volar<br><b>E &gt; I</b>: pedir (pido), repetir, decir<br><b>U &gt; UE</b>: ONLY jugar (juego)"},
+{s:"Gramática · Verbos con cambio de raíz",t:"The 3 steps to conjugate a stem-changer",a:["Step 1","Step 2","Step 3","Why are they called boot verbs?"],h:"Endings, then protect nosotros/vosotros.",
+ d:"1. Check if it's -ar, -er, or -ir and write the endings.<br>2. <b>Nosotros and vosotros do NOT change</b> (dormimos, dormís).<br>3. Change every other stem (yo, tú, él, ellos).<br>The 4 forms that change make a <b>boot</b> shape on the chart."},
+{s:"Gramática · Verbos con cambio de raíz",t:"Tener and decir: extra irregular yo",a:["tener, all forms","decir, all forms"],h:"tengo / digo",
+ d:"<b>tener</b> (e&gt;ie): <b>tengo</b>, tienes, tiene, tenemos, tenéis, tienen<br><b>decir</b> (e&gt;i): <b>digo</b>, dices, dice, decimos, decís, dicen"},
+{s:"Gramática · Verbos con cambio de raíz",t:"Preferir and jugar",a:["preferir, all forms","jugar, all forms"],h:"prefiero / juego",
+ d:"<b>preferir</b>: prefiero, prefieres, prefiere, preferimos, preferís, prefieren<br><b>jugar</b>: juego, juegas, juega, jugamos, jugáis, juegan"},
+{s:"Gramática · Pronombres de objeto directo",t:"The direct object pronouns",a:["me","you (informal)","him / her / it / you formal","us","you all (Spain)","them / you all"],h:"me te lo/la nos os los/las",
+ d:"<table><tr><th></th><th>singular</th><th>plural</th></tr><tr><td>1st</td><td>me = <b>me</b></td><td>us = <b>nos</b></td></tr><tr><td>2nd</td><td>you (tú) = <b>te</b></td><td>you all (Spain) = <b>os</b></td></tr><tr><td>3rd</td><td>him, her, it, you (Ud.) = <b>lo / la</b></td><td>them, you all = <b>los / las</b></td></tr></table>Pick lo/la/los/las by the gender and number of the noun it replaces."},
+{s:"Gramática · Pronombres de objeto directo",t:"Where does the pronoun go?",a:["One conjugated verb","Conjugated verb + infinitive","With the present progressive"],h:"Before the conjugated verb, or glued to the end.",
+ d:"<b>Before the conjugated verb</b>: Yo <b>lo</b> tengo. Mi mamá <b>la</b> hace.<br>With an infinitive or -ando/-iendo you can also <b>attach it</b>: <b>Lo</b> voy a subir = Voy a subir<b>lo</b>. <b>Las</b> estamos comiendo = Estamos comiéndo<b>las</b> (add an accent when you attach to -ando/-iendo).<br>Never after a conjugated verb as its own word (&times; Yo tengo lo)."},
+{s:"Gramática · Pronombres de objeto directo",t:"Article or pronoun? LA tarea vs LA hablo",a:["How do you tell them apart?"],h:"What comes right after it?",
+ d:"Before a <b>noun</b> it's the article: <b>la</b> tarea = the homework, <b>las</b> velas = the candles.<br>Before a <b>verb</b> it's a pronoun: <b>la</b> hablo = I speak to her, <b>los</b> comemos = we eat them, <b>lo</b> quiero = I love him / I want it, <b>las</b> tienes = you have them."},
+{s:"Gramática · Mandatos informales",t:"Affirmative tú commands",a:["How do you form them?","Two irregulars from class"],h:"Same as the él form.",
+ d:"Use the <b>él / ella / usted</b> present form: ella baila &rarr; <b>¡Baila!</b> &middot; él habla &rarr; <b>¡Habla!</b> &middot; usted come &rarr; <b>¡Come!</b> &middot; duerme, vuela, cierra (stem changes stay).<br>Irregulars shown in class: <b>¡Sé positivo!</b> (ser), <b>¡Dime!</b> (decir &rarr; di + me)."},
+{s:"Gramática · Mandatos informales",t:"Negative tú commands",a:["What do you change?","What do you add?","Don't forget what word?"],h:"Swap the last vowel, add -s.",
+ d:"Start from the affirmative, <b>swap the last vowel (a &harr; e)</b> and <b>add -s</b>, with <b>no</b> in front:<br>¡Baila! &rarr; <b>¡No bailes!</b> &middot; ¡Come! &rarr; <b>¡No comas!</b> &middot; ¡Escribe! &rarr; <b>¡No escribas!</b><div class=\"flag\">Your two classic slips: writing the normal present (&times; ¡No bailas!) and dropping the No (&times; ¡Bailes!).</div>"},
+{s:"Gramática · Mandatos informales",t:"Commands + object pronouns",a:["Where does it go in an affirmative command?","In a negative one?","What happens to the accent?"],h:"¡Cómela! / ¡No la comas!",
+ d:"<b>Affirmative: glue it to the end</b> and add an accent to keep the stress: ¡Come la pizza! &rarr; <b>¡Cómela!</b> &middot; ¡Escríbelo! &middot; ¡Háblame!<br><b>Negative: put it between no and the verb</b>: <b>¡No la comas!</b> &middot; ¡No lo escribas! &middot; ¡No me hables!"},
+{s:"Gramática · IR + a + infinitivo",t:"IR + a + infinitive (the near future)",a:["Conjugate ir","The pattern","a + el = ?"],h:"voy, vas, va, vamos, vais, van",
+ d:"<b>ir:</b> voy, vas, va, vamos, vais, van<br><b>ir + a + infinitive</b> = going to do something: Yo <b>voy a estudiar</b> para el examen. Nosotros <b>vamos a viajar</b> a Costa Rica.<br>ir + a + place: Voy <b>al</b> parque (a + el = <b>al</b>), Vamos <b>a la</b> escuela."},
+{s:"Gramática · Adjetivos demostrativos",t:"Demonstrative adjectives (all 12)",a:["this / these","that / those","that / those over there"],h:"este, ese, aquel",
+ d:"<table><tr><th></th><th>masc. sing.</th><th>fem. sing.</th><th>masc. pl.</th><th>fem. pl.</th></tr><tr><td>this / these</td><td>este</td><td>esta</td><td>estos</td><td>estas</td></tr><tr><td>that / those</td><td>ese</td><td>esa</td><td>esos</td><td>esas</td></tr><tr><td>over there</td><td>aquel</td><td>aquella</td><td>aquellos</td><td>aquellas</td></tr></table>They agree in gender and number with the noun: est<b>a</b> casa, es<b>os</b> papeles. English has 4, Spanish has 12."},
+{s:"Gramática · Palabras interrogativas",t:"Question words always carry an accent",a:["Which ones have plural / feminine forms?"],h:"quién/quiénes, cuál/cuáles, cuánto/a/os/as",
+ d:"quién/quiénes (who), qué (what), cuándo (when), dónde (where), adónde (to where), por qué (why), cómo (how), cuál/cuáles (which), cuánto/cuánta (how much), cuántos/cuántas (how many).<br>Open with ¿ and close with ?."},
+{s:"Pronunciación",t:"Where does the stress go?",a:["Most words","Words ending in D, L, R, Z","When do you write an accent?"],h:"Second-to-last syllable, unless...",
+ d:"Most words: stress on the <b>second-to-last</b> syllable (carro, pizarra, hablan, escuela).<br>Ending in <b>D, L, R, Z</b>: stress on the <b>last</b> syllable (felicidad, hospital, hablar, ajedrez).<br>If a word breaks these rules, it gets a <b>written accent</b>: educación, lápiz, página."},
+{s:"Pronunciación",t:"Letter sounds from class",a:["C","G","H","J","LL","Ñ","B / V","R vs RR","Z"],h:"Soft before e and i.",
+ d:"<b>C</b>: k before a/o/u, s before e/i. <b>G</b>: hard g before a/o/u, like h before e/i (gue/gui = hard g, güe/güi = gw). <b>H</b>: silent. <b>J</b>: strong h. <b>LL</b>: y. <b>Ñ</b>: ny. <b>B and V</b>: same soft b. <b>R</b>: quick tap, <b>RR</b>: trilled (pero vs perro). <b>Z</b>: s. Five vowel sounds: a (ah), e (ay), i (ee), o (oh), u (oo)."},
+{s:"Cultura",t:"Hispanic Heritage Month",a:["From when to when?"],h:"Mid-September to mid-October.",d:"<b>September 15 to October 15</b> (el quince de septiembre hasta el quince de octubre)."},
+{s:"Cultura",t:"Ritchie Valens and La Bamba",a:["Real name","When / how did he die?","What is he called?"],h:"1958 song.",
+ d:"Richard Steven Valenzuela, born May 13, 1941, lived in California. Wrote <b>La Bamba</b> (1958). Died Feb 3, 1959 in a plane crash at only <b>17</b>. Considered the <b>founder of Chicano music</b>. Lou Diamond Phillips played him in the 1987 movie."},
+{s:"Cultura",t:"Cielito Lindo",a:["Who wrote it, when?","Why does it matter?"],h:"1882, Mexico.",d:"Written in <b>1882</b> by <b>Quirino Mendoza y Cortés</b>, a Mexican, for his wife Catalina. A song of <b>national pride for Mexicans</b>. ¡Ay, ay, ay, ay, canta y no llores!"},
+{s:"Cultura",t:"Floors in a Spanish-speaking home",a:["Ground floor","What is el primer piso?","Where's the washing machine?"],h:"Counting starts above the ground.",
+ d:"The ground level is <b>la planta baja</b>. <b>El primer piso</b> is the first floor ABOVE it (the US second floor).<br>Washing machines usually live in the <b>kitchen or bathroom</b>, and clothes air-dry on a <b>tendedero</b>."}
+];
+
+/* =====================================================================
+   FLASHCARDS (two directions, two separate decks)
+   ===================================================================== */
+function vNote(it){return (it.acc&&it.acc.length>1?"<br>Also accepted: "+it.acc.filter(function(a){return a!==it.es}).map(esc).join(", "):"")
+  +(it.note?"<br><span class=\"tiny\">"+esc(it.note)+"</span>":"")+"<br><span class=\"tiny\">"+esc(it.sec.src)+"</span>"}
+function secName(S){return S.s+(S.soon?" (coming up)":"")}
+const CARDS_ES=VOC.map(function(it){return {s:secName(it.sec),t:it.es,cat:it.sec.k+it.pos,
+  a:[it.pos==="n"?"What does it mean?":"Meaning ("+POSL[it.pos]+")"],h:"Starts with: "+it.en.slice(0,2)+"…",d:"<b>"+esc(it.en)+"</b>"+vNote(it)}}).concat(GC);
+const enSeen={};
+const CARDS_EN=VOC.map(function(it){let t=it.en;if(enSeen[t])t=t+" ("+it.sec.s.replace(/^U\d · /,"")+")";enSeen[t]=1;
+  return {s:secName(it.sec),t:t,cat:it.sec.k+it.pos,
+  a:[it.pos==="n"?"Spanish, with el / la / los / las":it.pos==="v"?"Spanish infinitive":"Spanish ("+POSL[it.pos]+")","Spell it, accents too"],
+  h:(function(){const a=accOf(it)[0],m=a.match(/^((?:el|la|los|las) )?(.{1,2})/);return "Starts with: "+(m?(m[1]||"")+m[2]:a.slice(0,2))+"…"})(),
+  d:"<b>"+esc(it.es)+"</b>"+vNote(it)}}).concat(GC);
+Flash.mount({host:$("fcHostEs"),cards:CARDS_ES,deckId:"spa"});
+Flash.mount({host:$("fcHostEn"),cards:CARDS_EN,deckId:"spa-en"});
+function drawDir(){
+  const d=localStorage.getItem("spa.dir")||"es";
+  $("fcHostEs").style.display=d==="es"?"":"none";$("fcHostEn").style.display=d==="en"?"":"none";
+  $("fcDir").innerHTML='<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><b style="font-size:14px">Card front:</b><div class="seg">'
+   +'<button data-d="es" class="'+(d==="es"?"on":"")+'">Spanish &rarr; English</button><button data-d="en" class="'+(d==="en"?"on":"")+'">English &rarr; Spanish</button></div>'
+   +'<span class="tiny">English &rarr; Spanish is closer to the written quizzes (you have to spell it). Use the topic menu to pick one segment. Sets marked <i>coming up</i> are in the LingCo Unit 2 book but not taught in class yet.</span></div>';
+  [].forEach.call($("fcDir").querySelectorAll("button"),function(b){b.onclick=function(){localStorage.setItem("spa.dir",b.dataset.d);drawDir()}});
+}
+drawDir();
+
+/* =====================================================================
+   GROUPS (shared by Practice Test and Write It)
+   ===================================================================== */
+const GROUPS=SECS.map(function(S){return {k:"v-"+S.k,label:S.s.replace(/^U(\d) · /,"U$1 "),soon:!!S.soon,kind:"vocab"}}).concat([
+ {k:"se",label:"Ser vs estar",kind:"gram"},{k:"pres",label:"Regular present",kind:"gram"},{k:"stem",label:"Stem-changing verbs",kind:"gram"},
+ {k:"prog",label:"Present progressive",kind:"gram"},{k:"dop",label:"Direct object pronouns",kind:"gram"},{k:"cmd",label:"Informal commands",kind:"gram"},
+ {k:"ir",label:"IR + a + infinitive",kind:"gram"},{k:"dem",label:"Demonstratives",kind:"gram"},{k:"num",label:"Numbers",kind:"gram"},
+ {k:"pron",label:"Pronunciation",kind:"gram"},{k:"cult",label:"Culture",kind:"gram"}]);
+const GBY={};GROUPS.forEach(function(g){GBY[g.k]=g});
+function selOf(key){try{const v=JSON.parse(localStorage.getItem(key)||"[]");return Array.isArray(v)?v:[]}catch(e){return []}}
+function inSel(sel,g){return sel.length?sel.indexOf(g)>=0:!GBY[g].soon}
+function picker(host,key,onChange,countFn,extraTop){
+  function draw(){
+    const sel=selOf(key),all=!sel.length;
+    function chip(g){return '<button class="fchip'+(g.soon?' soon':'')+(sel.indexOf(g.k)>=0?' on':'')+'" data-g="'+g.k+'">'+esc(g.label)+'</button>'}
+    host.innerHTML='<h3 style="margin:0">Pick segments</h3><p class="tiny" style="margin:4px 0 0">Nothing picked = everything taught so far. Dashed chips are Unit 2 sets from the LingCo book that class hasn\u2019t covered yet; they\u2019re only included if you tap them. Your pick is remembered.</p>'
+     +(extraTop||'')
+     +'<div class="fbar"><button class="fchip'+(all?' on':'')+'" data-g="__all">Everything taught</button>'
+     +'<button class="fchip" data-g="__vocab">All taught vocab</button><button class="fchip" data-g="__gram">All grammar</button><button class="fchip" data-g="__u2">Unit 2 (all of it)</button></div>'
+     +'<div class="fhead">Vocab</div><div class="fbar">'+GROUPS.filter(function(g){return g.kind==="vocab"}).map(chip).join('')+'</div>'
+     +'<div class="fhead">Grammar and more</div><div class="fbar">'+GROUPS.filter(function(g){return g.kind==="gram"}).map(chip).join('')+'</div>'
+     +'<div class="fcount">'+(all?'Everything taught so far':'Only: '+GROUPS.filter(function(g){return sel.indexOf(g.k)>=0}).map(function(g){return g.label}).join(', '))+' &middot; '+countFn()+'</div>';
+    [].forEach.call(host.querySelectorAll('.fchip'),function(b){b.onclick=function(){
+      let cur=selOf(key);const g=b.dataset.g;
+      if(g==="__all")cur=[];
+      else if(g==="__vocab")cur=GROUPS.filter(function(x){return x.kind==="vocab"&&!x.soon}).map(function(x){return x.k});
+      else if(g==="__gram")cur=GROUPS.filter(function(x){return x.kind==="gram"}).map(function(x){return x.k});
+      else if(g==="__u2")cur=SECS.filter(function(S){return /^U2/.test(S.s)}).map(function(S){return "v-"+S.k}).concat(["dem","ir"]);
+      else{const i=cur.indexOf(g);if(i>=0)cur.splice(i,1);else cur.push(g);}
+      localStorage.setItem(key,JSON.stringify(cur));draw();onChange();
+    }});
+  }
+  draw();return draw;
+}
+
+/* =====================================================================
+   PRACTICE TEST BANK (multiple choice)
+   ===================================================================== */
+function mcq(g,topic,q,ans,wrong,why){
+  const seen={};seen[ans]=1;const w=[];
+  wrong.forEach(function(x){if(x!=null&&!seen[x]&&w.length<3){seen[x]=1;w.push(x)}});
+  return {g:g,topic:topic,q:q,choices:shuf([{label:String(ans),right:true}].concat(w.map(function(x){return{label:x,right:false}}))),why:why,nwrong:w.length};
+}
+function words(s){return s.toLowerCase().replace(/[()\/,.!?¿¡]/g," ").split(/\s+/).filter(function(w){return w.length>3&&["with","from","that"].indexOf(w)<0})}
+function overlaps(a,b){
+  const wa=words(a.en),wb=words(b.en);if(wa.some(function(w){return wb.indexOf(w)>=0}))return true;
+  const aa=accOf(a),bb=accOf(b);return aa.some(function(x){return bb.indexOf(x)>=0});
+}
+function distract(it,n){
+  const ok=function(o){return o!==it&&o.pos===it.pos&&!overlaps(it,o)};
+  let pool=shuf(it.sec.items.filter(ok));
+  if(pool.length<n)pool=pool.concat(shuf(VOC.filter(function(o){return ok(o)&&o.sec!==it.sec&&!o.sec.soon&&pool.indexOf(o)<0})));
+  if(pool.length<n)pool=pool.concat(shuf(VOC.filter(function(o){return o!==it&&!overlaps(it,o)&&pool.indexOf(o)<0})));
+  return pool.slice(0,n);
+}
+function vocabQs(it){
+  const g="v-"+it.sec.k,d=distract(it,3);
+  return [
+   mcq(g,"v|"+it.es+"|1","What does <b>"+esc(it.es)+"</b> mean?",it.en,d.map(function(o){return o.en}),"<b>"+esc(it.es)+"</b> = "+esc(it.en)+"."+(it.note?" "+esc(it.note):"")),
+   mcq(g,"v|"+it.es+"|2","How do you say <b>"+esc(it.en)+"</b> in Spanish?",it.es,d.map(function(o){return o.es}),"<b>"+esc(it.en)+"</b> = "+esc(it.es)+"."+(it.acc&&it.acc.length>1?" Also: "+esc(it.acc.filter(function(a){return a!==it.es}).join(", "))+".":""))
+  ];
+}
+function wrongEnding(inf,i){const st=inf.slice(0,-2),ty=inf.slice(-2);const other=ty==="ar"?"er":"ar";return st+END[other][i]}
+function conjQs(v){
+  const out=[];
+  v.f.forEach(function(form,i){
+    const subj=PSUB[i][0];let wrong=[];
+    if(v.c){
+      const plain=conj(v.inf,null)[i];
+      if(plain!==form)wrong.push(plain);
+      if(i===3||i===4)wrong.push(chg(v.inf.slice(0,-2),v.c)+END[v.inf.slice(-2)][i]);
+      if(i===0&&(v.inf==="tener"||v.inf==="decir"))wrong.push(chg(v.inf.slice(0,-2),v.c)+"o");
+    } else if(v.g==="pres") wrong.push(wrongEnding(v.inf,i));
+    wrong=wrong.concat(shuf(v.f.filter(function(x,j){return j!==i&&x!==form})));
+    const tag=v.c?" <span class=\"tiny\">("+v.c.replace(">","&gt;")+")</span>":"";
+    out.push(mcq(v.g==="stem"?"stem":v.g,"c|"+v.inf+"|"+i,"<b>"+subj+"</b> ____ (<i>"+v.inf+"</i>)"+tag,form,wrong,
+      "<b>"+v.inf+"</b>: "+v.f.join(", ")+(v.c?". Nosotros and vosotros keep the original stem.":".")));
+  });
+  return out;
+}
+function progQ(inf){
+  const i=Math.floor(Math.random()*6),st=inf.slice(0,-2),p=part(inf),ty=inf.slice(-2);
+  const right=IRRV.estar[i]+" "+p;
+  const badP=inf==="leer"?"leiendo":inf==="dormir"?"dormiendo":(ty==="ar"?st+"iendo":st+"ando");
+  return mcq("prog","p|"+inf,"Present progressive: <b>"+PSUB[i][0]+"</b> + <i>"+inf+"</i>",right,
+   [IRRV.estar[i]+" "+badP,IRRV.ser[i]+" "+p,IRRV.estar[i]+" "+inf,IRRV.estar[(i+3)%6]+" "+p],
+   "ESTAR ("+IRRV.estar[i]+") + participle (<b>"+p+"</b>)."+(inf==="leer"?" leer &rarr; leyendo (no e-i-e).":inf==="dormir"?" dormir &rarr; durmiendo.":""));
+}
+function dopQ(x,idx){
+  const rest=x[2],full=(x[1]?x[1]+" ":"")+rest,parts=rest.split(" ");
+  const pi=parts[0]==="no"?1:0,pr=parts[pi];
+  const alt=(["lo","la","los","las"].indexOf(pr)>=0?["lo","la","los","las"]:OBJP).filter(function(p){return p!==pr});
+  const swap=function(p){const c=parts.slice();c[pi]=p;return (x[1]?x[1]+" ":"")+c.join(" ")};
+  const misplaced=(x[1]?x[1]+" ":"")+parts.filter(function(w,j){return j!==pi}).join(" ")+" "+pr;
+  return mcq("dop","o|"+idx,"Shorten with a direct object pronoun:<br><b>"+esc(x[0])+"</b>",cap(full)+".",
+   shuf(alt).slice(0,2).map(function(p){return cap(swap(p))+"."}).concat([cap(misplaced)+"."]),
+   "<b>"+esc(cap(full))+".</b> The pronoun replaces the object and goes before the conjugated verb"+(x[3]?" (or attached: "+esc(x[3][x[3].length-1])+")":"")+".");
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function cmdQs(c,idx){
+  const aff="¡"+cap(c[1])+"!",neg="¡"+cap(c[2])+"!",verbNeg=c[2].slice(3),present=VT[c[0]]?VT[c[0]].f[1]:null;
+  const presTu=present||(c[1]+"s");
+  return [
+   mcq("cmd","m|"+c[0]+"|neg","Make it negative: <b>"+aff+"</b>",neg,["¡No "+c[1]+"!","¡No "+presTu+"!","¡"+cap(verbNeg)+"!"],
+     "Swap the last vowel and add -s: "+c[1]+" &rarr; <b>no "+verbNeg+"</b>. Not the regular present ("+presTu+"), and keep the <b>no</b>."),
+   mcq("cmd","m|"+c[0]+"|aff","Make it affirmative: <b>"+neg+"</b>",aff,["¡"+cap(verbNeg)+"!","¡"+cap(presTu)+"!","¡"+cap(c[1].slice(0,-1)+(c[1].slice(-1)==="a"?"e":"a"))+"!"],
+     "Affirmative tú = the él form: <b>"+c[1]+"</b>."),
+   mcq("cmd","m|"+c[0]+"|en","How do you say <b>Don't "+c[3].split(" / ")[0]+"!</b> (to a friend)",neg,["¡No "+c[1]+"!","¡No "+presTu+"!","¡"+cap(verbNeg)+"!"],"<b>"+neg+"</b>")
+  ];
+}
+function cmdpQs(c,idx){
+  const aff="¡"+cap(c[1])+"!",neg="¡"+cap(c[2])+"!";
+  const plainAff=c[1].normalize("NFD").replace(/[\u0301]/g,"").normalize("NFC");
+  const pr=c[2].split(" ")[1],verbNeg=c[2].split(" ")[2];
+  const verbAff=plainAff.slice(0,plainAff.length-pr.length);
+  const ques=c[0].replace(/!.*/,"!"),obj=(c[0].match(/\((.*)\)/)||[])[1];
+  return [
+   mcq("cmd","mp|"+idx+"|a","<b>"+esc(c[0])+"</b> &mdash; affirmative command with a pronoun",aff,["¡"+cap(pr)+" "+verbAff+"!","¡No "+pr+" "+verbNeg+"!","¡"+cap(verbAff)+" "+pr+"!"],
+     "Affirmative: glue the pronoun on and add an accent: <b>"+aff+"</b>"),
+   mcq("cmd","mp|"+idx+"|n","Make it negative: <b>"+aff+"</b>",neg,["¡No "+verbAff+pr+"!","¡No "+verbNeg+" "+pr+"!","¡No "+pr+" "+verbAff+"!"],
+     "Negative: no + pronoun + verb ending swapped: <b>"+neg+"</b>")
+  ];
+}
+function irQs(x,idx){
+  const i=x[1],right=IRRV.ir[i]+" a "+x[2];
+  return mcq("ir","i|"+idx,"Translate: <b>"+esc(x[0])+"</b>",cap(right)+".",
+   [cap(IRRV.ir[i]+" "+x[2])+".",cap(IRRV.ir[(i+3)%6]+" a "+x[2])+".",cap("ir a "+x[2])+".",cap(IRRV.estar[i]+" a "+x[2])+"."],
+   "IR conjugated (<b>"+IRRV.ir[i]+"</b>) + <b>a</b> + infinitive.");
+}
+function irpQ(x,idx){
+  const parts=x[1].split(" "),v=parts[0],rest=parts.slice(1).join(" "),i=IRRV.ir.indexOf(v);
+  return mcq("ir","ip|"+idx,"Translate: <b>"+esc(x[0])+"</b>",cap(x[1])+".",[cap(x[2])+".",cap(IRRV.ir[(i+3)%6]+" "+rest)+".",cap(IRRV.estar[i]+" "+rest)+"."],
+   "<b>"+cap(x[1])+".</b> Remember a + el = al.");
+}
+function genderOf(es){const m=es.match(/^(el|la|los|las) /);if(!m)return null;return {el:"ms",la:"fs",los:"mp",las:"fp"}[m[1]]}
+const DEMN=VOC.filter(function(it){return it.pos==="n"&&!it.sec.soon&&genderOf(it.es)&&!/[\/(]/.test(it.es)&&!/ y /.test(it.es)});
+function demQ(it,dist){
+  const gn=genderOf(it.es),noun=it.es.replace(/^(el|la|los|las) /,""),pl=gn[1]==="p";
+  const ans=DEMF[dist][gn]+" "+noun,other=gn[0]==="m"?"f"+gn[1]:"m"+gn[1];
+  const wrong=Object.keys(DEMF).filter(function(d){return d!==dist}).map(function(d){return DEMF[d][gn]+" "+noun}).concat([DEMF[dist][other]+" "+noun]);
+  return mcq("dem","d|"+it.es+"|"+dist,"Say <b>"+DEMEN[dist][pl?1:0]+" "+esc(it.en.split(" / ")[0])+"</b> <span class=\"tiny\">("+esc(it.es)+")</span>",ans,wrong,
+    "<b>"+ans+"</b>: "+(gn[0]==="m"?"masculine":"feminine")+" "+(pl?"plural":"singular")+".");
+}
+function demSQ(x,idx){
+  const right=x[1];const m=right.match(/^(\S+) (.*)$/);const first=m[1],rest=m[2];
+  let fam=null,form=null;Object.keys(DEMF).forEach(function(d){Object.keys(DEMF[d]).forEach(function(k){if(DEMF[d][k]===first){fam=d;form=k}})});
+  const wrong=Object.keys(DEMF).filter(function(d){return d!==fam}).map(function(d){return DEMF[d][form]+" "+rest})
+   .concat([DEMF[fam][form[0]==="m"?"f"+form[1]:"m"+form[1]]+" "+rest]);
+  return mcq("dem","ds|"+idx,"Translate: <b>"+esc(x[0])+"</b>",cap(right)+(/\.$/.test(x[0])?".":""),wrong.map(function(w){return cap(w)+(/\.$/.test(x[0])?".":"")}),"<b>"+cap(right)+"</b>");
+}
+function seQ(x,idx){
+  const i=x[3];let ch;
+  if(i<0)ch=["ser","estar","es","está"];else ch=[IRRV.ser[i],IRRV.estar[i],IRRV.ser[(i+3)%6],IRRV.estar[(i+3)%6]];
+  const ans=x[1].toLowerCase();
+  const fix=function(w){return x[0].indexOf("___")===0?cap(w):w};
+  return mcq("se","s|"+idx,"Ser or estar? <b>"+esc(x[0])+"</b>",fix(ans),ch.filter(function(w){return w!==ans}).map(fix),x[2]);
+}
+function numQ(n){
+  const s=numEs(n),cands=[n+10,n-10,n+1,n-1,n*10,Math.floor(n/10)+(n%10)*10,n+100,n-100].filter(function(v){return v>=0&&v!==n&&v<10000});
+  return mcq("num","n|"+n,"Which is <b>"+n.toLocaleString("en-US")+"</b>?",s,shuf(cands).map(numEs),"<b>"+n.toLocaleString("en-US")+"</b> = "+s+".");
+}
+function numRQ(n){
+  const cands=[n+10,n-10,n+1,n-1,n+100,n-100].filter(function(v){return v>=0&&v!==n});
+  return mcq("num","nr|"+n,"What number is <b>"+numEs(n)+"</b>?",n.toLocaleString("en-US"),shuf(cands).map(function(v){return v.toLocaleString("en-US")}),numEs(n)+" = "+n.toLocaleString("en-US")+".");
+}
+function dayQs(){
+  const out=[];DAYS.forEach(function(d,i){
+    const y=DAYS[(i+6)%7],t=DAYS[(i+1)%7];
+    out.push(mcq("v-dia","dy|"+d+"|y","Hoy es <b>"+d+"</b>. Ayer fue ___.",y,[t,DAYS[(i+5)%7],d],"Ayer fue <b>"+y+"</b>, mañana será "+t+"."));
+    out.push(mcq("v-dia","dy|"+d+"|t","Hoy es <b>"+d+"</b>. Mañana será ___.",t,[y,DAYS[(i+2)%7],d],"Mañana será <b>"+t+"</b>, ayer fue "+y+"."));
+  });return out;
+}
+/* hand-written concept questions: [key, group, question, right, [wrong], why] */
+const BANKC=[
+ ["k-doc","se","SER is remembered with which word?","DOCTOR",["PLACE","TEMPO","CARDS"],"SER = DOCTOR (Description, Occupation, Characteristic, Time, Origin, Relationship)."],
+ ["k-place","se","ESTAR is remembered with which word?","PLACE",["DOCTOR","SPOT","TIME"],"ESTAR = PLACE (Position, Location, Action, Condition, Emotion)."],
+ ["k-time","se","Telling time (Son las diez y media) uses...","SER",["ESTAR","IR","TENER"],"Time is the T in DOCTOR."],
+ ["k-loc","se","Location (Nosotros ___ en clase) uses...","ESTAR",["SER","IR","TENER"],"Location is the L in PLACE: estamos."],
+ ["k-act","se","Why is it \u201cYo estoy estudiando\u201d and not \u201cYo soy estudiando\u201d?","Actions in progress use ESTAR",["Estudiar is irregular","Yo always takes estar","Soy only works with tú"],"Action (-ando/-iendo) is the A in PLACE."],
+ ["k-listo","se","\u201cElena está lista\u201d means...","Elena is ready",["Elena is clever","Elena is listening","Elena is late"],"estar listo/a = ready; ser listo/a = clever."],
+ ["k-rico","se","\u201cLa sopa está rica\u201d means...","The soup tastes good",["The soup is expensive","The soup is rich people's food","The soup is ready"],"estar rico/a = tastes good; ser rico/a = to be rich."],
+ ["k-orgu","se","\u201cYo estoy orgullosa de ustedes\u201d means...","I'm proud of you all",["I'm arrogant about you all","I'm bored of you all","I'm sure about you all"],"estar orgulloso/a = proud; ser orgulloso/a = arrogant."],
+ ["k-malo","se","\u201cEstoy malo hoy\u201d means...","I feel ill today",["I'm a bad person today","I'm bored today","I'm late today"],"estar malo/a = to feel ill; ser malo/a = to be bad."],
+ ["k-segu","se","\u201cEstoy seguro\u201d means...","I'm certain",["I'm a safe person","I'm confident by nature","I'm secure online"],"estar seguro/a = certain; ser seguro/a = safe / confident."],
+ ["k-abu","se","\u201cUstedes están aburridos\u201d means...","You all are bored",["You all are boring","You all are tired","You all are annoying"],"estar aburrido = bored; ser aburrido = boring."],
+ ["k-prog1","prog","What two pieces make the present progressive?","Conjugated ESTAR + present participle",["Conjugated SER + infinitive","Conjugated IR + a + infinitive","Conjugated ESTAR + infinitive"],"Yo estoy hablando: estar + -ando/-iendo."],
+ ["k-prog2","prog","What ending do -er and -ir verbs take for the present participle?","-iendo",["-ando","-endo","-yendo always"],"comer &rarr; comiendo, vivir &rarr; viviendo."],
+ ["k-prog3","prog","Why does the present progressive exist if \u201cYo hablo\u201d can already mean \u201cI am speaking\u201d?","It stresses that the action is happening right now",["It is the only way to say -ing","It is more formal","It is used for the future"],"Present = I speak / I'm speaking. Progressive = I'm speaking NOW."],
+ ["k-prog4","prog","The participle of <b>leer</b> is...","leyendo",["leiendo","leendo","leando"],"No e-i-e in Spanish, so the i becomes y."],
+ ["k-prog5","prog","\u201cElla está estudiando biología\u201d means...","She is studying biology (right now)",["She studies biology every year","She is going to study biology","She studied biology"],"está + estudiando = is studying."],
+ ["k-prog6","prog","\u201cNosotros hablamos japonés\u201d vs \u201cNosotros estamos hablando japonés\u201d: the second one means...","We are speaking Japanese right now",["We speak Japanese in general","We are going to speak Japanese","We spoke Japanese"],"The progressive is about the moment."],
+ ["k-st1","stem","Which forms of a stem-changing verb do NOT change?","Nosotros and vosotros",["Yo and tú","Él and ellos","Only yo"],"Step 2 of the 3 steps."],
+ ["k-st2","stem","Why are stem-changers called boot verbs?","The forms that change make a boot shape on the chart",["They were invented in Spain","They kick out the ending","They are irregular in every form"],"yo, tú, él, ellos change; nosotros/vosotros don't."],
+ ["k-st3","stem","Which verb is the ONLY u &gt; ue verb?","jugar",["subir","usar","buscar"],"juego, juegas, juega, jugamos, jugáis, juegan."],
+ ["k-st4","stem","Which type of stem change is <b>pedir</b>?","e &gt; i",["e &gt; ie","o &gt; ue","u &gt; ue"],"pido, pides, pide, pedimos, pedís, piden."],
+ ["k-st5","stem","Which type of stem change is <b>poder</b>?","o &gt; ue",["e &gt; ie","e &gt; i","u &gt; ue"],"puedo, puedes, puede, podemos, podéis, pueden."],
+ ["k-st6","stem","Which type of stem change is <b>querer</b>?","e &gt; ie",["e &gt; i","o &gt; ue","no change"],"quiero, quieres, quiere, queremos, queréis, quieren."],
+ ["k-st7","stem","Which type of stem change is <b>repetir</b>?","e &gt; i",["e &gt; ie","o &gt; ue","u &gt; ue"],"repito, repites, repite, repetimos, repetís, repiten."],
+ ["k-st8","stem","\u201cSofía y yo tenemos mucha tarea\u201d means...","Sofía and I have a lot of homework",["Sofía and I want a lot of homework","Sofía and I are doing homework","Sofía has a lot of homework"],"tener &rarr; tenemos (nosotros doesn't change)."],
+ ["k-st9","stem","\u201cMarta says you are funny\u201d in Spanish:","Marta dice que tú eres chistoso/a.",["Marta deci que tú eres chistoso/a.","Marta dice que tú estás chistoso/a.","Marta dijo que tú eres chistoso/a."],"decir (e&gt;i): dice. Funny is a characteristic, so ser."],
+ ["k-st10","stem","\u201cWhy do you sleep in the library?\u201d","¿Por qué duermes en la biblioteca?",["¿Por qué dormes en la biblioteca?","¿Porque duermes en la biblioteca?","¿Por qué duermas en la biblioteca?"],"dormir (o&gt;ue): duermes. Por qué = why, two words with an accent."],
+ ["k-dop1","dop","\u201cLA HABLO\u201d means...","I speak to her",["The speech","I spoke to them","She talks to me"],"la before a verb is a pronoun."],
+ ["k-dop2","dop","\u201cLO QUIERO\u201d means...","I love him / I want it",["I love her","The want","You want it"],"lo = him / it."],
+ ["k-dop3","dop","\u201cLAS TIENES\u201d means...","You have them (feminine things)",["The things you have","You have it","They have you"],"las = them (feminine plural)."],
+ ["k-dop4","dop","In \u201cLOS LIBROS\u201d the word los is...","the definite article (the books)",["a direct object pronoun","a subject pronoun","a verb"],"Before a noun it's the article."],
+ ["k-dop5","dop","Which pronoun means \u201cyou all\u201d (Spain, informal)?","os",["nos","los","te"],"me, te, lo/la, nos, os, los/las."],
+ ["k-dop6","dop","Which is NOT correct?","Yo tengo lo.",["Yo lo tengo.","Lo voy a subir.","Voy a subirlo."],"The pronoun goes before the conjugated verb or attached to an infinitive / -ando, never after the conjugated verb as a separate word."],
+ ["k-dop7","dop","\u201cNo te preocupes. Yo te ayudo.\u201d &mdash; who is being helped?","you (tú)",["me","him","us"],"te = you (informal)."],
+ ["k-cmd1","cmd","How do you form an affirmative tú command?","Use the él / ella / usted present form",["Use the yo form","Use the infinitive","Use the tú form and drop the s"],"ella baila &rarr; ¡Baila!"],
+ ["k-cmd2","cmd","How do you form a negative tú command (from the affirmative)?","Put no in front, swap the last vowel (a &harr; e), add -s",["Put no in front of the affirmative","Use the normal tú form with no","Add -s to the affirmative"],"¡Baila! &rarr; ¡No bailes! ¡Come! &rarr; ¡No comas!"],
+ ["k-cmd3","cmd","Which command is irregular (shown in class)?","¡Sé positivo!",["¡Habla!","¡Come!","¡Baila!"],"ser &rarr; sé. Also decir &rarr; di (¡Dime!)."],
+ ["k-cmd4","cmd","\u201c¡Dime!\u201d means...","Tell me!",["Give me!","Say it!","Tell him!"],"di (decir) + me."],
+ ["k-cmd5","cmd","Where does the pronoun go in a NEGATIVE command?","Between no and the verb: ¡No la comas!",["Attached to the end: ¡No comasla!","After the verb: ¡No comas la!","Before no: ¡La no comas!"],"Negative = no + pronoun + verb."],
+ ["k-cmd6","cmd","\u201c¡No me grites!\u201d means...","Don't yell at me!",["Yell at me!","You don't yell at me.","I don't yell!"],"no + me + grites."],
+ ["k-cmd7","cmd","Who do you use informal (tú) commands with?","Someone you know well, like a friend or family member",["Your principal","A stranger","Anyone older than you"],"Informal = tú (or vosotros / ustedes for a group)."],
+ ["k-ir1","ir","What does IR + a + infinitive express?","What is going to happen (near future)",["What is happening right now","What already happened","A command"],"Voy a estudiar = I'm going to study."],
+ ["k-ir2","ir","Fill in: Nosotros ___ a viajar a Costa Rica.","vamos",["van","vais","vas"],"ir: voy, vas, va, vamos, vais, van."],
+ ["k-ir3","ir","a + el becomes...","al",["ael","del","el"],"Voy al parque."],
+ ["k-ir4","ir","\u201cNo la voy a comer\u201d means...","I'm not going to eat it",["Don't eat it!","I'm not eating her","She isn't going to eat"],"no + la + voy a comer."],
+ ["k-dem1","dem","How many demonstrative adjectives does Spanish have (vs 4 in English)?","12",["4","6","8"],"este/esta/estos/estas, ese/esa/esos/esas, aquel/aquella/aquellos/aquellas."],
+ ["k-dem2","dem","Which one means \u201cthat (over there)\u201d for a feminine noun?","aquella",["esa","aquel","esta"],"aquel / aquella / aquellos / aquellas = over there."],
+ ["k-dem3","dem","\u201cEsos zapatos\u201d means...","those shoes",["these shoes","that shoe","those shoes over there"],"ese / esos = that / those."],
+ ["k-dem4","dem","\u201cEstas habitaciones\u201d means...","these bedrooms",["those bedrooms","this bedroom","those bedrooms over there"],"esta / estas = this / these."],
+ ["k-dem5","dem","Demonstrative adjectives must agree with the noun in...","gender and number",["gender only","number only","nothing; they never change"],"esta casa, esos papeles."],
+ ["k-qw1","v-qw","\u201c¿Por qué lloras?\u201d means...","Why are you crying?",["Because you cry.","Where are you crying?","How are you crying?"],"Por qué = why."],
+ ["k-qw2","v-qw","\u201c¿Cuántos libros tienes?\u201d means...","How many books do you have?",["How much does the book cost?","Which books do you have?","Whose books do you have?"],"cuántos = how many."],
+ ["k-qw3","v-qw","\u201c¿Cuánta limonada bebes cada día?\u201d means...","How much lemonade do you drink every day?",["How many lemonades do you drink every day?","When do you drink lemonade?","Why do you drink lemonade every day?"],"cuánta = how much (feminine, agrees with limonada)."],
+ ["k-qw4","v-qw","\u201c¿Quién es la mejor amiga de Anabel?\u201d means...","Who is Anabel's best friend?",["Where is Anabel's best friend?","Which is Anabel's best friend?","How is Anabel's best friend?"],"quién = who."],
+ ["k-qw5","v-qw","\u201c¿Adónde caminas ahora?\u201d means...","Where are you walking (to) now?",["Where are you now?","When do you walk?","How do you walk now?"],"adónde = to where."],
+ ["k-qw6","v-qw","\u201c¿Cuál es tu color favorito?\u201d uses cuál because...","you're choosing one from a set (which one)",["color is masculine","it's a yes/no question","qué can't go before es"],"cuál = which (one)."],
+ ["k-qw7","v-qw","\u201cYo tengo hambre. ¿Cuándo comemos?\u201d means...","I'm hungry. When do we eat?",["I'm hungry. Where do we eat?","I'm hungry. What do we eat?","I have a name. When do we eat?"],"cuándo = when."],
+ ["k-qw8","v-qw","\u201c¿Cómo corres tan rápidamente?\u201d means...","How do you run so fast?",["Why do you run so fast?","When do you run fast?","Do you run fast?"],"cómo = how."],
+ ["k-num1","num","100 by itself is...","cien",["ciento","un cien","cientos"],"cien alone; ciento + more: ciento treinta y tres."],
+ ["k-num2","num","100,000 is...","cien mil",["ciento mil","cien miles","mil cien"],"The class number sheet prints CIENTO MIL, but cien mil is the correct form."],
+ ["k-num3","num","500 is...","quinientos",["cincocientos","cincuenta","quincientos"],"An irregular hundred, like setecientos and novecientos."],
+ ["k-num4","num","Which numbers from 16 to 29 have a written accent?","dieciséis, veintidós, veintitrés, veintiséis",["only dieciséis","none of them","all of them"],"They end in a stressed -s or vowel that breaks the stress rule."],
+ ["k-pr1","pron","Where is the natural stress in most Spanish words (like escuela)?","On the second-to-last syllable",["On the last syllable","On the first syllable","It varies randomly"],"es-CUE-la."],
+ ["k-pr2","pron","Where is the stress in words ending in D, L, R, Z (hablar, ajedrez)?","On the last syllable",["On the second-to-last syllable","On the first syllable","Wherever the accent mark is, which they always have"],"ha-BLAR, a-je-DREZ."],
+ ["k-pr3","pron","Why does lápiz need a written accent?","It ends in Z, which would put the stress on the last syllable, but it's said LÁ-piz",["Every word with z has one","It's a borrowed word","To show it's a noun"],"Accents mark words that break the rules."],
+ ["k-pr4","pron","How do you pronounce the letter H in Spanish?","It's silent",["Like English h","Like j","Like ch"],"honor = \u201conor\u201d."],
+ ["k-pr5","pron","C before e or i sounds like...","s (cebra, cinco)",["k","ch","th always"],"C is k before a/o/u and s before e/i."],
+ ["k-pr6","pron","G before e or i sounds like...","an h (genial, gimnasio)",["a hard g","a y","it's silent"],"Use gue / gui for a hard g (guerra, guía) and güe / güi for gw (pingüino)."],
+ ["k-pr7","pron","LL (Me llamo...) is pronounced like...","y",["l","j","ly in million only in Spain"],"In most regions LL = y."],
+ ["k-pr8","pron","What's the difference between pero and perro?","Single r is a quick tap; rr is trilled",["None, they sound the same","rr is silent","Single r is trilled"],"pero = but, perro = dog."],
+ ["k-c1","cult","Hispanic Heritage Month runs...","September 15 to October 15",["October 1 to October 31","September 1 to September 30","May 5 to June 5"],"From the Sep 3 slides."],
+ ["k-c2","cult","Ritchie Valens is considered the founder of...","Chicano music",["salsa","reggaeton","mariachi"],"He wrote La Bamba and died at 17 in 1959."],
+ ["k-c3","cult","Cielito Lindo was written in 1882 by...","Quirino Mendoza y Cortés, a Mexican",["Ritchie Valens","Carlos Santana","Lin-Manuel Miranda"],"A song of Mexican national pride."],
+ ["k-c4","cult","On Día de los Muertos, what are alebrijes?","Fantastical animals that guide spirits and help the living",["Sugar skulls","Marigolds","Decorative cut paper"],"From the Nov 4 vocab list."],
+ ["k-c5","cult","In Spanish-speaking countries, el primer piso is...","the first floor above the ground floor",["the ground floor","the basement","the attic"],"The ground floor is la planta baja."],
+ ["k-c6","cult","Where is the washing machine usually found in many Spanish-speaking homes?","In the kitchen or bathroom",["In a laundry room","In the garage","In the basement"],"LingCo Unidad 2 Game time!"],
+ ["k-c7","v-cas","El apartamento, el departamento, and el piso (Spain) all mean...","apartment",["floor","building","room"],"Nota cultural, Unidad 2."],
+ ["k-c8","v-cas","La habitación, el dormitorio, and el cuarto can all mean...","bedroom",["bathroom","hallway","living room"],"Nota cultural, Unidad 2."]
+];
+function bankC(b){return mcq(b[1],b[0],b[2],b[3],b[4],b[5])}
+function buildBank(){
+  let out=[];
+  VOC.forEach(function(it){out=out.concat(vocabQs(it))});
+  Object.keys(VT).forEach(function(k){out=out.concat(conjQs(VT[k]))});
+  PROGV.forEach(function(v){out.push(progQ(v))});
+  DOP.forEach(function(x,i){out.push(dopQ(x,i))});
+  CMDS.forEach(function(c,i){out=out.concat(cmdQs(c,i))});
+  CMDP.forEach(function(c,i){out=out.concat(cmdpQs(c,i))});
+  IRS.forEach(function(x,i){out.push(irQs(x,i))});
+  IRP.forEach(function(x,i){out.push(irpQ(x,i))});
+  DEMN.forEach(function(it){out.push(demQ(it,pick(["this","that","over"])))});
+  DEMS.forEach(function(x,i){out.push(demSQ(x,i))});
+  SE.forEach(function(x,i){out.push(seQ(x,i))});
+  NUMS.forEach(function(n){out.push(numQ(n));out.push(numRQ(n))});
+  out=out.concat(dayQs());
+  BANKC.forEach(function(b){out.push(bankC(b))});
+  return out.filter(function(q){return q.nwrong>=2});
+}
+let BANKCACHE=null;
+function extras(){
+  const sel=selOf("spa.focus");
+  const all=buildBank().filter(function(q){return inSel(sel,q.g)});
+  /* keep the test balanced: vocab can't swamp grammar when everything is picked */
+  const seen={};return shuf(all.filter(function(q){if(seen[q.topic])return false;seen[q.topic]=1;return true}));
+}
+Flash.quiz({host:$("qzHost"),cards:CARDS_ES,deckId:"spa",count:20,extras:extras,bankOnly:true});
+picker($("focusCard"),"spa.focus",function(){const nb=$("qzHost").querySelector('.qnew');if(nb)nb.click()},function(){
+  const sel=selOf("spa.focus");return buildBank().filter(function(q){return inSel(sel,q.g)}).length+' questions in the pool (each test draws from them; ones you keep missing come back more)'});
+(function(){const meta=$("qzHost").querySelector('.qmeta');if(!meta)return;
+  new MutationObserver(function(){if(!selOf("spa.focus").length)return;const h=meta.innerHTML;
+    const n=h.replace('every question in this deck','every question in the segments you picked').replace('left that you have not mastered','in the segments you picked that you have not mastered yet');
+    if(n!==h)meta.innerHTML=n;}).observe(meta,{childList:true,subtree:true,characterData:true});
+})();
+
+/* =====================================================================
+   WRITE IT (typed answers, like the written quizzes)
+   ===================================================================== */
+const SUBJ=/^(yo|tú|tu|él|ella|usted|ud|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|uds)\s+/;
+const SUBJNA=/^(yo|tu|el|ella|usted|ud|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|uds)\s+/;
+function norm(s,keepAcc){
+  s=String(s).toLowerCase().replace(/[¡!¿?.,;:"“”«»]/g," ").replace(/\s+/g," ").trim();
+  if(!keepAcc)s=s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").normalize("NFC");
+  return s;
+}
+const ART=/^(el|la|los|las)\s+/;
+function check(input,item,opt){
+  const raw=String(input);let acc=item.acc.slice();
+  function variants(list){const out=[];list.forEach(function(a){out.push(a);if(item.subj&&SUBJ.test(norm(a,true)))out.push(norm(a,true).replace(SUBJ,""))});return out}
+  let inp=norm(raw,true);
+  if(item.subj)inp=inp.replace(SUBJ,"");
+  const V=variants(acc);
+  if(V.some(function(a){return norm(a,true)===inp}))return {k:"ok"};
+  const inpNA=item.subj?norm(raw,false).replace(SUBJNA,""):norm(raw,false);
+  if(V.some(function(a){return norm(a,false)===inpNA||norm(a,false).replace(SUBJNA,"")===inpNA}))return {k:opt.acc?"accent":"okAccent"};
+  if(item.noun){
+    const bare=inp.replace(ART,""),bareNA=inpNA.replace(ART,"");
+    const hasArt=ART.test(inp);
+    if(V.some(function(a){return norm(a,true).replace(ART,"")===bare}))return hasArt?{k:"article"}:{k:opt.art?"noArt":"okNoArt"};
+    if(V.some(function(a){return norm(a,false).replace(ART,"")===bareNA}))return hasArt?{k:"article"}:{k:opt.art?"noArt":"okNoArt"};
+  }
+  return {k:"no"};
+}
+function wItems(){
+  const out=[];
+  VOC.forEach(function(it){out.push({id:"w|"+it.es,g:"v-"+it.sec.k,p:"<b>"+esc(it.en)+"</b> <span class=\"tiny\">("+POSL[it.pos]+(it.pos==="n"?", include el / la":"")+")</span>",
+    acc:accOf(it).concat(accOf(it).indexOf(it.es)<0?[it.es]:[]),noun:it.pos==="n",show:it.es,why:it.note})});
+  Object.keys(VT).forEach(function(k){const v=VT[k];v.f.forEach(function(f,i){
+    out.push({id:"wc|"+k+"|"+i,g:v.g==="stem"?"stem":v.g,p:"Conjugate: <b>"+PSUB[i][0]+"</b> &middot; <i>"+k+"</i>"+(v.c?" <span class=\"tiny\">("+v.c.replace(">","&gt;")+")</span>":"")+" <span class=\"tiny\">"+esc(v.en)+"</span>",
+     acc:[f],subj:1,show:f,why:k+": "+v.f.join(", ")})})});
+  PROGV.forEach(function(v){const i=Math.floor(Math.random()*6);
+    out.push({id:"wp|"+v,g:"prog",p:"Present progressive: <b>"+PSUB[i][0]+"</b> &middot; <i>"+v+"</i>",acc:[IRRV.estar[i]+" "+part(v)],subj:1,show:IRRV.estar[i]+" "+part(v),why:"estar + "+part(v)})});
+  DOP.forEach(function(x,i){const full=(x[1]?x[1]+" ":"")+x[2];
+    out.push({id:"wo|"+i,g:"dop",p:"Shorten with a pronoun:<br><b>"+esc(x[0])+"</b>",acc:[full,x[2]].concat(x[3]||[]),show:full+".",why:x[3]?"Also fine: "+x[3][x[3].length-1]:""})});
+  CMDS.forEach(function(c){
+    out.push({id:"wm|"+c[0]+"|n",g:"cmd",p:"Make it negative: <b>¡"+cap(c[1])+"!</b>",acc:[c[2]],show:"¡"+cap(c[2])+"!",why:"Swap the last vowel, add -s, keep no."});
+    out.push({id:"wm|"+c[0]+"|a",g:"cmd",p:"Make it affirmative: <b>¡"+cap(c[2])+"!</b>",acc:[c[1]],show:"¡"+cap(c[1])+"!",why:"Affirmative = él form."});
+  });
+  CMDP.forEach(function(c,i){
+    out.push({id:"wmp|"+i,g:"cmd",p:"Command with a pronoun: <b>"+esc(c[0])+"</b>",acc:[c[1]],show:"¡"+cap(c[1])+"!",why:"Glue the pronoun on, add the accent. Negative: ¡"+cap(c[2])+"!"});
+    out.push({id:"wmpn|"+i,g:"cmd",p:"Make it negative: <b>¡"+cap(c[1])+"!</b>",acc:[c[2]],show:"¡"+cap(c[2])+"!",why:"no + pronoun + verb."});
+  });
+  IRS.forEach(function(x,i){const r=IRRV.ir[x[1]]+" a "+x[2];out.push({id:"wi|"+i,g:"ir",p:"Translate: <b>"+esc(x[0])+"</b>",acc:[r].concat(x[3]||[]),subj:1,show:cap(r)+".",why:"ir + a + infinitive."})});
+  IRP.forEach(function(x,i){out.push({id:"wip|"+i,g:"ir",p:"Translate: <b>"+esc(x[0])+"</b>",acc:[x[1]],subj:1,show:cap(x[1])+".",why:"a + el = al."})});
+  DEMS.forEach(function(x,i){out.push({id:"wd|"+i,g:"dem",p:"Translate: <b>"+esc(x[0])+"</b>",acc:[x[1]].concat(x[2]||[]),show:cap(x[1])+(/\.$/.test(x[0])?".":""),why:""})});
+  DEMN.forEach(function(it){const d=pick(["this","that","over"]),gn=genderOf(it.es),noun=it.es.replace(ART,""),pl=gn[1]==="p";
+    out.push({id:"wdn|"+it.es,g:"dem",p:"Say: <b>"+DEMEN[d][pl?1:0]+" "+esc(it.en.split(" / ")[0])+"</b> <span class=\"tiny\">("+esc(it.es)+")</span>",acc:[DEMF[d][gn]+" "+noun],show:DEMF[d][gn]+" "+noun,why:""})});
+  SE.forEach(function(x,i){out.push({id:"ws|"+i,g:"se",p:"Ser or estar (conjugated): <b>"+esc(x[0])+"</b>",acc:[x[1]],show:x[1],why:x[2]})});
+  NUMS.forEach(function(n){out.push({id:"wn|"+n,g:"num",p:"Write the number in words: <b>"+n.toLocaleString("en-US")+"</b>",acc:[numEs(n)],show:numEs(n),why:""})});
+  DAYS.forEach(function(d,i){out.push({id:"wy|"+d,g:"v-dia",p:"Hoy es <b>"+d+"</b>. Mañana será ___.",acc:[DAYS[(i+1)%7]],show:DAYS[(i+1)%7],why:""})});
+  return out;
+}
+const WMISS=function(){try{return JSON.parse(localStorage.getItem("spa.wmiss"))||{}}catch(e){return {}}};
+function setMiss(id,v){const m=WMISS();if(v)m[id]=(m[id]||0)+1;else delete m[id];localStorage.setItem("spa.wmiss",JSON.stringify(m))}
+let W={list:[],pos:0,score:0,done:0,missed:[],answered:false};
+const wopt=function(){return {acc:localStorage.getItem("spa.wacc")!=="0",art:localStorage.getItem("spa.wart")!=="0"}};
+function wPool(){const sel=selOf("spa.wfocus");return wItems().filter(function(x){return inSel(sel,x.g)})}
+function wStart(onlyMiss){
+  const n=parseInt(localStorage.getItem("spa.wcount")||"20",10),miss=WMISS();
+  let list;
+  if(onlyMiss)list=shuf(wItems().filter(function(x){return miss[x.id]}));
+  else{
+    const pool=wPool(),m=shuf(pool.filter(function(x){return miss[x.id]})),rest=shuf(pool.filter(function(x){return !miss[x.id]}));
+    /* up to a third of the set is stuff you missed before, the rest is fresh */
+    list=n>=999?shuf(pool):shuf(m.slice(0,Math.ceil(n/3)).concat(rest).slice(0,n));
+  }
+  W={list:list,pos:0,score:0,done:0,missed:[],answered:false};
+  wDraw();
+}
+function wDraw(){
+  const b=$("wrBody");
+  if(!W.list.length){b.innerHTML='<div class="empty">Nothing to ask in those segments. Pick something above.</div>';return}
+  if(W.pos>=W.list.length){
+    b.innerHTML='<div class="wq"><h3 style="margin:0 0 6px">Done: '+W.score+' / '+W.list.length+'</h3>'
+     +(W.missed.length?'<p class="tiny">Missed ones (they come back first next time):</p><ul class="wsum">'+W.missed.map(function(m){return '<li>'+m.it.p+' &rarr; <b>'+esc(m.it.show)+'</b> <span class="tiny">you wrote: '+esc(m.you||'(blank)')+'</span></li>'}).join('')+'</ul>'
+       +'<button class="btn primary" id="wRedo">Redo just these '+W.missed.length+'</button> ':'<p>Perfect run.</p>')
+     +'<button class="btn" id="wNew">New set</button></div>';
+    if($("wRedo"))$("wRedo").onclick=function(){W={list:shuf(W.missed.map(function(m){return m.it})),pos:0,score:0,done:0,missed:[],answered:false};wDraw()};
+    $("wNew").onclick=function(){wStart(false)};return;
+  }
+  const it=W.list[W.pos];W.answered=false;
+  b.innerHTML='<div class="wq"><div class="wtop"><span>'+esc(GBY[it.g].label)+' &middot; '+(W.pos+1)+' / '+W.list.length+'</span><span>Score <b>'+W.score+' / '+W.done+'</b></span></div>'
+   +'<div class="wprompt">'+it.p+'</div>'
+   +'<input class="winput" id="wIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type it in Spanish">'
+   +'<div class="keys">'+["á","é","í","ó","ú","ñ","ü","¿","¡"].map(function(k){return '<button data-k="'+k+'">'+k+'</button>'}).join('')+'</div>'
+   +'<div class="row"><button class="btn primary" id="wChk">Check (Enter)</button><button class="btn" id="wSkip">I don\u2019t know</button></div><div id="wRes"></div></div>';
+  const inp=$("wIn");inp.focus();
+  [].forEach.call(b.querySelectorAll('.keys button'),function(k){k.onclick=function(){const s=inp.selectionStart||inp.value.length;inp.value=inp.value.slice(0,s)+k.dataset.k+inp.value.slice(inp.selectionEnd||s);inp.focus();inp.setSelectionRange(s+1,s+1)}});
+  inp.onkeydown=function(e){if(e.key==="Enter"){e.preventDefault();if(W.answered)next();else grade()}};
+  $("wChk").onclick=function(){if(W.answered)next();else grade()};
+  $("wSkip").onclick=function(){if(!W.answered){inp.value="";grade(true)}};
+  function next(){W.pos++;wDraw()}
+  function grade(skip){
+    W.answered=true;W.done++;
+    const r=skip?{k:"no"}:check(inp.value,it,wopt());
+    const good=r.k==="ok"||r.k==="okAccent"||r.k==="okNoArt";
+    const msg={ok:"Right.",okAccent:"Counted (accents are off), but watch the accent.",okNoArt:"Counted (articles are off), but the quiz wants el / la.",
+      accent:"Almost: check the accent / ñ.",article:"Wrong article (el / la).",noArt:"Right word, but you need the article (el / la / los / las).",no:skip?"Here it is:":"Not quite."}[r.k];
+    if(good){W.score++;setMiss(it.id,false)}else{setMiss(it.id,true);W.missed.push({it:it,you:inp.value})}
+    if($("wMiss"))wOpts();
+    const sb=b.querySelector('.wtop b');if(sb)sb.textContent=W.score+' / '+W.done;
+    $("wRes").innerHTML='<div class="wres '+(good?(r.k==="ok"?"ok":"half"):(r.k==="no"?"no":"half"))+'">'+msg
+     +'<div class="ans">'+esc(it.show)+'</div>'
+     +(it.acc.length>1?'<div class="why2">Also accepted: '+esc(it.acc.filter(function(a){return norm(a,true)!==norm(it.show,true)}).join(" · "))+'</div>':'')
+     +(it.why?'<div class="why2">'+esc(it.why)+'</div>':'')
+     +(!good?'<div class="row"><button class="btn sm" id="wOver">I had it right, count it</button></div>':'')
+     +'<div class="tiny" style="margin-top:6px">Press Enter for the next one.</div></div>';
+    if($("wOver"))$("wOver").onclick=function(){W.score++;const sb2=b.querySelector('.wtop b');if(sb2)sb2.textContent=W.score+' / '+W.done;setMiss(it.id,false);W.missed.pop();this.disabled=true;this.textContent="Counted";inp.focus()};
+    $("wChk").textContent="Next (Enter)";inp.readOnly=true;inp.focus();
+  }
+}
+const wTop=function(){const n=localStorage.getItem("spa.wcount")||"20",o=wopt(),nm=Object.keys(WMISS()).length;
+  return '<div class="opts"><label>Questions <select id="wCount" style="width:auto">'+["10","20","30","50","999"].map(function(v){return '<option value="'+v+'"'+(v===n?' selected':'')+'>'+(v==="999"?"all":v)+'</option>'}).join('')+'</select></label>'
+   +'<label><input type="checkbox" id="wAcc"'+(o.acc?' checked':'')+'> accents count</label><label><input type="checkbox" id="wArt"'+(o.art?' checked':'')+'> need el / la on nouns</label></div>'
+   +'<div class="row"><button class="btn primary" id="wGo">Start</button><button class="btn" id="wMiss"'+(nm?'':' disabled')+'>Just my misses ('+nm+')</button></div>'};
+function wOpts(){
+  const h=$("wOptsHost");h.innerHTML=wTop();
+  $("wCount").onchange=function(){localStorage.setItem("spa.wcount",this.value)};
+  $("wAcc").onchange=function(){localStorage.setItem("spa.wacc",this.checked?"1":"0")};
+  $("wArt").onchange=function(){localStorage.setItem("spa.wart",this.checked?"1":"0")};
+  $("wGo").onclick=function(){wStart(false)};$("wMiss").onclick=function(){wStart(true)};
+}
+$("wrSetup").innerHTML='<div id="wPickHost"></div><div id="wOptsHost"></div>';
+picker($("wPickHost"),"spa.wfocus",function(){},function(){return wPool().length+' typed questions'},'');
+wOpts();
+$("wrBody").innerHTML='<div class="empty">Pick segments and hit Start. This tab works like the written quizzes: you type the Spanish, spelling and accents count. Missed ones come back first next time (saved on this device).</div>';
+
+/* =====================================================================
+   REFERENCE
+   ===================================================================== */
+function vtable(S){return '<details'+(S.soon?'':'')+'><summary>'+esc(S.s)+(S.soon?'<span class="soonTag">coming up</span>':'')+' &middot; '+S.items.length+'</summary><table>'
+  +S.items.map(function(it){return '<tr><td class="es">'+esc(it.es)+'</td><td>'+esc(it.en)+(it.acc&&it.acc.length>1?'<br><span class="tiny">also: '+esc(it.acc.filter(function(a){return a!==it.es}).join(", "))+'</span>':'')+'</td></tr>'}).join('')
+  +'</table><p class="tiny">Source: '+esc(S.src)+'</p></details>'}
+function ctable(k){const v=VT[k];return '<tr><td><b>'+k+'</b>'+(v.c?' <span class="tiny">'+v.c.replace(">","&gt;")+'</span>':'')+'</td>'+v.f.map(function(f){return '<td>'+f+'</td>'}).join('')+'</tr>'}
+const NTERMS=VOC.filter(function(it){return !it.sec.soon}).length,NSOON=VOC.length-NTERMS;
+$("ref").innerHTML=
+ '<div class="card"><h3>What\u2019s coming</h3>'
++'<p><b>Final exam: Thursday, December 17.</b> From the Nov 9 slides (\u201cEs el 17 de diciembre. ¿Cuándo es el examen final?\u201d). No Classroom assignment for it yet.</p>'
++'<p>The same slide lists what she plans to teach <b>before the final</b>: IR + infinitivo (done Nov 9), vocabulario de la casa (started Nov 13), adjetivos demostrativos (done Nov 11-13), <b>adjetivos posesivos, los comparativos, el pretérito de verbos regulares</b> (not taught yet). The rest of the Unit 2 vocab sets are in here marked <i>coming up</i>.</p>'
++'<p><b>How her quizzes have looked:</b> Quiz #1 (Sep 1): 20 points, written, <b>short answer</b>, LingCo vocab + class slides. Quiz #2 (Sep 22): 20 points: regular -ar/-er/-ir, present progressive, stem-changers (\u201cwhat are the 3 steps?\u201d), seguridad digital + redes sociales vocab, \u201cknow what these terms mean <b>and how to spell them</b>.\u201d Oral quiz (Nov 3): 5 questions &times; 3 points (understanding, vocab + grammar, pronunciation). That\u2019s why the <b>Write It</b> tab exists: it\u2019s the closest thing to her format.</p></div>'
++'<div class="card"><h3>Heads up: spots where the class materials disagree</h3>'
++'<div class="flag"><b>Ciento mil</b>: the Oct 8 number sheet prints CIENTO MIL for 100,000. The correct form is <b>cien mil</b>.</div>'
++'<div class="flag"><b>Aquella escuela</b>: the Nov 11 and Nov 13 answer slides say \u201cthat house over there\u201d. It means <b>that school over there</b>.</div>'
++'<div class="flag"><b>La terraza</b>: the Nov 13 slide translates it as Patio; the LingCo book says <b>terrace</b>. Know both.</div>'
++'<div class="flag"><b>Later / beforehand</b>: LingCo says después = later and antes = beforehand. The class worksheet uses más tarde and de antemano. Both are in here.</div>'
++'<div class="flag"><b>El profe los habla</b>: one Sep 25 slide answer uses los with hablar a. With hablar, Spanish normally uses les (an indirect object, not taught yet). I left those sentences out of the drills.</div></div>'
++'<div class="card"><h3>Verb charts</h3><table><tr><th>verb</th><th>yo</th><th>tú</th><th>él/ella/Ud.</th><th>nosotros</th><th>vosotros</th><th>ellos/Uds.</th></tr>'
++["ser","estar","ir","tener","decir","pensar","querer","empezar","preferir","poder","dormir","pedir","repetir","jugar","estudiar","comer","vivir"].map(ctable).join('')+'</table>'
++'<p class="tiny">Stem-changers: the boot (yo, tú, él, ellos) changes; nosotros and vosotros keep the original stem.</p></div>'
++'<div class="card"><h3>Direct object pronouns</h3><table><tr><th></th><th>singular</th><th>plural</th></tr><tr><td>1st</td><td>me</td><td>nos</td></tr><tr><td>2nd</td><td>te</td><td>os</td></tr><tr><td>3rd</td><td>lo / la</td><td>los / las</td></tr></table>'
++'<p>Before the conjugated verb (Yo <b>lo</b> tengo) or attached to an infinitive / -ando (Voy a subir<b>lo</b>, Estoy preparándo<b>la</b>).</p></div>'
++'<div class="card"><h3>Commands</h3><table><tr><th>verb</th><th>affirmative</th><th>negative</th></tr>'
++CMDS.slice(0,14).map(function(c){return '<tr><td>'+c[0]+'</td><td>¡'+cap(c[1])+'!</td><td>¡'+cap(c[2])+'!</td></tr>'}).join('')+'</table>'
++'<p>With pronouns: ¡Cómela! / ¡No la comas! &middot; ¡Escríbelo! / ¡No lo escribas! &middot; ¡Háblame! / ¡No me hables! &middot; Irregular from class: ¡Sé! ¡Dime!</p></div>'
++'<div class="card"><h3>Demonstratives</h3><table><tr><th></th><th>m. sing.</th><th>f. sing.</th><th>m. pl.</th><th>f. pl.</th></tr>'
++'<tr><td>this / these</td><td>este</td><td>esta</td><td>estos</td><td>estas</td></tr><tr><td>that / those</td><td>ese</td><td>esa</td><td>esos</td><td>esas</td></tr><tr><td>over there</td><td>aquel</td><td>aquella</td><td>aquellos</td><td>aquellas</td></tr></table></div>'
++'<div class="card"><h3>Ser vs estar</h3><p><b>SER = DOCTOR</b>: Description, Occupation, Characteristic, Time, Origin, Relationship.<br><b>ESTAR = PLACE</b>: Position, Location, Action, Condition, Emotion.</p><table><tr><th>adjective</th><th>with ser</th><th>with estar</th></tr>'
++SEADJ.map(function(x){return '<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td></tr>'}).join('')+'</table></div>'
++'<div class="card"><h3>Numbers</h3><p>0-29 are one word: dieciséis, veintidós, veintitrés, veintiséis have accents. 31+ use y: treinta y uno. 100 = cien, 101+ = ciento...: ciento treinta y tres. 500 quinientos, 700 setecientos, 900 novecientos. 1,999 = mil novecientos noventa y nueve. 2,726 = dos mil setecientos veintiséis.</p></div>'
++'<div class="card"><h3>All the vocab, by segment</h3><p class="tiny">'+NTERMS+' taught terms + '+NSOON+' coming-up terms from the Unit 2 book.</p>'+SECS.map(vtable).join('')+'</div>'
++'<div class="card"><h3>Where this came from</h3><p class="tiny">LingCo: the 5 assigned Unidad 1 vocab sets (La tecnología, Actividades en línea, ¿Cuándo?, La seguridad digital, Las redes sociales) and the Unidad 1 + 2 student books (vocab summaries and grammar boxes). Classroom: all 33 daily slide decks from Aug 11 to Nov 13, the Unidad 1 vocab worksheet, the present progressive and stem-changing handouts, the numbers sheet, the commands practice form, the Day of the Dead lists, and the quiz instructions. Sra. Anker\u2019s slides from Oct 12-23 aren\u2019t posted, so the oral-quiz practice questions aren\u2019t in here.</p></div>';
+
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('on',v.id===b.dataset.v)});
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>

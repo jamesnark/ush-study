@@ -1008,6 +1008,13 @@
  "psGenerated": "2026-11-15T23:13:39.486Z",
  "trainers": [
   {
+   "cls": "Spanish II",
+   "title": null,
+   "file": "spa.html",
+   "label": "Unidad 1 + 2 · everything so far",
+   "terms": 154
+  },
+  {
    "cls": "Chemistry",
    "title": "Unit 4 Exam",
    "file": "chem4.html",

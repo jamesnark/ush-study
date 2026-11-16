@@ -387,6 +387,12 @@ function renderStudy(){
            :'<span class="tiny">No trainer built for this one yet &mdash; ask me and I\'ll make one.</span>')
        +'</div>'}).join('')
     : '<div class="empty">No tests scheduled.</div>';
+  const usedTr=tests.map(trainerFor).filter(Boolean);
+  const other=(DATA.trainers||[]).filter(function(x){return !x.past&&usedTr.indexOf(x)<0});
+  if(other.length)sh+='<h2 class="sec">Trainers without a test date yet <span>'+other.length+'</span></h2>'+other.map(function(x){
+    return '<div class="tcard" style="border-left-color:'+colorOf(x.cls)+'">'
+     +'<h3>'+esc(x.cls)+'</h3><div class="tm">'+esc(x.label)+' &middot; '+x.terms+' terms</div>'
+     +'<a class="btn primary sm" href="'+x.file+'">Open trainer</a></div>'}).join('');
   const past=(DATA.trainers||[]).filter(function(x){return x.past});
   if(past.length)sh+='<h2 class="sec">Past trainers</h2>'+past.map(function(x){
     return '<div class="tcard" style="border-left-color:'+colorOf(x.cls)+';opacity:.75">'
