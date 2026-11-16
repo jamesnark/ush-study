@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Chemistry - Unit 4 Electrons and the Periodic Table</title>
+<link rel="stylesheet" href="trainer.css?v=1">
+<style>:root{--accent:#4dd0e1;--accent-ink:#062a30}
+.bat{list-style:none;padding:0;margin:6px 0 0}
+.bat li{padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.bat li b{color:var(--accent)}
+.bat .q{color:var(--dim,#9aa3b2);font-size:12.5px}
+.fbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fchip{background:var(--panel2);border:1px solid var(--line);color:inherit;border-radius:999px;padding:6px 11px;font-size:13px;cursor:pointer}
+.fchip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.fcount{font-size:12.5px;opacity:.8;margin-top:8px}
+.flag{background:rgba(255,209,102,.12);border-left:3px solid #ffd166;padding:8px 11px;border-radius:6px;font-size:13.5px;margin-top:8px}
+.key{list-style:none;padding:0;margin:0}
+.key li{padding:10px 0;border-bottom:1px solid var(--line)}
+.key .n{display:inline-block;min-width:30px;font-weight:700;color:var(--accent)}
+.key .qq{color:var(--dim,#9aa3b2);font-size:13px}
+.key .aa{margin-top:4px}
+.figrow{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;margin-top:6px}
+.figrow figure{margin:0;text-align:center;font-size:12.5px}
+svg.bohr circle.ring{fill:none;stroke:#8a93a3;stroke-width:1.6}
+svg.bohr circle.nuc{fill:#3f8c99}
+svg.bohr circle.e{fill:#e8eaf0}
+svg.bohr text{fill:#fff;font:600 9.5px -apple-system,sans-serif;text-anchor:middle}
+svg.lew text{fill:currentColor;font:700 22px -apple-system,sans-serif;text-anchor:middle;dominant-baseline:central}
+svg.lew circle{fill:currentColor}
+.opt svg.lew{vertical-align:middle}
+svg.spec text{fill:currentColor;font:600 11px -apple-system,sans-serif}
+svg.spec rect{fill:none;stroke:#8a93a3;stroke-width:1}
+svg.spec line.l{stroke:currentColor;stroke-width:2}
+svg.spec line.t{stroke:#8a93a3;stroke-width:1}
+.ion sup{font-size:.7em}
+.arrowtbl td{font-weight:600}
+.up{color:#3ecf8e}.down{color:#ff8a8a}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="index.html">&larr; Study Hub</a>
+  <h1>Chemistry &middot; Unit 4: Electrons and the Periodic Table</h1>
+  <div class="sub">Mr. Rott &middot; Period 1 &middot; Unit 4 Exam Thu Nov 19 (course calendar) &middot; built from the Unit 4 Review &amp; BAT Sheet</div>
+  <nav>
+    <button class="on" data-v="fc">Flashcards</button>
+    <button data-v="qz">Practice Test</button>
+    <button data-v="key">BAT Answers</button>
+    <button data-v="ref">Reference</button>
+  </nav>
+</header>
+<main>
+<section class="view on" id="fc"><div id="fcHost"></div></section>
+<section class="view" id="qz"><div class="card" id="focusCard"></div><div id="qzHost"></div></section>
+<section class="view" id="key"></section>
+<section class="view" id="ref"></section>
+</main>
+<script src="flash.js?v=8"></script>
+<script>
+const $=id=>document.getElementById(id);
+function shuf(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=b[i];b[i]=b[j];b[j]=t}return b}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+
+/* ---------- element data: [Z, symbol, name, group, period, type, family] ---------- */
+const E=[
+[1,"H","hydrogen",1,1,"nonmetal",""],[2,"He","helium",18,1,"nonmetal","noble"],
+[3,"Li","lithium",1,2,"metal","alkali"],[4,"Be","beryllium",2,2,"metal","alkaline"],[5,"B","boron",13,2,"metalloid",""],
+[6,"C","carbon",14,2,"nonmetal",""],[7,"N","nitrogen",15,2,"nonmetal",""],[8,"O","oxygen",16,2,"nonmetal",""],
+[9,"F","fluorine",17,2,"nonmetal","halogen"],[10,"Ne","neon",18,2,"nonmetal","noble"],
+[11,"Na","sodium",1,3,"metal","alkali"],[12,"Mg","magnesium",2,3,"metal","alkaline"],[13,"Al","aluminum",13,3,"metal",""],
+[14,"Si","silicon",14,3,"metalloid",""],[15,"P","phosphorus",15,3,"nonmetal",""],[16,"S","sulfur",16,3,"nonmetal",""],
+[17,"Cl","chlorine",17,3,"nonmetal","halogen"],[18,"Ar","argon",18,3,"nonmetal","noble"],
+[19,"K","potassium",1,4,"metal","alkali"],[20,"Ca","calcium",2,4,"metal","alkaline"],
+[21,"Sc","scandium",3,4,"metal","transition"],[22,"Ti","titanium",4,4,"metal","transition"],[24,"Cr","chromium",6,4,"metal","transition"],
+[25,"Mn","manganese",7,4,"metal","transition"],[26,"Fe","iron",8,4,"metal","transition"],[27,"Co","cobalt",9,4,"metal","transition"],
+[28,"Ni","nickel",10,4,"metal","transition"],[29,"Cu","copper",11,4,"metal","transition"],[30,"Zn","zinc",12,4,"metal","transition"],
+[31,"Ga","gallium",13,4,"metal",""],[32,"Ge","germanium",14,4,"metalloid",""],[33,"As","arsenic",15,4,"metalloid",""],
+[34,"Se","selenium",16,4,"nonmetal",""],[35,"Br","bromine",17,4,"nonmetal","halogen"],[36,"Kr","krypton",18,4,"nonmetal","noble"],
+[37,"Rb","rubidium",1,5,"metal","alkali"],[38,"Sr","strontium",2,5,"metal","alkaline"],[47,"Ag","silver",11,5,"metal","transition"],
+[50,"Sn","tin",14,5,"metal",""],[51,"Sb","antimony",15,5,"metalloid",""],[52,"Te","tellurium",16,5,"metalloid",""],
+[53,"I","iodine",17,5,"nonmetal","halogen"],[54,"Xe","xenon",18,5,"nonmetal","noble"],
+[55,"Cs","cesium",1,6,"metal","alkali"],[56,"Ba","barium",2,6,"metal","alkaline"],
+[57,"La","lanthanum",0,6,"metal","lanthanide"],[58,"Ce","cerium",0,6,"metal","lanthanide"],[60,"Nd","neodymium",0,6,"metal","lanthanide"],
+[78,"Pt","platinum",10,6,"metal","transition"],[79,"Au","gold",11,6,"metal","transition"],[80,"Hg","mercury",12,6,"metal","transition"],
+[82,"Pb","lead",14,6,"metal",""],[86,"Rn","radon",18,6,"nonmetal","noble"],
+[87,"Fr","francium",1,7,"metal","alkali"],[88,"Ra","radium",2,7,"metal","alkaline"],
+[90,"Th","thorium",0,7,"metal","actinide"],[92,"U","uranium",0,7,"metal","actinide"],[94,"Pu","plutonium",0,7,"metal","actinide"]
+];
+const BYZ={},BYS={};E.forEach(e=>{BYZ[e[0]]=e;BYS[e[1]]=e});
+function nm(e){return cap(e[2])+" ("+e[1]+")"}
+const MAIN=E.filter(e=>[1,2,13,14,15,16,17,18].indexOf(e[3])>=0&&e[0]!==1);
+function valence(e){if(e[0]===2)return 2;return e[3]<=2?e[3]:e[3]-10}
+function shells(Z){const c=[2,8,8,2],out=[];let r=Z;for(let i=0;i<c.length&&r>0;i++){const k=Math.min(c[i],r);out.push(k);r-=k}return out}
+const FAMN={alkali:"Alkali metals",alkaline:"Alkaline earth metals",transition:"Transition metals",halogen:"Halogens",noble:"Noble gases",lanthanide:"Inner transition metals (lanthanides/actinides)",actinide:"Inner transition metals (lanthanides/actinides)"};
+
+/* ---------- drawings ---------- */
+function bohrSVG(sh,o){o=o||{};const sz=o.size||150,c=80,R=[30,44,58,72];
+  let s='<svg class="bohr" viewBox="0 0 160 160" width="'+sz+'" height="'+sz+'" role="img" aria-label="Bohr model">';
+  for(let i=0;i<sh.length;i++)s+='<circle class="ring" cx="'+c+'" cy="'+c+'" r="'+R[i]+'"/>';
+  s+='<circle class="nuc" cx="'+c+'" cy="'+c+'" r="'+(o.p!=null?21:13)+'"/>';
+  if(o.p!=null)s+='<text x="'+c+'" y="'+(c-2)+'">'+o.p+' p\u207a</text><text x="'+c+'" y="'+(c+10)+'">'+o.n+' n\u2070</text>';
+  sh.forEach(function(k,i){const r=R[i];
+    for(let j=0;j<k;j++){const a=(-90+360*j/k)*Math.PI/180;
+      s+='<circle class="e" cx="'+(c+r*Math.cos(a)).toFixed(1)+'" cy="'+(c+r*Math.sin(a)).toFixed(1)+'" r="3.6"/>'}});
+  return s+'</svg>';
+}
+/* sides: top, right, bottom, left. rule from class handout: one per side first, then pair up */
+function lewisSVG(sym,n,pairFirst){
+  const per=[0,0,0,0];
+  if(pairFirst){let r=n;for(let i=0;i<4&&r>0;i++){const k=Math.min(2,r);per[i]=k;r-=k}}
+  else{for(let i=0;i<n;i++)per[i%4]++}
+  const w=74,c=37,d=19,g=5.5;let s='<svg class="lew" viewBox="0 0 74 74" width="66" height="66" role="img" aria-label="Lewis dot structure">';
+  s+='<text x="'+c+'" y="'+(c+1)+'">'+sym+'</text>';
+  const pos=[[0,-1],[1,0],[0,1],[-1,0]];
+  per.forEach(function(k,i){const p=pos[i],cx=c+p[0]*d,cy=c+p[1]*d;
+    if(k===1)s+='<circle cx="'+cx+'" cy="'+cy+'" r="3"/>';
+    if(k===2){if(p[0]===0)s+='<circle cx="'+(cx-g)+'" cy="'+cy+'" r="3"/><circle cx="'+(cx+g)+'" cy="'+cy+'" r="3"/>';
+      else s+='<circle cx="'+cx+'" cy="'+(cy-g)+'" r="3"/><circle cx="'+cx+'" cy="'+(cy+g)+'" r="3"/>'}});
+  return s+'</svg>';
+}
+function lewisOf(e){return e[0]===2?lewisSVG("He",2,true):lewisSVG(e[1],valence(e),false)}
+/* line positions read off the BAT sheet's spectra chart (nm) */
+const SPEC={Hg:[405,408,436,546,577,579],Ne:[540,585,614,640,651,660,693],He:[447,471,492,502,588,668],Ar:[416,420,426,451,675,687,696],Na:[569,589,616]};
+const SPECN={Hg:"mercury",Ne:"neon",He:"helium",Ar:"argon",Na:"sodium"};
+function specSVG(rows){const L=78,W=330,rh=26,H=rows.length*rh+30;
+  const x=nm=>L+(nm-400)/300*W;
+  let s='<svg class="spec" viewBox="0 0 '+(L+W+12)+' '+H+'" width="100%" style="max-width:440px" role="img" aria-label="bright-line spectra">';
+  rows.forEach(function(r,i){const y=i*rh+4;
+    s+='<text x="'+(L-6)+'" y="'+(y+15)+'" text-anchor="end">'+r[0]+'</text><rect x="'+L+'" y="'+y+'" width="'+W+'" height="20"/>';
+    r[1].forEach(function(nm){s+='<line class="l" x1="'+x(nm).toFixed(1)+'" x2="'+x(nm).toFixed(1)+'" y1="'+y+'" y2="'+(y+20)+'"/>'})});
+  const yb=rows.length*rh+4;
+  [400,450,500,550,600,650,700].forEach(function(t){s+='<line class="t" x1="'+x(t)+'" x2="'+x(t)+'" y1="'+(yb-2)+'" y2="'+(yb+3)+'"/><text x="'+x(t)+'" y="'+(yb+15)+'" text-anchor="middle" style="font-weight:400;font-size:10px">'+t+'</text>'});
+  return s+'</svg>';
+}
+function emitSVG(){
+  const pan=function(ox,title,ePos,extra){let s='<g transform="translate('+ox+',0)"><text x="70" y="14" text-anchor="middle" style="font:600 11px -apple-system,sans-serif;fill:currentColor">'+title+'</text>';
+    s+='<circle cx="70" cy="90" r="9" fill="#3f8c99"/>';[28,46,64].forEach(function(r){s+='<circle cx="70" cy="90" r="'+r+'" fill="none" stroke="#8a93a3" stroke-width="1.4"/>'});
+    s+='<circle cx="'+ePos[0]+'" cy="'+ePos[1]+'" r="4.5" fill="#ffd166"/>'+extra+'</g>';return s};
+  let s='<svg viewBox="0 0 450 170" width="100%" style="max-width:520px;color:inherit" role="img" aria-label="absorb and emit diagram">';
+  s+=pan(0,"1. Ground state",[70,62],'<text x="70" y="166" text-anchor="middle" style="font:11px sans-serif;fill:currentColor">electron in lowest shell</text>');
+  s+=pan(150,"2. Absorbs energy",[70,26],'<path d="M10 40 L44 70" stroke="#ff8a8a" stroke-width="2.5" marker-end="url(#ah)"/><path d="M70 60 L70 32" stroke="#ffd166" stroke-width="2" stroke-dasharray="3 2" marker-end="url(#ah2)"/><text x="70" y="166" text-anchor="middle" style="font:11px sans-serif;fill:currentColor">jumps UP to excited state</text>');
+  s+=pan(300,"3. Drops, emits photon",[70,62],'<path d="M70 30 L70 56" stroke="#ffd166" stroke-width="2" marker-end="url(#ah2)"/><path d="M84 40 q6 -8 12 0 t12 0 t12 0 t12 0" fill="none" stroke="#4dd0e1" stroke-width="2.4" marker-end="url(#ah3)"/><text x="70" y="166" text-anchor="middle" style="font:11px sans-serif;fill:currentColor">falls DOWN, light leaves</text>');
+  s+='<defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#ff8a8a"/></marker><marker id="ah2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#ffd166"/></marker><marker id="ah3" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#4dd0e1"/></marker></defs>';
+  return s+'</svg>';
+}
+function ion(sym,ch){return '<span class="ion">'+sym+'<sup>'+ch+'</sup></span>'}
+function ionOf(e){const g=e[3];
+  if(g===1)return ion(e[1],"+");if(g===2)return ion(e[1],"2+");if(g===13)return ion(e[1],"3+");
+  if(g===15)return ion(e[1],"3\u2212");if(g===16)return ion(e[1],"2\u2212");if(g===17)return ion(e[1],"\u2212");return "No ion (N/A)"}
+
+const EM=["gamma rays","X-rays","ultraviolet","visible light","infrared","microwaves","radio waves"];
+const COL=["violet","blue","green","yellow","orange","red"];
+
+/* ---------- flashcards ---------- */
+const T=[
+/* #1-2 */
+{s:"#1-2 Emission",cat:"light",t:"Ground state vs. excited state",
+ a:["Ground state = ?","Excited state = ?","How does an electron get excited?"],
+ h:"Normal vs. pumped up.",
+ d:"<b>Ground state:</b> the electron\u2019s normal, <b>lowest</b> energy level.<br><b>Excited state:</b> a <b>higher</b> energy level it reaches after <b>absorbing energy</b> (heat from a flame, electricity in a light tube)."},
+{s:"#1-2 Emission",cat:"light",t:"How atoms give off light (emission)",
+ a:["What absorbs the energy?","Which way does it jump?","What happens when it falls back?","What leaves the atom?"],
+ h:"Up by absorbing, down by emitting.",
+ d:"<b>Electrons</b> absorb energy and jump from a <b>lower</b> to a <b>higher</b> level. They can\u2019t stay there, so they <b>drop</b> back to a lower level and <b>lose</b> the extra energy as a <b>photon</b> of light."},
+{s:"#1-2 Emission",cat:"light",t:"Key #1, filled in",
+ a:["1a: which particle, lower/higher, lower/higher","1b: excited/ground, gain/lose, rising/dropping, higher/lower, specific/all frequencies"],
+ h:"Absorb = up. Emit = down.",
+ d:"<b>1a.</b> When energy is absorbed by the <b>electrons</b>, they jump from a <b>lower</b> energy level to a <b>higher</b> energy level.<br><b>1b.</b> An electron in <b>an excited</b> state can <b>lose</b> energy by <b>dropping</b> to a <b>lower</b> state and emitting light with <b>specific frequencies</b>."},
+{s:"#1-2 Emission",cat:"light",t:"Why the light comes in lines, not a rainbow",
+ a:["Why only certain colors?","Why is each element different?"],
+ h:"Fixed ladder rungs.",
+ d:"Electrons can only sit on <b>certain energy levels</b> (it\u2019s quantized). Each drop is a fixed size, so it gives off a photon with one <b>specific</b> energy/color. Every element has its own <b>spacing of energy levels</b>, so its pattern of lines (and flame color) is unique, like a fingerprint."},
+{s:"#1-2 Emission",cat:"light",t:"Key #2: draw it (3 panels)",fig:emitSVG(),
+ a:["Panel 1 labels","Panel 2: what arrow, where does e\u207b go","Panel 3: what two arrows"],
+ h:"Ground, jump up, fall down + photon.",
+ d:"<b>1.</b> One electron in the lowest shell. Label the <b>nucleus</b>, the <b>electron shells</b>, and the <b>electron in the ground state</b>.<br><b>2.</b> An <b>energy arrow going into</b> the atom (heat from the flame), and the electron <b>jumping to a higher shell</b>.<br><b>3.</b> A <b>downward arrow</b> for the electron returning, and a <b>wavy arrow leaving</b> the atom for the <b>photon</b>."},
+/* #3 */
+{s:"#3 Spectral lines",cat:"spec",t:"Reading a bright-line spectrum (key #3)",fig:specSVG([["Hg",SPEC.Hg],["Ne",SPEC.Ne],["He",SPEC.He],["Ar",SPEC.Ar],["Na",SPEC.Na],["Unknown",[].concat(SPEC.Hg,SPEC.Ne,SPEC.Ar)]]),
+ a:["Rule for deciding an element is in it","Answer for the BAT sheet unknown","Which two are not in it, and why"],
+ h:"Every line has to match.",
+ d:"An element is in the mixture only if <b>every one of its lines</b> shows up in the unknown. Lines that don\u2019t match anything mean something else is there.<br><b>Answer: mercury (Hg), neon (Ne), and argon (Ar).</b><br>Not helium: the unknown has no lines at about 447, 471, 492 or 502 nm. Not sodium: nothing at about 569 or 616 nm."},
+/* #4-5 */
+{s:"#4-5 Photons",cat:"light",t:"Photon",
+ a:["What is it?","How does it relate to light?","What sets its color?"],
+ h:"A packet of light.",
+ d:"A <b>photon</b> is a tiny <b>particle (packet) of light energy</b>. Light is a stream of photons. A photon is given off when an electron drops to a lower energy level, and its <b>energy</b> decides the <b>color</b> (wavelength) of the light."},
+{s:"#4-5 Photons",cat:"light",t:"Wavelike qualities of a photon",
+ a:["Name two wave properties it has","How fast does it travel?"],
+ h:"Light is a particle and a wave.",
+ d:"A photon has a <b>wavelength</b> and a <b>frequency</b> (and carries energy that depends on them). It travels at the <b>speed of light</b> and doesn\u2019t need matter to travel through."},
+/* #6-7 */
+{s:"#6-7 Waves",cat:"wave",t:"Wavelength",
+ a:["Define it","Units"],h:"Crest to crest.",
+ d:"The <b>distance from one crest to the next</b> (or trough to trough). Measured in meters, often <b>nanometers (nm)</b> for light. Symbol \u03bb."},
+{s:"#6-7 Waves",cat:"wave",t:"Frequency",
+ a:["Define it","Units"],h:"How often.",
+ d:"The <b>number of waves that pass a point each second</b>. Measured in <b>hertz (Hz)</b> = waves per second."},
+{s:"#6-7 Waves",cat:"wave",t:"Energy (of a wave)",
+ a:["Define it","What is it tied to?"],h:"Follows frequency.",
+ d:"The <b>amount of energy</b> the wave (each photon) carries. Higher <b>frequency</b> = more energy."},
+{s:"#6-7 Waves",cat:"wave",t:"The three relationships (key #7)",
+ a:["Wavelength vs. frequency","Wavelength vs. energy","Energy vs. frequency"],
+ h:"Wavelength is the odd one out.",
+ d:"<b>Wavelength &amp; frequency: inverse</b> (longer wavelength, lower frequency).<br><b>Wavelength &amp; energy: inverse</b> (longer wavelength, less energy).<br><b>Energy &amp; frequency: direct</b> (higher frequency, more energy).<br>Short waves = high frequency = high energy."},
+/* #8-10 */
+{s:"#8-10 EM spectrum",cat:"em",t:"EM spectrum: shortest to longest wavelength (key #8)",
+ a:["All seven, in order"],h:"Gamma first. Mnemonic: Giant X-ray Unicorns Visit In My Room.",
+ d:"<b>Gamma rays &rarr; X-rays &rarr; ultraviolet &rarr; visible &rarr; infrared &rarr; microwaves &rarr; radio waves</b>"},
+{s:"#8-10 EM spectrum",cat:"em",t:"EM spectrum: lowest to highest frequency (key #9)",
+ a:["All seven, in order"],h:"It\u2019s #8 backwards. Raging Martians Invaded Venus Using X-ray Guns.",
+ d:"<b>Radio waves &rarr; microwaves &rarr; infrared &rarr; visible &rarr; ultraviolet &rarr; X-rays &rarr; gamma rays</b>"},
+{s:"#8-10 EM spectrum",cat:"em",t:"Key #10: lowest to highest energy matches\u2026",
+ a:["Wavelength or frequency?","Why?"],h:"Energy follows frequency.",
+ d:"<b>Frequency.</b> Energy and frequency are directly related, so lowest-to-highest energy is the same list as lowest-to-highest frequency (radio first, gamma last)."},
+{s:"#8-10 EM spectrum",cat:"em",t:"Visible spectrum",
+ a:["Range in nm","Which color has the longest wavelength / least energy?","Shortest wavelength / most energy?","Order"],
+ h:"ROYGBIV.",
+ d:"About <b>400 to 700 nm</b>. <b>Red</b> (~700 nm) = longest wavelength, lowest frequency and energy. <b>Violet</b> (~400 nm) = shortest wavelength, highest energy.<br>Red, orange, yellow, green, blue, indigo, violet. White light is all of them together."},
+{s:"#8-10 EM spectrum",cat:"em",t:"What each EM type is used for (EM video sheet)",
+ a:["Radio","Microwave","Infrared","UV","X-ray","Gamma"],h:"From the NASA video note sheet.",
+ d:"<b>Radio:</b> communication, discovered by Heinrich Hertz (1888).<br><b>Microwaves:</b> cooking, radar, phones.<br><b>Infrared:</b> we feel it as <b>heat</b>; remotes, thermal cameras.<br><b>UV:</b> causes sunburn (UVB is the main burning type); bugs see it; ozone blocks most of it.<br><b>X-rays:</b> see bones; Wilhelm R\u00f6ntgen (1895).<br><b>Gamma:</b> most energy; from nuclear reactions and radioactive decay; doctors use it to destroy <b>cancer cells</b>.<div class=\"flag\">Not on the BAT sheet. It\u2019s from the EM video worksheet, so it might show up as a bonus or short question.</div>"},
+/* #11-12 */
+{s:"#11-12 Bohr models",cat:"bohr",t:"Bohr model rules (class handout)",
+ a:["How many rings?","Max in ring 1","Max in ring 2","Ring 3 up to calcium","Ring 4 up to calcium"],
+ h:"2, 8, 8, 2.",
+ d:"The <b>period</b> tells you how many rings to draw. Ring 1 holds <b>2</b>, ring 2 holds <b>8</b>, ring 3 fills <b>8</b> before ring 4 starts (it can hold 18 later), ring 4 only gets up to <b>2</b> by calcium.<br>Neutral atom: electrons = protons = atomic number. Protons and neutrons go in the nucleus."},
+{s:"#11-12 Bohr models",cat:"bohr",t:"Key #11: name the five Bohr models",
+ fig:'<div class="figrow">'+[3,4,8,9,10].map(z=>bohrSVG(shells(z),{size:80})).join('')+'</div>',
+ a:["Count each one, left to right"],h:"Count every dot, then match to atomic number.",
+ d:"2,1 = 3 &rarr; <b>lithium</b><br>2,2 = 4 &rarr; <b>beryllium</b><br>2,6 = 8 &rarr; <b>oxygen</b><br>2,7 = 9 &rarr; <b>fluorine</b><br>2,8 = 10 &rarr; <b>neon</b>"},
+{s:"#11-12 Bohr models",cat:"bohr",t:"Key #12: the five isotopes",
+ a:["For each: protons, neutrons, electrons per ring"],h:"Neutrons = mass number \u2212 atomic number.",
+ d:"<b>Sodium</b>: 11 p, electrons 2,8,1. (Sodium-23 has 12 n.)<br><b>Magnesium-25</b>: 12 p, <b>13 n</b>, 2,8,2<br><b>Sulfur-33</b>: 16 p, <b>17 n</b>, 2,8,6<br><b>Chlorine-37</b>: 17 p, <b>20 n</b>, 2,8,7<br><b>Argon-40</b>: 18 p, <b>22 n</b>, 2,8,8<div class=\"flag\">The sheet says \u201cSodium-11.\u201d 11 is sodium\u2019s atomic number, not a mass number, so it\u2019s almost certainly a typo for sodium-23 (12 neutrons). Taken literally, sodium-11 would have 0 neutrons. Ask Mr. Rott if you aren\u2019t sure.</div>"},
+/* #13-14 */
+{s:"#13-14 Valence electrons",cat:"val",t:"Valence electrons",
+ a:["Define","Why they matter","How to find them for groups 1-2 and 13-18"],
+ h:"The outer shell.",
+ d:"Electrons in the <b>outermost energy level</b>. They decide how an atom <b>bonds and reacts</b> (its chemical properties).<br>Group 1 = 1, group 2 = 2, groups 13-18 = <b>group number minus 10</b> (13 &rarr; 3 \u2026 18 &rarr; 8). Helium is the exception: 2."},
+{s:"#13-14 Valence electrons",cat:"val",t:"Key #14",
+ a:["Li","C","Ne","Al","Be","F"],h:"Use the group.",
+ d:"Lithium <b>1</b> &middot; Carbon <b>4</b> &middot; Neon <b>8</b> &middot; Aluminum <b>3</b> &middot; Beryllium <b>2</b> &middot; Fluorine <b>7</b>"},
+{s:"#13-14 Valence electrons",cat:"val",t:"Octet rule and ions (class handouts)",
+ a:["What do atoms want?","Which way do they go?","Ion for groups 1, 2, 13, 15, 16, 17","Groups 14 and 18?"],
+ h:"Do whatever moves fewer electrons.",
+ d:"Atoms want a <b>full outer shell</b> (8, or 2 for H/He). They <b>lose</b> or <b>gain</b> electrons, whichever is easier.<br>Group 1 &rarr; 1+, group 2 &rarr; 2+, group 13 &rarr; 3+ (metals lose: <b>cations</b>).<br>Group 15 &rarr; 3\u2212, group 16 &rarr; 2\u2212, group 17 &rarr; 1\u2212 (nonmetals gain: <b>anions</b>).<br>Group 14 (C, Si): N/A on the handout. Group 18: already full, N/A."},
+/* #15 */
+{s:"#15 Lewis dot",cat:"lewis",t:"How to draw a Lewis dot structure",
+ a:["What do dots stand for?","Placement rule","Most dots possible"],
+ h:"One per side, then double.",
+ d:"Write the symbol; dots = <b>valence electrons</b>. Put <b>one dot on each of the four sides</b> first, then go back and <b>pair them up</b>. Never more than 8 (2 per side)."},
+{s:"#15 Lewis dot",cat:"lewis",t:"Key #15",
+ fig:'<div class="figrow">'+["He","O","Ca","Si","Ar"].map(s=>lewisOf(BYS[s])).join('')+'</div>',
+ a:["He","O","Ca","Si","Ar: how many dots each"],h:"He 2, O 6, Ca 2, Si 4, Ar 8.",
+ d:"<b>Helium</b> 2 (one pair; its only shell is full) &middot; <b>Oxygen</b> 6 &middot; <b>Calcium</b> 2 &middot; <b>Silicon</b> 4 &middot; <b>Argon</b> 8"},
+/* #16-23 */
+{s:"#16-23 Table layout",cat:"pt",t:"Mendeleev (key #16)",
+ a:["How did he arrange elements?","What was clever about the gaps?","How is the modern table different?"],
+ h:"Gaps = predictions.",
+ d:"He arranged the elements by <b>increasing atomic mass</b> and put elements with <b>similar properties</b> in the same column. He <b>left gaps</b> for elements not discovered yet and <b>predicted their properties</b> (like gallium and germanium), which turned out right. The modern table is arranged by <b>atomic number</b> instead."},
+{s:"#16-23 Table layout",cat:"pt",t:"Period vs. group (key #17)",
+ a:["Period = ?","Group = ?","What do members of each share?"],h:"Periods are rows, like sentences.",
+ d:"<b>Period:</b> a horizontal <b>row</b>. Same number of energy levels (rings).<br><b>Group (family):</b> a vertical <b>column</b>. Same number of valence electrons, so <b>similar properties</b>."},
+{s:"#16-23 Table layout",cat:"pt",t:"Key #18-19",
+ a:["How many elements in period 1? Name them.","Which periods have exactly 8?"],h:"Short rows.",
+ d:"Period 1 has <b>2</b>: <b>hydrogen and helium</b>.<br><b>Periods 2 and 3</b> have exactly 8 elements."},
+{s:"#16-23 Table layout",cat:"pt",t:"Family names (key #20-23)",
+ a:["Group 1","Group 2","Group 17","Group 18","Which has 2 valence e\u207b?","Which is inert?","Halogen valence e\u207b"],
+ h:"1 alkali, 2 alkaline earth, 17 halogens, 18 noble gases.",
+ d:"Group 1 <b>alkali metals</b> &middot; Group 2 <b>alkaline earth metals</b> &middot; Group 17 <b>halogens</b> &middot; Group 18 <b>noble gases</b><br>#21: <b>group 2, alkaline earth metals</b> have 2 valence electrons.<br>#22: <b>group 18, noble gases</b> are inert with full outer shells.<br>#23: halogens have <b>7</b> valence electrons."},
+/* #24-25 */
+{s:"#24-25 Metals",cat:"mnm",t:"Where metals, nonmetals, metalloids are",
+ a:["Metals","Nonmetals","Metalloids","Where does H go?"],h:"The staircase.",
+ d:"<b>Metals:</b> left of the staircase (most of the table).<br><b>Nonmetals:</b> right of the staircase, plus hydrogen.<br><b>Metalloids:</b> touching the staircase: B, Si, Ge, As, Sb, Te (aluminum is a metal)."},
+{s:"#24-25 Metals",cat:"mnm",t:"Key #24",
+ a:["Ca","Ne","Al","Si","Cl"],h:"Staircase check.",
+ d:"Calcium <b>metal</b> &middot; Neon <b>nonmetal</b> &middot; Aluminum <b>metal</b> &middot; Silicon <b>metalloid</b> &middot; Chlorine <b>nonmetal</b>"},
+{s:"#24-25 Metals",cat:"mnm",t:"Properties (key #25)",
+ a:["Metals: look, conduct, bend?","Nonmetals","Metalloids","Gain or lose electrons?"],h:"Shiny/bendy vs. dull/brittle.",
+ d:"<b>Metals:</b> shiny (luster), <b>good conductors</b> of heat and electricity, <b>malleable</b> and ductile, mostly solid at room temp, tend to <b>lose</b> electrons.<br><b>Nonmetals:</b> dull, <b>poor conductors</b> (insulators), <b>brittle</b> as solids, many are gases, tend to <b>gain</b> electrons.<br><b>Metalloids:</b> a <b>mix</b> of both; <b>semiconductors</b> (silicon in computer chips)."},
+/* #26-27 */
+{s:"#26-27 Families",cat:"fam",t:"Alkali metals",a:["Location","Elements","Valence e\u207b","Properties"],h:"Group 1, minus H.",
+ d:"<b>Group 1</b> (not hydrogen): Li, Na, K, Rb, Cs, Fr. <b>1</b> valence electron. <b>Most reactive metals</b>, soft, react strongly with water, form <b>1+</b> ions, never found pure in nature."},
+{s:"#26-27 Families",cat:"fam",t:"Alkaline earth metals",a:["Location","Elements","Valence e\u207b","Properties"],h:"Group 2.",
+ d:"<b>Group 2</b>: Be, Mg, Ca, Sr, Ba, Ra. <b>2</b> valence electrons. Reactive (less than alkali metals), harder, form <b>2+</b> ions."},
+{s:"#26-27 Families",cat:"fam",t:"Transition metals",a:["Location","Valence e\u207b","Properties"],h:"The middle block.",
+ d:"<b>Groups 3-12</b>, plus the lanthanide and actinide series (the inner transition metals, the two rows at the bottom). Valence electrons <b>vary</b>. Typical metals: hard, shiny, good conductors, often form <b>colorful</b> compounds and can have more than one charge (Fe, Cu, Au, Ag)."},
+{s:"#26-27 Families",cat:"fam",t:"Halogens",a:["Location","Elements","Valence e\u207b","Properties"],h:"Group 17. Salt formers.",
+ d:"<b>Group 17</b>: F, Cl, Br, I, At. <b>7</b> valence electrons. <b>Most reactive nonmetals</b>; gain 1 electron to make <b>1\u2212</b> ions; combine with metals to make salts (NaCl)."},
+{s:"#26-27 Families",cat:"fam",t:"Noble gases",a:["Location","Elements","Valence e\u207b","Properties"],h:"Group 18.",
+ d:"<b>Group 18</b>: He, Ne, Ar, Kr, Xe, Rn. <b>8</b> valence electrons (helium 2). <b>Full outer shell</b>, so <b>inert</b> (unreactive), colorless gases; used in signs and lights."},
+{s:"#26-27 Families",cat:"fam",t:"Key #27",a:["a. halogen in period 4","b. alkali metal in period 2","c. noble gas in period 1","d. alkaline earth in period 3","e. transition metal group 11, period 6","f. actinide with a one-letter symbol"],
+ h:"Find the row, then the column.",
+ d:"a. <b>Bromine, Br</b> &middot; b. <b>Lithium, Li</b> &middot; c. <b>Helium, He</b> &middot; d. <b>Magnesium, Mg</b> &middot; e. <b>Gold, Au</b> &middot; f. <b>Uranium, U</b>"},
+/* #28-35 */
+{s:"#28-35 Trends",cat:"trend",t:"Atomic radius trend (key #28-29)",
+ a:["Across a period: direction + reason","Down a group: direction + reason"],h:"Bigger going down-left.",
+ d:"<b>Across \u2192 decreases.</b> More protons (bigger nuclear charge) pull the same number of shells in tighter.<br><b>Down \u2193 increases.</b> Each period adds another <b>energy level</b> (shell), so electrons are farther out."},
+{s:"#28-35 Trends",cat:"trend",t:"Electronegativity (key #30-31)",
+ a:["Define","Across","Down","Most electronegative element","Why noble gases have none"],h:"Fluorine is greedy.",
+ d:"How strongly an atom <b>attracts electrons in a chemical bond</b>.<br><b>Across \u2192 increases. Down \u2193 decreases.</b> Fluorine is highest.<br>Noble gases usually get no value because their outer shell is <b>full</b>, so they <b>don\u2019t form bonds</b> and don\u2019t pull on bonding electrons."},
+{s:"#28-35 Trends",cat:"trend",t:"Ionization energy (key #33)",
+ a:["Define","Across","Down","Why"],h:"How hard to pull one off.",
+ d:"The <b>energy needed to remove an electron</b> from an atom.<br><b>Across \u2192 increases</b> (smaller atoms hold electrons tighter). <b>Down \u2193 decreases</b> (outer electrons are farther away and easier to remove)."},
+{s:"#28-35 Trends",cat:"trend",t:"Key #32 and #34 orders",
+ a:["Increasing electronegativity: Al, Cl, Mg, P, Si","Increasing ionization energy: Sr, Be, Ba"],h:"Period 3 left to right; group 2 bottom to top.",
+ d:"#32: <b>Mg &lt; Al &lt; Si &lt; P &lt; Cl</b> (all period 3, so left to right).<br>#34: <b>Ba &lt; Sr &lt; Be</b> (all group 2, so bottom to top)."},
+{s:"#28-35 Trends",cat:"trend",t:"Key #35: fill in the arrows",
+ a:["Across: radius, ionization energy, electronegativity","Down: radius, ionization energy, electronegativity"],h:"Radius always does the opposite of the other two.",
+ d:"<b>Across (\u2192):</b> atomic radius <b>decreasing</b>, ionization energy <b>increasing</b>, electronegativity <b>increasing</b>.<br><b>Down (\u2193):</b> atomic radius <b>increasing</b>, ionization energy <b>decreasing</b>, electronegativity <b>decreasing</b>."},
+/* labs */
+{s:"Labs & handouts",cat:"lab",t:"Flame test colors",
+ a:["Li","Na","K","Ca","Sr","Cu","Ba"],h:"Check against your own data table.",
+ d:"Lithium <b>red/crimson</b> &middot; Sodium <b>yellow-orange</b> &middot; Potassium <b>lilac (light purple)</b> &middot; Calcium <b>orange-red</b> &middot; Strontium <b>red</b> &middot; Copper <b>green/blue-green</b> &middot; Barium <b>pale yellow-green</b><br>A flame test is <b>qualitative</b>: it tells you <i>what</i> is there by color, not how much.<div class=\"flag\">Not on the BAT sheet. These are the textbook colors; use your lab data table if yours look different.</div>"}
+];
+const CARDS=T.map(x=>({s:x.s,t:x.t,h:x.h,d:x.d,a:x.a,cat:x.cat,fig:x.fig}));
+
+/* ---------- hand-written question bank: [id, question, answer, [wrong x3], why] ---------- */
+const BANK=[
+/* #1-2 */
+["abs-up","When an electron absorbs energy, it\u2026","Jumps from a lower to a higher energy level",["Drops from a higher to a lower energy level","Leaves the nucleus","Turns into a photon"],"Absorbing energy moves the electron up (key #1a)."],
+["abs-who","In an atom, which particles absorb energy and jump between energy levels?","Electrons",["Protons","Neutrons","The whole nucleus"],"Key #1a: electrons."],
+["emit-down","An electron in an excited state loses energy by\u2026","Dropping to a lower level and emitting light",["Rising to a higher level and emitting light","Absorbing a photon","Turning into a proton"],"Key #1b: excited, lose, dropping, lower."],
+["emit-freq","The light given off when excited electrons drop back down has\u2026","Only specific frequencies (bright lines)",["All sorts of frequencies (a full rainbow)","No frequency at all","Whatever frequency the flame had"],"Key #1b: specific frequencies. That\u2019s why you see lines, not a rainbow."],
+["ground","What is the ground state?","An electron\u2019s normal, lowest energy level",["The highest level an electron can reach","The nucleus of the atom","The level an electron reaches after absorbing heat"],"Ground = lowest, normal."],
+["excited","What is an excited state?","A higher energy level an electron reaches after absorbing energy",["The electron\u2019s normal lowest level","An atom that has lost a proton","An electron that left the atom"],"Excited = pumped up to a higher level."],
+["emit-what","What leaves the atom when an excited electron drops back down?","A photon of light",["An electron","A proton","A neutron"],"The lost energy leaves as a photon."],
+["emit-unique","Why does each element give off its own pattern of colors?","Each element has its own spacing of energy levels",["Each element has a different number of neutrons","The flame changes color for each element","Heavier atoms give off more light"],"Different spacing = different drop sizes = different photon energies."],
+["emit-big","A bigger drop between energy levels gives off light with\u2026","More energy and a shorter wavelength",["Less energy and a longer wavelength","More energy and a longer wavelength","The same energy as any other drop"],"Energy and wavelength are inverse."],
+["emit-source","In the flame test, what gives the electrons the energy to jump up?","Heat from the flame",["The wooden splint\u2019s color","Light from the room","The water in the beaker"],"Heat is absorbed, then given back off as light."],
+["emit-line","Atomic emission line spectra are produced when electrons\u2026","Lose energy moving from higher to lower energy levels",["Gain energy moving from lower to higher levels","Are removed from the atom","Collide with the nucleus"],"That\u2019s the BAT statement word for word."],
+["emit-quant","Electrons can only absorb or give off certain amounts of energy. This is because\u2026","Only certain energy levels are allowed",["Electrons have no mass","Light only comes in one color","The nucleus blocks other energies"],"The flame test handout: absorption and emission are quantized."],
+/* #3 */
+["spec-ans","Which elements make up the unknown mixture on the BAT sheet (#3)?","Mercury, neon, and argon",["Mercury, helium, and sodium","Neon, helium, and argon","All five: Hg, Ne, He, Ar, Na"],"Every Hg, Ne and Ar line shows up. He (447, 471, 502 nm) and Na (569, 616 nm) are missing."],
+["spec-rule","To say an element IS in an unknown mixture, the unknown must show\u2026","Every one of that element\u2019s lines",["At least one of its lines","Most of its lines","Its brightest line only"],"One matching line can be a coincidence. All of them must match."],
+["spec-noHe","Why is helium NOT in the BAT sheet\u2019s unknown?","The unknown has no lines at about 447, 471, or 502 nm",["Helium never gives off visible light","Helium lines are too bright to see","Helium has the same lines as neon"],"Helium\u2019s lines are missing from the unknown."],
+["spec-finger","A bright-line spectrum is like a fingerprint because\u2026","Each element\u2019s pattern of lines is unique",["Every element has the same lines","It changes every time you test it","It only works for metals"],"That\u2019s how you identify gases in a mixture."],
+/* #4-5 */
+["photon-def","What is a photon?","A tiny packet (particle) of light energy",["A positively charged particle in the nucleus","An electron that left the atom","A type of sound wave"],"Key #4."],
+["photon-light","How is a photon related to light?","Light is made of a stream of photons",["Photons block light","Photons only exist in X-rays","Light turns into photons when it hits metal"],"Light is photons."],
+["photon-color","What decides the color of the light a photon makes?","The photon\u2019s energy (its wavelength)",["The number of neutrons in the atom","The temperature of the room","How many photons there are"],"More energy = shorter wavelength = toward violet."],
+["photon-wave","Which wavelike qualities does a photon have?","A wavelength and a frequency",["A mass and a charge","A nucleus and shells","Protons and neutrons"],"Key #5."],
+["photon-speed","How fast do photons (all EM waves) travel through space?","The speed of light",["The speed of sound","Faster for longer wavelengths","Slower for higher energy"],"All EM waves travel at the speed of light."],
+["em-medium","Do EM waves need matter (a medium) to travel?","No, they can travel through empty space",["Yes, they need air","Yes, they need water","Only radio waves can travel through space"],"That\u2019s how sunlight reaches Earth."],
+/* #6-7 */
+["wl-def","Wavelength is\u2026","The distance from one crest to the next crest",["How many waves pass a point each second","The height of the wave","The energy the wave carries"],"Crest to crest (or trough to trough)."],
+["fr-def","Frequency is\u2026","How many waves pass a point each second",["The distance between two crests","The height of a wave","How fast the wave travels"],"Waves per second."],
+["fr-unit","Frequency is measured in\u2026","Hertz (Hz)",["Nanometers (nm)","Joules (J)","Meters per second"],"1 Hz = 1 wave per second."],
+["wl-unit","Visible-light wavelengths are usually given in\u2026","Nanometers (nm)",["Hertz (Hz)","Kilograms","Degrees"],"400-700 nm."],
+["crest","The top of a wave is the ___ and the bottom is the ___.","Crest; trough",["Trough; crest","Wavelength; frequency","Amplitude; node"],"From the EM video sheet sketch."],
+["rel-wf","How are wavelength and frequency related?","Inversely: longer wavelength, lower frequency",["Directly: longer wavelength, higher frequency","They aren\u2019t related","They are always equal"],"Key #7."],
+["rel-we","How are wavelength and energy related?","Inversely: longer wavelength, less energy",["Directly: longer wavelength, more energy","They aren\u2019t related","Only for visible light"],"Key #7."],
+["rel-ef","How are energy and frequency related?","Directly: higher frequency, more energy",["Inversely: higher frequency, less energy","They aren\u2019t related","Energy depends only on wavelength, not frequency"],"Key #7."],
+["rel-short","A wave with a very short wavelength has\u2026","High frequency and high energy",["Low frequency and low energy","High frequency and low energy","Low frequency and high energy"],"Short wavelength = high frequency = high energy."],
+["rel-double","If a wave\u2019s wavelength gets longer, its frequency\u2026","Goes down",["Goes up","Stays the same","Doubles every time"],"Inverse relationship."],
+["e-def","The energy of a wave depends most directly on its\u2026","Frequency",["Color name only","Speed","Distance from the source"],"E goes up as frequency goes up."],
+/* #8-10 */
+["em-wl","Which list goes from SHORTEST to LONGEST wavelength?","Gamma, X-ray, UV, visible, infrared, microwave, radio",["Radio, microwave, infrared, visible, UV, X-ray, gamma","Gamma, UV, X-ray, visible, microwave, infrared, radio","X-ray, gamma, UV, visible, infrared, radio, microwave"],"Key #8."],
+["em-fr","Which list goes from LOWEST to HIGHEST frequency?","Radio, microwave, infrared, visible, UV, X-ray, gamma",["Gamma, X-ray, UV, visible, infrared, microwave, radio","Radio, infrared, microwave, visible, UV, gamma, X-ray","Microwave, radio, infrared, visible, X-ray, UV, gamma"],"Key #9: it\u2019s #8 backwards."],
+["em-10","Listing EM types from lowest to highest ENERGY gives the same order as lowest to highest\u2026","Frequency",["Wavelength","Neither one","Both, they\u2019re the same order"],"Key #10. Energy follows frequency."],
+["em-long","Which EM type has the longest wavelength?","Radio waves",["Gamma rays","Visible light","Microwaves"],"Radio is the longest."],
+["em-energy","Which EM type carries the most energy?","Gamma rays",["Radio waves","Ultraviolet","X-rays"],"Gamma: shortest wavelength, highest frequency and energy."],
+["em-lowf","Which EM type has the lowest frequency?","Radio waves",["Gamma rays","Infrared","Microwaves"],"Radio."],
+["em-see","Which is the only part of the EM spectrum we can see?","Visible light",["Infrared","Ultraviolet","Microwaves"],"About 400-700 nm."],
+["vis-range","Roughly what range of wavelengths can our eyes see?","400 to 700 nm",["10 to 100 nm","700 to 1000 nm","1 to 10 meters"],"Violet ~400, red ~700."],
+["vis-red","Which color of visible light has the longest wavelength and lowest energy?","Red",["Violet","Green","Blue"],"Red ~700 nm."],
+["vis-violet","Which color of visible light has the most energy?","Violet",["Red","Yellow","Orange"],"Violet ~400 nm: shortest wavelength, most energy."],
+["vis-white","White light is\u2026","All the colors of visible light mixed together",["A single color with the most energy","Light with no wavelength","Infrared light"],"EM video sheet."],
+["em-ir","Infrared sits between which two on the spectrum?","Visible light and microwaves",["Ultraviolet and X-rays","Radio and microwaves","Visible light and ultraviolet"],"Longer than red, shorter than microwaves."],
+["em-uv","Ultraviolet sits between which two?","Visible light and X-rays",["Infrared and visible light","X-rays and gamma rays","Microwaves and infrared"],"Shorter than violet, longer than X-rays."],
+["em-mw","Microwaves sit between which two?","Infrared and radio waves",["Visible light and infrared","Radio waves and gamma rays","Ultraviolet and X-rays"],"EM video sheet, Microwaves #2."],
+["em-heat","We feel which type of EM wave as heat?","Infrared",["Ultraviolet","Gamma rays","Radio waves"],"EM video sheet, Infrared #1."],
+["em-uvb","Which type of UV light causes sunburn?","UVB",["UVA","UVC","Infrared"],"EM video sheet. (UVC is blocked by the ozone layer.)"],
+["em-hertz","Who discovered radio waves in 1888?","Heinrich Hertz",["Wilhelm R\u00f6ntgen","Niels Bohr","Dmitri Mendeleev"],"EM video sheet. Hertz is also the unit of frequency."],
+["em-xray","Who discovered X-rays (and took the first bone X-ray) in 1895?","Wilhelm R\u00f6ntgen",["Heinrich Hertz","James Chadwick","Ernest Rutherford"],"EM video sheet."],
+["em-gammause","Doctors use gamma radiation to destroy\u2026","Cancer cells",["Broken bones","Viruses in the air","Cavities"],"EM video sheet, Gamma #3."],
+["em-gammadanger","Why are gamma rays dangerous to people?","They carry so much energy they can damage cells and DNA",["They are very hot","They are too bright to look at","They have a long wavelength"],"Highest energy of any EM wave."],
+/* #11-12 */
+["bohr-rings","In a Bohr model, how do you know how many rings to draw?","The element\u2019s period number",["The element\u2019s group number","The number of neutrons","Always draw four rings"],"Class handout tip 1a."],
+["bohr-r1","How many electrons can the first energy level hold?","2",["8","18","1"],"Ring 1 = 2."],
+["bohr-r2","How many electrons can the second energy level hold?","8",["2","18","6"],"Ring 2 = 8."],
+["bohr-r3","Up to calcium, how many electrons go in the third ring before the fourth ring starts?","8",["18","2","10"],"It can hold 18 later, but fills 8 first."],
+["bohr-e","In a neutral atom, the number of electrons in a Bohr model equals\u2026","The atomic number (number of protons)",["The mass number","The number of neutrons","The group number"],"Neutral: electrons = protons."],
+["bohr-nuc","In a Bohr model, where do the protons and neutrons go?","In the nucleus at the center",["On the rings with the electrons","Only on the outer ring","Outside the outer ring"],"Nucleus in the middle, electrons on the rings."],
+["k11","The Bohr models in key #11 show 2,1 / 2,2 / 2,6 / 2,7 / 2,8. What are they?","Li, Be, O, F, Ne",["H, He, C, N, O","Li, Be, C, N, O","Be, B, O, F, Na"],"Add the electrons: 3, 4, 8, 9, 10."],
+["k12-mg","Magnesium-25 has how many protons and neutrons?","12 protons, 13 neutrons",["12 protons, 25 neutrons","13 protons, 12 neutrons","25 protons, 12 neutrons"],"25 \u2212 12 = 13."],
+["k12-s","Sulfur-33 has how many protons and neutrons?","16 protons, 17 neutrons",["16 protons, 33 neutrons","17 protons, 16 neutrons","33 protons, 16 neutrons"],"33 \u2212 16 = 17."],
+["k12-cl","Chlorine-37 has how many protons and neutrons?","17 protons, 20 neutrons",["17 protons, 37 neutrons","20 protons, 17 neutrons","18 protons, 19 neutrons"],"37 \u2212 17 = 20."],
+["k12-ar","Argon-40 has how many protons and neutrons?","18 protons, 22 neutrons",["22 protons, 18 neutrons","18 protons, 40 neutrons","20 protons, 20 neutrons"],"40 \u2212 18 = 22."],
+["k12-na","How many protons does any sodium atom have?","11",["23","12","1"],"Atomic number 11. (The sheet\u2019s \u201cSodium-11\u201d is probably meant to be sodium-23, which has 12 neutrons.)"],
+["k12-arr","What is the electron arrangement in a chlorine Bohr model?","2, 8, 7",["2, 7, 8","2, 8, 8, 1","8, 8, 1"],"17 electrons: 2 + 8 + 7."],
+/* #13-14 */
+["val-def","What are valence electrons?","Electrons in the outermost energy level",["Electrons in the first energy level","All the electrons in an atom","Electrons inside the nucleus"],"Key #13."],
+["val-why","Why are valence electrons important?","They decide how an atom bonds and reacts",["They give the atom its mass","They decide which element it is","They hold the nucleus together"],"Key #13: chemical properties come from valence electrons."],
+["val-li","How many valence electrons does lithium have?","1",["3","2","7"],"Group 1."],
+["val-c","How many valence electrons does carbon have?","4",["6","14","2"],"Group 14 \u2192 4."],
+["val-ne","How many valence electrons does neon have?","8",["10","2","0"],"Group 18 \u2192 8."],
+["val-al","How many valence electrons does aluminum have?","3",["13","1","5"],"Group 13 \u2192 3."],
+["val-be","How many valence electrons does beryllium have?","2",["4","1","8"],"Group 2."],
+["val-f","How many valence electrons does fluorine have?","7",["9","17","1"],"Group 17 \u2192 7."],
+["val-rule","For groups 13-18, the number of valence electrons equals\u2026","The group number minus 10",["The group number","The period number","The atomic number minus 10"],"13 \u2192 3, 17 \u2192 7."],
+["val-he","Which neutral atom has 2 valence electrons but is NOT in group 2?","Helium",["Beryllium","Carbon","Neon"],"Helium\u2019s only shell holds 2, and it\u2019s full."],
+["val-same","Elements in the same group have the same number of\u2026","Valence electrons",["Energy levels","Neutrons","Protons"],"That\u2019s why they act alike."],
+/* #15 */
+["lew-dots","In a Lewis dot structure, the dots stand for\u2026","Valence electrons",["All the electrons","Protons","Neutrons"],"Only the outer shell."],
+["lew-rule","What\u2019s the rule for placing Lewis dots?","One dot on each of the four sides first, then pair them up",["Fill one side completely, then the next","Put all the dots on the right side","Pairs first, then singles"],"Class handout tip 2."],
+["lew-o","How many dots does oxygen get?","6",["8","2","16"],"Group 16 \u2192 6."],
+["lew-ca","How many dots does calcium get?","2",["20","4","8"],"Group 2 \u2192 2."],
+["lew-si","How many dots does silicon get?","4",["14","3","8"],"Group 14 \u2192 4."],
+["lew-ar","How many dots does argon get?","8",["18","0","2"],"Group 18 \u2192 8."],
+["lew-he","How many dots does helium get?","2",["8","4","0"],"Helium is the exception: 2, as one pair."],
+["lew-max","What\u2019s the most dots a main-group atom\u2019s Lewis structure can have?","8",["2","4","18"],"Four sides \u00d7 2."],
+/* #16-23 */
+["mend","What was Mendeleev\u2019s main contribution?","He arranged elements by atomic mass and similar properties, leaving gaps for undiscovered elements",["He discovered the electron","He arranged elements by atomic number","He discovered the nucleus"],"Key #16."],
+["mend-gaps","What did Mendeleev\u2019s gaps let him do?","Predict the properties of elements that hadn\u2019t been discovered yet",["Fit in the noble gases he already knew","Skip elements that were radioactive","Make every row the same length"],"Gallium and germanium matched his predictions."],
+["modern","The modern periodic table is arranged by increasing\u2026","Atomic number",["Atomic mass","Number of neutrons","Date of discovery"],"Mendeleev used mass; today it\u2019s atomic number."],
+["period","A period on the periodic table is a\u2026","Horizontal row",["Vertical column","Family of similar elements","Block of metals"],"Key #17."],
+["group","A group on the periodic table is a\u2026","Vertical column",["Horizontal row","Single element","Staircase line"],"Key #17."],
+["grp-share","Elements in the same group have\u2026","Similar properties and the same number of valence electrons",["The same number of energy levels","The same atomic mass","The same number of protons"],"Columns = families."],
+["per-share","Elements in the same period have the same number of\u2026","Energy levels (rings)",["Valence electrons","Protons","Neutrons"],"Rows = same number of shells."],
+["p1","How many elements are in period 1?","2: hydrogen and helium",["8: H through O","1: hydrogen","2: hydrogen and lithium"],"Key #18."],
+["p8","Which periods contain exactly 8 elements?","Periods 2 and 3",["Periods 1 and 2","Periods 4 and 5","Only period 2"],"Key #19."],
+["fam1","What is the name of the group 1 family?","Alkali metals",["Alkaline earth metals","Halogens","Noble gases"],"Key #20a."],
+["fam2","What is the name of the group 2 family?","Alkaline earth metals",["Alkali metals","Transition metals","Halogens"],"Key #20b."],
+["fam17","What is the name of the group 17 family?","Halogens",["Noble gases","Alkali metals","Chalcogens"],"Key #20c."],
+["fam18","What is the name of the group 18 family?","Noble gases",["Halogens","Alkaline earth metals","Inert metals"],"Key #20d."],
+["two-ve","Which family has two valence electrons?","Alkaline earth metals (group 2)",["Alkali metals (group 1)","Halogens (group 17)","Noble gases (group 18)"],"Key #21."],
+["inert","Which family is made of inert gases with full outer shells?","Noble gases (group 18)",["Halogens (group 17)","Alkali metals (group 1)","Transition metals"],"Key #22."],
+["hal-ve","How many valence electrons do the halogens have?","7",["17","1","8"],"Key #23."],
+["h-alk","Hydrogen sits in group 1. Is it an alkali metal?","No, it\u2019s a nonmetal",["Yes, it\u2019s the most reactive alkali metal","Yes, because it has 1 valence electron","No, it\u2019s a noble gas"],"Group 1 position, but nonmetal properties."],
+/* #24-25 */
+["k24-ca","Calcium (Ca) is a\u2026","Metal",["Nonmetal","Metalloid","Noble gas only"],"Key #24a: left side."],
+["k24-ne","Neon (Ne) is a\u2026","Nonmetal",["Metal","Metalloid","Transition metal"],"Key #24b."],
+["k24-al","Aluminum (Al) is a\u2026","Metal",["Metalloid","Nonmetal","Halogen"],"Key #24c: it touches the staircase but is a metal."],
+["k24-si","Silicon (Si) is a\u2026","Metalloid",["Metal","Nonmetal","Noble gas"],"Key #24d."],
+["k24-cl","Chlorine (Cl) is a\u2026","Nonmetal",["Metal","Metalloid","Alkali metal"],"Key #24e."],
+["mnm-where","Where are the metalloids?","Along the staircase line",["In group 1","In the bottom two rows","In group 18"],"B, Si, Ge, As, Sb, Te."],
+["metal-prop","Which describes metals?","Shiny, good conductors, malleable",["Dull, poor conductors, brittle","Mostly gases that don\u2019t react","Semiconductors with mixed properties"],"Key #25."],
+["nonmetal-prop","Which describes nonmetals?","Dull, poor conductors, brittle as solids",["Shiny, good conductors, malleable","Always liquids","Semiconductors used in chips"],"Key #25."],
+["metalloid-prop","Which describes metalloids?","A mix of metal and nonmetal properties; semiconductors",["Shiny, good conductors, malleable","Unreactive gases","Very reactive soft metals"],"Key #25."],
+["metal-e","Metals tend to ___ electrons, and nonmetals tend to ___ them.","Lose; gain",["Gain; lose","Share; lose","Lose; lose"],"Metals form + ions, nonmetals form \u2212 ions."],
+/* #26-27 */
+["alk-react","Which family is the most reactive group of metals?","Alkali metals",["Alkaline earth metals","Transition metals","Noble gases"],"One electron to lose."],
+["hal-react","Which family is the most reactive group of nonmetals?","Halogens",["Noble gases","Alkali metals","Metalloids"],"One electron short of full."],
+["trans-where","Where are the transition metals?","Groups 3-12 (plus the lanthanide and actinide series)",["Groups 1 and 2","Groups 13-18","Only the bottom two rows"],"Key #26 table."],
+["trans-ve","How many valence electrons do transition metals have?","It varies",["Always 2","Always 8","None"],"Key #26 table says \u201cvaries.\u201d"],
+["inner","The lanthanides and actinides are also called\u2026","Inner transition metals",["Noble metals","Metalloids","Alkaline earth metals"],"The two rows at the bottom."],
+["noble-list","Which list is all noble gases?","He, Ne, Ar, Kr, Xe, Rn",["H, He, Li, Be, B","F, Cl, Br, I, At","Li, Na, K, Rb, Cs"],"Key #26 table."],
+["k27a","What is the halogen in period 4?","Bromine (Br)",["Chlorine (Cl)","Iodine (I)","Krypton (Kr)"],"Key #27a."],
+["k27b","What is the alkali metal in period 2?","Lithium (Li)",["Sodium (Na)","Beryllium (Be)","Hydrogen (H)"],"Key #27b."],
+["k27c","What is the noble gas in period 1?","Helium (He)",["Neon (Ne)","Hydrogen (H)","Argon (Ar)"],"Key #27c."],
+["k27d","What is the alkaline earth metal in period 3?","Magnesium (Mg)",["Calcium (Ca)","Sodium (Na)","Beryllium (Be)"],"Key #27d."],
+["k27e","What is the transition metal in group 11, period 6?","Gold (Au)",["Silver (Ag)","Platinum (Pt)","Mercury (Hg)"],"Key #27e."],
+["k27f","Which actinide has a one-letter symbol?","Uranium (U)",["Thorium (Th)","Plutonium (Pu)","Iodine (I)"],"Key #27f. (Iodine is one letter, but it\u2019s a halogen.)"],
+/* #28-35 */
+["rad-across","What happens to atomic radius from left to right across a period?","It decreases",["It increases","It stays the same","It increases, then decreases"],"Key #28."],
+["rad-across-why","Why does atomic radius shrink across a period?","More protons pull the same number of shells in closer",["More shells are added","Electrons are lost","Neutrons push electrons inward"],"Key #28: bigger nuclear charge, same energy level."],
+["rad-down","What happens to atomic radius going down a group?","It increases",["It decreases","It stays the same","It decreases, then increases"],"Key #29."],
+["rad-down-why","What mainly explains the radius trend down a group?","More energy levels (shells) are added",["More protons pull electrons in","Fewer electrons","Neutrons take up space"],"Key #29."],
+["en-def","What is electronegativity?","How strongly an atom attracts electrons in a chemical bond",["The energy needed to remove an electron","The size of an atom","The number of valence electrons"],"Key #30."],
+["en-across","Electronegativity across a period (left to right)\u2026","Increases",["Decreases","Stays the same","Is zero"],"Key #30."],
+["en-down","Electronegativity going down a group\u2026","Decreases",["Increases","Stays the same","Doubles"],"Key #30."],
+["en-max","Which element has the highest electronegativity?","Fluorine",["Helium","Francium","Oxygen"],"Top right, not counting noble gases."],
+["en-noble","Why don\u2019t noble gases usually get an electronegativity value?","Their outer shell is full, so they don\u2019t form bonds",["They have no electrons","They are too big to measure","They are radioactive"],"Key #31."],
+["k32","Order of increasing electronegativity for Al, Cl, Mg, P, Si:","Mg < Al < Si < P < Cl",["Cl < P < Si < Al < Mg","Al < Mg < Si < P < Cl","Mg < Al < P < Si < Cl"],"Key #32. Same period, so just go left to right."],
+["ie-def","What is ionization energy?","The energy needed to remove an electron from an atom",["The energy released when an atom gains an electron","How strongly an atom attracts bonding electrons","The energy of a photon"],"Key #33."],
+["ie-across","Ionization energy across a period (left to right)\u2026","Increases",["Decreases","Stays the same","Increases, then drops to zero"],"Key #33."],
+["ie-down","Ionization energy going down a group\u2026","Decreases",["Increases","Stays the same","Doubles"],"Key #33: outer electrons are farther out."],
+["k34","Order of increasing ionization energy for Sr, Be, Ba:","Ba < Sr < Be",["Be < Sr < Ba","Sr < Be < Ba","Ba < Be < Sr"],"Key #34. Same group, so bottom to top."],
+["k35-across","On the #35 arrows, going ACROSS a period:","Radius decreasing, ionization energy increasing, electronegativity increasing",["Radius increasing, ionization energy increasing, electronegativity increasing","Radius decreasing, ionization energy decreasing, electronegativity decreasing","Radius increasing, ionization energy decreasing, electronegativity decreasing"],"Radius goes the opposite way from the other two."],
+["k35-down","On the #35 arrows, going DOWN a group:","Radius increasing, ionization energy decreasing, electronegativity decreasing",["Radius decreasing, ionization energy increasing, electronegativity increasing","Radius increasing, ionization energy increasing, electronegativity increasing","All three decreasing"],"Radius goes the opposite way from the other two."],
+["corner","An element in the top right (not a noble gas) tends to have\u2026","A small radius and high ionization energy and electronegativity",["A large radius and low ionization energy","A large radius and high electronegativity","A small radius and low ionization energy"],"Fluorine is the extreme."],
+["opp","Which trend runs the opposite way from the other two?","Atomic radius",["Ionization energy","Electronegativity","None, all three match"],"Small atoms hold electrons tighter."],
+/* labs & handouts */
+["flame-qual","Is a flame test qualitative or quantitative?","Qualitative: it identifies by color, not amount",["Quantitative: it measures how much is there","Both equally","Neither"],"Flame test pre-lab #2."],
+["flame-sr","Which metal gives a bright red firework (Edpuzzle)?","Strontium",["Sodium","Copper","Barium"],"Strontium = red. (Lithium is also red/crimson.)"],
+["flame-na","Sodium gives what flame color?","Yellow-orange",["Green","Lilac","Red"],"Textbook color; check your lab table."],
+["flame-cu","Copper gives what flame color?","Green / blue-green",["Yellow-orange","Red","Lilac"],"Textbook color; check your lab table."],
+["incand","Light given off because something is very hot is called\u2026","Incandescence",["Fluorescence","Luminescence","Reflection"],"Edpuzzle: The Science of Firework Color."],
+["octet","Atoms gain or lose electrons in order to\u2026","Get a full outer shell (an octet)",["Change which element they are","Gain mass","Lose their nucleus"],"Bohr/Lewis handout tip 4."],
+["cation","A positive ion is called a\u2026","Cation",["Anion","Isotope","Photon"],"Metals lose electrons and form cations."],
+["anion","A negative ion is called an\u2026","Anion",["Cation","Isotope","Isomer"],"Nonmetals gain electrons and form anions."]
+];
+function bankQ(b){return {topic:b[0],q:b[1],choices:shuf([{label:b[2],right:true}].concat(b[3].map(w=>({label:w,right:false})))),why:b[4]}}
+function mcq(topic,q,ans,wrong,why,fig){const seen={};seen[String(ans)]=1;const w=[];wrong.forEach(x=>{x=String(x);if(!seen[x]&&w.length<3){seen[x]=1;w.push(x)}});
+  return {topic:topic,q:q,fig:fig,choices:shuf([{label:String(ans),right:true}].concat(w.map(x=>({label:x,right:false})))),why:why}}
+
+/* ---------- generated questions ---------- */
+function nearInts(a,lo,hi){const o=[];[1,-1,2,-2,3,-3,4].forEach(k=>{const v=a+k;if(v>=lo&&v<=hi)o.push(v)});return o}
+function qBohrID(){const Z=1+Math.floor(Math.random()*20),sh=shells(Z);
+  const cands=shuf(nearInts(Z,1,20)).slice(0,3).map(z=>nm(BYZ[z]));
+  return mcq("Bohr: identify "+BYZ[Z][1],"Which element (neutral atom) does this Bohr model show?",nm(BYZ[Z]),cands,
+    sh.join(" + ")+" = <b>"+Z+"</b> electrons. Neutral atom, so "+Z+" protons = atomic number "+Z+" = <b>"+BYZ[Z][2]+"</b>.",bohrSVG(sh,{size:140}))}
+const ISO=[[11,23],[12,25],[16,33],[17,37],[18,40],[15,31],[8,16],[8,18],[5,11],[3,7],[19,39],[20,40],[6,13],[9,19],[14,29],[13,27],[10,21],[1,3],[2,4],[7,15],[12,24],[17,35],[20,44],[15,32]];
+function qBohrIso(){const p=pick(ISO),Z=p[0],A=p[1],N=A-Z,e=BYZ[Z],sh=shells(Z),name=e[2]+"-"+A;
+  const mode=pick(["n","n","arr","pn"]);
+  if(mode==="n")return mcq("Bohr: neutrons "+name,"How many <b>neutrons</b> go in the nucleus of a Bohr model of <b>"+name+"</b>?",N,[A,Z,A+Z].concat(nearInts(N,0,40)),
+    "Neutrons = mass number \u2212 atomic number = "+A+" \u2212 "+Z+" = <b>"+N+"</b>.");
+  if(mode==="pn")return mcq("Bohr: p and n "+name,"What goes in the nucleus of <b>"+name+"</b>?",Z+" p\u207a, "+N+" n\u2070",[N+" p\u207a, "+Z+" n\u2070",Z+" p\u207a, "+A+" n\u2070",A+" p\u207a, "+Z+" n\u2070",(Z+1)+" p\u207a, "+(N-1)+" n\u2070"],
+    "Protons = atomic number "+Z+". Neutrons = "+A+" \u2212 "+Z+" = "+N+".",bohrSVG(sh,{size:120,p:"?",n:"?"}));
+  return mcq("Bohr: rings "+name,"How are the electrons arranged in a neutral atom of <b>"+name+"</b>?",sh.join(", "),wrongArr(Z),
+    Z+" electrons: fill 2, then 8, then 8, then 2 \u2192 <b>"+sh.join(", ")+"</b>. The mass number doesn\u2019t change the electrons.")}
+function wrongArr(Z){const sh=shells(Z),o=[];
+  if(Z>2)o.push(sh.slice().reverse().join(", "));
+  if(Z>10&&Z<=18)o.push("2, "+(Z-2));
+  if(Z>18)o.push("2, 8, "+(Z-10));
+  if(Z>2&&Z<=10)o.push((Z-1)+", 1");
+  o.push(shells(Z+1).join(", "));if(Z>1)o.push(shells(Z-1).join(", "));o.push(shells(Z+2).join(", "));
+  return o.filter(x=>x!==sh.join(", "))}
+function qShellArr(){const Z=3+Math.floor(Math.random()*18),e=BYZ[Z],sh=shells(Z);
+  return mcq("Bohr: rings "+e[1],"Which electron arrangement is right for a neutral <b>"+e[2]+"</b> atom (atomic number "+Z+")?",sh.join(", "),shuf(wrongArr(Z)),
+    "Fill ring 1 with 2, ring 2 with 8, ring 3 with 8, then ring 4. "+Z+" \u2192 <b>"+sh.join(", ")+"</b>. Period "+e[4]+" = "+sh.length+" rings.")}
+function qValence(){const e=pick(MAIN),v=valence(e);
+  const w=[e[3],e[4],e[0]].concat(nearInts(v,1,8)).filter(x=>x!==v);
+  return mcq("Valence: "+e[1],"How many valence electrons does a neutral atom of <b>"+e[2]+"</b> have?",v,w,
+    e[0]===2?"Helium\u2019s only shell holds 2, so <b>2</b>.":"<b>"+cap(e[2])+"</b> is in group "+e[3]+(e[3]>2?", so "+e[3]+" \u2212 10 = <b>"+v+"</b>.":", so <b>"+v+"</b>."))}
+function qLewisPick(){const e=pick(MAIN.filter(x=>x[0]<=38)),v=valence(e),he=e[0]===2;
+  const ans=lewisOf(e),w=[];
+  if(he)w.push(lewisSVG("He",2,false));
+  else if(v>=2&&v<=4)w.push(lewisSVG(e[1],v,true));
+  nearInts(v,1,8).forEach(n=>w.push(lewisSVG(e[1],n,false)));
+  return mcq("Lewis: "+e[1],"Which is the correct Lewis dot structure for a neutral <b>"+e[2]+"</b> atom?",ans,w,
+    he?"Helium has 2 valence electrons, drawn as <b>one pair</b> (its only shell is full).":
+    cap(e[2])+" has <b>"+v+"</b> valence electrons. One dot per side first, then pair up"+(v>=2&&v<=4?", so no pairs yet with only "+v+".":"."))}
+function qLewisGroup(){const n=1+Math.floor(Math.random()*8),g=n<=2?n:n+10;
+  const w=[n,g+1,g-1,n===2?18:g+2].filter(x=>x>0&&x!==g&&x<=18);
+  return mcq("Lewis: which group ("+n+")","An unknown element X has this Lewis dot structure. Which group is it in?","Group "+g,w.map(x=>"Group "+x),
+    "<b>"+n+"</b> dots = "+n+" valence electrons \u2192 group <b>"+g+"</b>"+(n>2?" ("+n+" + 10)":"")+".",lewisSVG("X",n,false))}
+function qIon(){const e=pick(MAIN.filter(x=>x[0]!==5&&x[0]<=56)),a=ionOf(e),g=e[3];
+  const w=[];
+  if(g===1)w.push(ion(e[1],"\u2212"),ion(e[1],"2+"));
+  if(g===2)w.push(ion(e[1],"2\u2212"),ion(e[1],"+"),ion(e[1],"6\u2212"));
+  if(g===13)w.push(ion(e[1],"3\u2212"),ion(e[1],"5\u2212"),ion(e[1],"+"));
+  if(g===15)w.push(ion(e[1],"3+"),ion(e[1],"5+"),ion(e[1],"5\u2212"));
+  if(g===16)w.push(ion(e[1],"2+"),ion(e[1],"6+"),ion(e[1],"\u2212"));
+  if(g===17)w.push(ion(e[1],"+"),ion(e[1],"7+"),ion(e[1],"2\u2212"));
+  if(g===14)w.push(ion(e[1],"4+"),ion(e[1],"4\u2212"),ion(e[1],"2+"));
+  if(g===18)w.push(ion(e[1],"8+"),ion(e[1],"+"),ion(e[1],"2\u2212"));
+  if(g!==14&&g!==18)w.push("No ion (N/A)");
+  const v=valence(e);
+  const why=g===18?"Noble gas: the outer shell is already full, so <b>no ion</b>.":g===14?"4 valence electrons: gaining or losing 4 is hard, so the class handout writes <b>N/A</b>.":
+    v<=3?"<b>"+v+"</b> valence electron"+(v>1?"s":"")+": easier to <b>lose "+v+"</b> \u2192 "+a+" (cation).":"<b>"+v+"</b> valence electrons: easier to <b>gain "+(8-v)+"</b> \u2192 "+a+" (anion).";
+  return mcq("Ion: "+e[1],"What ion does <b>"+e[2]+"</b> form to get a full outer shell?",a,shuf(w),why)}
+function qFamily(){const e=pick(E.filter(x=>x[6])),a=FAMN[e[6]];
+  const w=shuf(["Alkali metals","Alkaline earth metals","Transition metals","Halogens","Noble gases","Inner transition metals (lanthanides/actinides)"].filter(x=>x!==a));
+  return mcq("Family: "+e[1],"Which family does <b>"+nm(e)+"</b> belong to?",a,w,
+    "<b>"+cap(e[2])+"</b>"+(e[3]?" is in group "+e[3]+", period "+e[4]:" is in the "+e[6]+" series")+" \u2192 <b>"+a+"</b>.")}
+function qMNM(){const e=pick(E.filter(x=>x[0]<=56&&x[6]!=="lanthanide")),a=e[5];
+  return mcq("Metal type: "+e[1],"Is <b>"+nm(e)+"</b> a metal, nonmetal, or metalloid?",cap(a),["Metal","Nonmetal","Metalloid"].filter(x=>x!==cap(a)),
+    a==="metalloid"?"It touches the staircase line: <b>metalloid</b> (B, Si, Ge, As, Sb, Te).":a==="metal"?"Left of the staircase: <b>metal</b>"+(e[0]===13?" (aluminum touches the line but is a metal)":"")+".":"Right of the staircase"+(e[0]===1?" (hydrogen is the exception on the left)":"")+": <b>nonmetal</b>.")}
+function qPeriodGroup(){const e=pick(E.filter(x=>x[3]&&x[0]<=56));
+  if(Math.random()<.5)return mcq("Period: "+e[1],"Which <b>period</b> is <b>"+nm(e)+"</b> in?","Period "+e[4],nearInts(e[4],1,7).map(x=>"Period "+x).concat(["Period "+(e[3]%8||1)]),
+    "Periods are rows. "+cap(e[2])+" is in row <b>"+e[4]+"</b>"+(e[0]<=20?" (its Bohr model has "+e[4]+" ring"+(e[4]>1?"s":"")+")":"")+".");
+  return mcq("Group: "+e[1],"Which <b>group</b> is <b>"+nm(e)+"</b> in?","Group "+e[3],nearInts(e[3],1,18).map(x=>"Group "+x).concat(["Group "+e[4]]),
+    "Groups are columns. "+cap(e[2])+" is in column <b>"+e[3]+"</b>.")}
+const FAMLIST={alkali:"alkali metal",alkaline:"alkaline earth metal",halogen:"halogen",noble:"noble gas"};
+function qDescribe(){const f=pick(Object.keys(FAMLIST)),mem=E.filter(x=>x[6]===f&&x[4]<=6),e=pick(mem);
+  const w=shuf(mem.filter(x=>x!==e)).slice(0,2).map(nm).concat(shuf(E.filter(x=>x[4]===e[4]&&x[6]!==f&&x[3])).slice(0,2).map(nm));
+  return mcq("Describe: "+e[1],"Which element is the <b>"+FAMLIST[f]+" in period "+e[4]+"</b>?",nm(e),w,
+    "Go to row "+e[4]+", then the "+FAMLIST[f]+" column (group "+e[3]+") \u2192 <b>"+nm(e)+"</b>.")}
+/* trends: only element sets where the general trend matches real data */
+const TV={rad:{Li:152,Be:112,B:85,C:77,N:75,O:73,F:72,Na:186,Mg:160,Al:143,Si:118,P:110,S:103,Cl:99,K:227,Ca:197,Rb:248,Sr:215,Cs:265,Ba:222,Br:114,I:133,Se:117,Te:137},
+ en:{Li:.98,Be:1.57,B:2.04,C:2.55,N:3.04,O:3.44,F:3.98,Na:.93,Mg:1.31,Al:1.61,Si:1.90,P:2.19,S:2.58,Cl:3.16,K:.82,Ca:1.00,Cs:.79,Sr:.95,Ba:.89,Br:2.96,I:2.66,Se:2.55,Te:2.1},
+ ie:{Li:520,Be:899,C:1086,N:1402,F:1681,Ne:2081,Na:496,Mg:738,Si:787,P:1012,Cl:1251,Ar:1521,K:419,Ca:590,Rb:403,Sr:549,Cs:376,Ba:503,Br:1140,I:1008,He:2372,Kr:1351,Xe:1170}};
+const TLINES={rad:[["period 2","Li Be B C N O F"],["period 3","Na Mg Al Si P S Cl"],["group 1","Li Na K Rb Cs"],["group 2","Be Mg Ca Sr Ba"],["group 17","F Cl Br I"],["group 16","O S Se Te"]],
+ en:[["period 2","Li Be B C N O F"],["period 3","Na Mg Al Si P S Cl"],["group 1","Li Na K Cs"],["group 2","Be Mg Ca Sr Ba"],["group 17","F Cl Br I"],["group 16","O S Se Te"]],
+ ie:[["period 2","Li Be C N F Ne"],["period 3","Na Mg Si P Cl Ar"],["group 1","Li Na K Rb Cs"],["group 2","Be Mg Ca Sr Ba"],["group 17","F Cl Br I"],["group 18","He Ne Ar Kr Xe"]]};
+const TNAME={rad:"atomic radius",en:"electronegativity",ie:"ionization energy"};
+function trendWhy(p,line){const across=/period/.test(line);
+  if(p==="rad")return across?"Same period: radius <b>decreases</b> left to right (more protons, same shells).":"Same group: radius <b>increases</b> going down (more shells).";
+  if(p==="en")return across?"Same period: electronegativity <b>increases</b> left to right.":"Same group: electronegativity <b>decreases</b> going down.";
+  return across?"Same period: ionization energy <b>increases</b> left to right.":"Same group: ionization energy <b>decreases</b> going down (outer electrons farther away).";}
+function qTrendMax(){const p=pick(["rad","en","ie"]),L=pick(TLINES[p]),els=shuf(L[1].split(" ")).slice(0,4);
+  const hi=Math.random()<.5,sorted=els.slice().sort((a,b)=>TV[p][a]-TV[p][b]),ans=hi?sorted[sorted.length-1]:sorted[0];
+  const word=p==="rad"?(hi?"largest":"smallest"):(hi?"highest":"lowest");
+  return mcq("Trend: "+word+" "+TNAME[p]+" ("+L[0]+")","Which has the <b>"+word+" "+TNAME[p]+"</b>?",nm(BYS[ans]),els.filter(x=>x!==ans).map(x=>nm(BYS[x])),
+    "They\u2019re all in "+L[0]+". "+trendWhy(p,L[0])+" So <b>"+cap(BYS[ans][2])+"</b>.")}
+function qTrendOrder(){const p=pick(["rad","en","ie"]),L=pick(TLINES[p]),els=shuf(L[1].split(" ")).slice(0,3);
+  const inc=els.slice().sort((a,b)=>TV[p][a]-TV[p][b]),fmt=a=>a.join(" &lt; ");
+  const perms=[[inc[2],inc[1],inc[0]],[inc[1],inc[0],inc[2]],[inc[0],inc[2],inc[1]],[inc[2],inc[0],inc[1]],[inc[1],inc[2],inc[0]]];
+  return mcq("Trend order: "+TNAME[p]+" ("+L[0]+")","Put <b>"+els.join(", ")+"</b> in order of <b>increasing "+TNAME[p]+"</b>.",fmt(inc),shuf(perms.slice(1)).slice(0,2).concat([perms[0]]).map(fmt),
+    "All in "+L[0]+". "+trendWhy(p,L[0]))}
+function qEMPair(){const i=Math.floor(Math.random()*6),j=i+1+Math.floor(Math.random()*(6-i)),A=EM[i],B=EM[j];
+  const ask=pick([["the longer wavelength",B],["the higher frequency",A],["more energy",A],["the lower frequency",B],["less energy",B],["the shorter wavelength",A]]);
+  const opts=shuf([A,B]);
+  return mcq("EM: "+A+" vs "+B,"Which has <b>"+ask[0]+"</b>: "+opts[0]+" or "+opts[1]+"?",cap(ask[1]),[cap(ask[1]===A?B:A),"They\u2019re the same","It depends on the source"],
+    "Shortest to longest wavelength: "+EM.join(", ")+". "+cap(A)+" is closer to the gamma end (short, high frequency, high energy).")}
+function qEMBetween(){const i=1+Math.floor(Math.random()*5);
+  return mcq("EM: between ("+EM[i]+")","Which type of EM radiation sits between <b>"+EM[i-1]+"</b> and <b>"+EM[i+1]+"</b>?",cap(EM[i]),shuf(EM.filter((x,k)=>k!==i&&k!==i-1&&k!==i+1)).map(cap),
+    "Order: "+EM.join(" &rarr; ")+".")}
+function qColor(){const i=Math.floor(Math.random()*5),j=i+1+Math.floor(Math.random()*(5-i)),A=COL[i],B=COL[j];
+  const ask=pick([["the longer wavelength",B],["more energy",A],["the higher frequency",A],["less energy",B]]);
+  return mcq("Color: "+A+" vs "+B,"Which color of light has <b>"+ask[0]+"</b>: "+A+" or "+B+"?",cap(ask[1]),[cap(ask[1]===A?B:A),"They\u2019re the same","Neither, color doesn\u2019t depend on energy"],
+    "Violet (~400 nm) is short, high-energy; red (~700 nm) is long, low-energy. "+cap(A)+" is closer to violet.")}
+const SPK=["Hg","Ne","He","Ar","Na"];
+function qSpectrum(){const k=Math.random()<.5?2:3,mix=shuf(SPK).slice(0,k).sort((a,b)=>SPK.indexOf(a)-SPK.indexOf(b));
+  const lines=[];mix.forEach(s=>SPEC[s].forEach(n=>{if(lines.indexOf(n)<0)lines.push(n)}));
+  const fig=specSVG(SPK.map(s=>[s,SPEC[s]]).concat([["Unknown",lines]]));
+  const lab=a=>a.map(s=>SPECN[s]).join(" + ");
+  const all=[];for(let m=1;m<32;m++){const a=SPK.filter((s,i)=>m&(1<<i));if(a.length>=2&&a.length<=3&&lab(a)!==lab(mix))all.push(a)}
+  const near=shuf(all).sort((a,b)=>b.filter(s=>mix.indexOf(s)>=0).length-a.filter(s=>mix.indexOf(s)>=0).length);
+  const missing=SPK.filter(s=>mix.indexOf(s)<0);
+  return mcq("Spectrum: "+mix.join("+"),"Which elements make up the unknown mixture?",cap(lab(mix)),near.slice(0,3).map(a=>cap(lab(a))),
+    "Every line of <b>"+lab(mix)+"</b> shows up in the unknown. "+missing.map(s=>cap(SPECN[s])+" is out (no line at "+SPEC[s][0]+" nm)").join("; ")+".",fig)}
+
+/* BAT sections, for the practice-test topic picker */
+const GROUPS=[
+ {k:"g1",label:"#1-2 Absorb & emit",keys:"abs-up abs-who emit-down emit-freq ground excited emit-what emit-unique emit-big emit-source emit-line emit-quant"},
+ {k:"g3",label:"#3 Spectral lines",keys:"spec-ans spec-rule spec-noHe spec-finger",gen:()=>[qSpectrum()],genFocus:4},
+ {k:"g4",label:"#4-5 Photons",keys:"photon-def photon-light photon-color photon-wave photon-speed em-medium"},
+ {k:"g6",label:"#6-7 Wavelength, frequency, energy",keys:"wl-def fr-def fr-unit wl-unit crest rel-wf rel-we rel-ef rel-short rel-double e-def",gen:()=>[qColor()],genFocus:2},
+ {k:"g8",label:"#8-10 EM spectrum",keys:"em-wl em-fr em-10 em-long em-energy em-lowf em-see vis-range vis-red vis-violet vis-white em-ir em-uv em-mw em-heat em-uvb em-hertz em-xray em-gammause em-gammadanger",gen:()=>[qEMPair(),qEMBetween()],genFocus:3},
+ {k:"g11",label:"#11-12 Bohr models",keys:"bohr-rings bohr-r1 bohr-r2 bohr-r3 bohr-e bohr-nuc k11 k12-mg k12-s k12-cl k12-ar k12-na k12-arr",gen:()=>[qBohrID(),qBohrIso(),qShellArr()],genFocus:5},
+ {k:"g13",label:"#13-14 Valence electrons",keys:"val-def val-why val-li val-c val-ne val-al val-be val-f val-rule val-he val-same",gen:()=>[qValence()],genFocus:4},
+ {k:"g15",label:"#15 Lewis dot",keys:"lew-dots lew-rule lew-o lew-ca lew-si lew-ar lew-he lew-max",gen:()=>[qLewisPick(),qLewisGroup()],genFocus:4},
+ {k:"g16",label:"#16-23 Table layout",keys:"mend mend-gaps modern period group grp-share per-share p1 p8 fam1 fam2 fam17 fam18 two-ve inert hal-ve h-alk",gen:()=>[qPeriodGroup()],genFocus:2},
+ {k:"g24",label:"#24-25 Metals / nonmetals",keys:"k24-ca k24-ne k24-al k24-si k24-cl mnm-where metal-prop nonmetal-prop metalloid-prop metal-e",gen:()=>[qMNM()],genFocus:3},
+ {k:"g26",label:"#26-27 Families",keys:"alk-react hal-react trans-where trans-ve inner noble-list k27a k27b k27c k27d k27e k27f",gen:()=>[qFamily(),qDescribe()],genFocus:3},
+ {k:"g28",label:"#28-35 Periodic trends",keys:"rad-across rad-across-why rad-down rad-down-why en-def en-across en-down en-max en-noble k32 ie-def ie-across ie-down k34 k35-across k35-down corner opp",gen:()=>[qTrendMax(),qTrendOrder()],genFocus:4},
+ {k:"g99",label:"Labs & handouts (flame test, ions)",keys:"flame-qual flame-sr flame-na flame-cu incand octet cation anion",gen:()=>[qIon()],genFocus:3}
+];
+const KEY2G={};GROUPS.forEach(g=>g.keys.split(" ").forEach(k=>{KEY2G[k]=g.k}));
+function focusSel(){try{const v=JSON.parse(localStorage.getItem("chem4.focus")||"[]");return Array.isArray(v)?v:[]}catch(e){return []}}
+function extras(){
+  const sel=focusSel(),all=!sel.length,out=[];
+  BANK.forEach(b=>{if(all||sel.indexOf(KEY2G[b[0]])>=0)out.push(bankQ(b))});
+  GROUPS.forEach(g=>{if(!g.gen||!(all||sel.indexOf(g.k)>=0))return;
+    let qs=g.gen().concat(g.gen());
+    if(!all&&g.genFocus)for(let i=0;i<g.genFocus;i++)qs=qs.concat(g.gen());
+    out.push.apply(out,qs)});
+  const seen={};return shuf(out.filter(q=>{const k=q.q+'|'+(q.fig||'');if(seen[k])return false;seen[k]=1;return true}));
+}
+
+Flash.mount({host:$("fcHost"),cards:CARDS,deckId:"chem4"});
+Flash.quiz({host:$("qzHost"),cards:CARDS,deckId:"chem4",count:20,extras:extras,bankOnly:true});
+function drawFocus(){
+  const sel=focusSel(),all=!sel.length;
+  const nBank=BANK.filter(b=>all||sel.indexOf(KEY2G[b[0]])>=0).length;
+  $("focusCard").innerHTML='<h3 style="margin:0">Pick topics</h3><p class="tiny" style="margin:4px 0 0">Tap the BAT sections you want questions from. Nothing picked = everything. Your pick is remembered.</p>'
+   +'<div class="fbar"><button class="fchip'+(all?' on':'')+'" data-g="__all">Everything</button>'
+   +'<button class="fchip" data-g="__draw">Diagrams only (spectra, Bohr, Lewis)</button></div>'
+   +'<div class="fbar">'+GROUPS.map(g=>'<button class="fchip'+(sel.indexOf(g.k)>=0?' on':'')+'" data-g="'+g.k+'">'+g.label+'</button>').join('')+'</div>'
+   +'<div class="fcount">'+(all?'All sections':'Only: '+GROUPS.filter(g=>sel.indexOf(g.k)>=0).map(g=>g.label).join(', '))
+   +' &middot; '+nBank+' written questions'+(GROUPS.some(g=>g.gen&&(all||sel.indexOf(g.k)>=0))?' + freshly generated ones each test (new Bohr models, Lewis structures, spectra, trend sets)':'')+'</div>';
+  [].forEach.call($("focusCard").querySelectorAll('.fchip'),function(b){b.onclick=function(){
+    let cur=focusSel();const g=b.dataset.g;
+    if(g==="__all")cur=[];else if(g==="__draw")cur=["g3","g11","g15"];
+    else{const i=cur.indexOf(g);if(i>=0)cur.splice(i,1);else cur.push(g);}
+    localStorage.setItem("chem4.focus",JSON.stringify(cur));drawFocus();
+    const nb=$("qzHost").querySelector('.qnew');if(nb)nb.click();
+  }});
+}
+drawFocus();
+(function(){const meta=$("qzHost").querySelector('.qmeta');if(!meta)return;
+  new MutationObserver(function(){if(!focusSel().length)return;const h=meta.innerHTML;
+    const n=h.replace('every question in this deck','every question in the topics you picked').replace('left that you have not mastered','in the topics you picked that you have not mastered yet');
+    if(n!==h)meta.innerHTML=n;}).observe(meta,{childList:true,subtree:true,characterData:true});
+})();
+
+/* ---------- BAT answers ---------- */
+const KEY=[
+["1","Circle the choices (a and b).","<b>a.</b> energy absorbed by the <b>electrons</b>; jump from a <b>lower</b> to a <b>higher</b> level.<br><b>b.</b> <b>an excited</b> state; <b>lose</b> energy; by <b>dropping</b>; to a <b>lower</b> state; light with <b>specific frequencies</b>."],
+["2","Illustrate absorbing and releasing energy as light.",emitSVG()+"<br>Panel 1: label nucleus, shells, electron in ground state. Panel 2: energy arrow in, electron jumps up. Panel 3: downward arrow for the electron, wavy arrow out for the photon."],
+["3","Which elements make up the unknown?",specSVG([["Hg",SPEC.Hg],["Ne",SPEC.Ne],["He",SPEC.He],["Ar",SPEC.Ar],["Na",SPEC.Na],["Unknown",[].concat(SPEC.Hg,SPEC.Ne,SPEC.Ar)]])+"<br><b>Mercury, neon, and argon.</b> All of their lines appear. No helium lines (447, 471, 492, 502 nm) and no sodium lines (569, 616 nm)."],
+["4","What is a photon and how does it relate to light?","A photon is a tiny <b>packet (particle) of light energy</b>. Light is made of photons; one is given off each time an electron drops to a lower energy level, and its energy sets the color."],
+["5","What wavelike qualities does a photon possess?","It has a <b>wavelength</b> and a <b>frequency</b> (and travels at the speed of light)."],
+["6","Define wavelength, frequency, energy.","<b>Wavelength:</b> distance from crest to crest. <b>Frequency:</b> number of waves passing a point per second (Hz). <b>Energy:</b> how much energy the wave/photon carries; goes up with frequency."],
+["7","Relationships?","Wavelength &amp; frequency: <b>inverse</b>. Wavelength &amp; energy: <b>inverse</b>. Energy &amp; frequency: <b>direct</b>."],
+["8","Shortest to longest wavelength.","<b>Gamma, X-ray, ultraviolet, visible, infrared, microwave, radio</b>"],
+["9","Lowest to highest frequency.","<b>Radio, microwave, infrared, visible, ultraviolet, X-ray, gamma</b>"],
+["10","Lowest to highest energy matches (wavelength / frequency)?","<b>Frequency</b>"],
+["11","Identify the Bohr models.",'<div class="figrow">'+[3,4,8,9,10].map(z=>'<figure>'+bohrSVG(shells(z),{size:74})+'<figcaption>'+cap(BYZ[z][2])+'</figcaption></figure>').join('')+'</div>'],
+["12","Bohr models of the isotopes.",'<div class="figrow">'+[[11,23,"Sodium-11*"],[12,25,"Magnesium-25"],[16,33,"Sulfur-33"],[17,37,"Chlorine-37"],[18,40,"Argon-40"]].map(r=>'<figure>'+bohrSVG(shells(r[0]),{size:96,p:r[0],n:r[1]-r[0]})+'<figcaption>'+r[2]+'<br>'+r[0]+' p, '+(r[1]-r[0])+' n<br>'+shells(r[0]).join(", ")+'</figcaption></figure>').join('')+'</div><div class="flag">*\u201cSodium-11\u201d is almost certainly a typo for sodium-23 (shown: 11 p, 12 n). Taken literally, sodium-11 would have 0 neutrons.</div>'],
+["13","Define valence electrons; why important?","Electrons in the <b>outermost energy level</b>. They decide how an atom <b>bonds and reacts</b> (its chemical properties)."],
+["14","Valence electrons: Li, C, Ne, Al, Be, F","Li <b>1</b>, C <b>4</b>, Ne <b>8</b>, Al <b>3</b>, Be <b>2</b>, F <b>7</b>"],
+["15","Lewis dot structures: He, O, Ca, Si, Ar",'<div class="figrow">'+["He","O","Ca","Si","Ar"].map(s=>'<figure>'+lewisOf(BYS[s])+'<figcaption>'+cap(BYS[s][2])+'</figcaption></figure>').join('')+'</div>'],
+["16","Mendeleev\u2019s contribution?","Arranged elements by <b>increasing atomic mass</b> with <b>similar properties</b> in the same column; <b>left gaps</b> and <b>predicted</b> the properties of undiscovered elements (gallium, germanium)."],
+["17","Period vs. group?","<b>Period</b> = horizontal row (same number of energy levels). <b>Group</b> = vertical column (same valence electrons, similar properties)."],
+["18","Elements in period 1?","<b>2: hydrogen and helium</b>"],
+["19","Which periods have exactly 8?","<b>Periods 2 and 3</b>"],
+["20","Family names: groups 1, 2, 17, 18","<b>Alkali metals, alkaline earth metals, halogens, noble gases</b>"],
+["21","Which group/family has two valence electrons?","<b>Group 2, alkaline earth metals</b>"],
+["22","Inert gases with full outer shells?","<b>Group 18, noble gases</b>"],
+["23","Valence electrons of halogens?","<b>7</b>"],
+["24","Classify Ca, Ne, Al, Si, Cl","Ca <b>metal</b>, Ne <b>nonmetal</b>, Al <b>metal</b>, Si <b>metalloid</b>, Cl <b>nonmetal</b>"],
+["25","Properties of metals, nonmetals, metalloids","<b>Metals:</b> shiny, good conductors, malleable/ductile, lose electrons. <b>Nonmetals:</b> dull, poor conductors, brittle, many gases, gain electrons. <b>Metalloids:</b> mix of both, semiconductors."],
+["26","Family table",'<table><tr><th>Family</th><th>Location</th><th>Elements</th><th>Valence e\u207b</th><th>Properties</th></tr>'
+ +'<tr><td>Alkali metals</td><td>Group 1</td><td>Li, Na, K, Rb, Cs, Fr</td><td>1</td><td>most reactive metals, soft, react with water, 1+ ions</td></tr>'
+ +'<tr><td>Alkaline earth</td><td>Group 2</td><td>Be, Mg, Ca, Sr, Ba, Ra</td><td>2</td><td>reactive (less than alkali), 2+ ions</td></tr>'
+ +'<tr><td>Transition</td><td>Groups 3-12, lanthanides, actinides</td><td>(given)</td><td>varies</td><td>hard, shiny, good conductors, colorful compounds</td></tr>'
+ +'<tr><td>Halogens</td><td>Group 17</td><td>F, Cl, Br, I, At</td><td>7</td><td>most reactive nonmetals, gain 1 e\u207b (1\u2212), form salts</td></tr>'
+ +'<tr><td>Noble gases</td><td>Group 18</td><td>(given)</td><td>8 (He: 2)</td><td>full outer shell, inert, colorless gases</td></tr></table>'],
+["27","Name and symbol","a. <b>Bromine, Br</b> &nbsp; b. <b>Lithium, Li</b> &nbsp; c. <b>Helium, He</b> &nbsp; d. <b>Magnesium, Mg</b> &nbsp; e. <b>Gold, Au</b> &nbsp; f. <b>Uranium, U</b>"],
+["28","Atomic radius across a period, and why","<b>Decreases.</b> More protons (greater nuclear charge) pull electrons in the same energy level closer."],
+["29","Atomic radius down a group, and why","<b>Increases.</b> Each row adds another energy level (shell)."],
+["30","Electronegativity: define, trends","How strongly an atom <b>attracts electrons in a bond</b>. <b>Increases</b> across, <b>decreases</b> down."],
+["31","Why no electronegativity for noble gases?","Their outer shell is <b>full</b>, so they generally <b>don\u2019t form bonds</b>."],
+["32","Increasing electronegativity: Al, Cl, Mg, P, Si","<b>Mg &lt; Al &lt; Si &lt; P &lt; Cl</b>"],
+["33","Ionization energy: define, trends","The <b>energy needed to remove an electron</b>. <b>Increases</b> across, <b>decreases</b> down."],
+["34","Increasing ionization energy: Sr, Be, Ba","<b>Ba &lt; Sr &lt; Be</b>"],
+["35","Increasing or decreasing on each arrow",'<table class="arrowtbl"><tr><th></th><th>Across \u2192</th><th>Down \u2193</th></tr><tr><td>Atomic radius</td><td class="down">decreasing</td><td class="up">increasing</td></tr><tr><td>Ionization energy</td><td class="up">increasing</td><td class="down">decreasing</td></tr><tr><td>Electronegativity</td><td class="up">increasing</td><td class="down">decreasing</td></tr></table>']
+];
+$("key").innerHTML='<div class="card"><h3>BAT sheet answers, all 35</h3><p class="tiny">Mr. Rott hasn\u2019t posted a key for Unit 4 yet (the Unit 3 key went up two days before that exam). I worked these out from the sheet and your class handouts. If he posts one, trust his where they differ.</p></div>'
+ +'<div class="card"><ul class="key">'+KEY.map(k=>'<li><span class="n">#'+k[0]+'</span><span class="qq">'+k[1]+'</span><div class="aa">'+k[2]+'</div></li>').join('')+'</ul></div>';
+
+/* ---------- reference ---------- */
+$("ref").innerHTML=
+ '<div class="card"><h3>BAT checklist (Be Able To\u2026)</h3><p class="tiny">Straight from the Unit 4 Review &amp; BAT Sheet. If you can do every line without looking, you\u2019re ready. The sheet also says to expect earlier topics.</p><ul class="bat">'
++'<li><b>Explain emission line spectra</b>: electrons lose energy dropping from higher to lower levels. <span class="q">#1-2</span></li>'
++'<li><b>Interpret which gases are in a mixture</b> from spectral lines. <span class="q">#3</span></li>'
++'<li><b>Define a photon.</b> <span class="q">#4-5</span></li>'
++'<li><b>Explain wavelength, frequency, and energy.</b> <span class="q">#6-7</span></li>'
++'<li><b>Order the EM spectrum</b> by wavelength and frequency/energy, including visible. <span class="q">#8-10</span></li>'
++'<li><b>Identify the first 20 elements</b> from a Bohr diagram. <span class="q">#11</span></li>'
++'<li><b>Sketch Bohr diagrams</b> for the first 20 elements. <span class="q">#12</span></li>'
++'<li><b>Count valence electrons</b> in groups 1-2 and 13-18. <span class="q">#13-14</span></li>'
++'<li><b>Draw Lewis dot structures</b> for groups 1-2 and 13-18. <span class="q">#15</span></li>'
++'<li><b>Describe the modern periodic table.</b> <span class="q">#16-23</span></li>'
++'<li><b>Classify metals, nonmetals, metalloids.</b> <span class="q">#24-25</span></li>'
++'<li><b>Identify the families.</b> <span class="q">#26-27</span></li>'
++'<li><b>Interpret trends</b> in atomic radius, ionization energy, electronegativity. <span class="q">#28-35</span></li></ul></div>'
++'<div class="card"><h3>EM spectrum</h3><table><tr><th>Type</th><th>Wavelength</th><th>Frequency / energy</th><th>Remember</th></tr>'
++'<tr><td>Gamma rays</td><td>shortest</td><td>highest</td><td>nuclear decay; kills cancer cells</td></tr>'
++'<tr><td>X-rays</td><td></td><td></td><td>bones; R\u00f6ntgen 1895</td></tr>'
++'<tr><td>Ultraviolet</td><td></td><td></td><td>sunburn (UVB); ozone blocks most</td></tr>'
++'<tr><td>Visible</td><td>400-700 nm</td><td></td><td>violet (high E) \u2192 red (low E)</td></tr>'
++'<tr><td>Infrared</td><td></td><td></td><td>heat</td></tr>'
++'<tr><td>Microwaves</td><td></td><td></td><td>cooking, radar</td></tr>'
++'<tr><td>Radio waves</td><td>longest</td><td>lowest</td><td>communication; Hertz 1888</td></tr></table>'
++'<p class="tiny">Wavelength \u2194 frequency: inverse. Wavelength \u2194 energy: inverse. Frequency \u2194 energy: direct.</p></div>'
++'<div class="card"><h3>Bohr models, first 20</h3><div class="figrow">'+Array.from({length:20},(x,i)=>i+1).map(z=>'<figure>'+bohrSVG(shells(z),{size:64})+'<figcaption>'+BYZ[z][1]+' '+shells(z).join(",")+'</figcaption></figure>').join('')+'</div></div>'
++'<div class="card"><h3>Lewis dots by group</h3><div class="figrow">'+["Na","Mg","Al","Si","P","S","Cl","Ar"].map(s=>'<figure>'+lewisOf(BYS[s])+'<figcaption>Group '+BYS[s][3]+' ('+valence(BYS[s])+')<br>ion: '+ionOf(BYS[s])+'</figcaption></figure>').join('')+'</div><p class="tiny">One dot per side first, then pair up. Helium is drawn as a single pair.</p></div>'
++'<div class="card"><h3>Families</h3><table><tr><th>Group</th><th>Family</th><th>Valence e\u207b</th><th>Ion</th></tr>'
++'<tr><td>1</td><td>Alkali metals</td><td>1</td><td>1+</td></tr><tr><td>2</td><td>Alkaline earth metals</td><td>2</td><td>2+</td></tr>'
++'<tr><td>3-12</td><td>Transition metals</td><td>varies</td><td>varies</td></tr><tr><td>17</td><td>Halogens</td><td>7</td><td>1\u2212</td></tr>'
++'<tr><td>18</td><td>Noble gases</td><td>8 (He 2)</td><td>none</td></tr><tr><td>bottom rows</td><td>Lanthanides / actinides (inner transition)</td><td>varies</td><td></td></tr></table></div>'
++'<div class="card"><h3>Periodic trends</h3><table class="arrowtbl"><tr><th></th><th>Across \u2192</th><th>Down \u2193</th><th>Why</th></tr>'
++'<tr><td>Atomic radius</td><td class="down">decreases</td><td class="up">increases</td><td>across: more protons pull harder; down: more shells</td></tr>'
++'<tr><td>Ionization energy</td><td class="up">increases</td><td class="down">decreases</td><td>small atoms hold electrons tighter</td></tr>'
++'<tr><td>Electronegativity</td><td class="up">increases</td><td class="down">decreases</td><td>fluorine is highest; noble gases not assigned</td></tr></table></div>'
++'<div class="card"><h3>Flame test colors</h3><p>Li red/crimson &middot; Na yellow-orange &middot; K lilac &middot; Ca orange-red &middot; Sr red &middot; Cu green/blue-green &middot; Ba pale yellow-green</p><p class="tiny">Textbook colors, not on the BAT sheet. Your own lab data table wins if it\u2019s different.</p></div>'
++'<div class="note">The BAT sheet says to expect earlier topics too. The <a href="chem3.html">Unit 3 trainer</a> (Atomic Structure) and <a href="chem.html">Unit 2 trainer</a> are still there for review.</div>';
+
+document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id===b.dataset.v));
+  window.scrollTo(0,0);
+}});
+</script>
+</body>
+</html>

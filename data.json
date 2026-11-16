@@ -266,6 +266,14 @@
    "due": null,
    "status": "assigned",
    "kind": "worksheet"
+  },
+  {
+   "id": "c-chem4-manual",
+   "cls": "Chemistry",
+   "title": "Unit 4 Exam",
+   "due": "2026-11-19T08:00",
+   "status": "assigned",
+   "kind": "test"
   }
  ],
  "grades": [
@@ -1001,10 +1009,18 @@
  "trainers": [
   {
    "cls": "Chemistry",
+   "title": "Unit 4 Exam",
+   "file": "chem4.html",
+   "label": "Unit 4 · Electrons and the Periodic Table",
+   "terms": 44
+  },
+  {
+   "cls": "Chemistry",
    "title": "Unit 3 Exam",
    "file": "chem3.html",
    "label": "Unit 3 · Atomic Structure",
-   "terms": 34
+   "terms": 34,
+   "past": true
   },
   {
    "cls": "Religion",
