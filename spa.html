@@ -38,6 +38,32 @@
 .opts label{display:flex;gap:6px;align-items:center;cursor:pointer}
 .opts input{width:auto}
 td.es{font-weight:600}
+/* ---------- printable vocab sheet ---------- */
+.paperwrap{background:#2a2f3a;border-radius:11px;padding:14px;overflow-x:auto}
+.sheet{background:#fff;color:#111;width:8.5in;max-width:100%;margin:0 auto;padding:.45in;box-sizing:border-box;font:9.5pt/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.sheet .shd{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5pt solid #111;padding-bottom:3pt;margin-bottom:7pt}
+.sheet .shd b{font-size:12.5pt}
+.sheet .shd span{font-size:8pt;color:#555}
+.sheet .cols{column-count:2;column-gap:.28in}
+.sheet .blk{margin:0 0 7pt}
+.sheet tr{break-inside:avoid;page-break-inside:avoid}
+.sheet h4{break-after:avoid;page-break-after:avoid;margin:0 0 2pt;font-size:9.5pt;text-transform:uppercase;letter-spacing:.4pt;background:#eee;padding:2pt 4pt;border-radius:2pt}
+.sheet h4 i{font-style:normal;font-weight:400;color:#666;text-transform:none;letter-spacing:0;font-size:8pt}
+.sheet table{width:100%;border-collapse:collapse;margin:0;font-size:9.5pt}
+.sheet td{border:0;border-bottom:.5pt solid #ddd;padding:1.6pt 4pt;vertical-align:top;color:#111;background:none}
+.sheet td.es{font-weight:600;width:50%}
+.sheet td .al{color:#666;font-size:7.5pt;font-weight:400}
+.sheet td.blank{color:transparent}
+.sheet .foot{margin-top:4pt;font-size:7.5pt;color:#666}
+@media print{
+  @page{size:letter;margin:.45in}
+  html,body{background:#fff!important}
+  header,#prCtl,.view:not(#pr){display:none!important}
+  #pr{display:block!important}
+  main{max-width:none;padding:0;margin:0}
+  .paperwrap{background:none;padding:0;border-radius:0}
+  .sheet{width:auto;max-width:none;margin:0;padding:0}
+}
 .soonTag{font-size:10.5px;border:1px dashed var(--dim);border-radius:5px;padding:1px 5px;margin-left:6px;color:var(--dim);font-weight:400}
 </style>
 </head>
@@ -51,6 +77,7 @@ td.es{font-weight:600}
     <button data-v="wr">Write It</button>
     <button data-v="qz">Practice Test</button>
     <button data-v="ref">Reference</button>
+    <button data-v="pr">Print / PDF</button>
   </nav>
 </header>
 <main>
@@ -58,6 +85,7 @@ td.es{font-weight:600}
 <section class="view" id="wr"><div class="card" id="wrSetup"></div><div id="wrBody"></div></section>
 <section class="view" id="qz"><div class="card" id="focusCard"></div><div id="qzHost"></div></section>
 <section class="view" id="ref"></section>
+<section class="view" id="pr"><div class="card" id="prCtl"></div><div class="paperwrap"><div id="prSheet" class="sheet"></div></div></section>
 </main>
 <script src="flash.js?v=8"></script>
 <script>
@@ -992,6 +1020,44 @@ $("ref").innerHTML=
 +'<div class="card"><h3>Numbers</h3><p>0-29 are one word: dieciséis, veintidós, veintitrés, veintiséis have accents. 31+ use y: treinta y uno. 100 = cien, 101+ = ciento...: ciento treinta y tres. 500 quinientos, 700 setecientos, 900 novecientos. 1,999 = mil novecientos noventa y nueve. 2,726 = dos mil setecientos veintiséis.</p></div>'
 +'<div class="card"><h3>All the vocab, by segment</h3><p class="tiny">'+NTERMS+' taught terms + '+NSOON+' coming-up terms from the Unit 2 book.</p>'+SECS.map(vtable).join('')+'</div>'
 +'<div class="card"><h3>Where this came from</h3><p class="tiny">LingCo: the 5 assigned Unidad 1 vocab sets (La tecnología, Actividades en línea, ¿Cuándo?, La seguridad digital, Las redes sociales) and the Unidad 1 + 2 student books (vocab summaries and grammar boxes). Classroom: all 33 daily slide decks from Aug 11 to Nov 13, the Unidad 1 vocab worksheet, the present progressive and stem-changing handouts, the numbers sheet, the commands practice form, the Day of the Dead lists, and the quiz instructions. Sra. Anker\u2019s slides from Oct 12-23 aren\u2019t posted, so the oral-quiz practice questions aren\u2019t in here.</p></div>';
+
+/* =====================================================================
+   PRINT / PDF vocab sheet
+   ===================================================================== */
+function prState(){let s;try{s=JSON.parse(localStorage.getItem("spa.print"))||{}}catch(e){s={}}
+  return {mode:s.mode||"current",off:s.off||[],blank:!!s.blank,alts:s.alts!==false}}
+function prSave(s){localStorage.setItem("spa.print",JSON.stringify(s))}
+function prSecs(s){return SECS.filter(function(S){
+  const inMode=s.mode==="all"||(s.mode==="current"&&!S.soon)||(s.mode==="upcoming"&&S.soon);
+  return inMode&&s.off.indexOf(S.k)<0})}
+function drawPrint(){
+  const s=prState(),secs=prSecs(s),n=secs.reduce(function(a,S){return a+S.items.length},0);
+  const modes=[["current","Current vocab (taught in class)"],["upcoming","Upcoming only"],["all","Both"]];
+  const shown=SECS.filter(function(S){return s.mode==="all"||(s.mode==="current"&&!S.soon)||(s.mode==="upcoming"&&S.soon)});
+  $("prCtl").innerHTML='<h3 style="margin:0">Printable vocab sheet</h3>'
+   +'<p class="tiny" style="margin:4px 0 0">Pick what goes on the sheet, then hit Save as PDF. In the print box choose <b>Save as PDF</b> (or print it). Letter size, two columns.</p>'
+   +'<div class="fbar">'+modes.map(function(m){return '<button class="fchip'+(s.mode===m[0]?' on':'')+'" data-m="'+m[0]+'">'+m[1]+'</button>'}).join('')+'</div>'
+   +'<div class="fhead">Segments on the sheet (tap to leave one out)</div><div class="fbar">'
+   +shown.map(function(S){return '<button class="fchip'+(S.soon?' soon':'')+(s.off.indexOf(S.k)<0?' on':'')+'" data-k="'+S.k+'">'+esc(S.s.replace(/^U(\d) · /,"U$1 "))+'</button>'}).join('')+'</div>'
+   +'<div class="opts"><label><input type="checkbox" id="prAlts"'+(s.alts?' checked':'')+'> show other accepted forms</label>'
+   +'<label><input type="checkbox" id="prBlank"'+(s.blank?' checked':'')+'> blank English column (quiz yourself)</label></div>'
+   +'<div class="row"><button class="btn primary" id="prGo">Save as PDF / Print</button><span class="stat" style="align-self:center">'+n+' words &middot; '+secs.length+' segments</span></div>';
+  [].forEach.call($("prCtl").querySelectorAll('[data-m]'),function(b){b.onclick=function(){s.mode=b.dataset.m;s.off=[];prSave(s);drawPrint()}});
+  [].forEach.call($("prCtl").querySelectorAll('[data-k]'),function(b){b.onclick=function(){const i=s.off.indexOf(b.dataset.k);if(i>=0)s.off.splice(i,1);else s.off.push(b.dataset.k);prSave(s);drawPrint()}});
+  $("prAlts").onchange=function(){s.alts=this.checked;prSave(s);drawPrint()};
+  $("prBlank").onchange=function(){s.blank=this.checked;prSave(s);drawPrint()};
+  $("prGo").onclick=function(){window.print()};
+  const label={current:"Current vocab (taught in class)",upcoming:"Upcoming Unit 2 vocab (not taught yet)",all:"Current + upcoming vocab"}[s.mode];
+  $("prSheet").innerHTML=secs.length?'<div class="shd"><b>Spanish II &middot; '+label+'</b><span>Unidad 1 + 2 &middot; '+n+' words &middot; final exam Thu Dec 17 &middot; '+new Date().toLocaleDateString([],{month:"short",day:"numeric",year:"numeric"})+'</span></div>'
+   +'<div class="cols">'+secs.map(function(S){return '<div class="blk"><h4>'+esc(S.s)+(S.soon?' <i>(upcoming)</i>':'')+'</h4><table>'
+     +S.items.map(function(it){
+       const ws=function(x){return x.toLowerCase().split(/[^a-záéíóúüñ]+/).filter(Boolean)},esw=ws(it.es);
+       const al=(s.alts&&it.acc&&it.es.indexOf("/")<0)?it.acc.filter(function(a){return a!==it.es&&!ws(a).every(function(w){return esw.indexOf(w)>=0})&&a.replace(/^(el|la|los|las) /,"")!==it.es.replace(/^(el|la|los|las) /,"")}).slice(0,2):[];
+       return '<tr><td class="es">'+esc(it.es)+(al.length?' <span class="al">/ '+esc(al.join(", "))+'</span>':'')+'</td><td'+(s.blank?' class="blank"':'')+'>'+esc(it.en)+'</td></tr>'}).join('')
+     +'</table></div>'}).join('')+'</div>'
+   :'<p style="color:#666">Nothing selected.</p>';
+}
+drawPrint();
 
 document.querySelectorAll('nav button').forEach(function(b){b.onclick=function(){
   document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b)});
