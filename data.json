@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17T11:31:36.658Z",
+ "generated": "2026-11-17T21:31:43.313Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -173,14 +173,6 @@
   },
   {
    "id": "c4",
-   "cls": "US History",
-   "title": "Civil War Research Essay - OUTLINE",
-   "due": "2026-11-18T23:59",
-   "status": "assigned",
-   "kind": "project"
-  },
-  {
-   "id": "c5",
    "cls": "Algebra II",
    "title": "3.2.3 CYU",
    "due": "2026-11-18T23:59",
@@ -188,12 +180,20 @@
    "kind": "cyu"
   },
   {
-   "id": "c6",
+   "id": "c5",
    "cls": "Chemistry",
    "title": "Unit 4 Exam",
    "due": "2026-11-19T23:59",
    "status": "assigned",
    "kind": "test"
+  },
+  {
+   "id": "c6",
+   "cls": "US History",
+   "title": "Civil War Research Essay - OUTLINE",
+   "due": "2026-11-20T23:59",
+   "status": "assigned",
+   "kind": "project"
   },
   {
    "id": "c7",
@@ -222,8 +222,8 @@
   {
    "id": "c10",
    "cls": "Religion",
-   "title": "Class Reflection",
-   "due": "2026-11-30T23:59",
+   "title": "Final: Scripture Analysis Essay",
+   "due": "2026-11-24T23:59",
    "status": "assigned",
    "kind": "project"
   },
@@ -339,7 +339,7 @@
   {
    "cls": "Religion",
    "letter": "B",
-   "pct": 85.3,
+   "pct": 85.1,
    "frn": "00447216",
    "scale": "percent"
   },
@@ -940,19 +940,6 @@
   {
    "id": "p45",
    "cls": "Religion",
-   "title": "The Kingdom of God Intro",
-   "cat": "Classwork",
-   "due": "2026-11-06",
-   "score": null,
-   "possible": 15,
-   "pct": null,
-   "flag": false,
-   "late": false,
-   "bucket": "ungraded"
-  },
-  {
-   "id": "p46",
-   "cls": "Religion",
    "title": "Beatitudes Video Questions",
    "cat": "Classwork",
    "due": "2026-10-22",
@@ -964,7 +951,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p47",
+   "id": "p46",
    "cls": "English 10",
    "title": "Cycle 7 GrammarFlip (2.06)",
    "cat": "Membean/GrammarFlip",
@@ -977,7 +964,7 @@
    "bucket": "ungraded"
   },
   {
-   "id": "p48",
+   "id": "p47",
    "cls": "English 10",
    "title": "TGG Ch. 4-6 Quiz",
    "cat": "Summative",
@@ -990,7 +977,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p49",
+   "id": "p48",
    "cls": "English 10",
    "title": "GG Ch.1 annotations",
    "cat": "Formative",
@@ -1003,7 +990,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p50",
+   "id": "p49",
    "cls": "English 10",
    "title": "Book Check--GG",
    "cat": "Formative",
@@ -1016,7 +1003,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p51",
+   "id": "p50",
    "cls": "English 10",
    "title": "SR Annotations",
    "cat": "Formative",
@@ -1029,7 +1016,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-11-17T11:31:36.658Z",
+ "psGenerated": "2026-11-17T21:31:43.313Z",
  "trainers": [
   {
    "cls": "Spanish II",
