@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16T21:31:36.592Z",
+ "generated": "2026-11-17T11:31:36.658Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -141,30 +141,6 @@
  "assignments": [
   {
    "id": "c0",
-   "cls": "Algebra II",
-   "title": "3.2.2 CYU",
-   "due": "2026-11-16T23:59",
-   "status": "assigned",
-   "kind": "cyu"
-  },
-  {
-   "id": "c1",
-   "cls": "US History",
-   "title": "HW due 11/16",
-   "due": "2026-11-16T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c2",
-   "cls": "Chemistry",
-   "title": "Ptable Activity",
-   "due": "2026-11-16T23:59",
-   "status": "assigned",
-   "kind": "worksheet"
-  },
-  {
-   "id": "c3",
    "cls": "AP CSP",
    "title": "Functions make",
    "due": "2026-11-17T23:59",
@@ -172,7 +148,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c4",
+   "id": "c1",
    "cls": "US History",
    "title": "Gettysburg Address Analysis",
    "due": "2026-11-17T23:59",
@@ -180,7 +156,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c5",
+   "id": "c2",
    "cls": "Spanish II",
    "title": "LingCo Vocabulario: En la cocina y Los muebles",
    "due": "2026-11-18T12:15",
@@ -188,7 +164,7 @@
    "kind": "drill"
   },
   {
-   "id": "c6",
+   "id": "c3",
    "cls": "English 10",
    "title": "Read + Annotate TEWWG Ch. 9 + 10",
    "due": "2026-11-18T14:30",
@@ -196,7 +172,7 @@
    "kind": "reading"
   },
   {
-   "id": "c7",
+   "id": "c4",
    "cls": "US History",
    "title": "Civil War Research Essay - OUTLINE",
    "due": "2026-11-18T23:59",
@@ -204,7 +180,7 @@
    "kind": "project"
   },
   {
-   "id": "c8",
+   "id": "c5",
    "cls": "Algebra II",
    "title": "3.2.3 CYU",
    "due": "2026-11-18T23:59",
@@ -212,7 +188,7 @@
    "kind": "cyu"
   },
   {
-   "id": "c9",
+   "id": "c6",
    "cls": "Chemistry",
    "title": "Unit 4 Exam",
    "due": "2026-11-19T23:59",
@@ -220,7 +196,7 @@
    "kind": "test"
   },
   {
-   "id": "c10",
+   "id": "c7",
    "cls": "English 10",
    "title": "Cycle 8 GrammarFlip (2.12)",
    "due": "2026-11-20T23:59",
@@ -228,7 +204,7 @@
    "kind": "drill"
   },
   {
-   "id": "c11",
+   "id": "c8",
    "cls": "Religion",
    "title": "Unit 4 Test",
    "due": "2026-11-23T23:59",
@@ -236,7 +212,7 @@
    "kind": "test"
   },
   {
-   "id": "c12",
+   "id": "c9",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #1",
    "due": "2026-11-24T23:59",
@@ -244,7 +220,7 @@
    "kind": "test"
   },
   {
-   "id": "c13",
+   "id": "c10",
    "cls": "Religion",
    "title": "Class Reflection",
    "due": "2026-11-30T23:59",
@@ -252,7 +228,7 @@
    "kind": "project"
   },
   {
-   "id": "c14",
+   "id": "c11",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #2",
    "due": "2026-12-04T23:59",
@@ -260,7 +236,7 @@
    "kind": "test"
   },
   {
-   "id": "c15",
+   "id": "c12",
    "cls": "US History",
    "title": "Unit 5 Quiz",
    "due": "2026-12-11T23:59",
@@ -268,7 +244,7 @@
    "kind": "test"
   },
   {
-   "id": "c16",
+   "id": "c13",
    "cls": "Algebra II",
    "title": "Ch. 3 Test",
    "due": "2026-12-11T23:59",
@@ -276,7 +252,7 @@
    "kind": "test"
   },
   {
-   "id": "c17",
+   "id": "c14",
    "cls": "English 10",
    "title": "TEWWG Diction Scavenger Hunt",
    "due": "2026-12-11T23:59",
@@ -284,7 +260,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c18",
+   "id": "c15",
    "cls": "English 10",
    "title": "Membean and Grammar Flip",
    "due": "2028-08-02T23:59",
@@ -292,7 +268,7 @@
    "kind": "drill"
   },
   {
-   "id": "c19",
+   "id": "c16",
    "cls": "Spanish II",
    "title": "Welcome Survey",
    "due": null,
@@ -300,7 +276,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c20",
+   "id": "c17",
    "cls": "English 10",
    "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
    "due": null,
@@ -308,7 +284,7 @@
    "kind": "reading"
   },
   {
-   "id": "c21",
+   "id": "c18",
    "cls": "Algebra II",
    "title": "Match My Parabola",
    "due": null,
@@ -316,7 +292,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c22",
+   "id": "c19",
    "cls": "English 10",
    "title": "Harlem Renaissance Escape Room",
    "due": null,
@@ -1053,7 +1029,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-11-16T21:31:36.592Z",
+ "psGenerated": "2026-11-17T11:31:36.658Z",
  "trainers": [
   {
    "cls": "Spanish II",
