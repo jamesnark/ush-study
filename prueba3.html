@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba #3 - La casa (50 words)</title>
+<style>
+  :root { --bg:#f6f7fb; --card:#fff; --ink:#1d2330; --mut:#6b7385; --ok:#1f9d55; --okbg:#e7f7ee; --bad:#d64545; --badbg:#fdecec; --acc:#3b5bdb; --line:#e3e6ee; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  .wrap { max-width:640px; margin:0 auto; padding:20px 16px 40px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .sub { color:var(--mut); font-size:13px; margin-bottom:14px; }
+  .bar { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; align-items:center; }
+  .chip { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 11px; font-size:13px; cursor:pointer; user-select:none; }
+  .chip.on { background:var(--acc); border-color:var(--acc); color:#fff; }
+  .opt { font-size:13px; color:var(--mut); display:flex; align-items:center; gap:6px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px 20px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .meta { display:flex; justify-content:space-between; font-size:12px; color:var(--mut); margin-bottom:10px; }
+  .prog { height:5px; background:var(--line); border-radius:3px; overflow:hidden; margin-bottom:16px; }
+  .prog > div { height:100%; background:var(--acc); width:0; transition:width .2s; }
+  .prompt { font-size:30px; font-weight:700; margin:4px 0 2px; }
+  .hint { font-size:13px; color:var(--mut); min-height:18px; margin-bottom:14px; }
+  input[type=text] { width:100%; font-size:22px; padding:12px 14px; border:2px solid var(--line); border-radius:10px; outline:none; }
+  input[type=text]:focus { border-color:var(--acc); }
+  input.ok { border-color:var(--ok); background:var(--okbg); }
+  input.bad { border-color:var(--bad); background:var(--badbg); }
+  .accents { display:flex; gap:6px; margin:10px 0 12px; flex-wrap:wrap; }
+  .accents button { font-size:18px; width:40px; height:38px; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; }
+  .btns { display:flex; gap:8px; }
+  .btn { flex:1; padding:12px; font-size:15px; border-radius:10px; border:none; cursor:pointer; background:var(--acc); color:#fff; font-weight:600; }
+  .btn.sec { background:#fff; color:var(--ink); border:1px solid var(--line); flex:0 0 auto; }
+  .res { margin-top:16px; border-radius:10px; padding:14px; display:none; }
+  .res.ok { display:block; background:var(--okbg); }
+  .res.bad { display:block; background:var(--badbg); }
+  .verdict { font-size:20px; font-weight:800; }
+  .res.ok .verdict { color:var(--ok); } .res.bad .verdict { color:var(--bad); }
+  .close { font-size:14px; margin-top:6px; }
+  .meter { height:8px; border-radius:4px; background:rgba(0,0,0,.08); margin:6px 0 8px; overflow:hidden; }
+  .meter > div { height:100%; }
+  .line { font-size:17px; margin-top:6px; font-family:ui-monospace,Menlo,monospace; }
+  .lbl { font-family:-apple-system,BlinkMacSystemFont,sans-serif; font-size:12px; color:var(--mut); display:inline-block; width:78px; }
+  .x { background:#f7b8b8; color:#8a1111; border-radius:2px; text-decoration:line-through; }
+  .m { background:#ffe08a; border-radius:2px; text-decoration:underline; }
+  .note { font-size:13px; margin-top:8px; color:#5a2d00; }
+  .done { text-align:center; }
+  .big { font-size:42px; font-weight:800; margin:6px 0; }
+  .misslist { text-align:left; margin:14px 0; font-size:15px; }
+  .misslist div { padding:5px 0; border-bottom:1px solid var(--line); }
+  .kbd { font-size:12px; color:var(--mut); margin-top:10px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Español II: Prueba #3 - La casa</h1>
+  <div class="sub">The 50 words from the 11/19 slides. You see English, type the Spanish. Spelling and accents count (capital letters don't).</div>
+
+  <div class="bar" id="sets"></div>
+  <div class="bar">
+    <span class="chip" id="mode30">Mock quiz: 30 random</span>
+    <span class="chip" id="modeAll">All selected</span>
+    <span class="chip" id="modeMiss">Only my misses (<span id="missCount">0</span>)</span>
+    <label class="opt"><input type="checkbox" id="reqArt" checked> Require el / la</label>
+  </div>
+
+  <div class="card" id="card">
+    <div class="meta"><span id="pos"></span><span id="score"></span></div>
+    <div class="prog"><div id="progbar"></div></div>
+    <div id="quiz">
+      <div class="prompt" id="prompt"></div>
+      <div class="hint" id="hint"></div>
+      <input type="text" id="ans" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type the Spanish...">
+      <div class="accents" id="accents"></div>
+      <div class="btns">
+        <button class="btn" id="go">Check</button>
+        <button class="btn sec" id="skip">Skip</button>
+      </div>
+      <div class="res" id="res"></div>
+      <div class="kbd">Enter = check, Enter again = next. Mac: Option+e then a vowel = á é í ó ú, Option+n then n = ñ.</div>
+    </div>
+    <div id="end" class="done" style="display:none"></div>
+  </div>
+</div>
+
+<script>
+// [english prompt, accepted Spanish answers, set, isNoun]
+// Nouns are stored with their article. Adjectives accept either gender.
+const WORDS = [
+  // LAS PARTES DE LA CASA (14)
+  ["patio", ["la terraza"], "partes"],
+  ["basement", ["el sótano"], "partes"],
+  ["garden / yard", ["el jardín"], "partes"],
+  ["garage", ["el garaje"], "partes"],
+  ["balcony", ["el balcón"], "partes"],
+  ["attic", ["el ático"], "partes"],
+  ["living room", ["la sala de estar"], "partes"],
+  ["dining room", ["el comedor"], "partes"],
+  ["kitchen", ["la cocina"], "partes"],
+  ["hallway", ["el pasillo"], "partes"],
+  ["space / room", ["el espacio"], "partes"],
+  ["bedroom", ["la habitación"], "partes"],
+  ["study / office", ["el despacho"], "partes"],
+  ["laundry room", ["la lavandería"], "partes"],
+  // ¿CÓMO ES LA CASA? (16 adjetivos)
+  ["elegant", ["elegante"], "adj"],
+  ["simple", ["sencillo","sencilla"], "adj"],
+  ["new", ["nuevo","nueva"], "adj"],
+  ["old", ["viejo","vieja"], "adj"],
+  ["modern", ["moderno","moderna"], "adj"],
+  ["antique", ["antiguo","antigua"], "adj"],
+  ["dark", ["oscuro","oscura"], "adj"],
+  ["luminous / bright", ["luminoso","luminosa"], "adj"],
+  ["warm", ["cálido","cálida"], "adj"],
+  ["cold", ["frío","fría"], "adj"],
+  ["clean", ["limpio","limpia"], "adj"],
+  ["dirty", ["sucio","sucia"], "adj"],
+  ["organized", ["organizado","organizada"], "adj"],
+  ["disorganized", ["desorganizado","desorganizada"], "adj"],
+  ["cozy", ["acogedor","acogedora"], "adj"],
+  ["comfortable", ["cómodo","cómoda"], "adj"],
+  // LA COCINA Y LOS MUEBLES (20; silla/sillón share one line on the slide)
+  ["washer", ["la lavadora"], "muebles"],
+  ["refrigerator", ["el refrigerador"], "muebles"],
+  ["dryer", ["la secadora"], "muebles"],
+  ["blender", ["la batidora"], "muebles"],
+  ["oven", ["el horno"], "muebles"],
+  ["television", ["la televisión"], "muebles"],
+  ["sofa", ["el sofá"], "muebles"],
+  ["sink", ["el fregadero"], "muebles"],
+  ["dishwasher", ["el lavaplatos"], "muebles"],
+  ["stove", ["la estufa"], "muebles"],
+  ["dresser", ["la cómoda"], "muebles"],
+  ["table", ["la mesa"], "muebles"],
+  ["shelf", ["el estante"], "muebles"],
+  ["chair", ["la silla"], "muebles"],
+  ["armchair", ["el sillón"], "muebles"],
+  ["closet", ["el armario"], "muebles"],
+  ["bed", ["la cama"], "muebles"],
+  ["night table / nightstand", ["la mesita de noche"], "muebles"],
+  ["microwave", ["el microondas"], "muebles"],
+  ["lamp", ["la lámpara"], "muebles"],
+  ["mirror", ["el espejo"], "muebles"],
+].map(([en, ans, set]) => ({ en, ans, set, noun: set !== "adj", key: en }));
+
+const SETS = { partes: "Partes de la casa (14)", adj: "Adjetivos (16)", muebles: "Cocina y muebles (20)" };
+const LS = "prueba3.v1";
+const store = JSON.parse(localStorage.getItem(LS) || "{}");
+store.sets = store.sets || ["partes","adj","muebles"];
+store.miss = store.miss || {};
+store.mode = store.mode || "all";
+if (store.reqArt === undefined) store.reqArt = true;
+const save = () => localStorage.setItem(LS, JSON.stringify(store));
+
+const $ = id => document.getElementById(id);
+let queue = [], i = 0, right = 0, done = 0, checked = false, wrongThisRound = [];
+
+// ---------- text helpers ----------
+const norm = s => s.toLowerCase().normalize("NFC").replace(/[.,!?¡¿;:]+/g, "").replace(/\s+/g, " ").trim();
+const strip = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").normalize("NFC");
+const ART = /^(el|la|los|las|un|una)\s+/;
+const splitArt = s => { const m = s.match(ART); return m ? [m[1], s.slice(m[0].length)] : ["", s]; };
+
+function lev(a, b) {
+  a = [...a]; b = [...b];
+  const d = Array.from({ length: a.length + 1 }, (_, r) => [r, ...Array(b.length).fill(0)]);
+  for (let c = 1; c <= b.length; c++) d[0][c] = c;
+  for (let r = 1; r <= a.length; r++) for (let c = 1; c <= b.length; c++)
+    d[r][c] = Math.min(d[r-1][c] + 1, d[r][c-1] + 1, d[r-1][c-1] + (a[r-1] === b[c-1] ? 0 : 1));
+  // backtrace -> ops
+  const ops = []; let r = a.length, c = b.length;
+  while (r > 0 || c > 0) {
+    if (r > 0 && c > 0 && d[r][c] === d[r-1][c-1] + (a[r-1] === b[c-1] ? 0 : 1)) { ops.unshift([a[r-1] === b[c-1] ? "=" : "~", a[r-1], b[c-1]]); r--; c--; }
+    else if (r > 0 && d[r][c] === d[r-1][c] + 1) { ops.unshift(["+", a[r-1], ""]); r--; }
+    else { ops.unshift(["-", "", b[c-1]]); c--; }
+  }
+  return { dist: d[a.length][b.length], ops };
+}
+const esc = s => s.replace(/[&<>]/g, ch => ({ "&":"&amp;","<":"&lt;",">":"&gt;" }[ch])).replace(/ /g, "&nbsp;");
+
+// ---------- grading ----------
+function grade(w, raw) {
+  const typed = norm(raw);
+  const reqArt = store.reqArt && w.noun;
+  // build the target forms to compare against
+  let targets = w.ans.map(norm);
+  if (!reqArt && w.noun) targets = targets.concat(targets.map(t => splitArt(t)[1]));
+  if (targets.includes(typed)) return { ok: true, typed, best: typed, pct: 100, dist: 0, notes: [] };
+
+  // pick the closest accepted answer
+  let best = null;
+  for (const t of targets) { const L = lev(typed, t); if (!best || L.dist < best.dist) best = { t, ...L }; }
+  const len = Math.max([...typed].length, [...best.t].length) || 1;
+  const pct = Math.max(0, Math.round((1 - best.dist / len) * 100));
+  const notes = [];
+
+  if (!typed) notes.push("Blank.");
+  else {
+    const [tA, tW] = splitArt(typed), [bA, bW] = splitArt(best.t);
+    if (strip(typed) === strip(best.t)) {
+      // only accents / ñ differ
+      const miss = [], extra = [];
+      best.ops.forEach(([op, x, y]) => { if (op === "~") { if (strip(y) === y) extra.push(x); else miss.push(y); } });
+      if (miss.length && extra.length) notes.push("Spelling is right, but the accent is in the wrong spot. It goes on: " + miss.join(", ") + ".");
+      else if (miss.length) notes.push("Spelling is right, but you're missing the accent: " + miss.join(", ") + ".");
+      else if (extra.length) notes.push("Spelling is right, but there's an accent that shouldn't be there (" + extra.join(", ") + ").");
+    } else if (w.noun && reqArt && tW === bW && tA !== bA) {
+      notes.push(tA ? `Word is right, wrong article: it's "${bA}", not "${tA}".` : `Word is right, but you left off the article "${bA}".`);
+    } else if (w.noun && reqArt && strip(tW) === strip(bW) && tA !== bA) {
+      notes.push(tA ? `Wrong article ("${bA}", not "${tA}") and an accent issue.` : `Missing the article "${bA}" and an accent issue.`);
+    } else if (pct >= 75) notes.push("Close, just a spelling slip.");
+    else if (pct >= 45) notes.push("Partly there.");
+    else notes.push("Not close. Look at this one again.");
+  }
+  return { ok: false, typed, best: best.t, ops: best.ops, pct, dist: best.dist, notes };
+}
+
+function diffHTML(ops) {
+  let you = "", key = "";
+  for (const [op, a, b] of ops) {
+    if (op === "=") { you += esc(a); key += esc(b); }
+    else if (op === "~") { you += `<span class="x">${esc(a)}</span>`; key += `<span class="m">${esc(b)}</span>`; }
+    else if (op === "+") { you += `<span class="x">${esc(a)}</span>`; }
+    else { key += `<span class="m">${esc(b)}</span>`; }
+  }
+  return { you, key };
+}
+
+// ---------- flow ----------
+function shuffle(a) { a = a.slice(); for (let k = a.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; }
+
+function pool() {
+  let p = WORDS.filter(w => store.sets.includes(w.set));
+  if (store.mode === "miss") p = WORDS.filter(w => store.miss[w.key]);
+  return p;
+}
+
+function start(list) {
+  const p = list || pool();
+  queue = shuffle(p);
+  if (!list && store.mode === "30") queue = queue.slice(0, 30);
+  i = 0; right = 0; done = 0; wrongThisRound = [];
+  $("quiz").style.display = ""; $("end").style.display = "none";
+  if (!queue.length) { $("quiz").style.display = "none"; $("end").style.display = ""; $("end").innerHTML = "<p>Nothing to drill here" + (store.mode === "miss" ? " (no misses saved yet)." : ". Pick at least one set.") + "</p>"; return; }
+  show();
+}
+
+function show() {
+  const w = queue[i]; checked = false;
+  $("prompt").textContent = w.en;
+  const art = store.reqArt && w.noun;
+  $("hint").textContent = SETS[w.set].replace(/ \(\d+\)/, "") + (w.noun ? (art ? " · include el / la" : "") : " · adjective (either gender ok)");
+  const inp = $("ans"); inp.value = ""; inp.className = ""; inp.readOnly = false; inp.focus();
+  $("res").className = "res"; $("res").innerHTML = "";
+  $("go").textContent = "Check";
+  $("pos").textContent = `Word ${i + 1} of ${queue.length}`;
+  $("score").textContent = done ? `${right}/${done} correct` : "";
+  $("progbar").style.width = (i / queue.length * 100) + "%";
+}
+
+function check(skip) {
+  const w = queue[i];
+  const g = skip ? { ...grade(w, ""), notes: ["Skipped."] } : grade(w, $("ans").value);
+  checked = true; done++;
+  const inp = $("ans"); inp.readOnly = true; inp.className = g.ok ? "ok" : "bad";
+  const res = $("res");
+  const color = g.pct >= 85 ? "#1f9d55" : g.pct >= 60 ? "#e0a100" : "#d64545";
+  if (g.ok) {
+    right++;
+    if (store.miss[w.key]) { store.miss[w.key]--; if (store.miss[w.key] <= 0) delete store.miss[w.key]; }
+    res.className = "res ok";
+    res.innerHTML = `<div class="verdict">Correct</div><div class="close">100% match</div>` +
+      (w.ans.length > 1 ? `<div class="note" style="color:#205">Both forms work: ${w.ans.join(" / ")}</div>` : "");
+  } else {
+    store.miss[w.key] = (store.miss[w.key] || 0) + 1; wrongThisRound.push(w);
+    const d = diffHTML(g.ops || []);
+    const off = g.dist === 1 ? "1 character off" : `${g.dist} characters off`;
+    res.className = "res bad";
+    res.innerHTML = `<div class="verdict">Incorrect</div>` +
+      `<div class="close">${g.typed ? `You were <b>${g.pct}%</b> close (${off})` : "No answer"}</div>` +
+      `<div class="meter"><div style="width:${g.pct}%;background:${color}"></div></div>` +
+      (g.typed ? `<div class="line"><span class="lbl">You typed</span>${d.you}</div>` : "") +
+      `<div class="line"><span class="lbl">Correct</span><b>${g.typed ? d.key : esc(g.best)}</b>${w.ans.length > 1 ? ` <span class="lbl" style="width:auto">(or ${w.ans.filter(a => norm(a) !== g.best).join(", ")})</span>` : ""}</div>` +
+      g.notes.map(n => `<div class="note">${n}</div>`).join("");
+  }
+  save(); $("missCount").textContent = Object.keys(store.miss).length;
+  $("score").textContent = `${right}/${done} correct`;
+  $("go").textContent = i + 1 < queue.length ? "Next" : "Finish";
+}
+
+function next() {
+  i++;
+  if (i < queue.length) return show();
+  $("progbar").style.width = "100%";
+  $("quiz").style.display = "none"; const e = $("end"); e.style.display = "";
+  const pct = Math.round(right / queue.length * 100);
+  e.innerHTML = `<div>Round done</div><div class="big">${right} / ${queue.length}</div><div>${pct}%${queue.length === 30 ? ` · that'd be ${right}/30 on the quiz` : ""}</div>` +
+    (wrongThisRound.length ? `<div class="misslist"><b>Missed this round:</b>${wrongThisRound.map(w => `<div>${w.en} → <b>${w.ans.join(" / ")}</b></div>`).join("")}</div>` : `<p>Perfect round.</p>`) +
+    `<div class="btns">` + (wrongThisRound.length ? `<button class="btn" id="redo">Redo the ${wrongThisRound.length} I missed</button>` : "") +
+    `<button class="btn ${wrongThisRound.length ? "sec" : ""}" id="again">New round</button></div>`;
+  const missed = wrongThisRound.slice();
+  if ($("redo")) $("redo").onclick = () => start(missed);
+  $("again").onclick = () => start();
+}
+
+// ---------- UI wiring ----------
+function renderControls() {
+  $("sets").innerHTML = "";
+  for (const [k, label] of Object.entries(SETS)) {
+    const c = document.createElement("span"); c.className = "chip" + (store.sets.includes(k) ? " on" : ""); c.textContent = label;
+    c.onclick = () => { store.sets = store.sets.includes(k) ? store.sets.filter(x => x !== k) : [...store.sets, k]; save(); renderControls(); start(); };
+    $("sets").appendChild(c);
+  }
+  $("mode30").className = "chip" + (store.mode === "30" ? " on" : "");
+  $("modeAll").className = "chip" + (store.mode === "all" ? " on" : "");
+  $("modeMiss").className = "chip" + (store.mode === "miss" ? " on" : "");
+  $("missCount").textContent = Object.keys(store.miss).length;
+  $("reqArt").checked = store.reqArt;
+}
+$("mode30").onclick = () => { store.mode = "30"; save(); renderControls(); start(); };
+$("modeAll").onclick = () => { store.mode = "all"; save(); renderControls(); start(); };
+$("modeMiss").onclick = () => { store.mode = "miss"; save(); renderControls(); start(); };
+$("reqArt").onchange = e => { store.reqArt = e.target.checked; save(); if (!checked) show(); };
+
+for (const ch of ["á","é","í","ó","ú","ñ","ü"]) {
+  const b = document.createElement("button"); b.textContent = ch; b.type = "button";
+  b.onmousedown = e => e.preventDefault();
+  b.onclick = () => { const inp = $("ans"); if (inp.readOnly) return; const s = inp.selectionStart, t = inp.selectionEnd; inp.value = inp.value.slice(0, s) + ch + inp.value.slice(t); inp.setSelectionRange(s + 1, s + 1); inp.focus(); };
+  $("accents").appendChild(b);
+}
+$("go").onclick = () => checked ? next() : check(false);
+$("skip").onclick = () => checked ? next() : check(true);
+$("ans").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); checked ? next() : check(false); } });
+document.addEventListener("keydown", e => { if (e.key === "Enter" && checked && document.activeElement !== $("ans")) { e.preventDefault(); next(); } });
+
+renderControls(); start();
+</script>
+</body>
+</html>
