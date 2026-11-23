@@ -73,10 +73,10 @@
       <div class="accents" id="accents"></div>
       <div class="btns">
         <button class="btn" id="go">Check</button>
-        <button class="btn sec" id="skip">Skip</button>
+        <button class="btn sec" id="skip">IDK</button>
       </div>
       <div class="res" id="res"></div>
-      <div class="kbd">Enter = check, Enter again = next. Mac: Option+e then a vowel = á é í ó ú, Option+n then n = ñ.</div>
+      <div class="kbd">Enter = check, Enter again = next. IDK shows the word, then you type it back. Mac: Option+e then a vowel = á é í ó ú, Option+n then n = ñ.</div>
     </div>
     <div id="end" class="done" style="display:none"></div>
   </div>
@@ -152,7 +152,7 @@ if (store.reqArt === undefined) store.reqArt = true;
 const save = () => localStorage.setItem(LS, JSON.stringify(store));
 
 const $ = id => document.getElementById(id);
-let queue = [], i = 0, right = 0, done = 0, checked = false, wrongThisRound = [];
+let queue = [], i = 0, right = 0, done = 0, checked = false, copying = false, wrongThisRound = [];
 
 // ---------- text helpers ----------
 const norm = s => s.toLowerCase().normalize("NFC").replace(/[.,!?¡¿;:]+/g, "").replace(/\s+/g, " ").trim();
@@ -245,13 +245,13 @@ function start(list) {
 }
 
 function show() {
-  const w = queue[i]; checked = false;
+  const w = queue[i]; checked = false; copying = false;
   $("prompt").textContent = w.en;
   const art = store.reqArt && w.noun;
   $("hint").textContent = SETS[w.set].replace(/ \(\d+\)/, "") + (w.noun ? (art ? " · include el / la" : "") : " · adjective (either gender ok)");
-  const inp = $("ans"); inp.value = ""; inp.className = ""; inp.readOnly = false; inp.focus();
+  const inp = $("ans"); inp.value = ""; inp.className = ""; inp.readOnly = false; inp.placeholder = "Type the Spanish..."; inp.focus();
   $("res").className = "res"; $("res").innerHTML = "";
-  $("go").textContent = "Check";
+  $("go").textContent = "Check"; $("skip").style.display = "";
   $("pos").textContent = `Word ${i + 1} of ${queue.length}`;
   $("score").textContent = done ? `${right}/${done} correct` : "";
   $("progbar").style.width = (i / queue.length * 100) + "%";
@@ -260,7 +260,7 @@ function show() {
 function check(skip) {
   const w = queue[i];
   const g = skip ? { ...grade(w, ""), notes: ["Skipped."] } : grade(w, $("ans").value);
-  checked = true; done++;
+  checked = true; done++; $("skip").style.display = "none";
   const inp = $("ans"); inp.readOnly = true; inp.className = g.ok ? "ok" : "bad";
   const res = $("res");
   const color = g.pct >= 85 ? "#1f9d55" : g.pct >= 60 ? "#e0a100" : "#d64545";
@@ -285,6 +285,42 @@ function check(skip) {
   save(); $("missCount").textContent = Object.keys(store.miss).length;
   $("score").textContent = `${right}/${done} correct`;
   $("go").textContent = i + 1 < queue.length ? "Next" : "Finish";
+}
+
+// IDK: reveal the word, count it as a miss, and make him type it back before moving on
+function idk() {
+  const w = queue[i];
+  done++; copying = true;
+  store.miss[w.key] = (store.miss[w.key] || 0) + 1; wrongThisRound.push(w);
+  save(); $("missCount").textContent = Object.keys(store.miss).length;
+  $("score").textContent = `${right}/${done} correct`;
+  const art = store.reqArt && w.noun;
+  const shown = w.ans;
+  const res = $("res"); res.className = "res bad";
+  res.innerHTML = `<div class="verdict" style="color:#3b5bdb">The word is:</div>` +
+    `<div class="line" style="font-size:26px;margin:8px 0"><b>${shown.map(esc).join(" / ")}</b></div>` +
+    `<div class="note" style="color:#333">Type it back exactly (accents too) to move on.</div><div id="copyfb"></div>`;
+  const inp = $("ans"); inp.value = ""; inp.className = ""; inp.readOnly = false; inp.placeholder = "Type it back..."; inp.focus();
+  $("go").textContent = "Check"; $("skip").style.display = "none";
+}
+
+function copyCheck() {
+  const w = queue[i];
+  const g = grade(w, $("ans").value);
+  const fb = $("copyfb"), inp = $("ans");
+  if (g.ok) {
+    copying = false; checked = true;
+    inp.className = "ok"; inp.readOnly = true;
+    fb.innerHTML = `<div class="note" style="color:#1f9d55;font-weight:700">Got it. Press Enter for the next word.</div>`;
+    $("go").textContent = i + 1 < queue.length ? "Next" : "Finish";
+  } else {
+    inp.className = "bad";
+    const d = diffHTML(g.ops || []);
+    fb.innerHTML = `<div class="note" style="color:#d64545;font-weight:700">Not quite (${g.pct}% close), try again.</div>` +
+      (g.typed ? `<div class="line"><span class="lbl">You typed</span>${d.you}</div>` : "") +
+      g.notes.map(n => `<div class="note">${n}</div>`).join("");
+    inp.select();
+  }
 }
 
 function next() {
@@ -327,9 +363,10 @@ for (const ch of ["á","é","í","ó","ú","ñ","ü"]) {
   b.onclick = () => { const inp = $("ans"); if (inp.readOnly) return; const s = inp.selectionStart, t = inp.selectionEnd; inp.value = inp.value.slice(0, s) + ch + inp.value.slice(t); inp.setSelectionRange(s + 1, s + 1); inp.focus(); };
   $("accents").appendChild(b);
 }
-$("go").onclick = () => checked ? next() : check(false);
-$("skip").onclick = () => checked ? next() : check(true);
-$("ans").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); checked ? next() : check(false); } });
+const primary = () => copying ? copyCheck() : checked ? next() : check(false);
+$("go").onclick = primary;
+$("skip").onclick = () => { if (!checked && !copying) idk(); };
+$("ans").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); primary(); } });
 document.addEventListener("keydown", e => { if (e.key === "Enter" && checked && document.activeElement !== $("ans")) { e.preventDefault(); next(); } });
 
 renderControls(); start();
