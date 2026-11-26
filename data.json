@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T13:04:21.469Z",
+ "generated": "2026-11-26T16:02:05.435Z",
  "classes": [
   {
    "id": "ODcxNTkwNTk0NjI5",
@@ -141,38 +141,6 @@
  "assignments": [
   {
    "id": "c0",
-   "cls": "Algebra II",
-   "title": "Ch. 3 Quiz #1",
-   "due": "2026-11-24T23:59",
-   "status": "assigned",
-   "kind": "test"
-  },
-  {
-   "id": "c1",
-   "cls": "US History",
-   "title": "Civil War Research Essay - FINAL",
-   "due": "2026-11-24T23:59",
-   "status": "assigned",
-   "kind": "project"
-  },
-  {
-   "id": "c2",
-   "cls": "Religion",
-   "title": "Final: Scripture Analysis Essay",
-   "due": "2026-11-24T23:59",
-   "status": "assigned",
-   "kind": "project"
-  },
-  {
-   "id": "c3",
-   "cls": "Algebra II",
-   "title": "3.2.5 CYU",
-   "due": "2026-11-24T23:59",
-   "status": "assigned",
-   "kind": "cyu"
-  },
-  {
-   "id": "c4",
    "cls": "English 10",
    "title": "TEWWG Ch. 7-14 Quiz",
    "due": "2026-11-30T23:59",
@@ -180,7 +148,7 @@
    "kind": "test"
   },
   {
-   "id": "c5",
+   "id": "c1",
    "cls": "Algebra II",
    "title": "Ch. 3 Quiz #2",
    "due": "2026-12-04T23:59",
@@ -188,7 +156,7 @@
    "kind": "test"
   },
   {
-   "id": "c6",
+   "id": "c2",
    "cls": "English 10",
    "title": "Cycle 9 Membean",
    "due": "2026-12-07T23:59",
@@ -196,7 +164,7 @@
    "kind": "drill"
   },
   {
-   "id": "c7",
+   "id": "c3",
    "cls": "US History",
    "title": "Unit 5 Quiz",
    "due": "2026-12-11T23:59",
@@ -204,7 +172,7 @@
    "kind": "test"
   },
   {
-   "id": "c8",
+   "id": "c4",
    "cls": "Algebra II",
    "title": "Ch. 3 Test",
    "due": "2026-12-11T23:59",
@@ -212,7 +180,7 @@
    "kind": "test"
   },
   {
-   "id": "c9",
+   "id": "c5",
    "cls": "English 10",
    "title": "TEWWG Diction Scavenger Hunt",
    "due": "2026-12-11T23:59",
@@ -220,7 +188,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c10",
+   "id": "c6",
    "cls": "US History",
    "title": "Semester 1 Final",
    "due": "2026-12-18T23:59",
@@ -228,7 +196,7 @@
    "kind": "test"
   },
   {
-   "id": "c11",
+   "id": "c7",
    "cls": "English 10",
    "title": "Membean and Grammar Flip",
    "due": "2028-08-02T23:59",
@@ -236,7 +204,7 @@
    "kind": "drill"
   },
   {
-   "id": "c12",
+   "id": "c8",
    "cls": "Spanish II",
    "title": "Welcome Survey",
    "due": null,
@@ -244,7 +212,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c13",
+   "id": "c9",
    "cls": "English 10",
    "title": "Read, highlight, and annotate the assigned paragraphs in the essays by Emerson and Thoreau",
    "due": null,
@@ -252,7 +220,7 @@
    "kind": "reading"
   },
   {
-   "id": "c14",
+   "id": "c10",
    "cls": "Algebra II",
    "title": "Match My Parabola",
    "due": null,
@@ -260,7 +228,7 @@
    "kind": "worksheet"
   },
   {
-   "id": "c15",
+   "id": "c11",
    "cls": "English 10",
    "title": "Harlem Renaissance Escape Room",
    "due": null,
@@ -272,14 +240,14 @@
   {
    "cls": "Chemistry",
    "letter": "B-",
-   "pct": 81.8,
+   "pct": 79.5,
    "frn": "00450938",
    "scale": "percent"
   },
   {
    "cls": "Spanish II",
    "letter": "B-",
-   "pct": 80.6,
+   "pct": 79.5,
    "frn": "00447215",
    "scale": "percent"
   },
@@ -313,8 +281,8 @@
   },
   {
    "cls": "English 10",
-   "letter": "B",
-   "pct": 82.6,
+   "letter": "B-",
+   "pct": 81,
    "frn": "00450937",
    "scale": "percent"
   }
@@ -934,6 +902,19 @@
   {
    "id": "p47",
    "cls": "English 10",
+   "title": "TEWWG Characterization Worksheet",
+   "cat": "Formative",
+   "due": "2026-11-23",
+   "score": 0,
+   "possible": 5,
+   "pct": 0,
+   "flag": true,
+   "late": false,
+   "bucket": "zero"
+  },
+  {
+   "id": "p48",
+   "cls": "English 10",
    "title": "TGG Ch. 4-6 Quiz",
    "cat": "Summative",
    "due": "2026-10-06",
@@ -945,7 +926,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p48",
+   "id": "p49",
    "cls": "English 10",
    "title": "GG Ch.1 annotations",
    "cat": "Formative",
@@ -958,7 +939,7 @@
    "bucket": "lowscore"
   },
   {
-   "id": "p49",
+   "id": "p50",
    "cls": "English 10",
    "title": "Book Check--GG",
    "cat": "Formative",
@@ -971,7 +952,7 @@
    "bucket": "zero"
   },
   {
-   "id": "p50",
+   "id": "p51",
    "cls": "English 10",
    "title": "SR Annotations",
    "cat": "Formative",
@@ -984,7 +965,7 @@
    "bucket": "lowscore"
   }
  ],
- "psGenerated": "2026-11-24T13:04:21.469Z",
+ "psGenerated": "2026-11-26T16:02:05.435Z",
  "trainers": [
   {
    "cls": "Spanish II",
